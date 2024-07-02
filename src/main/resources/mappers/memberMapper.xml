@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaclassS9.dao.MemberDAO">
+	
+	<select id="getMemberIdCheck" resultType="com.spring.javaclassS9.vo.MemberVO">
+		select * from memberS where mid = #{mid};
+	</select>
+	<select id="getMemberNickCheck" resultType="com.spring.javaclassS9.vo.MemberVO">
+		select * from memberS where nickName = #{nickName};
+	</select>
+	
+	
+	<insert id="setMemberJoinOk">
+		insert into memberS values (default, #{vo.name}, #{vo.mid}, #{vo.pwd}, #{vo.nickName},
+			#{vo.birthday}, #{vo.email}, #{vo.emailNews}, #{vo.tel}, #{vo.address}, #{vo.m_group},
+			#{vo.co_name}, #{vo.co_category}, #{vo.co_address}, #{vo.co_tel}, #{vo.purpose},
+			default, default, default, default, default);
+	</insert>
+	
+</mapper>
