@@ -69,13 +69,13 @@
    	 let regName = /^[a-zA-Z가-힣]{2,10}$/; 
    	 let regEmail = /^[a-zA-Z0-9]([-_]?[a-zA-Z0-9])*$/i;
    	 let regTel = /\d{2,3}-\d{3,4}-\d{4}$/;
-		 
+		 /*
    	 if(!regPwd.test(pwd)) {
    		 alert("비밀번호는 영문 대/소문자와 숫자, 특수문자를 포함하여 4~20자까지 가능합니다. 특수문자를 꼭 1개 이상 포함해주세요.");
    		 document.getElementById("pwd").focus();
    		 return false;
    	 }
-   	 
+   	 */
    	 if(!regName.test(name)) {
    		 alert("이름은 영문과 한글만 사용하여 2~10자까지 가능합니다.");
    		 document.getElementById("name").focus();
@@ -137,13 +137,12 @@
    	 let co_postcode = myform.co_postcode.value + " ";
    	 let co_roadAddress = myform.co_roadAddress.value + " ";
    	 let co_detailAddress = myform.co_detailAddress.value + " ";
-   	 let co_extraAddress = myform.cExtraAddress.value + " ";
+   	 let co_extraAddress = myform.co_extraAddress.value + " ";
    	 let co_address = co_postcode+"/"+co_roadAddress+"/"+co_detailAddress+"/"+co_extraAddress;
    	
    	 // 뉴스레터 구독여부 확인
    	 let emailNewsCheck = $('input[id=emailNews]').is(':checked');
    	 if(!emailNewsCheck) myform.emailNews.value = 'NO';
-   	 else myform.emailNews.value = 'OK';
    	 
    	 // 회원 가입 전 체크
    	 if(idCheckSw == 0){
@@ -322,16 +321,16 @@
           <span class="input-group-text">전화번호 :</span> &nbsp;&nbsp;
             <select name="tel1" class="custom-select" style="height:auto">
               <option value="010" selected>010</option>
-              <option value="02">서울</option>
-              <option value="031">경기</option>
-              <option value="032">인천</option>
-              <option value="041">충남</option>
-              <option value="042">대전</option>
-              <option value="043">충북</option>
-              <option value="051">부산</option>
-              <option value="052">울산</option>
-              <option value="061">전북</option>
-              <option value="062">광주</option>
+              <option value="02">02</option>
+              <option value="031">031</option>
+              <option value="032">032</option>
+              <option value="041">041</option>
+              <option value="042">042</option>
+              <option value="043">043</option>
+              <option value="051">051</option>
+              <option value="052">052</option>
+              <option value="061">061</option>
+              <option value="062">062</option>
             </select>-
         </div>
         <input type="text" name="tel2" size=4 maxlength=4 class="form-control"/>-
@@ -358,24 +357,24 @@
       <div class="form-check-inline">
         <span class="input-group-text">분류 :</span> &nbsp; &nbsp;
         <label class="form-check-label">
-          <input type="radio" class="form-check-input" name="mGroup" value="개인" onclick="companyHide()" checked>개인
+          <input type="radio" class="form-check-input" name="m_group" value="개인" onclick="companyHide()" checked>개인
         </label>
       </div>
       <div class="form-check-inline">
         <label class="form-check-label">
-          <input type="radio" class="form-check-input" name="mGroup" onclick="companyShow()" value="재직자">재직자
+          <input type="radio" class="form-check-input" name="m_group" onclick="companyShow()" value="재직자">재직자
         </label>
       </div>
       <div id="personMent" class="text-center" style="font-size:13px">개인 고객의 경우 일부 물품 구매가 제한될 수 있습니다.</div>
     </div>
     <div id="company">
 	    <div class="form-group">
-	      <label for="cName">회사명</label>
-	      <input type="text" class="form-control" name="cName" placeholder="재직 중인 회사명을 입력하세요." id="cName"/>
+	      <label for="co_name">회사명</label>
+	      <input type="text" class="form-control" name="co_name" placeholder="재직 중인 회사명을 입력하세요." id="co_name"/>
 	    </div>
 	    <div class="form-group">
 	      <label for="name">업종을 선택하세요.</label>
-	      <select class="form-control" id="cCategory" name="cCategory">
+	      <select class="form-control" id="co_category" name="co_category">
 	        <option>바이오 및 제약</option>
 	        <option>에너지 및 화학</option>
 	        <option>식품 및 음료</option>
@@ -388,7 +387,7 @@
 	      </select>
 	    </div>
 	    <div class="form-group">
-	      <label for="cAddress">회사 소재지</label>
+	      <label for="co_address">회사 소재지</label>
 	      <div class="input-group mb-1">
 	        <input type="text" name="co_postcode" id="sample6_postcode2" placeholder="우편번호" class="form-control">
 	        <div class="input-group-append">

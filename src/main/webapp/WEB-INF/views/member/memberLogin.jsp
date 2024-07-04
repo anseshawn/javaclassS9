@@ -7,6 +7,19 @@
 <meta charset="UTF-8">
 <title>회원 로그인</title>
 <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script>
+	'use strict';
+	
+	window.onload = function(){
+    	if("${mid}" != null) {
+    		$('#idSave').attr('checked',true);
+    	}
+    	else {
+    		$("#idSave").removeAttr('checked');
+    	}
+  }
+</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/header.jsp" />
@@ -43,8 +56,9 @@
 		       </div>
 		       <hr/>
 		       <div class="button text-center">
-		         <input type="button" onclick="loginCheck()" class="btn btn-main-2 mr-3" value="로그인" />
-		         <a class="btn btn-main" href="${ctp}/member/memberJoin">회원가입</a>
+		         <input type="submit" class="btn btn-main-2 mr-3" value="로그인" />
+		         <a class="btn btn-main mr-3" href="${ctp}/member/memberJoin">회원가입</a>
+		         <a href="">카카오 로그인</a>
 		       </div>
 		      </div>
 		    </form>

@@ -9,6 +9,10 @@ public interface MemberService {
 	public MemberVO getMemberNickCheck(String nickName);
 
 	public int setMemberJoinOk(MemberVO vo);
+
+	public MemberVO getMemberNameCheck(String name);
+
+	public int setMemberPwdUpdate(String mid, String pwd);
 	
 	
 }

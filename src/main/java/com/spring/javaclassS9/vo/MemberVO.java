@@ -15,7 +15,7 @@ public class MemberVO {
 	private String tel;
 	private String address;
 	private String m_group;
-	private String co_nName;
+	private String co_name;
 	private String co_category;
 	private String co_address;
 	private String co_tel;

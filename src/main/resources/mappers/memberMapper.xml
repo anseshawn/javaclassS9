@@ -8,6 +8,9 @@
 	<select id="getMemberNickCheck" resultType="com.spring.javaclassS9.vo.MemberVO">
 		select * from memberS where nickName = #{nickName};
 	</select>
+	<select id="getMemberNameCheck" resultType="com.spring.javaclassS9.vo.MemberVO">
+		select * from memberS where name = #{name};
+	</select>
 	
 	
 	<insert id="setMemberJoinOk">
@@ -16,5 +19,10 @@
 			#{vo.co_name}, #{vo.co_category}, #{vo.co_address}, #{vo.co_tel}, #{vo.purpose},
 			default, default, default, default, default);
 	</insert>
+	
+	
+	<update id="setMemberPwdUpdate">
+		update memberS set pwd = #{pwd} where mid = #{mid};
+	</update>
 	
 </mapper>

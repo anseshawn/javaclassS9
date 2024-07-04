@@ -26,4 +26,14 @@ public class MemberServiceImpl implements MemberService {
 	public int setMemberJoinOk(MemberVO vo) {
 		return memberDAO.setMemberJoinOk(vo);
 	}
+
+	@Override
+	public MemberVO getMemberNameCheck(String name) {
+		return memberDAO.getMemberNameCheck(name);
+	}
+
+	@Override
+	public int setMemberPwdUpdate(String mid, String pwd) {
+		return memberDAO.setMemberPwdUpdate(mid,pwd);
+	}
 }

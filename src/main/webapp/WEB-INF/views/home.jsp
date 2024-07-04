@@ -9,6 +9,14 @@
 	<title>Home</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
 	<jsp:include page="/WEB-INF/views/include/scripts.jsp" />
+	<script>
+		'use strict';
+		window.onload = function(){
+			if("${sLogin}" != "") {
+				alert("현재 임시 비밀번호로 로그인 중입니다.\n비밀번호를 새로 변경해주세요.");
+			}
+		}
+	</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/header.jsp" />

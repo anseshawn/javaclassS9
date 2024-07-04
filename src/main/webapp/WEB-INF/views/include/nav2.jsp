@@ -35,22 +35,22 @@
 			</li>
 
 			<li class="nav-item"><a class="nav-link" href="Service.do">고객서비스</a></li>
-			<c:if test="${empty level}">
+			<c:if test="${empty sLevel}">
 				<li class="nav-item"><a class="nav-link" href="${ctp}/member/memberLogin">로그인</a></li>
 				<li class="nav-item"><a class="nav-link" href="${ctp}/member/memberJoin">회원가입</a></li>
 			</c:if>
-			<c:if test="${!empty level}">
-				<li class="nav-item"><a class="nav-link" href="MemberLogout.do">로그아웃</a></li>
-				<c:if test="${level==1 || level==2}">
+			<c:if test="${!empty sLevel}">
+				<li class="nav-item"><a class="nav-link" href="${ctp}/member/memberLogout">로그아웃</a></li>
+				<c:if test="${sLevel > 0 && sLevel <=3}">
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">마이페이지<i class="icofont-thin-down"></i></a>
 							<ul class="dropdown-menu" aria-labelledby="dropdown04">
 								<li><a class="dropdown-item" href="MyPage.do">내정보 관리</a></li>
-								<li><a class="dropdown-item" href="PwdChange.do">비밀번호 변경</a></li>
+								<li><a class="dropdown-item" href="${ctp}/member/pwdChange">비밀번호 변경</a></li>
 							</ul>
 					</li>
 				</c:if>
-				<c:if test="${level==0}"><li class="nav-item"><a class="nav-link" href="#">관리자모드</a></li></c:if>
+				<c:if test="${sLevel==0}"><li class="nav-item"><a class="nav-link" href="#">관리자모드</a></li></c:if>
 			</c:if>
 		</ul>
 	  </div>
