@@ -56,6 +56,26 @@ public class MessageController {
 			model.addAttribute("msg", "비밀번호 변경 실패. 다시 시도하세요.");
 			model.addAttribute("url", "/member/pwdChange");
 		}
+		else if(msgFlag.equals("memberUpdateOk")) {
+			model.addAttribute("msg", "회원 정보가 수정되었습니다.");
+			model.addAttribute("url", "/member/myPage");
+		}
+		else if(msgFlag.equals("memberUpdateNo")) {
+			model.addAttribute("msg", "회원 정보 수정 실패. 입력 정보를 다시 확인하세요.");
+			model.addAttribute("url", "/member/myPage?part=1");
+		}
+		else if(msgFlag.equals("pwdCheckNo")) {
+			model.addAttribute("msg", "비밀번호가 맞지 않습니다. 다시 확인하세요.");
+			model.addAttribute("url", "/member/memberDelete");
+		}
+		else if(msgFlag.equals("memberDeleteOk")) {
+			model.addAttribute("msg", "탈퇴 요청이 완료되었습니다.\\n한달 간 같은 아이디를 사용할 수 없습니다.");
+			model.addAttribute("url", "/");
+		}
+		else if(msgFlag.equals("memberDeleteNo")) {
+			model.addAttribute("msg", "탈퇴 요청이 제대로 진행되지 않았습니다.\\n관리자에게 문의하세요.");
+			model.addAttribute("url", "/member/memberDelete");
+		}
 		
 		return "include/message";
 	}

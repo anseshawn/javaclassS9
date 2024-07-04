@@ -13,6 +13,10 @@ public interface MemberService {
 	public MemberVO getMemberNameCheck(String name);
 
 	public int setMemberPwdUpdate(String mid, String pwd);
+
+	public int setMemberUpdateOk(MemberVO vo);
+
+	public int setMemberDeleteOk(String mid);
 	
 	
 }

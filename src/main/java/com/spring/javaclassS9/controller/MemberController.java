@@ -231,17 +231,66 @@ public class MemberController {
 	
 	// 마이페이지
 	@RequestMapping(value = "/myPage", method = RequestMethod.GET)
-	public String myPageGet() {
-		return "/member/myPage";
-	}
-	
-	// 회원정보수정
-	@RequestMapping(value = "/memberUpdate", method = RequestMethod.GET)
-	public String memberUpdateGet(HttpSession session, Model model) {
+	public String myPageGet(HttpSession session, Model model,
+			@RequestParam(name = "part", defaultValue = "", required = false) String part) {
 		String mid = (String) session.getAttribute("sMid");
 		MemberVO vo = memberService.getMemberIdCheck(mid);
 		model.addAttribute("vo",vo);
-		return "/member/memberUpdate";
+		model.addAttribute("part", part);
+		return "member/myPage";
+	}
+	// 회원정보수정창
+	@RequestMapping(value = "/memberUpdate", method = RequestMethod.GET)
+	public String memberUpdateGet() {
+		return "member/memberUpdate";
+	}
+	// 회원정보수정처리
+	@RequestMapping(value = "/myPage", method = RequestMethod.POST)
+	public String memberUpdateGet(MemberVO vo, HttpSession session) {
+		String originNickName = (String) session.getAttribute("sNickName");
+		// 닉네임 중복체크 한번 더
+		if(!originNickName.equals(vo.getNickName()) && memberService.getMemberNickCheck(vo.getNickName()) != null) return "redirect:/message/nickCheckNo";
+		
+		// 수정한 이름과 이메일이 모두 같은 회원이 존재할 경우 거절
+		MemberVO mVo = memberService.getMemberIdCheck(vo.getMid());
+		if(!mVo.getName().equals(vo.getName())) {
+			if(mVo.getEmail().equals(vo.getEmail())) return "redirect:/message/existMemberNo";
+		}
+		
+		if(vo.getEmailNews() == null) vo.setEmailNews("NO");
+		
+		int res = memberService.setMemberUpdateOk(vo);
+		if(res != 0) return "redirect:/message/memberUpdateOk";
+		else return "redirect:/message/memberUpdateNo";
 	}
 	
+	// 회원 탈퇴 화면
+	@RequestMapping(value = "/memberDelete", method = RequestMethod.GET)
+	public String memberDeleteGet() {
+		return "member/memberDelete";
+	}
+	// 회원 탈퇴하기
+	@RequestMapping(value = "/memberDelete", method = RequestMethod.POST)
+	public String memberDeletePost(String deleteReason, String pwd, HttpSession session) {
+		String mid = (String) session.getAttribute("sMid");
+		
+		// 비밀번호 확인
+		MemberVO vo = memberService.getMemberIdCheck(mid);
+		if(!passwordEncoder.matches(pwd, vo.getPwd())) return "redirect:/message/pwdCheckNo";
+		
+		String reason="";
+		if(deleteReason.contains("/")) {
+			String[] reasons = deleteReason.split("/");
+			deleteReason = reasons[0];
+			reason = reasons[1];
+		}
+		int res = memberService.setMemberDeleteOk(mid);
+		
+		// adminService 에서 탈퇴사유 추가하기 (탈퇴사유 한글로 바꾸는건 서비스에서...?)
+		if(res != 0) {
+			session.invalidate();
+			return "redirect:/message/memberDeleteOk";
+		}
+		else return "redirect:/message/memberDeleteNo";
+	}
 }

@@ -129,11 +129,11 @@
 			let address = postcode+"/"+roadAddress+"/"+detailAddress+"/"+extraAddress;
 			
 			// 회사 주소
-			let cPostcode = myform.cPostcode.value + " ";
-			let cRoadAddress = myform.cRoadAddress.value + " ";
-			let cDetailAddress = myform.cDetailAddress.value + " ";
-			let cExtraAddress = myform.cExtraAddress.value + " ";
-			let cAddress = cPostcode+"/"+cRoadAddress+"/"+cDetailAddress+"/"+cExtraAddress;
+			let co_postcode = myform.co_postcode.value + " ";
+			let co_roadAddress = myform.co_roadAddress.value + " ";
+			let co_detailAddress = myform.co_detailAddress.value + " ";
+			let co_extraAddress = myform.co_extraAddress.value + " ";
+			let co_address = co_postcode+"/"+co_roadAddress+"/"+co_detailAddress+"/"+co_extraAddress;
 			
 			// 회원 가입 전 체크
 			if(nickCheckSw == 0) {
@@ -145,7 +145,7 @@
 				myform.tel.value = tel;
 				myform.co_tel.value = co_tel;
 				myform.address.value = address;
-				myform.cAddress.value = cAddress;
+				myform.co_address.value = co_address;
 				
 				/* 값 넘어왔는지 확인하는 과정
 				let su = "";
@@ -189,9 +189,9 @@
 			else {
 				nickCheckSw = 1;
 				$.ajax({
-					url: "${ctp}/MemberNickCheck.do",
+					url: "${ctp}/member/memberNickCheck",
 					type: "get",
-					data: {nickName:nickName, mid:""},
+					data: {nickName:nickName},
 					success: function(res) {
 						if(res != 0) {
 							alert("이미 사용중인 닉네임 입니다. 다시 입력하세요.");
@@ -275,37 +275,39 @@
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text">전화번호 :</span> &nbsp;&nbsp;
+          	<c:set var="tel" value="${fn:split(vo.tel,'-')}"/>
             <select name="tel1" class="custom-select" style="height:auto">
-              <option value="010" ${tel1=='010' ? 'selected' : ''}>010</option>
-              <option value="02" ${tel1=='02' ? 'selected' : ''}>02</option>
-              <option value="031" ${tel1=='031' ? 'selected' : ''}>031</option>
-              <option value="032" ${tel1=='032' ? 'selected' : ''}>032</option>
-              <option value="041" ${tel1=='041' ? 'selected' : ''}>041</option>
-              <option value="042" ${tel1=='042' ? 'selected' : ''}>042</option>
-              <option value="043" ${tel1=='043' ? 'selected' : ''}>043</option>
-              <option value="051" ${tel1=='051' ? 'selected' : ''}>051</option>
-              <option value="052" ${tel1=='052' ? 'selected' : ''}>052</option>
-              <option value="061" ${tel1=='061' ? 'selected' : ''}>061</option>
-              <option value="062" ${tel1=='062' ? 'selected' : ''}>062</option>
+              <option value="010" ${tel[0]=='010' ? 'selected' : ''}>010</option>
+              <option value="02" ${tel[0]=='02' ? 'selected' : ''}>02</option>
+              <option value="031" ${tel[0]=='031' ? 'selected' : ''}>031</option>
+              <option value="032" ${tel[0]=='032' ? 'selected' : ''}>032</option>
+              <option value="041" ${tel[0]=='041' ? 'selected' : ''}>041</option>
+              <option value="042" ${tel[0]=='042' ? 'selected' : ''}>042</option>
+              <option value="043" ${tel[0]=='043' ? 'selected' : ''}>043</option>
+              <option value="051" ${tel[0]=='051' ? 'selected' : ''}>051</option>
+              <option value="052" ${tel[0]=='052' ? 'selected' : ''}>052</option>
+              <option value="061" ${tel[0]=='061' ? 'selected' : ''}>061</option>
+              <option value="062" ${tel[0]=='062' ? 'selected' : ''}>062</option>
             </select>-
         </div>
-        <input type="text" name="tel2" value="${tel2}" size=4 maxlength=4 class="form-control"/>-
-        <input type="text" name="tel3" value="${tel3}" size=4 maxlength=4 class="form-control"/>
+        <input type="text" name="tel2" value="${tel[1]}" size=4 maxlength=4 class="form-control"/>-
+        <input type="text" name="tel3" value="${tel[2]}" size=4 maxlength=4 class="form-control"/>
       </div>
     </div>
     <div class="form-group">
       <label for="address">주소</label>
+      <c:set var="address" value="${fn:split(vo.address,'/')}"/>
       <div class="input-group mb-1">
-        <input type="text" name="postcode" id="sample6_postcode" value="${postcode}" class="form-control">
+        <input type="text" name="postcode" id="sample6_postcode" value="${address[0]}" class="form-control">
         <div class="input-group-append">
           <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" class="btn btn-main-2 btn-round btn-icon-sm">
         </div>
       </div>
-      <input type="text" name="roadAddress" id="sample6_address" size="50" value="${roadAddress}" class="form-control mb-1">
+      <input type="text" name="roadAddress" id="sample6_address" size="50" value="${address[1]}" class="form-control mb-1">
       <div class="input-group mb-1">
-        <input type="text" name="detailAddress" id="sample6_detailAddress" value="${detailAddress}" class="form-control"> &nbsp;&nbsp;
+        <input type="text" name="detailAddress" id="sample6_detailAddress" value="${address[2]}" class="form-control"> &nbsp;&nbsp;
         <div class="input-group-append">
-          <input type="text" name="extraAddress" id="sample6_extraAddress" value="${extraAddress}" class="form-control">
+          <input type="text" name="extraAddress" id="sample6_extraAddress" value="${address[3]}" class="form-control">
         </div>
       </div>
     </div>
@@ -331,30 +333,31 @@
 	    <div class="form-group">
 	      <label for="name">업종을 선택하세요.</label>
 	      <select class="form-control" id="co_category" name="co_category">
-	        <option ${vo.cCategory=='바이오 및 제약'?'selected':''}>바이오 및 제약</option>
-	        <option ${vo.cCategory=='에너지 및 화학'?'selected':''}>에너지 및 화학</option>
-	        <option ${vo.cCategory=='식품 및 음료'?'selected':''}>식품 및 음료</option>
-	        <option ${vo.cCategory=='환경'?'selected':''}>환경</option>
-	        <option ${vo.cCategory=='임상 진단'?'selected':''}>임상 진단</option>
-	        <option ${vo.cCategory=='재료연구'?'selected':''}>재료연구</option>
-	        <option ${vo.cCategory=='세포분석'?'selected':''}>세포분석</option>
-	        <option ${vo.cCategory=='학교 연구실'?'selected':''}>학교 연구실</option>
-	        <option ${vo.cCategory=='기타'?'selected':''}>기타</option>
+	        <option ${vo.co_category=='바이오 및 제약'?'selected':''}>바이오 및 제약</option>
+	        <option ${vo.co_category=='에너지 및 화학'?'selected':''}>에너지 및 화학</option>
+	        <option ${vo.co_category=='식품 및 음료'?'selected':''}>식품 및 음료</option>
+	        <option ${vo.co_category=='환경'?'selected':''}>환경</option>
+	        <option ${vo.co_category=='임상 진단'?'selected':''}>임상 진단</option>
+	        <option ${vo.co_category=='재료연구'?'selected':''}>재료연구</option>
+	        <option ${vo.co_category=='세포분석'?'selected':''}>세포분석</option>
+	        <option ${vo.co_category=='학교 연구실'?'selected':''}>학교 연구실</option>
+	        <option ${vo.co_category=='기타'?'selected':''}>기타</option>
 	      </select>
 	    </div>
 	    <div class="form-group">
-	      <label for="cAddress">회사 소재지</label>
+	      <label for="co_address">회사 소재지</label>
+	      <c:set var="co_address" value="${fn:split(vo.co_address,'/')}"/>
 	      <div class="input-group mb-1">
-	        <input type="text" name="co_postcode" id="sample6_postcode2" value="${co_postcode}" class="form-control">
+	        <input type="text" name="co_postcode" id="sample6_postcode2" value="${co_address[0]}" class="form-control">
 	        <div class="input-group-append">
 	          <input type="button" onclick="sample6_execDaumPostcode2()" value="우편번호 찾기" class="btn btn-main-2 btn-round btn-icon-sm">
 	        </div>
 	      </div>
-	      <input type="text" name="cRoadAddress" id="sample6_address2" size="50" value="${co_roadAddress}" class="form-control mb-1">
+	      <input type="text" name="co_roadAddress" id="sample6_address2" size="50" value="${co_address[1]}" class="form-control mb-1">
 	      <div class="input-group mb-1">
-	        <input type="text" name="cDetailAddress" id="sample6_detailAddress2" value="${cDetailAddress}" class="form-control"> &nbsp;&nbsp;
+	        <input type="text" name="co_detailAddress" id="sample6_detailAddress2" value="${co_address[2]}" class="form-control"> &nbsp;&nbsp;
 	        <div class="input-group-append">
-	          <input type="text" name="cExtraAddress" id="sample6_extraAddress2" value="${cExtraAddress}" class="form-control">
+	          <input type="text" name="co_extraAddress" id="sample6_extraAddress2" value="${co_address[3]}" class="form-control">
 	        </div>
 	      </div>
 	    </div>
@@ -362,22 +365,23 @@
 	      <div class="input-group mb-3">
 	        <div class="input-group-prepend">
 	          <span class="input-group-text">회사연락처 :</span> &nbsp;&nbsp;
+	          <c:set var="tel" value="${fn:split(vo.co_tel,'-')}"/>
 	            <select name="tel4" class="custom-select" style="height:auto">
-	              <option value="010" ${tel4=='010' ? 'selected' : ''}>010</option>
-	              <option value="02" ${tel4=='02' ? 'selected' : ''}>02</option>
-	              <option value="031" ${tel4=='031' ? 'selected' : ''}>031</option>
-	              <option value="032" ${tel4=='032' ? 'selected' : ''}>032</option>
-	              <option value="041" ${tel4=='041' ? 'selected' : ''}>041</option>
-	              <option value="042" ${tel4=='042' ? 'selected' : ''}>042</option>
-	              <option value="043" ${tel4=='043' ? 'selected' : ''}>043</option>
-	              <option value="051" ${tel4=='051' ? 'selected' : ''}>051</option>
-	              <option value="052" ${tel4=='052' ? 'selected' : ''}>052</option>
-	              <option value="061" ${tel4=='061' ? 'selected' : ''}>061</option>
-	              <option value="062" ${tel4=='062' ? 'selected' : ''}>062</option>
+	              <option value="010" ${co_tel[0]=='010' ? 'selected' : ''}>010</option>
+	              <option value="02" ${co_tel[0]=='02' ? 'selected' : ''}>02</option>
+	              <option value="031" ${co_tel[0]=='031' ? 'selected' : ''}>031</option>
+	              <option value="032" ${co_tel[0]=='032' ? 'selected' : ''}>032</option>
+	              <option value="041" ${co_tel[0]=='041' ? 'selected' : ''}>041</option>
+	              <option value="042" ${co_tel[0]=='042' ? 'selected' : ''}>042</option>
+	              <option value="043" ${co_tel[0]=='043' ? 'selected' : ''}>043</option>
+	              <option value="051" ${co_tel[0]=='051' ? 'selected' : ''}>051</option>
+	              <option value="052" ${co_tel[0]=='052' ? 'selected' : ''}>052</option>
+	              <option value="061" ${co_tel[0]=='061' ? 'selected' : ''}>061</option>
+	              <option value="062" ${co_tel[0]=='062' ? 'selected' : ''}>062</option>
 	            </select>-
 	        </div>
-	        <input type="text" name="tel5" value="${tel5}" size=4 maxlength=4 class="form-control"/>-
-	        <input type="text" name="tel6" value="${tel6}" size=4 maxlength=4 class="form-control"/>
+	        <input type="text" name="tel5" value="${co_tel[1]}" size=4 maxlength=4 class="form-control"/>-
+	        <input type="text" name="tel6" value="${co_tel[2]}" size=4 maxlength=4 class="form-control"/>
 	      </div>
 	    </div>
     </div>
@@ -387,7 +391,7 @@
         <c:set var="varPurposes" value="${fn:split(('실험정보/기기구매/소모품구매/채용공고/기타'),'/') }"/>
         <c:forEach var="tempPurpose" items="${varPurposes}" varStatus="st">
         	<label class="form-check-label">
-        		<input type="checkbox" class="form-check-input" name="purpose" value="${tempPurpose}" ${fn:contains(purpose,tempPurpose)?'checked':''}/>${tempPurpose}&nbsp;
+        		<input type="checkbox" class="form-check-input" name="purpose" value="${tempPurpose}" ${fn:contains(vo.purpose,tempPurpose)?'checked':''}/>${tempPurpose}&nbsp;
         	</label>
         </c:forEach>
       </div>
@@ -396,7 +400,7 @@
     <div class="text-center">
 	    <button type="button" class="btn btn-main-2 btn-round-full btn-icon" onclick="fCheck()">수정하기</button> &nbsp;
 	    <button type="reset" class="btn btn-main btn-round-full btn-icon">다시작성</button> &nbsp;
-	    <button type="button" class="btn btn-main btn-round-full btn-icon" onclick="location.href='${ctp}/Main.do';">돌아가기</button>
+	    <button type="button" class="btn btn-main btn-round-full btn-icon" onclick="location.href='${ctp}/';">돌아가기</button>
     </div>
     <input type="hidden" name="email" />
     <input type="hidden" name="tel" />
@@ -405,7 +409,7 @@
     <input type="hidden" name="co_address" />
   </form>
   <br/><br/>
-  <div class="text-muted text-right mt-3"><a href="MemberDelete.do">탈퇴하기</a></div>
+  <div class="text-muted text-right mt-3"><a href="${ctp}/member/memberDelete">탈퇴하기</a></div>
 </div>
 </div>
 </div>

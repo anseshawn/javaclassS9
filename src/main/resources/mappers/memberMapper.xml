@@ -25,4 +25,15 @@
 		update memberS set pwd = #{pwd} where mid = #{mid};
 	</update>
 	
+	<update id="setMemberUpdateOk">
+		update memberS set name=#{vo.name}, nickName=#{vo.nickName}, birthday=#{vo.birthday}, email=#{vo.email},
+			emailNews=#{vo.emailNews}, tel=#{vo.tel}, address=#{vo.address}, m_group=#{vo.m_group},
+			co_name=#{vo.co_name}, co_category=#{vo.co_category}, co_address=#{vo.co_address}, co_tel=#{vo.co_tel},
+			purpose=#{vo.purpose} where mid = #{vo.mid};
+	</update>
+	
+	<update id="setMemberDeleteOk">
+		update memberS set userDel='OK', level=99 where mid = #{mid};
+	</update>	
+	
 </mapper>

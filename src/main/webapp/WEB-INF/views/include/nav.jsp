@@ -20,7 +20,7 @@
 			<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">소개말<i class="icofont-thin-down"></i></a>
 			<ul class="dropdown-menu" aria-labelledby="dropdown01">
 				<li><a class="dropdown-item" href="#">공지사항</a></li>
-				<li><a class="dropdown-item" href="AboutUs.do">기업소개</a></li>
+				<li><a class="dropdown-item" href="${ctp}/company/aboutUs">기업소개</a></li>
 				<li><a class="dropdown-item" href="#">자료실</a></li>
 			</ul>
 			</li>
@@ -41,7 +41,7 @@
 							</ul>
 					</li>
 				</c:if>
-				<c:if test="${sLevel==0}"><li class="nav-item"><a class="nav-link" href="#">관리자모드</a></li></c:if>
+				<c:if test="${sLevel==0}"><li class="nav-item"><a class="nav-link" href="${ctp}/admin/adminMain">관리자모드</a></li></c:if>
 			</c:if>
 		</ul>
 	  </div>

@@ -5,13 +5,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/customer")
-public class CustomerController {
+@RequestMapping("/company")
+public class CompanyController {
 	
-	@RequestMapping(value = "/cmain", method = RequestMethod.GET)
-	public String cmainGet() {
+	@RequestMapping(value = "/aboutUs", method = RequestMethod.GET)
+	public String aboutUsGet() {
 		
-		return "customer/cmain";
+		return "company/aboutUs";
 	}
 	
 }
