@@ -26,4 +26,5 @@ public class MemberVO {
 	private String startDate;
 	private String lastDate;
 	
+	private int deleteDiff;
 }

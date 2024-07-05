@@ -17,6 +17,5 @@ public interface MemberService {
 	public int setMemberUpdateOk(MemberVO vo);
 
 	public int setMemberDeleteOk(String mid);
-	
-	
+
 }

@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.javaclassS9.dao.AdminDAO">
+
+	<select id="getAllMemberList" resultType="com.spring.javaclassS9.vo.MemberVO">
+		select *, timestampdiff(day, lastDate, now()) as deleteDiff from memberS order by idx;
+	</select>
+	<select id="getMemberLevelList" resultType="com.spring.javaclassS9.vo.MemberVO">
+		select *, timestampdiff(day, lastDate, now()) as deleteDiff from memberS where m_group=#{m_group} order by idx;
+	</select>
 	
+	
+	<update id="setMemberLevelUpdateOk">
+		update memberS set level=2 where mid = #{mid};
+	</update>
+	
+	
+	<delete id="setMemberDeleteAll">
+		delete from memberS where mid = #{mid};
+	</delete>
 </mapper>
