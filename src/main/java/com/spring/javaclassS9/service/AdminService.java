@@ -2,16 +2,21 @@ package com.spring.javaclassS9.service;
 
 import java.util.ArrayList;
 
+import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.MemberVO;
 
 public interface AdminService {
 
-	public ArrayList<MemberVO> getAllMemberList();
+	public ArrayList<MemberVO> getAllMemberList(int startIndexNo, int pageSize);
 
 	public int setMemberLevelUpdateOk(String mid);
 
 	public int setMemberDeleteAll(String mid);
 
-	public ArrayList<MemberVO> getMemberLevelList(String m_group);
+	public ArrayList<MemberVO> getMemberLevelList(int startIndexNo, int pageSize, String m_group);
+
+	public ArrayList<MemberVO> getMemberSearchList(int startIndexNo, int pageSize, String part, String searchString);
+
+	public int setEngineerDeleteAll(String mid);
 
 }

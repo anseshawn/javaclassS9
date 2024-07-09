@@ -113,17 +113,17 @@
   cursor: default;
 }
 .datepicker table tr td.highlighted {
-  background: #6F8BA4;
+  background: #C7C3BB;
   border-radius: 0;
 }
 .datepicker table tr td.today,
 .datepicker table tr td.today:hover,
 .datepicker table tr td.today.disabled,
 .datepicker table tr td.today.disabled:hover {
-  background-color: #6F8BA4;
+  background-color: #C7C3BB;
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fdd49a', endColorstr='#fdf59a', GradientType=0);
-  border-color: #6F8BA4 #6F8BA4 #6F8BA4;
+  border-color: #C7C3BB #C7C3BB #C7C3BB;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
   color: #fff;
@@ -148,7 +148,7 @@
 .datepicker table tr td.today:hover[disabled],
 .datepicker table tr td.today.disabled[disabled],
 .datepicker table tr td.today.disabled:hover[disabled] {
-  background-color: #e12454;
+  background-color: #003675;
 }
 .datepicker table tr td.today:active,
 .datepicker table tr td.today:hover:active,
@@ -158,7 +158,7 @@
 .datepicker table tr td.today:hover.active,
 .datepicker table tr td.today.disabled.active,
 .datepicker table tr td.today.disabled:hover.active {
-  background-color: #e12454 \9;
+  background-color: #003675 \9;
 }
 .datepicker table tr td.today:hover:hover {
   color: #000;
@@ -179,10 +179,10 @@
 .datepicker table tr td.range.today:hover,
 .datepicker table tr td.range.today.disabled,
 .datepicker table tr td.range.today.disabled:hover {
-  background-color: #e12454;
+  background-color: #003675;
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f3c17a', endColorstr='#f3e97a', GradientType=0);
-  border-color: #e12454 #e12454 #e12454;
+  border-color: #003675 #003675 #003675;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
   -webkit-border-radius: 0;
@@ -270,10 +270,10 @@
 .datepicker table tr td.active:hover,
 .datepicker table tr td.active.disabled,
 .datepicker table tr td.active.disabled:hover {
-  background-color: #e12454;
+  background-color: #003675;
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#08c', endColorstr='#0044cc', GradientType=0);
-  border-color: #e12454 #e12454 #e12454;
+  border-color: #003675 #003675 #003675;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
   color: #fff;
@@ -299,7 +299,7 @@
 .datepicker table tr td.active:hover[disabled],
 .datepicker table tr td.active.disabled[disabled],
 .datepicker table tr td.active.disabled:hover[disabled] {
-  background-color: #e12454;
+  background-color: #003675;
 }
 .datepicker table tr td.active:active,
 .datepicker table tr td.active:hover:active,
@@ -309,7 +309,7 @@
 .datepicker table tr td.active:hover.active,
 .datepicker table tr td.active.disabled.active,
 .datepicker table tr td.active.disabled:hover.active {
-  background-color: #e12454 \9;
+  background-color: #003675 \9;
 }
 .datepicker table tr td span {
   display: block;
@@ -366,7 +366,7 @@
 .datepicker table tr td span.active:hover[disabled],
 .datepicker table tr td span.active.disabled[disabled],
 .datepicker table tr td span.active.disabled:hover[disabled] {
-  background-color: #e12454;
+  background-color: #003675;
 }
 .datepicker table tr td span.active:active,
 .datepicker table tr td span.active:hover:active,
@@ -376,7 +376,7 @@
 .datepicker table tr td span.active:hover.active,
 .datepicker table tr td span.active.disabled.active,
 .datepicker table tr td span.active.disabled:hover.active {
-  background-color: #e12454 \9;
+  background-color: #003675 \9;
 }
 .datepicker table tr td span.old,
 .datepicker table tr td span.new {

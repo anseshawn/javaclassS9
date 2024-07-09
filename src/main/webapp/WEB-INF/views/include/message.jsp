@@ -13,6 +13,19 @@
 		let msg = '${msg}';
 		let url = '${ctp}/${url}';
 		
+		/*
+		$(function(){
+			Swal.fire({
+				html: msg,
+				confirmButtonText: '확인',
+				customClass: {
+	    	confirmButton : 'swal2-confirm‎',
+	      popup : 'custom-swal-popup',
+	      htmlContainer : 'custom-swal-text'
+				}
+			});
+		});
+		*/
 		alert(msg);
 		location.href = url;
 	</script>

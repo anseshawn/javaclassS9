@@ -37,6 +37,7 @@
 						<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">마이페이지<i class="icofont-thin-down"></i></a>
 							<ul class="dropdown-menu" aria-labelledby="dropdown04">
 								<li><a class="dropdown-item" href="${ctp}/member/myPage">내정보 관리</a></li>
+								<li><a class="dropdown-item" href="${ctp}/customer/requests/asProgress">신청 현황</a></li>
 								<li><a class="dropdown-item" href="${ctp}/member/pwdChange">비밀번호 변경</a></li>
 							</ul>
 					</li>

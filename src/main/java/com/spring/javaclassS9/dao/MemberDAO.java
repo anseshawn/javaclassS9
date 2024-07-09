@@ -19,5 +19,9 @@ public interface MemberDAO {
 	public int setMemberUpdateOk(@Param("vo") MemberVO vo);
 
 	public int setMemberDeleteOk(@Param("mid") String mid);
+
+	public int totRecCnt();
+
+	public int totRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
 	
 }

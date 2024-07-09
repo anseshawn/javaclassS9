@@ -3,10 +3,17 @@
 <mapper namespace="com.spring.javaclassS9.dao.AdminDAO">
 
 	<select id="getAllMemberList" resultType="com.spring.javaclassS9.vo.MemberVO">
-		select *, timestampdiff(day, lastDate, now()) as deleteDiff from memberS order by idx;
+		select *, timestampdiff(day, lastDate, now()) as deleteDiff from memberS order by idx
+		<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	<select id="getMemberLevelList" resultType="com.spring.javaclassS9.vo.MemberVO">
-		select *, timestampdiff(day, lastDate, now()) as deleteDiff from memberS where m_group=#{m_group} order by idx;
+		select *, timestampdiff(day, lastDate, now()) as deleteDiff from memberS
+			where m_group=#{m_group} order by idx limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="getMemberSearchList" resultType="com.spring.javaclassS9.vo.MemberVO">
+		select *, timestampdiff(day, lastDate, now()) as deleteDiff from memberS
+			where ${part} like concat('%',#{searchString},'%') order by idx
+			<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	
 	
@@ -17,5 +24,8 @@
 	
 	<delete id="setMemberDeleteAll">
 		delete from memberS where mid = #{mid};
+	</delete>
+	<delete id="setEngineerDeleteAll">
+		delete from engineerS where mid = #{mid};
 	</delete>
 </mapper>

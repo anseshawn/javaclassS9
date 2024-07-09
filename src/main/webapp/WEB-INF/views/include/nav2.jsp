@@ -16,14 +16,17 @@
 		  <li class="nav-item active">
 			<a class="nav-link" href="${ctp}/customer/cmain">Home</a>
 		  </li>
-			<li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">온라인신청<i class="icofont-thin-down"></i></a>
-			<ul class="dropdown-menu" aria-labelledby="dropdown02">
-				<li><a class="dropdown-item" href="Product.do">장비 견적요청</a></li>
-				<li><a class="dropdown-item" href="#">교정 견적요청</a></li>
-				<li><a class="dropdown-item" href="#">A/S 신청</a></li>
-			</ul>
-			</li>
+		  
+		  <c:if test="${!empty sLevel}">
+				<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">온라인신청<i class="icofont-thin-down"></i></a>
+				<ul class="dropdown-menu" aria-labelledby="dropdown02">
+					<li><a class="dropdown-item" href="Product.do">장비 견적요청</a></li>
+					<li><a class="dropdown-item" href="#">교정 견적요청</a></li>
+					<li><a class="dropdown-item" href="${ctp}/customer/requests/asRequest">A/S 신청</a></li>
+				</ul>
+				</li>
+			</c:if>
 		  	
 			<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">회원게시판<i class="icofont-thin-down"></i></a>
@@ -33,7 +36,6 @@
 				<li><a class="dropdown-item" href="RecruitBoard.do">채용공고</a></li>
 			</ul>
 			</li>
-
 			<li class="nav-item"><a class="nav-link" href="Service.do">고객서비스</a></li>
 			<c:if test="${empty sLevel}">
 				<li class="nav-item"><a class="nav-link" href="${ctp}/member/memberLogin">로그인</a></li>
@@ -46,6 +48,7 @@
 						<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">마이페이지<i class="icofont-thin-down"></i></a>
 							<ul class="dropdown-menu" aria-labelledby="dropdown04">
 								<li><a class="dropdown-item" href="${ctp}/member/myPage">내정보 관리</a></li>
+								<li><a class="dropdown-item" href="${ctp}/customer/requests/asProgress">신청 현황</a></li>
 								<li><a class="dropdown-item" href="${ctp}/member/pwdChange">비밀번호 변경</a></li>
 							</ul>
 					</li>

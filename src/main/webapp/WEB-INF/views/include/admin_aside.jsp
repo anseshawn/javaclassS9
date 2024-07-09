@@ -205,7 +205,7 @@
   </div>
 	<div class="ani-navbar-menu">
 	  <i class="fa-solid fa-house ani-navbar-menu__icon"></i>
-	  <p>Home</p>
+		<a href="${ctp}/admin/adminMain">Home</a>
 	</div>
 	<div class="ani-navbar-menu ani-navbar-menu__icon">
 	  <i class="fa-solid fa-headphones"></i>
@@ -226,6 +226,7 @@
 			  <ul class="dropdown-content">
 			  	<li><div class="divider2"></div></li>
 				  <li><a href="${ctp}/admin/member/memberList">회원 리스트</a></li>
+				  <li><a href="${ctp}/admin/emailInput/all">메일 전송</a></li>
 			  </ul>
 			</div>
 		</li>

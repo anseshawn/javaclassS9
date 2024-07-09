@@ -14,6 +14,8 @@ Essential Scripts
 <script src="${ctp}/plugins/counterup/jquery.easing.js"></script>
 <!-- Slick Slider -->
 <script src="${ctp}/plugins/slick-carousel/slick/slick.min.js"></script>
+<script src="${ctp}/plugins/slick-carousel/slick/slick.min.js"></script>
+
 <!-- Counterup -->
 <script src="${ctp}/plugins/counterup/jquery.waypoints.min.js"></script>
 

@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-		pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -16,82 +15,108 @@
 	ul {
 		list-style-type: none;
 	}
+	.quick_list .item {
+    flex: 0 0 auto; /* 기본 크기로 설정 */
+    margin: 10px;   /* 아이템 간격 */
+	}
 </style>
+<script>
+	$(document).ready(function () {
+    function convertTime() {
+      var now = new Date();
+      var month = now.getMonth() + 1;
+      var date = now.getDate();
+      return month + '월' + date + '일';
+    }
+    var currentTime = convertTime();
+    $('.nowtime').append(currentTime);
+	 	$('.date').html(currentTime);
+    
+    navigator.geolocation.getCurrentPosition(accessToGeo)
+    
+    newsCrawling();
+  });
+
+	function accessToGeo (position) {
+    const positionObj = {
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude
+    }
+    let str = "";
+    if(position.coords.latitude != ""){
+    	str = 'https://api.openweathermap.org/data/2.5/weather?lat='+position.coords.latitude+'&lon='+position.coords.longitude+'&appid=237a07d045793d996f10943b24e831a2&units=metric';
+    }
+    else {
+    	str = 'https://api.openweathermap.org/data/2.5/weather?q=Seoul,kr&appid=237a07d045793d996f10943b24e831a2&units=metric';
+    }
+    
+    $.getJSON(str,
+	    function (WeatherResult) {
+	      $('.nowtemp').html("현재기온 : " + WeatherResult.main.temp + " ℃");
+	      $('.lowtemp').html("최저기온 : " + WeatherResult.main.temp_min + " ℃");
+	      $('.hightemp').html("최고기온 : " + WeatherResult.main.temp_max + " ℃");
+	
+	      var weathericonUrl =
+	        '<img src= "http://openweathermap.org/img/wn/'
+	        + WeatherResult.weather[0].icon +
+	        '.png" alt="' + WeatherResult.weather[0].description + '"/>';
+	      $('.icon').html(weathericonUrl);
+	    
+	    }
+    );
+	}
+	
+	function newsCrawling() {
+		let search = "https://news.naver.com/breakingnews/section/105/228";
+		$.ajax({
+			url: "${ctp}/customer/cmain",
+			type: "post",
+			data: {search:search},
+			success: function(vos) {
+				if(vos != "") {
+					let str = '<table class="table table-borderless">';
+					for(let i=0; i<7; i++) {
+						str += '<tr>';
+						str += '<td>'+vos[i].item1+'</td>';
+						str += '</tr>';
+						/*
+						str += '<tr>';
+						str += '<td>'+vos[i].item2+'</td>';
+						str += '<td>'+vos[i].item3+'</td>';
+						str += '</tr>';
+						*/
+					}
+					$("#demo").html(str);
+				}
+			},
+			error: function() {
+				alert("전송오류");
+			}
+		});
+	}
+
+</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/header.jsp" />
 <jsp:include page="/WEB-INF/views/include/nav2.jsp" />
 <p><br/></p>
-	<!-- main-visual__top -->
-	<div id="content" class="main__visual-top">
-		<!-- online-guide-wrap -->
-		<div class="online-guide-wrap">
-			<div class="mainslider">
-				<div class="guide_box case1">
-					<strong class="title">
-						<%-- <img src="${ctp}/images/cmain/guide_box01_title.png" alt="온라인 신청"> --%>
-						<h2>온라인 신청</h2>
-					</strong>
-					<p class="sub-title">
-						<span>24시간 편리하게</span> 온라인 신청을<br> 하실 수 있습니다
-					</p>
-					<ul class="online-guide">
-						<li class="item item_type1"><a href="/web/contents/K201000000.do"><p class="txt txt_case1">견적 문의</p></a></li>
-						<li class="item item_type3">
-							<a href="/web/contents/K301000000.do" class="mhide"><p class="txt txt_case3">A/S 신청</p></a>
-							<!-- <a href="#none" class="mblock" onclick="alert('온라인 신청은 PC에서만 가능합니다.');"><p class="txt txt_case3">A/S신청</p></a> -->
-						</li>
-					</ul>
-				</div>
-				<div class="guide_box case2">
-					<strong class="title">
-						<%-- <img src="${ctp}/images/cmain/guide_box02_title.png" alt="나의 신청 현황 조회"> --%>
-						<h2>나의 신청 현황 조회</h2>
-					</strong>
-					<p class="sub-title">A/S를 <span>신청한 내역</span>이나 <span>견적내역</span>을<br> 확인하실 수 있습니다.</p>
-					<ul class="online-guide">
-						<li class="item item_type1">
-							<a href="/web/contents/K401000000.do"><p class="txt txt_case1">A/S진행현황</p></a>
-						</li>
-						<li class="item item_type2">
-							<a href="/web/contents/K405000000.do"><p class="txt txt_case2">견적조회</p></a>
-						</li>
-					</ul>
-				</div>
-				<div class="guide_box case3">
-					<strong class="title">
-						<%-- <img src="${ctp}/images/cmain/guide_box03_title.png" alt="수수료"> --%>
-						<h2>수수료</h2>
-					</strong>
-					<p class="sub-title">발생한 수수료를 확인하고<br> 온라인 납부를 할 수 있습니다.</p>
-					<ul class="online-guide">
-						<li class="item item_type1">
-							<a href="/web/contents/K402000000.do"><p class="txt txt_case1 more">자세히보기<i class="icofont-simple-right ml-2  "></i></p></a>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<div class="slick-control type-s">
-				<button type="button" class="slick-stop">정지</button>
-				<button type="button" class="slick-play">재생</button>
-			</div>
-		</div>
-	</div>
-	<!-- //main-visual__top -->
+<jsp:include page="/WEB-INF/views/include/slider.jsp" />
 <div class="main-top_content">
 	<!-- main_quick_menu -->
 	<div class="main_quick_menu_wrap">
 		<div class="main-section quick_menu">
 			<br/>
-			<div class="quick_slide">
-				<div class="quick_list">
-					<div class="item q01">
-						<a href="/web/contents/K200200000.do">
+			<div class="quick_slide align-items-center">
+				<div class="quick_list" style="text-align: center;">
+					<div class="item" style="align-items: center; justify-content: center;">
+						<a href="#">
 							<img class="ico_off" src="${ctp}/images/cmain/quick_ico00.png" alt="상담원안내 이미지 아이콘">
 							<img class="ico_on" src="${ctp}/images/cmain/quick_ico_on00.png" alt="상담원안내 모바일 이미지 아이콘">
 							<p class="txt">상담원안내</p>
 						</a>
 					</div>
+					<!-- 
 					<div class="item">
 						<a href="/web/contents/K203000000.do">
 						<img class="ico_off" src="${ctp}/images/cmain/quick_ico01.png" alt="신청양식 이미지 아이콘">
@@ -99,43 +124,44 @@
 							<p class="txt">신청양식 <br class="v_mobile">내려받기</p>
 						</a>
 					</div>
-					<div class="item">
-						<a href="/web/contents/K201000000.do">
+					 -->
+					<div class="item" style="align-items: center; justify-content: center;">
+						<a href="${ctp}/customer/requests/asRequest">
 							<img class="ico_off" src="${ctp}/images/cmain/quick_ico02.png" alt="접수안내 이미지 아이콘">
 							<img class="ico_on" src="${ctp}/images/cmain/quick_ico_on02.png" alt="접수안내 모바일 이미지 아이콘">
-							<p class="txt">접수안내</p>
+							<p class="txt">A/S신청</p>
 						</a>
 					</div>
-					<div class="item">
-						<a href="/web/contents/K506000000.do">
-							<img class="ico_off" src="${ctp}/images/cmain/quick_ico03.png" alt="Q&A 이미지 아이콘">
-							<img class="ico_on" src="${ctp}/images/cmain/quick_ico_on03.png" alt="Q&A 모바일 이미지 아이콘">
-							<p class="txt">Q&A<br class="v_mobile">(온라인상담)</p>
-						</a>
-					</div>
-					<div class="item">
-						<a href="/web/contents/K205000000.do">
-							<img class="ico_off" src="${ctp}/images/cmain/quick_ico04.png" alt="견적요청 이미지 아이콘">
-							<img class="ico_on" src="${ctp}/images/cmain/quick_ico_on04.png" alt="견적요청 모바일 이미지 아이콘">
-							<p class="txt">제품 <br class="v_mobile">견적요청</p>
-						</a>
-					</div>
-					<div class="item">
-						<a href="/web/contents/K401000000.do">
+					<div class="item" style="align-items: center; justify-content: center;">
+						<a href="${ctp}/customer/requests/asProgress">
 							<img class="ico_off" src="${ctp}/images/cmain/quick_ico05.png" alt="진행현황조회 이미지 아이콘">
 							<img class="ico_on" src="${ctp}/images/cmain/quick_ico_on05.png" alt="진행현황조회 모바일 이미지 아이콘">
 							<p class="txt">진행현황 조회</p>
 						</a>
 					</div>
-					<div class="item">
-						<a href="/web/contents/K405000000.do">
+					<div class="item" style="display: inline-flex; align-items: center; justify-content: center;">
+						<a href="#">
+							<img class="ico_off" src="${ctp}/images/cmain/quick_ico03.png" alt="Q&A 이미지 아이콘">
+							<img class="ico_on" src="${ctp}/images/cmain/quick_ico_on03.png" alt="Q&A 모바일 이미지 아이콘">
+							<p class="txt">Q&A<br class="v_mobile">(온라인상담)</p>
+						</a>
+					</div>
+					<div class="item" style="align-items: center; justify-content: center;">
+						<a href="#">
+							<img class="ico_off" src="${ctp}/images/cmain/quick_ico04.png" alt="견적요청 이미지 아이콘">
+							<img class="ico_on" src="${ctp}/images/cmain/quick_ico_on04.png" alt="견적요청 모바일 이미지 아이콘">
+							<p class="txt">제품 <br class="v_mobile">견적요청</p>
+						</a>
+					</div>
+					<div class="item" style="align-items: center; justify-content: center;">
+						<a href="#">
 							<img class="ico_off" src="${ctp}/images/cmain/quick_ico06.png" alt="성적서/인증서 발급 이미지 아이콘">
 							<img class="ico_on" src="${ctp}/images/cmain/quick_ico_on06.png" alt="성적서/인증서 발급 모바일 이미지 아이콘">
 							<p class="txt">성적서/인증서 발급</p>
 						</a>
 					</div>
-					<div class="item">
-						<a href="/web/contents/K404000000.do">
+					<div class="item" style="align-items: center; justify-content: center;">
+						<a href="#">
 							<img class="ico_off" src="${ctp}/images/cmain/quick_ico07.png" alt="수수료 납부 이미지 아이콘">
 							<img class="ico_on" src="${ctp}/images/cmain/quick_ico_on07.png" alt="수수료 납부 이미지 아이콘">
 							<p class="txt">수수료납부</p>
@@ -148,16 +174,26 @@
 	<!-- //main_quick_menu -->
 </div>
 <br/>
-<table class="table table-bordered">
-	<tr>
-		<th>제목</th>
-		<th>내용</th>
-	</tr>
-	<tr>
-		<td>뉴스제목</td>
-		<td>뉴스내용</td>
-	</tr>
-</table>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-9">
+			<h4>과학 뉴스 소식</h4>
+			<div id="demo"></div>
+		</div>
+		<div class="col-lg-3">
+			<div class="card m-2 dispForm" style="background-color:#CDD7E4; text-align:center;">
+				<div class="card-body">
+					<h4 class="card-title">현재 날씨</h4>
+					<div class="icon"></div>
+					<p class="card-text date"></p>
+					<p class="card-text nowtemp"></p>
+					<p class="card-text lowtemp"></p>
+					<p class="card-text hightemp"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
 </html>

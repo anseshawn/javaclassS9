@@ -73,11 +73,12 @@
 	}
 </style>
 <nav class="nav-container">
+
   <div class="search-box">
-    <input type="text" class="search-box-input" placeholder="Search" />
-    <button class="search-box-btn">
-      <i class="fa-solid fa-magnifying-glass"></i>
-    </button>
+	  <input type="text" class="search-box-input" placeholder="Search" />
+	  <button class="search-box-btn">
+	    <i class="fa-solid fa-magnifying-glass"></i>
+	  </button>
   </div>
 
   <div class="notification">
@@ -89,6 +90,7 @@
       <span class="notification-badge">9</span>
       <i class="fa-solid fa-envelope"></i>
     </div>
-    <span id="notification-name">Hyewon Shin</span>
+    <span id="notification-name">관리자</span>
+    <span id="notification-name"><a href="${ctp}/"><i class="fa-solid fa-door-open"></i>나가기</a></span>
   </div>
 </nav>

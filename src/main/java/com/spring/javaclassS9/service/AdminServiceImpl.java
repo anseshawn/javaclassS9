@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.javaclassS9.dao.AdminDAO;
+import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.MemberVO;
 
 @Service
@@ -15,8 +16,8 @@ public class AdminServiceImpl implements AdminService {
 	AdminDAO adminDAO;
 
 	@Override
-	public ArrayList<MemberVO> getAllMemberList() {
-		return adminDAO.getAllMemberList();
+	public ArrayList<MemberVO> getAllMemberList(int startIndexNo, int pageSize) {
+		return adminDAO.getAllMemberList(startIndexNo, pageSize);
 	}
 
 	@Override
@@ -30,7 +31,17 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public ArrayList<MemberVO> getMemberLevelList(String m_group) {
-		return adminDAO.getMemberLevelList(m_group);
+	public ArrayList<MemberVO> getMemberLevelList(int startIndexNo, int pageSize, String m_group) {
+		return adminDAO.getMemberLevelList(startIndexNo,pageSize,m_group);
+	}
+
+	@Override
+	public ArrayList<MemberVO> getMemberSearchList(int startIndexNo, int pageSize, String part, String searchString) {
+		return adminDAO.getMemberSearchList(startIndexNo,pageSize,part,searchString);
+	}
+
+	@Override
+	public int setEngineerDeleteAll(String mid) {
+		return adminDAO.setEngineerDeleteAll(mid);
 	}
 }

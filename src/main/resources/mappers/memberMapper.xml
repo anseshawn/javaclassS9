@@ -11,6 +11,12 @@
 	<select id="getMemberNameCheck" resultType="com.spring.javaclassS9.vo.MemberVO">
 		select * from memberS where name = #{name};
 	</select>
+	<select id="totRecCnt" resultType="int">
+		select count(*) from memberS;
+	</select>
+	<select id="totRecCntSearch" resultType="int">
+		select count(*) from memberS where ${search} like concat('%',#{searchString},'%');
+	</select>
 	
 	
 	<insert id="setMemberJoinOk">

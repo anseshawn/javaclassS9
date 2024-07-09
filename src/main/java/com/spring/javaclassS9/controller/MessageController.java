@@ -76,6 +76,34 @@ public class MessageController {
 			model.addAttribute("msg", "탈퇴 요청이 제대로 진행되지 않았습니다.\\n관리자에게 문의하세요.");
 			model.addAttribute("url", "/member/memberDelete");
 		}
+		else if(msgFlag.equals("emailInputOk")) {
+			model.addAttribute("msg", "메일 전송이 완료되었습니다.");
+			model.addAttribute("url", "/admin/member/memberList");
+		}
+		else if(msgFlag.equals("emailInputNo")) {
+			model.addAttribute("msg", "메일 전송에 실패했습니다.");
+			model.addAttribute("url", "/admin/emailInput");
+		}
+		else if(msgFlag.equals("engineerIdCheckNo")) {
+			model.addAttribute("msg", "같은 이름의 사원이 존재합니다.");
+			model.addAttribute("url", "/admin/engineer/engineerInput");
+		}
+		else if(msgFlag.equals("engineerJoinOk")) {
+			model.addAttribute("msg", "엔지니어를 등록했습니다.");
+			model.addAttribute("url", "/admin/engineer/engineerList");
+		}
+		else if(msgFlag.equals("engineerJoinNo")) {
+			model.addAttribute("msg", "엔지니어 등록 실패.");
+			model.addAttribute("url", "/admin/engineer/engineerInput");
+		}
+		else if(msgFlag.equals("asAppointmentOk")) {
+			model.addAttribute("msg", "A/S신청이 완료되었습니다.\\n진행사항은 메뉴에서 확인할 수 있습니다.");
+			model.addAttribute("url", "/customer/cmain");
+		}
+		else if(msgFlag.equals("asAppointmentNo")) {
+			model.addAttribute("msg", "A/S신청에 실패했습니다.\\n다시 입력해주세요.");
+			model.addAttribute("url", "/customer/requests/asAppointment");
+		}
 		
 		return "include/message";
 	}

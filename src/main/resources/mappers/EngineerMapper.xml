@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaclassS9.dao.EngineerDAO">
+	<select id="getEngineerIdCheck" resultType="com.spring.javaclassS9.vo.EngineerVO">
+		select * from engineerS where mid = #{mid};
+	</select>
+	<select id="totRecCnt" resultType="int">
+		select count(*) from engineerS;
+	</select>
+	<select id="totRecCntSearch" resultType="int">
+		select count(*) from engineerS where ${search} like concat('%',#{searchString},'%');
+	</select>
+	<select id="getEngineerSearchList" resultType="com.spring.javaclassS9.vo.EngineerVO">
+		select * from engineerS where ${part} like concat('%',#{searchString},'%') order by idx
+			<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+	</select>
+	<select id="getAllEngineerList" resultType="com.spring.javaclassS9.vo.EngineerVO">
+		select * from engineerS order by idx <if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+	</select>
+	<select id="getEngineerIdxCheck" resultType="com.spring.javaclassS9.vo.EngineerVO">
+		select * from engineerS where idx = #{idx};
+	</select>
+	
+	
+	<insert id="setEngineerJoinOk">
+		insert into engineerS values (default, #{vo.name}, #{vo.mid}, #{vo.pwd}, default, #{vo.tel}, #{vo.email},
+			#{vo.place}, #{vo.instrument}, #{vo.photo}, #{vo.joinDate}, default);
+	</insert>
+	
+	
+</mapper>
