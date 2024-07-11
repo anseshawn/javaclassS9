@@ -176,7 +176,7 @@
 	      time: 1000
 	  });
 
-	
+/*
  	// Shuffle js filter and masonry
   var Shuffle = window.Shuffle;
   var jQuery = window.jQuery;
@@ -192,6 +192,7 @@
           myShuffle.filter(input.value);
       }
   });
- 
+ */
+	 
 
 })(jQuery);

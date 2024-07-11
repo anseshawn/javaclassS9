@@ -12,10 +12,19 @@
 		select a.*, e.name as engineerName from asRequest a left join engineerS e on a.engineerIdx=e.idx
 			where a.idx = #{idx};
 	</select>
+	<select id="getReviewList" resultType="com.spring.javaclassS9.vo.ReviewVO">
+		select * from review where engineerIdx = #{engineerIdx};
+	</select>
+	<select id="getReviewSearch" resultType="int">
+		select count(*) from review where asIdx = #{idx};
+	</select>
 	
 	
 	<insert id="setAsAppointmentOk">
 		insert into asRequest values (default, #{vo.asMid}, #{vo.asName}, #{vo.asDate}, #{vo.asPlace}, #{vo.address},
-			#{vo.engineerIdx}, #{vo.instrument}, #{vo.progress}, default, #{vo.detailNote}, null, null);
+			#{vo.engineerIdx}, #{vo.machine}, #{vo.progress}, default, #{vo.detailNote}, null, null);
+	</insert>
+	<insert id="setReviewInput">
+		insert into review values(default, #{vo.memberMid}, #{vo.asIdx}, #{vo.engineerIdx}, #{vo.starPoint}, #{vo.reviewDetail});
 	</insert>
 </mapper>

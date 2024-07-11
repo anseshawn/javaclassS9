@@ -24,10 +24,10 @@
 				<li><a class="dropdown-item" href="#">자료실</a></li>
 			</ul>
 			</li>
-			<li class="nav-item"><a class="nav-link" href="MemberLogin.do">장비소개</a></li>
+			<li class="nav-item"><a class="nav-link" href="${ctp}/product/productSale">장비소개</a></li>
 			<li class="nav-item"><a class="nav-link" href="MemberLogin.do">소모품구입</a></li>
 			<c:if test="${empty sLevel}">
-				<li class="nav-item"><a class="nav-link" href="${ctp}/member/memberLogin">로그인</a></li>
+				<li class="nav-item"><a class="nav-link" href="${ctp}/member/memberLogin/main">로그인</a></li>
 				<li class="nav-item"><a class="nav-link" href="${ctp}/member/memberJoin">회원가입</a></li>
 			</c:if>
 			<c:if test="${!empty sLevel}">

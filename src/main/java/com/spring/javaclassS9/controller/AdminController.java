@@ -21,9 +21,11 @@ import com.spring.javaclassS9.pagination.PageProcess;
 import com.spring.javaclassS9.service.AdminService;
 import com.spring.javaclassS9.service.EngineerService;
 import com.spring.javaclassS9.service.MemberService;
+import com.spring.javaclassS9.service.ProductService;
 import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.PageVO;
+import com.spring.javaclassS9.vo.ProductVO;
 
 @Controller
 @RequestMapping("/admin")
@@ -46,6 +48,10 @@ public class AdminController {
 	
 	@Autowired
 	EngineerService engineerService;
+	
+	@Autowired
+	ProductService productService;
+	
 	
 	@RequestMapping(value = "/adminMain", method = RequestMethod.GET)
 	public String adminMainGet() {
@@ -123,7 +129,7 @@ public class AdminController {
 		if(toMail.contains(",")) { // 아이디로 여러명에게 전송
 			String[] midStr = toMail.split(",");
 			for(String mid : midStr) {
-				vo = memberService.getMemberIdCheck(mid);
+				vo = memberService.getMemberIdCheck(mid.trim());
 				res = javaclassProvide.mailSend(vo.getEmail(), title, content, "adminSendEmail", request);
 			}
 		}
@@ -208,5 +214,29 @@ public class AdminController {
 	@RequestMapping(value = "/engineer/engineerDeleteAll", method = RequestMethod.POST)
 	public String engineerDeleteAllPost(@RequestParam(name = "mid", defaultValue = "", required = false) String mid) {
 		return adminService.setEngineerDeleteAll(mid)+"";
+	}
+	
+	// 제품 등록 창 출력
+	@RequestMapping(value = "/product/productInput", method = RequestMethod.GET)
+	public String productInputGet() {
+		return "admin/product/productInput";
+	}
+	// 기기 등록하기
+	@RequestMapping(value = "/product/productInput", method = RequestMethod.POST)
+	public String productInputPost(MultipartFile fName, ProductVO vo) {
+		int res = productService.setProductInputOk(fName,vo);
+		if(res != 0) return "redirect:/message/productInputOk";
+		else return "redirect:/message/productInputNo";
+	}
+	
+	// 장비 리스트 창 출력
+	@RequestMapping(value = "/product/productList", method = RequestMethod.GET)
+	public String productListGet() {
+		return "admin/product/productList";
+	}
+	// 장비 수정 창 출력
+	@RequestMapping(value = "/product/productEdit", method = RequestMethod.GET)
+	public String productEditGet(int idx) {
+		return "admin/product/productEdit";
 	}
 }

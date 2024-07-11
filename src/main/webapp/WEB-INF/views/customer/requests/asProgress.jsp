@@ -103,7 +103,7 @@
 				<c:forEach var="vo" items="${vos}">
 					<tr>
 						<td>${vo.idx}</td>
-						<td>${vo.instrument}</td>
+						<td>${vo.machine}</td>
 						<td>${vo.engineerName}</td>
 						<td>
 							<c:if test="${empty vo.endDate}">

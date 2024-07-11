@@ -200,9 +200,11 @@
 	}
 </script>
 <nav class="ani-navbar">
+	<!-- 
   <div class="navbar-toggle" onclick="toggleNavbar()">
       <i class="fas fa-bars"></i>
   </div>
+   -->
 	<div class="ani-navbar-menu">
 	  <i class="fa-solid fa-house ani-navbar-menu__icon"></i>
 		<a href="${ctp}/admin/adminMain">Home</a>
@@ -214,10 +216,6 @@
 	<div class="ani-navbar-menu ani-navbar-menu__icon">
 	  <i class="fa-solid fa-flag"></i>
 	  <p>Alerts</p>
-	</div>
-	<div class="ani-navbar-menu ani-navbar-menu__icon">
-	  <i class="fa-solid fa-chart-pie"></i>
-	  <p>Stats</p>
 	</div>
 	<ul>
 		<li class="dropdown">
@@ -240,5 +238,19 @@
 			  </ul>
 			</div>
 		</li>
+		<li class="dropdown">
+			<div class="ani-navbar-menu ani-navbar-menu__icon">
+			 <i class="fa-solid fa-cash-register"></i><a href="javascript:void(0)">제품 관리</a>
+			  <ul class="dropdown-content">
+			  	<li><div class="divider2"></div></li>
+				  <li><a href="${ctp}/admin/product/productInput">기기 등록</a></li>
+				  <li><a href="${ctp}/admin/product/productList">장비 리스트</a></li>
+			  </ul>
+			</div>
+		</li>
 	</ul>
+	<div class="ani-navbar-menu ani-navbar-menu__icon">
+	  <i class="fa-solid fa-chart-pie"></i>
+	  <p>사이트 통계</p>
+	</div>
 </nav>

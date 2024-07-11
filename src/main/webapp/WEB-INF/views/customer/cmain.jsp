@@ -147,7 +147,7 @@
 						</a>
 					</div>
 					<div class="item" style="align-items: center; justify-content: center;">
-						<a href="#">
+						<a href="${ctp}/product/productSale">
 							<img class="ico_off" src="${ctp}/images/cmain/quick_ico04.png" alt="견적요청 이미지 아이콘">
 							<img class="ico_on" src="${ctp}/images/cmain/quick_ico_on04.png" alt="견적요청 모바일 이미지 아이콘">
 							<p class="txt">제품 <br class="v_mobile">견적요청</p>

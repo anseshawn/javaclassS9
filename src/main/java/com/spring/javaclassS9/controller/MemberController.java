@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -78,8 +79,8 @@ public class MemberController {
 	}
 	
 	// 일반 로그인창 연결
-	@RequestMapping(value = "/memberLogin", method = RequestMethod.GET)
-	public String memberLoginGet(HttpServletRequest request) {
+	@RequestMapping(value = "/memberLogin/{pathFlag}", method = RequestMethod.GET)
+	public String memberLoginGet(@PathVariable String pathFlag, HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
 		if(cookies != null) {
 			for(int i=0; i<cookies.length; i++) {
@@ -96,9 +97,9 @@ public class MemberController {
 	
 	
 	// 일반 로그인 성공 / 실패 처리
-	@RequestMapping(value = "/memberLogin", method = RequestMethod.POST)
+	@RequestMapping(value = "/memberLogin/{pathFlag}", method = RequestMethod.POST)
 	public String memberLoginPost(HttpServletRequest request, HttpServletResponse response,
-			HttpSession session,
+			HttpSession session, @PathVariable String pathFlag,
 			@RequestParam(name="mid", defaultValue = "", required = false) String mid,
 			@RequestParam(name="pwd", defaultValue = "", required = false) String pwd,
 			@RequestParam(name="idSave", defaultValue = "", required = false) String idSave
@@ -137,7 +138,7 @@ public class MemberController {
 					}
 				}
 			}
-			return "redirect:/message/memberLoginOk?mid="+mid;
+			return "redirect:/message/memberLoginOk?mid="+mid+"&pathFlag="+pathFlag;
 		}
 		else return "redirect:/message/memberLoginNo";
 	}

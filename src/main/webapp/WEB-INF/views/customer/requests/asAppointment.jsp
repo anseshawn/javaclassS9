@@ -11,14 +11,14 @@
   <script src="${ctp}/js/woo.js"></script>
   <link rel="stylesheet" href="${ctp}/css/bootstrap-datepicker.css">
 	<style>
-    .place, .instrument {
+    .place, .machine {
       padding: 10px 20px;
       border: none;
       background-color: #C7C3BB;
       cursor: pointer;
     }
 
-    .place.act, .instrument.act {
+    .place.act, .machine.act {
       background-color: #0E2B5E;
       color: white;
     }
@@ -80,17 +80,17 @@
     	$("#addressInput").hide();
     }
     // 기기 선택
-    function instrumentSelect(button) {
+    function machineSelect(button) {
     	if(selectedBtnI) {
     		selectedBtnI.classList.remove("act");
     	}
     	button.classList.add("act");
     	selectedBtnI = button;
     	
-    	let instrument = $(button).val();
-	  	let engineerInstrument = '${eVo.instrument}';
-      if(!engineerInstrument.includes(instrument)){
-    	  let str = "해당 엔지니어의 담당 기기는 ${eVo.instrument} 입니다.";
+    	let machine = $(button).val();
+	  	let engineerMachine = '${eVo.machine}';
+      if(!engineerMachine.includes(machine)){
+    	  let str = "해당 엔지니어의 담당 기기는 ${eVo.machine} 입니다.";
     	  alert(str);
     	  button.classList.remove("act");
     	  return false;
@@ -106,7 +106,7 @@
     	}
     	
     	let place = selectedBtnP.value;
-    	let instrument = selectedBtnI.value;
+    	let machine = selectedBtnI.value;
     	let asName = document.getElementById("asName").value;
     	if(asName.trim()=="") {
     		alert("신청자 이름은 필수 입력값입니다.");
@@ -131,7 +131,7 @@
     	myform.address.value = address;
     	
     	myform.asPlace.value = place;
-    	document.getElementById("instrument").value = instrument;
+    	document.getElementById("machine").value = machine;
     	
     	myform.submit();
     }
@@ -211,12 +211,12 @@
 		<div class="row justify-content-center mb-3">
 			<div class="col-md-8 col-md-offset-2"><h4>기기명(종류)</h4>
 				<div id="comment" class="text-left" style="font-size:13px">상세한 모델명이나 증상은 아래 비고란에 남겨주세요.</div>
-				<input type="button" class="instrument btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="instrument" value="UV" onclick="instrumentSelect(this)"/>
-				<input type="button" class="instrument btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="instrument" value="AAs" onclick="instrumentSelect(this)"/>
-				<input type="button" class="instrument btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="instrument" value="ICP" onclick="instrumentSelect(this)"/>
-				<input type="button" class="instrument btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="instrument" value="GC" onclick="instrumentSelect(this)"/>
-				<input type="button" class="instrument btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="instrument" value="LC" onclick="instrumentSelect(this)"/>
-				<input type="button" class="instrument btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="instrument" value="etc" onclick="instrumentSelect(this)"/>
+				<input type="button" class="machine btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="machine" value="UV" onclick="machineSelect(this)"/>
+				<input type="button" class="machine btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="machine" value="AAs" onclick="machineSelect(this)"/>
+				<input type="button" class="machine btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="machine" value="ICP" onclick="machineSelect(this)"/>
+				<input type="button" class="machine btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="machine" value="GC" onclick="machineSelect(this)"/>
+				<input type="button" class="machine btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="machine" value="LC" onclick="machineSelect(this)"/>
+				<input type="button" class="machine btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="machine" value="etc" onclick="machineSelect(this)"/>
 			</div>
 		</div>
 		<div class="row justify-content-center mb-3" id="noteInput" style="display:none;">
@@ -233,7 +233,7 @@
 			</div>
 		</div>
 		<input type="hidden" name="asPlace" id="asPlace">
-		<input type="hidden" name="instrument" id="instrument">
+		<input type="hidden" name="machine" id="machine">
 		<input type="hidden" name="address" id="address">
 		<input type="hidden" name="engineerIdx" value="${eVo.idx}">
 	</form>

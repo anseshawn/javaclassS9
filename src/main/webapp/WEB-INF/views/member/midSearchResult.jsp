@@ -49,7 +49,7 @@
 					회원님의 아이디는 ${mid} 입니다.
 				</li>
 				<div class="text-center mt-5">
-					<a href="${ctp}/member/memberLogin" class="btn btn-main-2 btn-icon btn-round-full mr-2">로그인하기</a>
+					<a href="${ctp}/member/memberLogin/main" class="btn btn-main-2 btn-icon btn-round-full mr-2">로그인하기</a>
 					<a href="${ctp}/" class="btn btn-main btn-icon btn-round-full">메인으로</a>
 				</div>
 			</c:if>

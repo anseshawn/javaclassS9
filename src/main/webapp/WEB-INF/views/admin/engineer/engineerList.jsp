@@ -50,14 +50,14 @@
 					str += '<tr><th>이메일</th><td>'+mVo.email+'</td>';
 					str += '<th>연락처</th><td>'+mVo.tel+'</td></tr>';
 					str += '<tr><th>출장 가능 지역</th><td colspan="3">'+mVo.place+'</td></tr>';
-					str += '<tr><th>담당기기</th><td colspan="3">'+mVo.instrument+'</td></tr>';
+					str += '<tr><th>담당기기</th><td colspan="3">'+mVo.machine+'</td></tr>';
 					/*	
 					str += "<tr><td><img src='${ctp}/images/"+mVo.photo+"' width='200px'/></td>";
 					str += "<td><tr><th>이름</th><td>"+mVo.name+"</td></tr><tr><th>고유번호</th><td>"+mVo.idx+"</td></tr></td>";
 					str += "<td><tr><th>아이디</th><td>"+mVo.mid+"</td></tr><tr><th>입사일</th><td>"+mVo.joinDate+"</td></tr></td></tr>";
 					str += "<tr><th>이메일</th><td>"+mVo.email+"</td><th>연락처</th><td>"+mVo.tel+"</td></tr>";
 					str += "<tr><th>출장 가능 지역</th><td colspan='3'>"+mVo.place+"</td></tr>"
-					str += "<tr><th>담당 기기</th><td colspan='3'>"+mVo.instrument+"</td></tr>";
+					str += "<tr><th>담당 기기</th><td colspan='3'>"+mVo.machine+"</td></tr>";
 					str += "</table>";
 					*/
 					str += '</table>';
@@ -125,9 +125,9 @@
 			location.href="${ctp}/admin/engineer/engineerList?pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&part=place&searchString="+searchString;
 		}
 		// 사원 기기별 보기
-		function selectInstrumentShow() {
-			let searchString = $("#searchInstrument").val();
-			location.href="${ctp}/admin/engineer/engineerList?pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&part=instrument&searchString="+searchString;
+		function selectMachineShow() {
+			let searchString = $("#searchMachine").val();
+			location.href="${ctp}/admin/engineer/engineerList?pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&part=machine&searchString="+searchString;
 		}
 		
 		// 사원 검색
@@ -200,7 +200,7 @@
 		<div class="col-md-4 offset-md-2 text-right">
 			<form name="searchSelect">
 				<div class="input-group">
-					<select name="searchInstrument" id="searchInstrument" class="custom-select" onchange="selectInstrumentShow()">
+					<select name="searchMachine" id="searchMachine" class="custom-select" onchange="selectMachineShow()">
 						<option>기기별 보기</option>
 						<option value="">전체</option>
 						<option value="UV">UV</option>
@@ -263,7 +263,7 @@
 					</td>
 					<td><a href="${ctp}/admin/emailInput/${vo.mid}">${vo.email}</a></td>
 					<td>${vo.place}</td>
-					<td>${vo.instrument}</td>
+					<td>${vo.machine}</td>
 					<td>
 						<input type="button" onclick="engineerDelete('${vo.mid}')" class="btn btn-icon-sm btn-danger" value="탈퇴처리"/>
 					</td>

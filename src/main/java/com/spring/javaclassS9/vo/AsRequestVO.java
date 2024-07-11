@@ -10,8 +10,8 @@ public class AsRequestVO {
 	private String asDate;
 	private String asPlace;
 	private String address;
-	private int engineer;
-	private Instrument instrument;
+	private int engineerIdx;
+	private Machine machine;
 	private Progress progress;
 	private String requestDate;
 	private String detailNote;
@@ -20,7 +20,7 @@ public class AsRequestVO {
 	
 	private String engineerName;
 	
-	public enum Instrument {
+	public enum Machine {
 		UV, AAs, ICP, GC, LC, etc
 	}
 	

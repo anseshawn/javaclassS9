@@ -12,9 +12,9 @@ public class EngineerVO {
 	private String tel;
 	private String email;
 	private String place;
-	private String instrument;
+	private String machine;
 	private String photo;
 	private String joinDate;
-	private int starPoint;
+	private double starPoint;
 }
 

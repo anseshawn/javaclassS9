@@ -28,6 +28,7 @@ import com.spring.javaclassS9.vo.AsRequestVO;
 import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.NewsVO;
 import com.spring.javaclassS9.vo.PageVO;
+import com.spring.javaclassS9.vo.ReviewVO;
 
 @Controller
 @RequestMapping("/customer")
@@ -185,11 +186,21 @@ public class CustomerController {
 		else if(vo.getProgress().toString().equals("PROGRESS")) progress = "진행중";
 		else if(vo.getProgress().toString().equals("PAYMENT")) progress = "입금대기";
 		else if(vo.getProgress().toString().equals("COMPLETE")) progress = "진행완료";
+		
+		int sw = customerService.getReviewSearch(idx); // 해당 as에 리뷰 작성한 적 있는지 체크
+		
 		model.addAttribute("vo", vo);
 		model.addAttribute("progress", progress);
 		model.addAttribute("pag", pag);
 		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("sw", sw);
 		return "customer/requests/asContent";
 	}
 	
+	// A/S 완료 시 별점 남기기
+	@ResponseBody
+	@RequestMapping(value = "/reviewInput", method = RequestMethod.POST)
+	public String reviewInputPost(ReviewVO vo) {
+		return customerService.setReviewInput(vo)+"";
+	}
 }

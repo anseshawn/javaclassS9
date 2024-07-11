@@ -24,8 +24,11 @@
 	
 	<insert id="setEngineerJoinOk">
 		insert into engineerS values (default, #{vo.name}, #{vo.mid}, #{vo.pwd}, default, #{vo.tel}, #{vo.email},
-			#{vo.place}, #{vo.instrument}, #{vo.photo}, #{vo.joinDate}, default);
+			#{vo.place}, #{vo.machine}, #{vo.photo}, #{vo.joinDate}, default);
 	</insert>
 	
+	<update id="setEngineerReviewInput">
+		update engineerS set starPoint = #{starPoint} where idx = #{idx};  
+	</update>
 	
 </mapper>

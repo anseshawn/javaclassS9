@@ -227,9 +227,9 @@
 			<div class="input-group">
 				<select name="part" id="part" class="custom-select" style="height:36px;">
 					<option value="">분류</option>
-					<option value="mid">아이디</option>
-					<option value="name">이름</option>
-					<option value="email">이메일</option>
+					<option value="mid" ${part=='mid' ? 'selected' : ''}>아이디</option>
+					<option value="name" ${part=='name' ? 'selected' : ''}>이름</option>
+					<option value="email" ${part=='email' ? 'selected' : ''}>이메일</option>
 				</select>
 				<input type="text" name="searchString" id="searchString" class="form-control" style="height:36px;"/>
 				<div class="input-group-append">

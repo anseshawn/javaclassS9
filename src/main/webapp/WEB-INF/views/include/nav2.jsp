@@ -21,7 +21,7 @@
 				<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">온라인신청<i class="icofont-thin-down"></i></a>
 				<ul class="dropdown-menu" aria-labelledby="dropdown02">
-					<li><a class="dropdown-item" href="Product.do">장비 견적요청</a></li>
+					<li><a class="dropdown-item" href="${ctp}/product/productEstimate">장비 견적요청</a></li>
 					<li><a class="dropdown-item" href="#">교정 견적요청</a></li>
 					<li><a class="dropdown-item" href="${ctp}/customer/requests/asRequest">A/S 신청</a></li>
 				</ul>
@@ -38,7 +38,7 @@
 			</li>
 			<li class="nav-item"><a class="nav-link" href="Service.do">고객서비스</a></li>
 			<c:if test="${empty sLevel}">
-				<li class="nav-item"><a class="nav-link" href="${ctp}/member/memberLogin">로그인</a></li>
+				<li class="nav-item"><a class="nav-link" href="${ctp}/member/memberLogin/customer">로그인</a></li>
 				<li class="nav-item"><a class="nav-link" href="${ctp}/member/memberJoin">회원가입</a></li>
 			</c:if>
 			<c:if test="${!empty sLevel}">

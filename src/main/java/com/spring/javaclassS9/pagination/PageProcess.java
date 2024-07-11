@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.spring.javaclassS9.dao.CustomerDAO;
 import com.spring.javaclassS9.dao.EngineerDAO;
 import com.spring.javaclassS9.dao.MemberDAO;
+import com.spring.javaclassS9.dao.ProductDAO;
 import com.spring.javaclassS9.vo.PageVO;
 
 @Service
@@ -19,6 +20,9 @@ public class PageProcess {
 	
 	@Autowired
 	CustomerDAO customerDAO;
+	
+	@Autowired
+	ProductDAO productDAO;
 	
 	// 게시판종류: section, 소분류: part
 	public PageVO totRecCnt(int pag, int pageSize, String section, String part, String searchString) {
@@ -43,6 +47,9 @@ public class PageProcess {
 		}
 		else if(section.equals("asRequest")) {
 			if(part.equals("mid"))totRecCnt = customerDAO.totRecCnt(searchString);
+		}
+		else if(section.equals("product")) {
+			if(part.equals(""))totRecCnt = productDAO.totRecCnt();
 		}
 		//else if(section.equals("pds"))	totRecCnt = pdsDAO.totRecCnt(part);
 		//else if(section.equals("member"))	totRecCnt = memberDAO.totRecCnt();

@@ -5,10 +5,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>A/S 요청</title>
-<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Shuffle/5.2.3/shuffle.min.js"></script>
+	<meta charset="UTF-8">
+	<title>A/S 요청</title>
+	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Shuffle/5.2.3/shuffle.min.js"></script>
+	<script src="${ctp}/js/shuffle.js"></script>
+	<script>
+		var element = document.querySelector('.shuffle-container');
+	</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/header.jsp" />
@@ -64,11 +68,13 @@
           </label>
         </div>
     </div>
+    
+    <div class="shuffle-container">
     <div class="col-12 text-center mb-5">
 	    <c:forEach var="vo" items="${vos}" varStatus="st">
-	    	<c:set var="inst" value="${fn:split(vo.instrument,',')}"/>
+	    	<c:set var="mach" value="${fn:split(vo.machine,',')}"/>
 	    	<c:set var="catGroup">
-		    	<c:forEach var="cat" items="${inst}" varStatus="catSt">
+		    	<c:forEach var="cat" items="${mach}" varStatus="catSt">
 		    		"${cat}"<c:if test="${!catSt.last}">,</c:if>
 		    	</c:forEach>
 	    	</c:set>
@@ -78,11 +84,11 @@
 				      <tr>
 				      	<td rowspan="3" style="width:20%;"><img src="${ctp}/images/${vo.photo}" width="150px"/></td>
 				      	<td colspan="2"><b>${vo.name}</b> 엔지니어</td>
-				      	<td>별점</td>
+				      	<td><i class="fa-solid fa-star mr-2" style="color:#FFB724"></i> ${vo.starPoint}</td>
 				      </tr>
 				      <tr class="text-center">
 				      	<th>담당기기</th>
-				      	<td>${vo.instrument}</td>
+				      	<td>${vo.machine}</td>
 				      	<td rowspan="2" style="width:20%; text-align:center;">
 				      		<a href="${ctp}/customer/requests/asAppointment?idx=${vo.idx}"><i class="fa-regular fa-calendar-days"></i><br/>예약하기</a>
 				      	</td>
@@ -96,6 +102,8 @@
 		    </div>
 		  </c:forEach>
 	  </div>
+	  </div>
+	  
   </div>
 </section>
 </div>

@@ -15,7 +15,7 @@
 					<span>24시간 편리하게</span> 온라인 신청을<br> 하실 수 있습니다
 				</p>
 				<ul class="online-guide">
-					<li class="item item_type1"><a href="#"><p class="txt txt_case1">견적 문의<i class="icofont-simple-right ml-2"></i></p></a></li>
+					<li class="item item_type1"><a href="${ctp}/product/productEstimate"><p class="txt txt_case1">견적 문의<i class="icofont-simple-right ml-2"></i></p></a></li>
 					<li class="item item_type3">
 						<a href="${ctp}/customer/requests/asRequest" class="mhide"><p class="txt txt_case3">A/S 신청<i class="icofont-simple-right ml-2  "></i></p></a>
 						<!-- <a href="#none" class="mblock" onclick="alert('온라인 신청은 PC에서만 가능합니다.');"><p class="txt txt_case3">A/S신청</p></a> -->

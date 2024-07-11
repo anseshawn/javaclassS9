@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaclassS9.dao.ProductDAO">
+	<select id="totRecCnt" resultType="int">
+		select count(*) from productS;
+	</select>
+	<select id="getAllProductList" resultType="com.spring.javaclassS9.vo.ProductVO">
+		select * from productS order by idx desc <if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+	</select>
+	<select id="getProductContent" resultType="com.spring.javaclassS9.vo.ProductVO">
+		select * from productS where idx=#{idx};
+	</select>
+	
+	<select id="getProductLikeList" resultType="com.spring.javaclassS9.vo.ProductLikeVO">
+		select * from productLikeS where memberMid = #{mid};
+	</select>
+	
+	
+	<insert id="setProductInputOk">
+		insert into productS values (default,#{vo.proType},#{vo.proName},#{vo.proMade},#{vo.proPrice},
+			#{vo.proYear},#{vo.proPhoto},#{vo.etcDetail},default);
+	</insert>
+	<insert id="setProductAddLike">
+		insert into productLikeS values (default, #{mid}, #{idx}, default);
+	</insert>
+	<insert id="setProductSaleCustomerInput">
+		insert into productSaleS values(default, #{vo.memberMid},#{vo.productIdx},default,#{vo.statement},
+			#{vo.co_name},#{vo.tel},#{vo.email},#{vo.etcDetail});
+	</insert>
+	
+	
+	<delete id="setProductRemoveLike">
+		delete from productLikeS where productIdx=#{idx} and memberMid=#{mid};
+	</delete>
+	
+</mapper>

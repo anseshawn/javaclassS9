@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자 - 이메일 보내기</title>
+<title>관리자 - 엔지니어 등록</title>
 	<jsp:include page="/WEB-INF/views/include/admin_header.jsp" />
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
 	<jsp:include page="/WEB-INF/views/include/scripts.jsp" />
@@ -16,14 +16,14 @@
 		  top: 50%;
 		  z-index: 1;
 		}
-    .place, .instrument {
+    .place, .machine {
       padding: 10px 20px;
       border: none;
       background-color: #C7C3BB;
       cursor: pointer;
     }
 
-    .place.act, .instrument.act {
+    .place.act, .machine.act {
       background-color: #0E2B5E;
       color: white;
     }
@@ -125,14 +125,14 @@
       let placeInput = document.getElementById('place');
       placeInput.value = placeValues.join(',');
       
-			let instruments = document.querySelectorAll('.instrument.act');
-			let instrumentValues = Array.from(instruments).map(button => button.value);
-			//alert(instrumentValues);
+			let machines = document.querySelectorAll('.machine.act');
+			let machineValues = Array.from(machines).map(button => button.value);
+			//alert(machineValues);
 			// hidden input 값 갱신
-      let instrumentInput = document.getElementById('instrument');
-      instrumentInput.value = instrumentValues.join(',');
+      let machineInput = document.getElementById('machine');
+      machineInput.value = machineValues.join(',');
       
-      if(placeInput.value.trim()=="" || instrumentInput.value.trim()==""){
+      if(placeInput.value.trim()=="" || machineInput.value.trim()==""){
     	  alert("담당 지역 및 기기는 필수 입력값입니다.");
     	  return false;
       }
@@ -289,12 +289,12 @@
 		</div>
 		<div class="row justify-content-center mb-3">
 			<div class="col-md-8 col-md-offset-2"><h4>담당기기</h4>
-				<input type="button" class="instrument btn btn-main btn-icon-md btn-round-full mr-2" name="instrument" value="UV" onclick="toggleAct(this)"/>
-				<input type="button" class="instrument btn btn-main btn-icon-md btn-round-full mr-2" name="instrument" value="AAs" onclick="toggleAct(this)"/>
-				<input type="button" class="instrument btn btn-main btn-icon-md btn-round-full mr-2" name="instrument" value="ICP" onclick="toggleAct(this)"/>
-				<input type="button" class="instrument btn btn-main btn-icon-md btn-round-full mr-2" name="instrument" value="GC" onclick="toggleAct(this)"/>
-				<input type="button" class="instrument btn btn-main btn-icon-md btn-round-full mr-2" name="instrument" value="LC" onclick="toggleAct(this)"/>
-				<input type="button" class="instrument btn btn-main btn-icon-md btn-round-full mr-2" name="instrument" value="etc" onclick="toggleAct(this)"/>
+				<input type="button" class="machine btn btn-main btn-icon-md btn-round-full mr-2" name="machine" value="UV" onclick="toggleAct(this)"/>
+				<input type="button" class="machine btn btn-main btn-icon-md btn-round-full mr-2" name="machine" value="AAs" onclick="toggleAct(this)"/>
+				<input type="button" class="machine btn btn-main btn-icon-md btn-round-full mr-2" name="machine" value="ICP" onclick="toggleAct(this)"/>
+				<input type="button" class="machine btn btn-main btn-icon-md btn-round-full mr-2" name="machine" value="GC" onclick="toggleAct(this)"/>
+				<input type="button" class="machine btn btn-main btn-icon-md btn-round-full mr-2" name="machine" value="LC" onclick="toggleAct(this)"/>
+				<input type="button" class="machine btn btn-main btn-icon-md btn-round-full mr-2" name="machine" value="etc" onclick="toggleAct(this)"/>
 			</div>
 		</div>
 		<div class="row justify-content-center mb-3">
@@ -312,7 +312,7 @@
 		<input type="hidden" name="email" />
 		<input type="hidden" name="tel" />
 		<input type="hidden" name="place" id="place">
-		<input type="hidden" name="instrument" id="instrument">
+		<input type="hidden" name="machine" id="machine">
 	</form>
 </div>
 
