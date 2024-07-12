@@ -16,6 +16,14 @@
 		  top: 50%;
 		  z-index: 1;
 		}
+		.badge.edit {
+			background-color: #5089EF;
+			color: #fff;
+		}
+		.badge.delete {
+			background-color: #EC4651;
+			color: #fff;
+		}
 	</style>
 	<script>
 		'use strict';
@@ -42,7 +50,7 @@
 				success: function(mVo) {
 					let joinDate = mVo.joinDate.substring(0,10);
 					str += '<tr>';
-					str += '<td rowspan="5" colspan="2"><img src="${ctp}/images/'+mVo.photo+'" width="150px" /></td></tr>';
+					str += '<td rowspan="5" colspan="2"><img src="${ctp}/engineer/'+mVo.photo+'" width="200px" /></td></tr>';
 					str += '<tr><th>이름</th><td>'+mVo.name+'</td></tr>';
 					str += '<tr><th>고유번호</th><td>'+mVo.idx+'</td></tr>';
 					str += '<tr><th>아이디</th><td><span id="selectMid">'+mVo.mid+'</span></td></tr>';
@@ -265,7 +273,8 @@
 					<td>${vo.place}</td>
 					<td>${vo.machine}</td>
 					<td>
-						<input type="button" onclick="engineerDelete('${vo.mid}')" class="btn btn-icon-sm btn-danger" value="탈퇴처리"/>
+						<a href="javascript:engineerUpdate('${vo.mid}')" class="badge edit">수정</a>
+						<a href="javascript:engineerDelete('${vo.mid}')" class="badge delete">삭제</a>
 					</td>
 				</tr>
 				<c:set var="curScrStartNo" value="${curScrStartNo - 1}"/>
@@ -303,7 +312,7 @@
       <div class="modal-body">
     		<span id="content"></span>
     		<hr/>
-    		<input type="button" onclick="engineerDelete('modal')" value="삭제처리" class="btn btn-main btn-icon-sm btn-round" />
+    		<input type="button" onclick="engineerDelete('modal')" value="삭제하기" class="btn btn-main btn-icon-sm btn-round" />
       </div>
       
       <!-- Modal footer -->

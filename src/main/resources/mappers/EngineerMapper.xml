@@ -30,5 +30,12 @@
 	<update id="setEngineerReviewInput">
 		update engineerS set starPoint = #{starPoint} where idx = #{idx};  
 	</update>
+	<update id="setEngineerPwdUpdate">
+		update engineerS set pwd = #{pwd} where mid = #{mid};
+	</update>
+	<update id="setEngineerUpdateOk">
+		update engineerS set name=#{vo.name}, tel=#{vo.tel}, email=#{vo.email},
+			place=#{vo.place}, machine=#{vo.machine}, photo=#{vo.photo} where idx=#{vo.idx};
+	</update>
 	
 </mapper>

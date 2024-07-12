@@ -21,4 +21,6 @@ public interface AdminDAO {
 
 	public int setEngineerDeleteAll(@Param("mid") String mid);
 
+	public int setProductDeleteOk(@Param("idx") int idx);
+
 }

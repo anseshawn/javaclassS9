@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.javaclassS9.common.JavaclassProvide;
+import com.spring.javaclassS9.service.EngineerService;
 import com.spring.javaclassS9.service.MemberService;
+import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.MemberVO;
 
 @Controller
@@ -35,6 +37,9 @@ public class MemberController {
 	@Autowired
 	JavaclassProvide javaclassProvide;
 	
+	@Autowired
+	EngineerService engineerService;
+	
 	// 회원가입창 연결
 	@RequestMapping(value = "/memberJoin", method = RequestMethod.GET)
 	public String memberJoinGet() {
@@ -45,7 +50,8 @@ public class MemberController {
 	@RequestMapping(value = "/memberIdCheck", method = RequestMethod.GET)
 	public String memberIdCheckGet(String mid) {
 		MemberVO vo = memberService.getMemberIdCheck(mid);
-		if(vo != null) return "1";
+		EngineerVO eVo = engineerService.getEngineerIdCheck(mid);
+		if(vo != null || eVo != null) return "1";
 		else return "0";
 	}
 	// 닉네임 중복체크
@@ -61,7 +67,7 @@ public class MemberController {
 	@RequestMapping(value = "/memberJoin", method = RequestMethod.POST)
 	public String memberJoinPost(MemberVO vo) {
 		// 아이디, 닉네임 중복체크 한번 더
-		if(memberService.getMemberIdCheck(vo.getMid()) != null) return "redirect:/message/idCheckNo";
+		if(memberService.getMemberIdCheck(vo.getMid()) != null || engineerService.getEngineerIdCheck(vo.getMid()) != null) return "redirect:/message/idCheckNo";
 		if(memberService.getMemberNickCheck(vo.getNickName()) != null) return "redirect:/message/nickCheckNo";
 		
 		// 이름과 이메일이 모두 같은 경우 같은 회원으로 본다
@@ -106,19 +112,32 @@ public class MemberController {
 			) {
 		
 		MemberVO vo = memberService.getMemberIdCheck(mid);
+		EngineerVO eVo = engineerService.getEngineerIdCheck(mid);
+		String loginOk = "";
+		
+		// 유저 / 엔지니어 로그인
+		String strLevel = "";
 		if(vo != null && vo.getUserDel().equals("NO") && passwordEncoder.matches(pwd, vo.getPwd())) {
-			// 로그인 인증 완료시
-			// 1. 세션 처리
-			String strLevel = "";
+			loginOk = "OK";
 			if(vo.getLevel()==0) strLevel="관리자";
 			else if(vo.getLevel()==1) strLevel="엔지니어";
 			else if(vo.getLevel()==2) strLevel="기업회원";
 			else if(vo.getLevel()==3) strLevel="일반회원";
-			session.setAttribute("sMid", mid);
 			session.setAttribute("sNickName", vo.getNickName());
 			session.setAttribute("sLevel", vo.getLevel());
+		}
+		else if(eVo != null && passwordEncoder.matches(pwd, eVo.getPwd())) {
+			loginOk = "OK";
+			strLevel="엔지니어";
+			System.out.println("eVo if문 통과");
+			session.setAttribute("sLevel", eVo.getLevel());
+		}
+		
+		// 전체 로그인 완료
+		if(loginOk.equals("OK")) {
+			// 1. 세션 처리
 			session.setAttribute("strLevel", strLevel);
-			
+			session.setAttribute("sMid", mid);
 			// 아이디 저장 처리
 			if(idSave.equals("on")) {
 				Cookie cookieMid = new Cookie("cMid", mid);
@@ -138,6 +157,7 @@ public class MemberController {
 					}
 				}
 			}
+			System.out.println("레벨 : "+strLevel);
 			return "redirect:/message/memberLoginOk?mid="+mid+"&pathFlag="+pathFlag;
 		}
 		else return "redirect:/message/memberLoginNo";

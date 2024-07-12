@@ -18,4 +18,8 @@ public interface EngineerService {
 
 	public EngineerVO getEngineerIdxCheck(int idx);
 
+	public int setEngineerPwdUpdate(String mid, String pwd);
+
+	public int setEngineerUpdateOk(MultipartFile fName, EngineerVO vo);
+
 }

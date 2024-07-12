@@ -19,4 +19,6 @@ public interface AdminService {
 
 	public int setEngineerDeleteAll(String mid);
 
+	public int setProductDeleteOk(int idx);
+
 }

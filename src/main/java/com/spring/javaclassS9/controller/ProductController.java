@@ -115,7 +115,7 @@ public class ProductController {
 		ProductVO vo = productService.getProductContent(idx);
 		return vo.getProPhoto();
 	}
-	
+	// 견적 요청 보내기
 	@RequestMapping(value = "/productEstimate", method = RequestMethod.POST)
 	public String productEstimatePost(ProductSaleVO vo) {
 		int res = productService.setProductSaleCustomerInput(vo);

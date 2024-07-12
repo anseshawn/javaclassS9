@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<% pageContext.setAttribute("newLine", "\n"); %>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/> 
 <!DOCTYPE html>
 <html>
@@ -136,7 +138,7 @@
 							</tr>
 							<tr>
 								<th>비고</th>
-								<td>${vo.etcDetail}</td>
+								<td>${fn:replace(vo.etcDetail, newLine, '<br/>') }</td>
 							</tr>
 						</table>
 						<c:if test="${!empty sLevel && sLevel > 0}">
@@ -148,7 +150,6 @@
 						<c:if test="${!empty sLevel && sLevel == 0}">
 							<div class="text-right">
 								<a href="javascript:productEdit(${vo.idx})" class="btn btn-main-2 btn-icon mr-2 mb-2">설명 수정</a>
-								<input type="button" value="장비 삭제" onclick="productDelete()" class="btn btn-main mb-2"/>
 							</div>
 						</c:if>
 					</div>

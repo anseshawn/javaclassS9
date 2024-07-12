@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.javaclassS9.dao.AdminDAO;
-import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.MemberVO;
 
 @Service
@@ -14,7 +13,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	AdminDAO adminDAO;
-
+	
 	@Override
 	public ArrayList<MemberVO> getAllMemberList(int startIndexNo, int pageSize) {
 		return adminDAO.getAllMemberList(startIndexNo, pageSize);
@@ -43,5 +42,10 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int setEngineerDeleteAll(String mid) {
 		return adminDAO.setEngineerDeleteAll(mid);
+	}
+
+	@Override
+	public int setProductDeleteOk(int idx) {
+		return adminDAO.setProductDeleteOk(idx);
 	}
 }

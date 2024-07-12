@@ -14,7 +14,8 @@ public class MessageController {
 	public String home(Model model,
 			@PathVariable String msgFlag,
 			@RequestParam(name="mid", defaultValue = "", required = false) String mid,
-			@RequestParam(name="pathFlag", defaultValue = "", required = false) String pathFlag
+			@RequestParam(name="pathFlag", defaultValue = "", required = false) String pathFlag,
+			@RequestParam(name="idx", defaultValue = "0", required = false) int idx
 			) {
 		
 		if(msgFlag.equals("idCheckNo")) {
@@ -56,7 +57,8 @@ public class MessageController {
 		}
 		else if(msgFlag.equals("pwdChangeNo")) {
 			model.addAttribute("msg", "비밀번호 변경 실패. 다시 시도하세요.");
-			model.addAttribute("url", "/member/pwdChange");
+			if(pathFlag.equals("engineer")) model.addAttribute("url", "/engineer/pwdChange");
+			else model.addAttribute("url", "/member/pwdChange");
 		}
 		else if(msgFlag.equals("memberUpdateOk")) {
 			model.addAttribute("msg", "회원 정보가 수정되었습니다.");
@@ -121,6 +123,24 @@ public class MessageController {
 		else if(msgFlag.equals("productSaleCustomerInputNo")) {
 			model.addAttribute("msg", "견적 요청 중 오류가 발생했습니다.\\n다시 시도해주세요.");
 			model.addAttribute("url", "/customer/product/productEstimate");
+		}
+		else if(msgFlag.equals("productEditOk")) {
+			model.addAttribute("msg", "장비 내용이 수정되었습니다.");
+			model.addAttribute("url", "/admin/product/productList");
+		}
+		else if(msgFlag.equals("productEditNo")) {
+			model.addAttribute("msg", "장비 내용 수정 실패");
+			model.addAttribute("url", "/admin/product/productEdit?idx="+idx);
+		}
+		else if(msgFlag.equals("engineerUpdateOk")) {
+			model.addAttribute("msg", "엔지니어 정보를 수정했습니다.");
+			if(pathFlag.equals("admin")) model.addAttribute("url", "/admin/engineer/engineerList");
+			else model.addAttribute("url", "/engineer/myPageMain");
+		}
+		else if(msgFlag.equals("engineerUpdateNo")) {
+			model.addAttribute("msg", "정보 수정 실패");
+			if(pathFlag.equals("admin")) model.addAttribute("url", "/admin/engineer/engineerUpdate");
+			else model.addAttribute("url", "/engineer/engineerUpdate");
 		}
 		
 		return "include/message";

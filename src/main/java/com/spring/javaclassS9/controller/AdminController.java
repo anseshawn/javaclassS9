@@ -164,7 +164,8 @@ public class AdminController {
 	@RequestMapping(value = "/engineer/engineerIdCheck", method = RequestMethod.POST)
 	public String engineerIdCheckPost(String mid) {
 		EngineerVO vo = engineerService.getEngineerIdCheck(mid);
-		if(vo != null) return "1";
+		MemberVO mVo = memberService.getMemberIdCheck(mid);
+		if(vo != null || mVo != null) return "1";
 		else return "0";
 	}
 	
@@ -231,12 +232,40 @@ public class AdminController {
 	
 	// 장비 리스트 창 출력
 	@RequestMapping(value = "/product/productList", method = RequestMethod.GET)
-	public String productListGet() {
+	public String productListGet(Model model) {
+		ArrayList<ProductVO> vos = productService.getAllProductList(0, 0);
+		model.addAttribute("vos", vos);
 		return "admin/product/productList";
 	}
+	
 	// 장비 수정 창 출력
 	@RequestMapping(value = "/product/productEdit", method = RequestMethod.GET)
-	public String productEditGet(int idx) {
+	public String productEditGet(int idx, Model model) {
+		ProductVO vo = productService.getProductContent(idx);
+		model.addAttribute("vo", vo);
 		return "admin/product/productEdit";
+	}
+	// 장비 수정하기
+	@RequestMapping(value = "/product/productEdit", method = RequestMethod.POST)
+	public String productEditPost(MultipartFile fName, ProductVO vo) {
+		int res = productService.setProductContentEdit(fName, vo);
+		if(res != 0) return "redirect:/message/productEditOk";
+		else return "redirect:/message/productEditNo?idx="+vo.getIdx();
+	}
+	
+	// 관리자 화면에서 장비 상세 보기
+	@RequestMapping(value = "/product/productContent", method = RequestMethod.GET)
+	public String productContentGet(Model model, int idx) {
+		ProductVO vo = productService.getProductContent(idx);
+		model.addAttribute("vo", vo);
+		return "admin/product/productContent";
+	}
+	
+	// 장비 삭제하기
+	@ResponseBody
+	@RequestMapping(value = "/product/productDelete", method = RequestMethod.POST)
+	public String productDeletePost(int idx, String photo) {
+		if(!photo.equals("noimage2.png")) javaclassProvide.deleteFile(photo, "product");
+		return adminService.setProductDeleteOk(idx)+"";
 	}
 }

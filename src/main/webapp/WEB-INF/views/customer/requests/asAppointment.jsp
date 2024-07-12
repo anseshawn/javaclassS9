@@ -25,7 +25,17 @@
 	</style>
 	<script>
 		'use strict';
-		$(function() {	
+		$(function() {
+				/*
+	    	let places = document.querySelectorAll(".place");
+	    	let p = Array.from(places).map(element => element.getAttribute('data-value'));
+				for(let i=0; i<p.length; i++) {
+			  	let engineerMachine = '${eVo.place}';
+		      if(!engineerMachine.includes(p[i])){
+		    	  button.disabled = true;
+		      }
+				}
+	      */
 			$('#datePicker').datepicker({
 			    format: "yyyy-mm-dd",	//데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
 			    startDate: '-0d',	//달력에서 선택 할 수 있는 가장 빠른 날짜. 이전으로는 선택 불가능 ( d : 일 m : 달 y : 년 w : 주)
@@ -45,7 +55,6 @@
 			    toggleActive : false,	//이미 선택된 날짜 선택하면 기본값 : false인경우 그대로 유지 true인 경우 날짜 삭제
 			    weekStart : 0 ,//달력 시작 요일 선택하는 것 기본값은 0인 일요일 
 			    language : "ko"	//달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
-			    
 			});
 		});
 		

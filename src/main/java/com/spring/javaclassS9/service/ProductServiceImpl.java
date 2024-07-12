@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS9.common.JavaclassProvide;
@@ -28,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
 		String oFileName = fName.getOriginalFilename();
 		String sFileName = "";
 		if(fName != null && oFileName != "") {
-			sFileName = vo.getProName()+"_"+javaclassProvide.saveFileName(oFileName);
+			sFileName = javaclassProvide.saveFileName(oFileName);
 			try {
 				javaclassProvide.writeFile(fName, sFileName, "product");
 				res = 1;
@@ -38,7 +39,6 @@ public class ProductServiceImpl implements ProductService {
 		}
 		if(res != 0) vo.setProPhoto(sFileName);
 		else vo.setProPhoto("noimage2.png");
-		
 		return productDAO.setProductInputOk(vo);
 	}
 
@@ -72,6 +72,29 @@ public class ProductServiceImpl implements ProductService {
 	public int setProductSaleCustomerInput(ProductSaleVO vo) {
 		vo.setStatement(Statement.QUOTE);
 		return productDAO.setProductSaleCustomerInput(vo);
+	}
+
+	// 장비 수정(사진 변경에 좀더 세련된 방법이 없을까??)
+	@Transactional
+	@Override
+	public int setProductContentEdit(MultipartFile fName, ProductVO vo) {
+		int res = 0;
+		String oFileName = fName.getOriginalFilename();
+		String sFileName = "";
+		if(oFileName != "" && !oFileName.equals(vo.getOriginPhoto())) {
+			sFileName = javaclassProvide.saveFileName(oFileName);
+			try {
+				javaclassProvide.deleteFile(vo.getOriginPhoto(), "product");
+				javaclassProvide.writeFile(fName, sFileName, "product");
+				res = 1;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		if(res != 0) vo.setProPhoto(sFileName);
+		else vo.setProPhoto(vo.getOriginPhoto());
+		
+		return productDAO.setProductContentEdit(vo);
 	}
 	
 	

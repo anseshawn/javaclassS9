@@ -1,7 +1,6 @@
 package com.spring.javaclassS9.service;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,5 +58,30 @@ public class EngineerServiceImpl implements EngineerService {
 	@Override
 	public EngineerVO getEngineerIdxCheck(int idx) {
 		return engineerDAO.getEngineerIdxCheck(idx);
+	}
+
+	@Override
+	public int setEngineerPwdUpdate(String mid, String pwd) {
+		return engineerDAO.setEngineerPwdUpdate(mid, pwd);
+	}
+
+	@Override
+	public int setEngineerUpdateOk(MultipartFile fName, EngineerVO vo) {
+		int res = 0;
+		String oFileName = fName.getOriginalFilename();
+		String sFileName = "";
+		if(oFileName != "" && !oFileName.equals(vo.getOriginPhoto())) {
+			sFileName = javaclassProvide.saveFileName(oFileName);
+			try {
+				javaclassProvide.deleteFile(vo.getOriginPhoto(), "engineer");
+				javaclassProvide.writeFile(fName, sFileName, "engineer");
+				res = 1;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		if(res != 0) vo.setPhoto(sFileName);
+		else vo.setPhoto(vo.getOriginPhoto());
+		return engineerDAO.setEngineerUpdateOk(vo);
 	}
 }

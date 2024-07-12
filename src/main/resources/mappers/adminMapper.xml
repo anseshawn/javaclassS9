@@ -28,4 +28,7 @@
 	<delete id="setEngineerDeleteAll">
 		delete from engineerS where mid = #{mid};
 	</delete>
+	<delete id="setProductDeleteOk">
+		delete from productS where idx = #{idx};
+	</delete>
 </mapper>

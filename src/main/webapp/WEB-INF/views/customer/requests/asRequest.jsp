@@ -82,7 +82,7 @@
 			    <div class="border shuffle-item portfolio-gallery mb-4" data-groups='[${catGroup}]'>
 			    	<table class="table table-borderless">
 				      <tr>
-				      	<td rowspan="3" style="width:20%;"><img src="${ctp}/images/${vo.photo}" width="150px"/></td>
+				      	<td rowspan="3" style="width:20%;"><img src="${ctp}/engineer/${vo.photo}" width="150px"/></td>
 				      	<td colspan="2"><b>${vo.name}</b> 엔지니어</td>
 				      	<td><i class="fa-solid fa-star mr-2" style="color:#FFB724"></i> ${vo.starPoint}</td>
 				      </tr>

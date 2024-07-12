@@ -24,4 +24,6 @@ public interface ProductService {
 
 	public int setProductSaleCustomerInput(ProductSaleVO vo);
 
+	public int setProductContentEdit(MultipartFile fName, ProductVO vo);
+
 }

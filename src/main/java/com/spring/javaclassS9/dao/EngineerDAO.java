@@ -25,4 +25,8 @@ public interface EngineerDAO {
 
 	public int setEngineerReviewInput(@Param("idx") int engineerIdx, @Param("starPoint") double starAvg);
 
+	public int setEngineerPwdUpdate(@Param("mid") String mid, @Param("pwd") String pwd);
+
+	public int setEngineerUpdateOk(@Param("vo") EngineerVO vo);
+
 }

@@ -15,5 +15,7 @@ public class ProductVO {
 	private String proPhoto;
 	private String etcDetail;
 	private String available;
+	
+	private String originPhoto;
 }
 

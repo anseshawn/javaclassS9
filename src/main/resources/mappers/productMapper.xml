@@ -29,6 +29,12 @@
 	</insert>
 	
 	
+	<update id="setProductContentEdit">
+		update productS set proType=#{vo.proType}, proName=#{vo.proName}, proMade=#{vo.proMade}, proPrice=#{vo.proPrice},
+			proYear=#{vo.proYear}, proPhoto=#{vo.proPhoto}, etcDetail=#{vo.etcDetail} where idx=#{vo.idx};
+	</update>
+	
+	
 	<delete id="setProductRemoveLike">
 		delete from productLikeS where productIdx=#{idx} and memberMid=#{mid};
 	</delete>

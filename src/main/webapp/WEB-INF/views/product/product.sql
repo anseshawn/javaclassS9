@@ -8,7 +8,7 @@ create table productS(
 	proPrice int not null,
 	proYear varchar(10) not null,
 	proPhoto varchar(50) default 'noimage2.png',
-	etcDetail text,s
+	etcDetail text,
 	available varchar(2) not null default 'OK',
 	primary key(idx)
 );

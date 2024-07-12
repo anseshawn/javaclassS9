@@ -26,4 +26,6 @@ public interface ProductDAO {
 
 	public int setProductSaleCustomerInput(@Param("vo") ProductSaleVO vo);
 
+	public int setProductContentEdit(@Param("vo") ProductVO vo);
+
 }

@@ -16,5 +16,7 @@ public class EngineerVO {
 	private String photo;
 	private String joinDate;
 	private double starPoint;
+	
+	private String originPhoto;
 }
 
