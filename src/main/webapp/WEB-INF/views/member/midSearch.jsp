@@ -61,7 +61,7 @@
 	       </div>
 	       <hr/>
 	       <div class="button text-center">
-	         <input type="button" onclick="fCheck()" class="btn btn-main-2 mr-3" value="아이디 찾기" />
+	         <input type="button" onclick="fCheck()" class="btn btn-main-2 mr-2" value="아이디 찾기" />
 	         <a class="btn btn-main" href="${ctp}/member/memberJoin">회원가입</a>
 	       </div>
 	      </div>

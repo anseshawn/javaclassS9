@@ -129,7 +129,7 @@
 	       </div>
 	       <hr/>
 	       <div class="button text-center">
-	         <input type="button" onclick="fCheck()" class="btn btn-main-2 mr-3" value="비밀번호 찾기" />
+	         <input type="button" onclick="fCheck()" class="btn btn-main-2 mr-2" value="비밀번호 찾기" />
 	         <c:if test="${empty sLevel}">
 	         	<a class="btn btn-main" href="${ctp}/member/memberJoin">회원가입</a>
 	         </c:if>

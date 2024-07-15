@@ -511,7 +511,7 @@ a:focus {
 }
 
 .dropdown .dropdown-item:hover {
-  color: #e12454;
+  color: #6F8BA4;
 }
 
 .header-top-bar {
@@ -781,7 +781,7 @@ a:focus {
 }
 
 .service i {
-  color: #e12454;
+  color: #0E2B5E;
 }
 
 .service h4 {
@@ -814,7 +814,7 @@ a:focus {
 }
 
 .department-service li i {
-  color: #e12454;
+  color: #0E2B5E;
 }
 
 .doctors .btn-group .btn {
@@ -829,7 +829,7 @@ a:focus {
 .doctors .btn-group .btn.active {
   box-shadow: none !important;
   border-color: transparent;
-  background: #e12454;
+  background: #0E2B5E;
   color: #fff;
 }
 
@@ -841,14 +841,14 @@ a:focus {
 .doctors .btn-group .btn:focus {
   box-shadow: none !important;
   border-color: transparent;
-  background: #e12454;
+  background: #0E2B5E;
   color: #fff;
 }
 
 .doctors .btn-group .btn:hover {
   box-shadow: none !important;
   border-color: transparent;
-  background: #e12454;
+  background: #0E2B5E;
   color: #fff;
 }
 
@@ -890,7 +890,7 @@ a:focus {
 
 .doctor-info li i {
   margin-right: 20px;
-  color: #e12454;
+  color: #0E2B5E;
 }
 
 .read-more {
@@ -1043,7 +1043,7 @@ a:focus {
 
 .testimonial-block.style-2 i {
   bottom: -20px;
-  color: #e12454;
+  color: #0E2B5E;
   opacity: .3;
 }
 
@@ -1139,7 +1139,7 @@ a:focus {
   font-size: 50px;
   margin-bottom: 15px;
   display: inline-block;
-  color: #e12454;
+  color: #0E2B5E;
 }
 
 .blog-item-content h2 {
@@ -1416,7 +1416,7 @@ a:focus {
   bottom: 0px;
   width: 35px;
   height: 3px;
-  background: #e12454;
+  background: #0E2B5E;
 }
 
 .sidebar-widget.latest-post .media img {
@@ -1529,7 +1529,7 @@ a:focus {
 }
 
 .widget .footer-menu a:hover {
-  color: #e12454;
+  color: #6F8BA4;
 }
 
 .footer-contact-block span {
@@ -1584,7 +1584,7 @@ a:focus {
 
 .backtop {
   position: fixed;
-  background: #e12454;
+  background: #0E2B5E;
   z-index: 9999;
   display: inline-block;
   right: 55px;

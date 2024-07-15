@@ -21,7 +21,7 @@
 		
 		function changeThisStatement(idx) {
 			let statement = $("#changeStatement"+idx).val();
-			console.log(statement);
+			//console.log(statement);
 			Swal.fire({
         html : "<h3>해당 건의 진행상태를 변경하시겠습니까?</h3>",
         confirmButtonText : '확인',
@@ -166,7 +166,9 @@
 							</tr>
 						</table>
 						<div class="text-right">
-							<a href="${ctp}/admin/product/productEdit?idx=${vo.idx}" class="btn btn-main-2 btn-icon-md mr-2 mb-2">견적서 송부</a>
+							<c:if test="${saleVO.statement == 'QUOTE'}">
+								<a href="${ctp}/admin/product/productEdit?idx=${vo.idx}" class="btn btn-main-2 btn-icon-md mr-2 mb-2">견적서 송부</a>
+							</c:if>
 							<a href="javascript:productDelete('${vo.idx}','${vo.proPhoto}')" class="btn btn-main-2 btn-icon-md mb-2">장비 삭제</a>
 						</div>
 					</div>

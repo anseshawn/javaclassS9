@@ -14,6 +14,7 @@
       padding: 10px 20px;
       border: none;
       background-color: #C7C3BB;
+      color: #fff;
       cursor: pointer;
     }
 
@@ -317,7 +318,7 @@
 				<div class="divider2 mx-auto my-4 text-center" style="width:70%;"></div>
 				<div class="row justify-content-center mb-3">
 					<div class="col-md-8 col-md-offset-2 text-center">
-						<input type="button" value="수정하기" onclick="fCheck()" class="btn btn-main-2 btn-icon btn-round-full mr-3" />
+						<input type="button" value="수정하기" onclick="fCheck()" class="btn btn-main-2 btn-icon btn-round-full mr-2" />
 						<input type="button" value="취소" onclick="location.href='${ctp}/admin/engineer/engineerList';" class="btn btn-main btn-icon btn-round-full" />
 					</div>
 				</div>

@@ -21,11 +21,34 @@
 		select * from engineerS where idx = #{idx};
 	</select>
 	
+	<select id="getScheduleListAll" resultType="com.spring.javaclassS9.vo.ScheduleVO">
+		select * from scheduleS;
+	</select>
+	<select id="getScheduleListOne" resultType="com.spring.javaclassS9.vo.ScheduleVO">
+		select * from scheduleS where engineerIdx=#{engineerIdx};
+	</select>
+	
+	<select id="getAsRequestList" resultType="com.spring.javaclassS9.vo.AsRequestVO">
+		select *, datediff(asDate, now()) as date_diff from asRequest where engineerIdx=#{idx} 
+			order by idx desc <if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+	</select>
+	<select id="totAsRequestRecCnt" resultType="int">
+		select count(*) from asRequest where engineerIdx=#{searchString};
+	</select>
+	<select id="getAsRequestContent" resultType="com.spring.javaclassS9.vo.AsRequestVO">
+		select *, datediff(asDate, now()) as date_diff from asRequest where idx=#{idx};
+	</select>
+	
 	
 	<insert id="setEngineerJoinOk">
 		insert into engineerS values (default, #{vo.name}, #{vo.mid}, #{vo.pwd}, default, #{vo.tel}, #{vo.email},
 			#{vo.place}, #{vo.machine}, #{vo.photo}, #{vo.joinDate}, default);
 	</insert>
+	
+	<insert id="setScheduleInput">
+		insert into scheduleS values(default, #{vo.engineerIdx}, #{vo.title}, #{vo.startTime}, #{vo.endTime}, #{vo.allDay});
+	</insert>
+	
 	
 	<update id="setEngineerReviewInput">
 		update engineerS set starPoint = #{starPoint} where idx = #{idx};  
@@ -41,4 +64,19 @@
 		update engineerS set mid=#{mid} where idx=#{idx};
 	</update>
 	
+	<update id="setScheduleUpdate">
+		update scheduleS set title=#{vo.title}, engineerIdx=#{vo.engineerIdx}, startTime=#{vo.startTime},
+			endTime=#{vo.endTime}, allDay=#{vo.allDay} where idx=#{vo.idx};
+	</update>
+	
+	
+  <delete id="setScheduleDeleteTrue">
+  	delete from scheduleS where title = #{title} and startTime = #{startTime} and engineerIdx=#{engineerIdx};
+  </delete>
+  <delete id="setScheduleDelete">
+  	delete from scheduleS where title=#{title} and startTime=#{startTime}
+  		and endTime=#{endTime} and allDay=#{allDay} and engineerIdx=#{engineerIdx};
+  </delete>
+  
+  
 </mapper>

@@ -64,6 +64,11 @@ public class CustomerServiceImpl implements CustomerService {
 	public int getReviewSearch(int idx) {
 		return customerDAO.getReviewSearch(idx);
 	}
+
+	@Override
+	public int setAsChangeStatement(int idx, Progress progress) {
+		return customerDAO.setAsChangeStatement(idx, progress);
+	}
 	
 	
 }

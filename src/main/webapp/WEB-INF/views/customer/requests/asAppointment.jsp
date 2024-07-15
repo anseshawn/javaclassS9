@@ -15,6 +15,7 @@
       padding: 10px 20px;
       border: none;
       background-color: #C7C3BB;
+      color: #fff;
       cursor: pointer;
     }
 

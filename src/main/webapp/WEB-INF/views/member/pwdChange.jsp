@@ -79,7 +79,7 @@
 	       </div>
 	       <hr/>
 	       <div class="button text-center">
-	         <input type="button" onclick="pwdCheck()" class="btn btn-main-2 mr-3" value="비밀번호 변경" />
+	         <input type="button" onclick="pwdCheck()" class="btn btn-main-2 mr-2" value="비밀번호 변경" />
 	         <a class="btn btn-main" href="${ctp}/">취소</a>
 	       </div>
 	      </div>

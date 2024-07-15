@@ -8,7 +8,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS9.common.JavaclassProvide;
 import com.spring.javaclassS9.dao.EngineerDAO;
+import com.spring.javaclassS9.vo.AsRequestVO;
 import com.spring.javaclassS9.vo.EngineerVO;
+import com.spring.javaclassS9.vo.ScheduleVO;
 
 @Service
 public class EngineerServiceImpl implements EngineerService {
@@ -88,5 +90,45 @@ public class EngineerServiceImpl implements EngineerService {
 	@Override
 	public void setEngineerMidChange(String mid, int idx) {
 		engineerDAO.setEngineerMidChange(mid, idx);
+	}
+
+	@Override
+	public ArrayList<ScheduleVO> getScheduleListAll() {
+		return engineerDAO.getScheduleListAll();
+	}
+
+	@Override
+	public int setScheduleDeleteTrue(String title, int engineerIdx, String formattedStartTime) {
+		return engineerDAO.setScheduleDeleteTrue(title,engineerIdx,formattedStartTime);
+	}
+
+	@Override
+	public int setScheduleDelete(String title, int engineerIdx, String formattedStartTime, String formattedEndTime, Boolean allDay) {
+		return engineerDAO.setScheduleDelete(title,engineerIdx,formattedStartTime, formattedEndTime, allDay);
+	}
+
+	@Override
+	public int setScheduleInput(ScheduleVO vo) {
+		return engineerDAO.setScheduleInput(vo);
+	}
+
+	@Override
+	public int setScheduleUpdate(ScheduleVO vo) {
+		return engineerDAO.setScheduleUpdate(vo);
+	}
+
+	@Override
+	public ArrayList<ScheduleVO> getScheduleListOne(int engineerIdx) {
+		return engineerDAO.getScheduleListOne(engineerIdx);
+	}
+
+	@Override
+	public ArrayList<AsRequestVO> getAsRequestList(int idx,int startIndexNo, int pageSize) {
+		return engineerDAO.getAsRequestList(idx,startIndexNo,pageSize);
+	}
+
+	@Override
+	public AsRequestVO getAsRequestContent(int idx) {
+		return engineerDAO.getAsRequestContent(idx);
 	}
 }

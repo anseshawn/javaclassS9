@@ -51,7 +51,10 @@
 				</div>
 				<div class="divider2 mx-auto my-2"></div>
 				<div class="row">
-					<div class="col"><a href="#">A/S 일정</a></div>
+					<div class="col"><a href="${ctp}/engineer/asRequestList">A/S신청현황</a></div>
+				</div>
+				<div class="row">
+					<div class="col"><a href="${ctp}/engineer/schedule">일정관리</a></div>
 				</div>
 				<div class="row">
 					<div class="col"><a href="#">받은 메세지</a></div>

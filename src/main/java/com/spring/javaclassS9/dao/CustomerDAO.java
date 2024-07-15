@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 
 import com.spring.javaclassS9.vo.AsRequestVO;
+import com.spring.javaclassS9.vo.AsRequestVO.Progress;
 import com.spring.javaclassS9.vo.ReviewVO;
 
 public interface CustomerDAO {
@@ -22,5 +23,7 @@ public interface CustomerDAO {
 	public int setReviewInput(@Param("vo") ReviewVO vo);
 
 	public int getReviewSearch(@Param("idx") int idx);
+
+	public int setAsChangeStatement(@Param("idx") int idx, @Param("progress") Progress progress);
 
 }

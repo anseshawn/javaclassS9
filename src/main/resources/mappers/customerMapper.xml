@@ -5,12 +5,12 @@
 		select count(*) from asRequest where asMid = #{searchString};
 	</select>
 	<select id="getAsRequestList" resultType="com.spring.javaclassS9.vo.AsRequestVO">
-		select a.*, e.name as engineerName from asRequest a left join engineerS e on a.engineerIdx=e.idx
+		select a.*, datediff(asDate, now()) as date_diff, e.name as engineerName from asRequest a left join engineerS e on a.engineerIdx=e.idx
 			where a.asMid=#{asMid} order by a.idx desc limit #{startIndexNo},#{pageSize};
 	</select>
 	<select id="getAsRequestContent" resultType="com.spring.javaclassS9.vo.AsRequestVO">
-		select a.*, e.name as engineerName from asRequest a left join engineerS e on a.engineerIdx=e.idx
-			where a.idx = #{idx};
+		select a.*, datediff(asDate, now()) as date_diff, e.name as engineerName from asRequest a left join engineerS e 
+			on a.engineerIdx=e.idx where a.idx = #{idx};
 	</select>
 	<select id="getReviewList" resultType="com.spring.javaclassS9.vo.ReviewVO">
 		select * from review where engineerIdx = #{engineerIdx};
@@ -27,4 +27,9 @@
 	<insert id="setReviewInput">
 		insert into review values(default, #{vo.memberMid}, #{vo.asIdx}, #{vo.engineerIdx}, #{vo.starPoint}, #{vo.reviewDetail});
 	</insert>
+	
+	
+	<update id="setAsChangeStatement">
+		update asRequest set progress=#{progress} where idx=#{idx};
+	</update>
 </mapper>

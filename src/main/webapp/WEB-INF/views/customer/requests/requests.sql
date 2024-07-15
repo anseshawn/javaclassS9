@@ -22,7 +22,8 @@ create table asRequest(
 desc asRequest;
 
 select a.*, e.name from asRequest a left join engineerS e on a.engineer = e.idx where a.asMid = 'atom1234' order by a.idx limit 0,5;
-
+select a.*, datediff(asDate, now()) as date_diff, e.name as engineerName
+	from asRequest a left join engineerS e	on a.engineerIdx=e.idx where a.idx = 3;
 
 create table review(
 	idx int not null auto_increment,

@@ -47,6 +47,7 @@ public class PageProcess {
 		}
 		else if(section.equals("asRequest")) {
 			if(part.equals("mid"))totRecCnt = customerDAO.totRecCnt(searchString);
+			else if(part.equals("engineerIdx")) totRecCnt = engineerDAO.totAsRequestRecCnt(searchString);
 		}
 		else if(section.equals("product")) {
 			if(part.equals(""))totRecCnt = productDAO.totRecCnt();
