@@ -22,4 +22,6 @@ public interface EngineerService {
 
 	public int setEngineerUpdateOk(MultipartFile fName, EngineerVO vo);
 
+	public void setEngineerMidChange(String mid, int idx);
+
 }

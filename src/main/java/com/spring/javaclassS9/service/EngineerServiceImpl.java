@@ -84,4 +84,9 @@ public class EngineerServiceImpl implements EngineerService {
 		else vo.setPhoto(vo.getOriginPhoto());
 		return engineerDAO.setEngineerUpdateOk(vo);
 	}
+
+	@Override
+	public void setEngineerMidChange(String mid, int idx) {
+		engineerDAO.setEngineerMidChange(mid, idx);
+	}
 }

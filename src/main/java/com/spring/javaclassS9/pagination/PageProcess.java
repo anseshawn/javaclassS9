@@ -51,6 +51,13 @@ public class PageProcess {
 		else if(section.equals("product")) {
 			if(part.equals(""))totRecCnt = productDAO.totRecCnt();
 		}
+		else if(section.equals("productEstimate")) {
+			if(part.equals(""))totRecCnt = productDAO.estimateTotRecCnt();
+			else {
+				search = part;
+				totRecCnt = productDAO.estimateTotRecCntSearch(search,searchString);
+			}
+		}
 		//else if(section.equals("pds"))	totRecCnt = pdsDAO.totRecCnt(part);
 		//else if(section.equals("member"))	totRecCnt = memberDAO.totRecCnt();
 		

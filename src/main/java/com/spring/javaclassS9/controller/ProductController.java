@@ -66,8 +66,12 @@ public class ProductController {
 		ProductVO vo = productService.getProductContent(idx);
 		String mid = (String) session.getAttribute("sMid");
 		if(mid != null) {
-			ProductLikeVO likeVo = productService.getProductLikeList(mid);
-			if(likeVo != null && likeVo.getProductIdx() == idx) model.addAttribute("likeSw", "act");
+			ArrayList<ProductLikeVO> vos = productService.getProductLikeList(mid);
+			if(vos.size()!=0) {
+				for(int i=0; i<vos.size(); i++) {
+					if(vos.get(i).getProductIdx() == idx) model.addAttribute("likeSw", "act");
+				}
+			}
 		}
 		model.addAttribute("vo", vo);
 		model.addAttribute("pageVO", pageVO);

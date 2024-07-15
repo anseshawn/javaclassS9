@@ -76,7 +76,7 @@
 		<div class="row justify-content-center mb-3">
 			<div class="col-md-8 col-md-offset-2">
 				<div class="input-group">
-					<h4>받는사람</h4><a href="#" id="midSearch" data-toggle="modal" data-target="#myModal" class="btn btn-main btn-icon-sm btn-round-full ml-3">주소 검색</a>
+					<h4>받는사람</h4><a href="#" id="midSearch" data-toggle="modal" data-target="#myModal" class="btn btn-main btn-icon-sm btn-round-full ml-3" style="padding:0.45rem;">주소 검색</a>
 				</div>
 				<input type="text" name="toMail" id="toMail" class="form-control mt-2" placeholder="받는 사람을 입력하세요" value="${toMail}" required/>
 				<div id="comment" class="text-left" style="font-size:13px">여러명에게 전송 시 아이디를 쉼표로 구별해주세요. (메일 주소로 입력 시 한 명에게만 전송 가능합니다.)</div>
@@ -95,7 +95,7 @@
 		<div class="divider2 mx-auto my-4 text-center" style="width:70%;"></div>
 		<div class="row justify-content-center mb-3">
 			<div class="col-md-8 col-md-offset-2 text-center">
-				<input type="button" value="전송하기" onclick="fCheck()" class="btn btn-main-2 btn-icon btn-round-full mr-3" />
+				<input type="button" value="전송하기" onclick="fCheck()" class="btn btn-main-2 btn-icon btn-round-full mr-2" />
 				<input type="button" value="취소" onclick="location.href='${ctp}/admin/adminMain';" class="btn btn-main btn-icon btn-round-full" />
 			</div>
 		</div>

@@ -15,6 +15,23 @@
 		select * from productLikeS where memberMid = #{mid};
 	</select>
 	
+	<select id="getAllProductEstimateList" resultType="com.spring.javaclassS9.vo.ProductSaleVO">
+		select * from productSaleS order by idx <if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+	</select>
+	<select id="estimateTotRecCnt" resultType="int">
+		select count(*) from productSaleS;
+	</select>
+	<select id="estimateTotRecCntSearch" resultType="int">
+		select count(*) from productSaleS where ${search} like concat('%',#{searchString},'%');
+	</select>
+	<select id="getSearchProductEstimateList" resultType="com.spring.javaclassS9.vo.ProductSaleVO">
+		select * from productSaleS where ${search} like concat('%',#{searchString},'%')
+			<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+	</select>
+	<select id="getProductSaleContent" resultType="com.spring.javaclassS9.vo.ProductSaleVO">
+		select * from productSales where idx=#{idx};
+	</select>
+	
 	
 	<insert id="setProductInputOk">
 		insert into productS values (default,#{vo.proType},#{vo.proName},#{vo.proMade},#{vo.proPrice},

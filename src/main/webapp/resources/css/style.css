@@ -104,21 +104,21 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 }
 
 .btn.btn-icon i {
-  border-left: 1px solid rgba(255, 255, 255, 0.09);
+  /* border-left: 1px solid rgba(255, 255, 255, 0.09); */
   padding-left: 15px;
 }
 
 /* 내가 추가한거 */
 .btn.btn-icon-sm {
-  border-left: 1px solid rgba(255, 255, 255, 0.09);
+  /* border-left: 1px solid rgba(255, 255, 255, 0.09); */
   font-size: 14px; /* 원문: 14px */
   font-size: 0.8125rem; /* 원문: 0.8125rem */
-  padding: .25rem .5rem;
+  padding: .25rem .4rem;
   font-family: "Pretendard GOV Variable", "Pretendard GOV", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;;
 }
 /* 내가 추가한거 */
 .btn.btn-icon-md {
-  border-left: 1px solid rgba(255, 255, 255, 0.09);
+  /* border-left: 1px solid rgba(255, 255, 255, 0.09); */
   font-size: 15px; /* 원문: 14px */
   font-size: 1rem; /* 원문: 0.8125rem */
   padding: .5rem .8rem;
@@ -131,8 +131,8 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 }
 
 .btn-main {
-  background: #0E2B5E;
-  color: #fff;
+  background: #fff;
+  color: #000;
   border-color: #0E2B5E;
 }
 .btn-sm-1 {
@@ -146,8 +146,8 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 }
 
 .btn-main:hover {
-  background: #5089EF;
-  border-color: #5089EF;
+  background: #0E2B5E;
+  border-color: #0E2B5E;
   color: #fff;
 }
 .btn-sm-1:hover {
@@ -157,9 +157,9 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 }
 
 .btn-main-2 {
-  background: #e12454;
+  background: #0E2B5E;
   color: #fff;
-  border-color: #e12454;
+  border-color: #0E2B5E;
 }
 /* 내가 추가한 거 */
 .btn-main-3 {
@@ -192,14 +192,14 @@ input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focu
 }
 
 .btn-main-2:hover {
-  background: #0E2B5E;
-  color: #fff;
+  background: #fff;
+  color: #000;
   border-color: #0E2B5E;
 }
 .btn-main-3:hover {
-  background: #5089EF;
+  background: #0E2B5E;
   color: #fff;
-  border-color: #5089EF;
+  border-color: #0E2B5E;
 }
 .btn-main-4:hover {
   background: #0E2B5E;
@@ -378,7 +378,7 @@ a {
 }
 
 a:focus, a:hover {
-  color: #e12454;
+  color: #6F8BA4;
   text-decoration: none;
 }
 

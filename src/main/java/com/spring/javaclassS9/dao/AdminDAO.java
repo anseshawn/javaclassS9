@@ -23,4 +23,6 @@ public interface AdminDAO {
 
 	public int setProductDeleteOk(@Param("idx") int idx);
 
+	public int setProductEstimateChange(@Param("idx") int idx, @Param("statement") String statement);
+
 }

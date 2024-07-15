@@ -21,4 +21,6 @@ public interface AdminService {
 
 	public int setProductDeleteOk(int idx);
 
+	public int setProductEstimateChange(int idx, String statement);
+
 }

@@ -29,4 +29,6 @@ public interface EngineerDAO {
 
 	public int setEngineerUpdateOk(@Param("vo") EngineerVO vo);
 
+	public void setEngineerMidChange(@Param("mid") String mid, @Param("idx") int idx);
+
 }

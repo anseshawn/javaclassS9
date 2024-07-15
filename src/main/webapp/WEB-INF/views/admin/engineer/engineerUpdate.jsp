@@ -7,7 +7,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>내 정보 관리 - 사원</title>
+	<title>관리자 - 사원 정보 수정</title>
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
   <style>
   	.place, .machine {
@@ -77,7 +77,6 @@
     let idCheckSw = 0;
 		function fCheck() {
 			let mid = document.getElementById("mid").value.trim();
-			let pwd = document.getElementById("pwd").value.trim();
 			let name = document.getElementById("name").value.trim();
 			let email1 = myform.email1.value.trim();
 			
@@ -91,29 +90,16 @@
 				myform.mid.focus();
 				return false;
 			}
-			else if(pwd == "") {
-				alert("비밀번호를 입력하세요");
-				myform.pwd.focus();
-				return false;
-			}
 			else if(email1 == "") {
 				alert("이메일을 입력하세요");
 				myform.email1.focus();
 				return false;
 			}
 			
-			let regPwd = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\W_]).{4,20}$/; 
 			let regName = /^[a-zA-Z가-힣]{2,10}$/; 
 			let regEmail = /^[a-zA-Z0-9]([-_]?[a-zA-Z0-9])*$/i;
 			let regTel = /\d{2,3}-\d{3,4}-\d{4}$/;
 			
-			/*
-			if(!regPwd.test(pwd)) {
-				alert("비밀번호는 영문 대/소문자와 숫자, 특수문자를 포함하여 4~20자까지 가능합니다. 특수문자를 꼭 1개 이상 포함해주세요.");
-				document.getElementById("pwd").focus();
-				return false;
-			}
-			*/
 			if(!regName.test(name)) {
 				alert("이름은 영문과 한글만 사용하여 2~10자까지 가능합니다.");
 				document.getElementById("name").focus();
@@ -141,19 +127,13 @@
 			// 선택된 버튼 값 모으기
 			let places = document.querySelectorAll('.place.act');
 			let placeValues = Array.from(places).map(button => button.value);
-			//alert(placeValues);
-			// hidden input 값 갱신
-      let placeInput = document.getElementById('place');
-      placeInput.value = placeValues.join(',');
+      document.getElementById('place').value = placeValues.join(',');
       
 			let machines = document.querySelectorAll('.machine.act');
 			let machineValues = Array.from(machines).map(button => button.value);
-			//alert(machineValues);
-			// hidden input 값 갱신
-      let machineInput = document.getElementById('machine');
-      machineInput.value = machineValues.join(',');
+      document.getElementById('machine').value = machineValues.join(',');
       
-      if(placeInput.value.trim()=="" || machineInput.value.trim()==""){
+      if(document.getElementById('machine').value.trim()=="" || document.getElementById('place').value.trim()==""){
     	  alert("담당 지역 및 기기는 필수 입력값입니다.");
     	  return false;
       }
@@ -200,8 +180,9 @@
    		 document.getElementById("mid").focus();
    	 }
    	 else if(mid=='${vo.mid}') {
-   		 idCheckSw = 1;
-   		 return false;
+				idCheckSw = 1;
+				$("#midBtn").attr("disabled",true);
+				return false;
    	 }
    	 else {
    		 idCheckSw = 1;
@@ -230,16 +211,11 @@
 	</script>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/include/header.jsp" />
-<jsp:include page="/WEB-INF/views/include/nav.jsp" />
+<jsp:include page="/WEB-INF/views/include/admin_header.jsp" />
+<jsp:include page="/WEB-INF/views/include/admin_aside.jsp" />
 <p><br/></p>
 <div class="container">
 	<div class="row">
-		<div class="col-lg-3">
-			<div class="bodyLeft">
-				<jsp:include page="/WEB-INF/views/include/engineer_aside.jsp" />
-			</div>
-		</div>
 		<div class="col-lg-9">
 			<div class="text-center"><h2>엔지니어 정보 수정</h2></div>
 			<div class="divider2 mx-auto my-4 text-center" style="width:70%;"></div>
@@ -262,7 +238,7 @@
 									<h4 class="text-left">아이디</h4>&nbsp;
 									<input type="button" value="아이디 중복체크" id="midBtn" class="btn btn-main-2 btn-round-full btn-icon-sm" style="padding: 1px 0.2rem;" onclick="idCheck()"/>
 								</div>
-								<input type="text" name="mid" id="mid" value="${vo.mid}" class="form-control" readonly required/>
+								<input type="text" name="mid" id="mid" value="${vo.mid}" class="form-control" required/>
 							</div>
 						</div>
 						<div class="row">
@@ -302,7 +278,7 @@
 				</div>
 				<div class="row justify-content-center mb-3">
 					<div class="col-md-8 col-md-offset-2"><h4>출장 가능 지역</h4>
-						<div id="comment" class="text-left" style="font-size:13px">지역 및 기기 변경은 담당자에게 문의하세요.</div>
+						<div id="comment" class="text-left" style="font-size:13px">출장 가능한 지역을 모두 선택하세요.</div>
 						<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="place" id="place1" value="서울" onclick="toggleAct(this)">
 						<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="place" id="place2" value="인천" onclick="toggleAct(this)">
 						<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="place" id="place3" value="부산" onclick="toggleAct(this)">
@@ -342,13 +318,14 @@
 				<div class="row justify-content-center mb-3">
 					<div class="col-md-8 col-md-offset-2 text-center">
 						<input type="button" value="수정하기" onclick="fCheck()" class="btn btn-main-2 btn-icon btn-round-full mr-3" />
-						<input type="button" value="취소" onclick="location.href='${ctp}/engineer/myPageMain';" class="btn btn-main btn-icon btn-round-full" />
+						<input type="button" value="취소" onclick="location.href='${ctp}/admin/engineer/engineerList';" class="btn btn-main btn-icon btn-round-full" />
 					</div>
 				</div>
 				<input type="hidden" name="email" />
 				<input type="hidden" name="tel" />
 				<input type="hidden" name="place" id="place"/>
 				<input type="hidden" name="machine" id="machine"/>
+				<input type="hidden" name="idx" value="${vo.idx}"/>
 				<input type="hidden" name="originPhoto"/>
 			</form>
 			

@@ -15,7 +15,7 @@ public class ProductSaleVO {
 	private String etcDetail;
 	
 	public enum Statement {
-		QUOTE, CANCEL, ORDERING, DELIVER, PAYMENT, COMPLETE
+		QUOTE, CANCEL, CHECK, ORDERING, DELIVER, PAYMENT, COMPLETE
 	}
 }
 

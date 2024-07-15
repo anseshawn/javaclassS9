@@ -20,6 +20,7 @@
       padding: 10px 20px;
       border: none;
       background-color: #C7C3BB;
+      color: #fff;
       cursor: pointer;
     }
 
@@ -32,7 +33,7 @@
 		'use strict';
 		
 		window.onload = function(){
-			document.getElementById("demoImg").src = "${ctp}/product/noimage2.png";
+			document.getElementById("demoImg").src = "${ctp}/images/noimage2.png";
 		}
 		
 		var selectedBtnP = null;

@@ -45,7 +45,12 @@
 					str += "<tr><th>이름</th><td>"+mVo.name+"</td><th>고유번호</th><td>"+mVo.idx+"</td></tr>";
 					str += "<tr><th>최종접속일</th><td>"+lastDate+"</td><th>등급</th><td>"+mVo.level+"</td></tr>";
 					str += "<tr><th>아이디</th><td><span id='selectMid'>"+mVo.mid+"</span></td><th>닉네임</th><td>"+mVo.nickName+"</td></tr>";
-					str += "<tr><th>이메일</th><td>"+mVo.email+"</td><th>뉴스레터<br/>구독여부</th><td>"+mVo.emailNews+"</td></tr>";
+					str += "<tr>";
+					str += "<th>이메일</th><td>"+mVo.email+"</td><th>뉴스레터<br/>구독여부</th><td>"+mVo.emailNews;
+					if(mVo.emailNews=='OK') {
+						str += "<br/><a href='${ctp}/admin/emailInput/"+mVo.mid+"' class='btn btn-main btn-icon-sm btn-round-full'>메일전송</a>";
+					}
+					str += "</td></tr>";
 					str += "<tr><th>연락처</th><td>"+mVo.tel+"</td><th>생일</th><td>"+birthday+"</td></tr>";
 					if(mVo.level==3) {
 						str += "<tr><th>재직자 여부</th><td colspan='3'>"+mVo.m_group+"<input type='button' onclick='changeLevel()' value='재직자인증' class='btn btn-main-2 btn-icon-sm btn-round ml-4' /></td></tr>";

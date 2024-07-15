@@ -117,7 +117,7 @@
 				          htmlContainer : 'custom-swal-text'
 								}
 							});
-							location.reload();
+							//location.reload();
 						},
 						error: function(){
 							alert("전송오류");
@@ -273,7 +273,7 @@
 					<td>${vo.place}</td>
 					<td>${vo.machine}</td>
 					<td>
-						<a href="javascript:engineerUpdate('${vo.mid}')" class="badge edit">수정</a>
+						<a href="${ctp}/admin/engineer/engineerUpdate?idx=${vo.idx}" class="badge edit">수정</a>
 						<a href="javascript:engineerDelete('${vo.mid}')" class="badge delete">삭제</a>
 					</td>
 				</tr>

@@ -13,13 +13,13 @@
 		'use strict';
 		
 		$(function(){
-			if(${!empty sw}) document.getElementById("demoImg").src = "${ctp}/data/product/noimage2.png";
-			else document.getElementById("demoImg").src = "${ctp}/data/product/${vo.proPhoto}";
+			if(${!empty sw}) document.getElementById("demoImg").src = "${ctp}/images/noimage2.png";
+			else document.getElementById("demoImg").src = "${ctp}/product/${vo.proPhoto}";
 			if(${!empty mVo.co_name}) myform.co_name.value = '${mVo.co_name}';
 		});
 		
 		function proNameChange() {
-			let idx = myform.proName.value;
+			let idx = myform.productIdx.value;
 			if(idx!="") {
 				$.ajax({
 					url: "${ctp}/product/productEstimate/productImgChange",

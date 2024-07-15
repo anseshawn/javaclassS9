@@ -48,4 +48,9 @@ public class AdminServiceImpl implements AdminService {
 	public int setProductDeleteOk(int idx) {
 		return adminDAO.setProductDeleteOk(idx);
 	}
+
+	@Override
+	public int setProductEstimateChange(int idx, String statement) {
+		return adminDAO.setProductEstimateChange(idx, statement);
+	}
 }

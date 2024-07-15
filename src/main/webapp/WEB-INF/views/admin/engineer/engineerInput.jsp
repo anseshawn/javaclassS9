@@ -20,6 +20,7 @@
       padding: 10px 20px;
       border: none;
       background-color: #C7C3BB;
+      color: white;
       cursor: pointer;
     }
 
@@ -32,7 +33,7 @@
 		'use strict';
 		
 		window.onload = function(){
-			document.getElementById("demoImg").src = "${ctp}/engineer/noimage.jpg";
+			document.getElementById("demoImg").src = "${ctp}/images/noimage.jpg";
 			mid.addEventListener('click',function(){
 			 idCheckSw = 0;
 			 $("#midBtn").removeAttr("disabled");

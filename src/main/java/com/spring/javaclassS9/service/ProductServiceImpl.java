@@ -11,8 +11,8 @@ import com.spring.javaclassS9.common.JavaclassProvide;
 import com.spring.javaclassS9.dao.ProductDAO;
 import com.spring.javaclassS9.vo.ProductLikeVO;
 import com.spring.javaclassS9.vo.ProductSaleVO;
-import com.spring.javaclassS9.vo.ProductVO;
 import com.spring.javaclassS9.vo.ProductSaleVO.Statement;
+import com.spring.javaclassS9.vo.ProductVO;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -29,8 +29,19 @@ public class ProductServiceImpl implements ProductService {
 		String oFileName = fName.getOriginalFilename();
 		String sFileName = "";
 		if(fName != null && oFileName != "") {
-			sFileName = javaclassProvide.saveFileName(oFileName);
 			try {
+				/*
+				System.out.println("1. oFileName: "+oFileName);
+				oFileName = URLEncoder.encode(oFileName,"UTF-8").replaceAll("\\+", "%20");
+				System.out.println("2. 인코딩 oFileName: "+oFileName);
+				if(oFileName.length() > 20) {
+					String ext = oFileName.substring(oFileName.lastIndexOf("."));
+					System.out.println("확장자 : "+ext);
+					System.out.println("3. 서버들어가는 oFileName: "+oFileName);
+					oFileName = oFileName.substring(0,10)+ext;
+				}
+				*/
+				sFileName = javaclassProvide.saveFileName(oFileName);
 				javaclassProvide.writeFile(fName, sFileName, "product");
 				res = 1;
 			} catch (Exception e) {
@@ -64,7 +75,7 @@ public class ProductServiceImpl implements ProductService {
 
 	// 장비 관심 등록 한 적 있는지 확인
 	@Override
-	public ProductLikeVO getProductLikeList(String mid) {
+	public ArrayList<ProductLikeVO> getProductLikeList(String mid) {
 		return productDAO.getProductLikeList(mid);
 	}
 
@@ -96,6 +107,22 @@ public class ProductServiceImpl implements ProductService {
 		
 		return productDAO.setProductContentEdit(vo);
 	}
-	
+
+	@Override
+	public ArrayList<ProductSaleVO> getAllProductEstimateList(int startIndexNo, int pageSize) {
+		return productDAO.getAllProductEstimateList(startIndexNo,pageSize);
+	}
+
+	@Override
+	public ArrayList<ProductSaleVO> getSearchProductEstimateList(int startIndexNo, int pageSize, String part,
+			String searchString) {
+		return productDAO.getSearchProductEstimateList(startIndexNo,pageSize,part,searchString);
+	}
+
+	@Override
+	public ProductSaleVO getProductSaleContent(int idx) {
+		return productDAO.getProductSaleContent(idx);
+	}
+
 	
 }

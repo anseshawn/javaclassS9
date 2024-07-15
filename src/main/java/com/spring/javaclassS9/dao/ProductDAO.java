@@ -22,10 +22,21 @@ public interface ProductDAO {
 
 	public int setProductRemoveLike(@Param("idx") int idx, @Param("mid") String mid);
 
-	public ProductLikeVO getProductLikeList(@Param("mid") String mid);
+	public ArrayList<ProductLikeVO> getProductLikeList(@Param("mid") String mid);
 
 	public int setProductSaleCustomerInput(@Param("vo") ProductSaleVO vo);
 
 	public int setProductContentEdit(@Param("vo") ProductVO vo);
+
+	public ArrayList<ProductSaleVO> getAllProductEstimateList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize);
+
+	public int estimateTotRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
+
+	public int estimateTotRecCnt();
+
+	public ArrayList<ProductSaleVO> getSearchProductEstimateList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("search") String part,
+			@Param("searchString") String searchString);
+
+	public ProductSaleVO getProductSaleContent(@Param("idx") int idx);
 
 }

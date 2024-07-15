@@ -25,6 +25,7 @@ import com.spring.javaclassS9.service.ProductService;
 import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.PageVO;
+import com.spring.javaclassS9.vo.ProductSaleVO;
 import com.spring.javaclassS9.vo.ProductVO;
 
 @Controller
@@ -217,6 +218,29 @@ public class AdminController {
 		return adminService.setEngineerDeleteAll(mid)+"";
 	}
 	
+	//엔지니어 수정 창 연결
+	@RequestMapping(value = "/engineer/engineerUpdate", method = RequestMethod.GET)
+	public String engineerUpdateGet(int idx, Model model) {
+		EngineerVO vo = engineerService.getEngineerIdxCheck(idx);
+		model.addAttribute("vo", vo);
+		return "admin/engineer/engineerUpdate";
+	}
+	//엔지니어 수정 창 연결
+	@RequestMapping(value = "/engineer/engineerUpdate", method = RequestMethod.POST)
+	public String engineerUpdatePost(MultipartFile fName, EngineerVO vo) {
+		EngineerVO eVo = engineerService.getEngineerIdxCheck(vo.getIdx());
+		if(eVo != null && !eVo.getMid().equals(vo.getMid())) {
+			engineerService.setEngineerMidChange(vo.getMid(), vo.getIdx());
+		}
+		else if(eVo != null && eVo.getIdx() != vo.getIdx()) {
+			return "redirect:/message/engineerIdCheckNo";
+		}
+		
+		int res = engineerService.setEngineerUpdateOk(fName, vo);
+		if(res != 0)	return "redirect:/message/engineerUpdateOk?pathFlag=admin";
+		else return "redirect:/message/engineerUpdateNo?pathFlag=admin";
+	}
+	
 	// 제품 등록 창 출력
 	@RequestMapping(value = "/product/productInput", method = RequestMethod.GET)
 	public String productInputGet() {
@@ -268,4 +292,46 @@ public class AdminController {
 		if(!photo.equals("noimage2.png")) javaclassProvide.deleteFile(photo, "product");
 		return adminService.setProductDeleteOk(idx)+"";
 	}
+	
+	// 관리자 화면에서 장비 견적 요청 확인하기
+	@RequestMapping(value = "/product/productEstimate", method = RequestMethod.GET)
+	public String productEstimateGet(Model model,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name = "part", defaultValue = "", required = false) String part,
+			@RequestParam(name = "searchString", defaultValue = "", required = false) String searchString
+		) {
+		ArrayList<ProductSaleVO> vos = null;
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "productEstimate", part, searchString);
+		if(part.equals("")) vos = productService.getAllProductEstimateList(pageVO.getStartIndexNo(),pageSize);
+		else vos = productService.getSearchProductEstimateList(pageVO.getStartIndexNo(),pageSize,part,searchString);
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("vos", vos);
+		return "admin/product/productEstimate";
+	}
+	// 견적 건 상태 변경하기
+	@ResponseBody
+	@RequestMapping(value = "/product/productEstimateChange", method = RequestMethod.POST)
+	public String productEstimateChangePost(int idx, String statement) {
+		return adminService.setProductEstimateChange(idx,statement)+"";
+	}
+	
+	// 견적 상세 건
+	@RequestMapping(value = "/product/productEstimateDetail", method = RequestMethod.GET)
+	public String productEstimateDetailGet(Model model,
+			@RequestParam(name="idx",defaultValue = "0", required = false) int idx,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name = "part", defaultValue = "", required = false) String part,
+			@RequestParam(name = "searchString", defaultValue = "", required = false) String searchString
+		) {
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "productEstimate", part, searchString);
+		ProductSaleVO saleVO = productService.getProductSaleContent(idx);
+		ProductVO vo = productService.getProductContent(saleVO.getProductIdx());
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("saleVO", saleVO);
+		model.addAttribute("vo", vo);
+		return "admin/product/productEstimateDetail";
+	}
+	
 }

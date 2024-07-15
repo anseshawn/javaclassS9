@@ -245,6 +245,7 @@
 			  	<li><div class="divider2"></div></li>
 				  <li><a href="${ctp}/admin/product/productInput">기기 등록</a></li>
 				  <li><a href="${ctp}/admin/product/productList">장비 리스트</a></li>
+				  <li><a href="${ctp}/admin/product/productEstimate">견적 요청</a></li>
 			  </ul>
 			</div>
 		</li>

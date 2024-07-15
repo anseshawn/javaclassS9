@@ -20,6 +20,9 @@
 	<update id="setMemberLevelUpdateOk">
 		update memberS set level=2 where mid = #{mid};
 	</update>
+	<update id="setProductEstimateChange">
+		update productSaleS set statement=#{statement} where idx = #{idx};
+	</update>
 	
 	
 	<delete id="setMemberDeleteAll">

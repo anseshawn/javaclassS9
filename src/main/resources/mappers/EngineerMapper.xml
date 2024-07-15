@@ -37,5 +37,8 @@
 		update engineerS set name=#{vo.name}, tel=#{vo.tel}, email=#{vo.email},
 			place=#{vo.place}, machine=#{vo.machine}, photo=#{vo.photo} where idx=#{vo.idx};
 	</update>
+	<update id="setEngineerMidChange">
+		update engineerS set mid=#{mid} where idx=#{idx};
+	</update>
 	
 </mapper>

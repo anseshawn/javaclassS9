@@ -110,7 +110,7 @@ public class MessageController {
 		}
 		else if(msgFlag.equals("productInputOk")) {
 			model.addAttribute("msg", "판매 제품을 등록했습니다.");
-			model.addAttribute("url", "/admin/adminMain");
+			model.addAttribute("url", "/admin/product/productList");
 		}
 		else if(msgFlag.equals("productInputNo")) {
 			model.addAttribute("msg", "판매 제품 등록에 실패했습니다.");

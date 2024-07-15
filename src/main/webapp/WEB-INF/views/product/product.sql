@@ -32,7 +32,8 @@ create table productSaleS(
 	memberMid varchar(20) not null,
 	productIdx int not null,
 	requestDate datetime default now(),
-	statement enum('QUOTE','CANCEL','ORDERING','DELIVER','PAYMENT','COMPLETE'),
+	statement enum('QUOTE','CANCEL','CHECK','ORDERING','DELIVER','PAYMENT','COMPLETE'),
+	/* 요청(QUOTE), 취소(CANCEL), 견적확인(관리자)(CHECK), 발주요청(ORDERING), 발주진행(DELEVER), 결제대기(PAYMENT), 진행완료(COMPLETE) */
 	co_name varchar(20) not null,
 	tel varchar(15) not null,
 	email varchar(40) not null,

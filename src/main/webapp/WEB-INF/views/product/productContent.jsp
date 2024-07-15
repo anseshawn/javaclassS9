@@ -12,17 +12,19 @@
 	<style>
 		.likeBtn {
       border-color: #C7C3BB;
+      color: #fff;
       background-color: #C7C3BB;
       cursor: pointer;
     }
 		.likeBtn:hover {
-			border-color: #EC4651;
-      background-color: #fff;
-      color: #EC4651;
+			border-color: #0E2B5E;
+      background-color: #0E2B5E;
+      color: #fff;
     }
     .likeBtn.act {
-      border-color: #EC4651;
-      background-color: #EC4651;
+      border-color: #0E2B5E;
+      color: #fff;
+      background-color: #0E2B5E;
     }
     th {
     	text-align: center;
