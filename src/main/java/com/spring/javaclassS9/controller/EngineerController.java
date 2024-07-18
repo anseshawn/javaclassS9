@@ -385,11 +385,20 @@ public class EngineerController {
 		MemberVO mVo = memberService.getMemberIdCheck(mid);
 		return mVo;
 	}
-	// A/S요청 날짜 고정하여 상태 바꾸기
+	// A/S요청 날짜 고정하고 진행 상태 바꾸기
 	@ResponseBody
 	@RequestMapping(value = "/asRequestDateFixed", method = RequestMethod.POST)
-	public String asRequestDateFixedPost(int idx, Progress progress) {
-		int res = customerService.setAsChangeStatement(idx, progress);
+	public String asRequestDateFixedPost(int idx, String asDate, Progress progress) {
+		int res = customerService.setAsChangeStatement(idx, asDate, progress);
+		return res+"";
+	}
+	
+	// A/S요청 코멘트 적기(이후 입금대기로 상태 변경)
+	@ResponseBody
+	@RequestMapping(value = "/asCommentInput", method = RequestMethod.POST)
+	public String asCommentInputPost(AsRequestVO vo) {
+		vo.setProgress(Progress.PAYMENT);
+		int res = customerService.setAsAppointmentComplete(vo);
 		return res+"";
 	}
 }

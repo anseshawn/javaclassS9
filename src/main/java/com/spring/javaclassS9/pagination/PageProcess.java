@@ -3,6 +3,7 @@ package com.spring.javaclassS9.pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.javaclassS9.dao.BoardDAO;
 import com.spring.javaclassS9.dao.CustomerDAO;
 import com.spring.javaclassS9.dao.EngineerDAO;
 import com.spring.javaclassS9.dao.MemberDAO;
@@ -23,6 +24,9 @@ public class PageProcess {
 	
 	@Autowired
 	ProductDAO productDAO;
+	
+	@Autowired
+	BoardDAO boardDAO;
 	
 	// 게시판종류: section, 소분류: part
 	public PageVO totRecCnt(int pag, int pageSize, String section, String part, String searchString) {
@@ -59,8 +63,14 @@ public class PageProcess {
 				totRecCnt = productDAO.estimateTotRecCntSearch(search,searchString);
 			}
 		}
+		else if(section.equals("freeBoard")) {
+			if(part.equals(""))totRecCnt = boardDAO.totRecCnt();
+			else {
+				search = part;
+				totRecCnt = boardDAO.totRecCntSearch(search,searchString);
+			}
+		}
 		//else if(section.equals("pds"))	totRecCnt = pdsDAO.totRecCnt(part);
-		//else if(section.equals("member"))	totRecCnt = memberDAO.totRecCnt();
 		
 		int totPage = (totRecCnt % pageSize)==0 ? (totRecCnt / pageSize) : (totRecCnt / pageSize) + 1;
 		int startIndexNo = (pag - 1) * pageSize;

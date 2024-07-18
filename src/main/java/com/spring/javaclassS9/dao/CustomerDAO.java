@@ -24,6 +24,10 @@ public interface CustomerDAO {
 
 	public int getReviewSearch(@Param("idx") int idx);
 
-	public int setAsChangeStatement(@Param("idx") int idx, @Param("progress") Progress progress);
+	public int setAsChangeStatement(@Param("idx") int idx, @Param("asDate") String asDate, @Param("progress") Progress progress);
+
+	public int getAsRequestTotalCnt();
+
+	public int setAsAppointmentComplete(@Param("vo") AsRequestVO vo);
 
 }

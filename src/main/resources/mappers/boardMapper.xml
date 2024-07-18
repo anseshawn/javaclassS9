@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaclassS9.dao.BoardDAO">
+
+	<select id="totRecCnt" resultType="int">
+		SELECT count(*) FROM freeBoardS;
+	</select>
+	<select id="totRecCntSearch" resultType="int">
+		SELECT count(*) FROM freeBoardS WHERE ${search} LIKE CONCAT('%',#{searchString},'%');
+	</select>
+	<select id="getFreeBoardList" resultType="com.spring.javaclassS9.vo.FreeBoardVO">
+		SELECT *, datediff(writeDate, now()) AS date_diff, timestampdiff(hour, writeDate, now()) AS hour_diff,
+			(SELECT count(*) FROM replyS WHERE board='freeBoard' and boardIdx = b.idx) as replyCnt 
+			FROM freeBoardS b ORDER BY idx desc <if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+	</select>
+	<select id="getFreeBoardBestList" resultType="com.spring.javaclassS9.vo.FreeBoardVO">
+		SELECT *, datediff(writeDate, now()) AS date_diff, timestampdiff(hour, writeDate, now()) 
+			FROM freeBoardS ORDER BY good desc limit 5;
+	</select>
+	<select id="getFreeBoardContent" resultType="com.spring.javaclassS9.vo.FreeBoardVO">
+		SELECT *,(SELECT count(*) FROM replyS WHERE board='freeBoard' and boardIdx = b.idx) as replyCnt 
+			FROM freeBoardS b WHERE idx = #{idx};
+	</select>
+	<select id="getBoardParentReplyCheck" resultType="com.spring.javaclassS9.vo.ReplyVO">
+		SELECT * FROM replyS WHERE board=#{board} AND boardIdx=#{boardIdx} ORDER BY idx DESC LIMIT 1;
+	</select>
+	<select id="getBoardReply" resultType="com.spring.javaclassS9.vo.ReplyVO">
+		select *, datediff(replyDate, now()) as date_diff from replyS 
+			where board=#{board} and boardIdx=#{boardIdx} order by re_order;
+	</select>
+	<select id="getBoardOtherReplyCheck" resultType="com.spring.javaclassS9.vo.ReplyVO">
+		SELECT * FROM replyS WHERE board=#{board} AND boardIdx=#{boardIdx} AND re_step=1 AND parentId=#{parentId} 
+			ORDER BY idx DESC LIMIT 1;
+	</select>
+	<select id="getBoardReplyOne" resultType="com.spring.javaclassS9.vo.ReplyVO">
+		SELECT * FROM replyS WHERE board=#{board} AND boardIdx=#{boardIdx} AND idx=#{idx};
+	</select>
+	<select id="getBoardLikeList" resultType="com.spring.javaclassS9.vo.BoardLikeVO">
+		SELECT * FROM boardLikeS WHERE board=#{board} AND memberMid=#{mid};
+	</select>
+	<select id="getBoardReportRecord" resultType="com.spring.javaclassS9.vo.ReportVO">
+		SELECT * FROM reportS WHERE board=#{vo.board} AND boardIdx=#{vo.boardIdx} AND memberMid=#{vo.mid};
+	</select>
+	<select id="getBoardLikeListAll" resultType="com.spring.javaclassS9.vo.BoardLikeVO">
+		SELECT * FROM boardLikeS WHERE memberMid=#{mid};
+	</select>
+	
+	
+	<insert id="setFreeBoardInput">
+		INSERT INTO freeBoardS VALUES (default, #{vo.mid}, #{vo.nickName}, #{vo.title}, #{vo.content}, #{vo.hostIp}, 
+			default, default, default, default);
+	</insert>
+	<insert id="setBoardReplyInput">
+		insert into replyS values (default, #{vo.board}, #{vo.boardIdx}, #{vo.re_step}, #{vo.re_order}, 
+			#{vo.parentId},  
+			#{vo.mid}, #{vo.nickName}, default, #{vo.hostIp}, #{vo.content}, default);
+	</insert>
+	<insert id="setBoardLikeAdd">
+		insert into boardLikeS values(default, #{vo.memberMid}, #{vo.board}, #{vo.boardIdx}, default);
+	</insert>
+	<insert id="setBoardReportInput">
+		insert into reportS values(default, #{vo.board}, #{vo.boardIdx}, #{vo.rpMid}, #{vo.rpContent}, default);
+	</insert>
+	
+	
+	<update id="setFreeBoardEdit">
+		UPDATE freeBoardS SET mid=#{vo.mid}, nickName=#{vo.nickName}, title=#{vo.title}, content=#{vo.content},
+			hostIp=#{vo.hostIp} WHERE idx=#{vo.idx};
+	</update>
+	<update id="setReplyOrderUpdate">
+		update replyS set re_order = re_order+1 where board=#{board} and boardIdx=#{boardIdx} and re_order > #{re_order};
+	</update>
+	<update id="setBoardReplyUpdate">
+		update replyS set mid=#{vo.mid}, nickName=#{vo.nickName}, hostIp=#{vo.hostIp}, content=#{vo.content} where idx=#{vo.idx};
+	</update>
+	<update id="setFreeBoardGoodUpdate">
+		update freeBoardS set good = good+1 where idx=#{idx};
+	</update>
+	<update id="setFreeBoardGoodDown">
+		update freeBoardS set good = good-1 where idx=#{idx};
+	</update>
+	<update id="setFreeBoardReportUpdate">
+		update freeBoardS set report = report+1 where idx=#{idx};
+	</update>
+	<update id="setFreeBoardReadNumPlus">
+		update freeBoardS set readNum = readNum+1 where idx=#{idx};
+	</update>
+
+	
+	<delete id="setBoardReplyDelete">
+		delete from replyS where board=#{board} and boardIdx=#{boardIdx} <if test="idx!=0"> and idx=#{idx}</if>;
+	</delete>
+	<delete id="setFreeBoardDelete">
+		delete from freeBoardS where idx=#{idx};
+	</delete>
+	<delete id="setBoardLikeDelete">
+		delete from boardLikeS where board=#{vo.board} and boardIdx=#{vo.boardIdx} and memberMid=#{vo.memberMid};
+	</delete>
+
+</mapper>

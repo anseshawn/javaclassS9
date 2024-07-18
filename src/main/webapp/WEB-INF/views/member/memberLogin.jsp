@@ -66,11 +66,6 @@
 		</div>
   </div>
   <!-- End Account Sign In Area -->
-  <div class="row text-right">
-  	<div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
-  		<input type="button" value="사원로그인" onclick="location.href='${ctp}/member/memberLogin/main';" class="btn btn-main-3 btn-icon-sm"/>
-  	</div>
-  </div>
 </div>
 <p><br/></p>
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />

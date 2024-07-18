@@ -4,6 +4,9 @@
 	<select id="getEngineerIdCheck" resultType="com.spring.javaclassS9.vo.EngineerVO">
 		select * from engineerS where mid = #{mid};
 	</select>
+	<select id="getEngineerNameCheck" resultType="com.spring.javaclassS9.vo.EngineerVO">
+		select * from engineerS where name = #{name};
+	</select>
 	<select id="totRecCnt" resultType="int">
 		select count(*) from engineerS;
 	</select>

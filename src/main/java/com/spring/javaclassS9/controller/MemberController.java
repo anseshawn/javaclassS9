@@ -1,5 +1,6 @@
 package com.spring.javaclassS9.controller;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
@@ -19,10 +20,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.javaclassS9.common.JavaclassProvide;
+import com.spring.javaclassS9.service.BoardService;
 import com.spring.javaclassS9.service.EngineerService;
 import com.spring.javaclassS9.service.MemberService;
+import com.spring.javaclassS9.service.ProductService;
+import com.spring.javaclassS9.vo.BoardLikeVO;
 import com.spring.javaclassS9.vo.EngineerVO;
+import com.spring.javaclassS9.vo.FreeBoardVO;
 import com.spring.javaclassS9.vo.MemberVO;
+import com.spring.javaclassS9.vo.ProductLikeVO;
+import com.spring.javaclassS9.vo.ProductVO;
 
 @Controller
 @RequestMapping("/member")
@@ -39,6 +46,12 @@ public class MemberController {
 	
 	@Autowired
 	EngineerService engineerService;
+	
+	@Autowired
+	ProductService productService;
+	
+	@Autowired
+	BoardService boardService;
 	
 	// 회원가입창 연결
 	@RequestMapping(value = "/memberJoin", method = RequestMethod.GET)
@@ -129,8 +142,9 @@ public class MemberController {
 		else if(eVo != null && passwordEncoder.matches(pwd, eVo.getPwd())) {
 			loginOk = "OK";
 			strLevel="엔지니어";
-			System.out.println("eVo if문 통과");
+			//System.out.println("eVo if문 통과");
 			session.setAttribute("sLevel", eVo.getLevel());
+			session.setAttribute("sNickName", eVo.getName());
 		}
 		
 		// 전체 로그인 완료
@@ -262,7 +276,10 @@ public class MemberController {
 	}
 	// 회원정보수정창
 	@RequestMapping(value = "/memberUpdate", method = RequestMethod.GET)
-	public String memberUpdateGet() {
+	public String memberUpdateGet(HttpSession session, Model model) {
+		String mid = (String) session.getAttribute("sMid");
+		MemberVO vo = memberService.getMemberIdCheck(mid);
+		model.addAttribute("vo",vo);
 		return "member/memberUpdate";
 	}
 	// 회원정보수정처리
@@ -313,5 +330,37 @@ public class MemberController {
 			return "redirect:/message/memberDeleteOk";
 		}
 		else return "redirect:/message/memberDeleteNo";
+	}
+	
+	// 마이페이지 - 관심장비목록
+	@RequestMapping(value = "/machineLikeList", method = RequestMethod.GET)
+	public String machineLikeListGet(HttpSession session, Model model) {
+		String mid = (String) session.getAttribute("sMid");
+		ArrayList<ProductLikeVO> likeVOS = productService.getProductLikeList(mid);
+		ArrayList<ProductVO> vos = new ArrayList<ProductVO>();
+		for(int i=0; i<likeVOS.size(); i++) {
+			ProductVO vo = productService.getProductContent(likeVOS.get(i).getProductIdx());
+			vos.add(vo);
+		}
+		model.addAttribute("vos", vos);
+		return "member/machineLikeList";
+	}
+	
+	// 마이페이지 - 관심글목록
+	@RequestMapping(value = "/boardLikeList", method = RequestMethod.GET)
+	public String boardLikeListGet(HttpSession session, Model model) {
+		String mid = (String) session.getAttribute("sMid");
+		ArrayList<BoardLikeVO> likeVOS = boardService.getBoardLikeListAll(mid);
+		ArrayList<FreeBoardVO> freeBoardVOS = new ArrayList<FreeBoardVO>();
+		for(int i=0; i<likeVOS.size(); i++) {
+			if(likeVOS.get(i).getBoard().equals("freeBoard")){
+				FreeBoardVO vo = boardService.getFreeBoardContent(likeVOS.get(i).getBoardIdx());
+				freeBoardVOS.add(vo);
+			}
+			//else if(likeVOS.get(i).getBoard().equals("questionBoard"))
+			
+		}
+		model.addAttribute("freeBoardVOS", freeBoardVOS);
+		return "member/boardLikeList";
 	}
 }

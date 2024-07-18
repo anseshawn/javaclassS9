@@ -74,17 +74,21 @@
 			data: {search:search},
 			success: function(vos) {
 				if(vos != "") {
-					let str = '<table class="table table-borderless">';
+					let str = "";
 					for(let i=0; i<7; i++) {
+						str += '<table class="table table-borderless">';
 						str += '<tr>';
-						str += '<td>'+vos[i].item1+'</td>';
+						str += '<td><a href="'+vos[i].item1Url+'">'+vos[i].item1+'</a></td>';
 						str += '</tr>';
-						/*
 						str += '<tr>';
-						str += '<td>'+vos[i].item2+'</td>';
-						str += '<td>'+vos[i].item3+'</td>';
+						str += '<td><a href="'+vos[i].item1Url+'">'+vos[i].item2+'</a></td>';
+						//str += '<td>'+vos[i].item3+'</td>';
 						str += '</tr>';
-						*/
+						str += '<tr>';
+						str += '<td>'+vos[i].item4+'&nbsp;'+vos[i].item5+'</td>';
+						str += '</tr>';
+						str += '<tr></tr>';
+						str += '</table>';
 					}
 					$("#demo").html(str);
 				}

@@ -53,4 +53,6 @@ public interface EngineerDAO {
 
 	public AsRequestVO getAsRequestContent(@Param("idx") int idx);
 
+	public EngineerVO getEngineerNameCheck(@Param("name") String engineerName);
+
 }

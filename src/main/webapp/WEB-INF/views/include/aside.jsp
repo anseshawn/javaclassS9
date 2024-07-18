@@ -7,6 +7,18 @@
 <meta charset="UTF-8">
 <title></title>
 <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
+	<script>
+		'use strict';
+  	$(function(){
+  		if(${!empty part}) mypage(${part});
+  	});
+  	
+  	function mypage(part){
+  		// 선택값에 따라서 display:none 을 보였다 안보였다하는..?
+  		$(".context").hide();
+  		$("#context"+part).show();
+  	}
+	</script>
 </head>
 <body>
 <div class="row">
@@ -25,10 +37,16 @@
 				</div>
 				<div class="divider2 mx-auto my-2"></div>
 				<div class="row">
-					<div class="col"><a href="javascript:mypage(1)"> 정보 수정</a></div>
+					<div class="col"><a href="${ctp}/member/memberUpdate"> 정보 수정</a></div>
 				</div>
 				<div class="row">
 					<div class="col"><a href="#">문의내역</a></div>
+				</div>
+				<div class="row">
+					<div class="col"><a href="${ctp}/member/machineLikeList">관심장비 목록</a></div>
+				</div>
+				<div class="row">
+					<div class="col"><a href="${ctp}/member/boardLikeList">관심글</a></div>
 				</div>
 				<div class="row mt-3">
 					<div class="col">

@@ -43,6 +43,14 @@
     function toggleAct(button) {
     	button.classList.toggle("act");
     }
+    
+    // 새로고침 버튼 누르면
+    function activeSelect() {
+    	if($(".place").hasClass("act")) {
+    		$(".place").removeClass("act");
+    	}
+    }
+    
 		// 사진 선택시 미리보기
     function imgCheck(e) {
     	if(e.files && e.files[0]) {
@@ -228,7 +236,7 @@
 					<div class="col-md-10 offset-md-2">
 						<div class="input-group mb-2">
 							<h4 class="text-left">아이디</h4>&nbsp;
-							<input type="button" value="아이디 중복체크" id="midBtn" class="btn btn-main-2 btn-round-full btn-icon-sm" style="padding: 1px 0.2rem;" onclick="idCheck()"/>
+							<input type="button" value="아이디 중복체크" id="midBtn" class="btn btn-main-2 btn-round-full btn-icon-sm" style="padding: 0.2rem 0.2rem;" onclick="idCheck()"/>
 						</div>
 						<input type="text" name="mid" id="mid" class="form-control" placeholder="아이디를 입력하세요" required/>
 					</div>
@@ -236,7 +244,8 @@
 				<div class="row">
 					<div class="col-md-10 offset-md-2">
 						<h4 class="text-left">비밀번호</h4>
-						<input type="text" name="pwd" id="pwd" class="form-control" placeholder="초기 비밀번호: 1234" required/>
+						<div class="text-left" style="font-size:13px">초기 비밀번호: 1234</div>
+						<input type="password" name="pwd" id="pwd" class="form-control" value="1234" placeholder="초기 비밀번호: 1234" required/>
 					</div>
 				</div>
 			</div>
@@ -267,7 +276,8 @@
 			</div>
 		</div>
 		<div class="row justify-content-center mb-3">
-			<div class="col-md-8 col-md-offset-2"><h4>출장 가능 지역</h4>
+			<div class="col-md-8 col-md-offset-2">
+				<div class="input-group"><h4>출장 가능 지역</h4><a href="javascript:activeSelect()" class="ml-2"><i class="fa-solid fa-arrow-rotate-right"></i></a></div>
 				<div id="comment" class="text-left" style="font-size:13px">출장 가능한 지역을 모두 선택해주세요.</div>
 				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="place" value="서울" onclick="toggleAct(this)">
 				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="place" value="인천" onclick="toggleAct(this)">

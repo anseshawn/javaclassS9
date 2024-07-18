@@ -211,7 +211,7 @@
 	</div>
 	<div class="ani-navbar-menu ani-navbar-menu__icon">
 	  <i class="fa-solid fa-headphones"></i>
-	  <p>Services</p>
+	  <a href="#">문의 내역</a>
 	</div>
 	<div class="ani-navbar-menu ani-navbar-menu__icon">
 	  <i class="fa-solid fa-flag"></i>
@@ -235,6 +235,7 @@
 			  	<li><div class="divider2"></div></li>
 				  <li><a href="${ctp}/admin/engineer/engineerInput">엔지니어 등록</a></li>
 				  <li><a href="${ctp}/admin/engineer/engineerList">엔지니어 현황</a></li>
+				  <li><a href="${ctp}/admin/engineer/schedule">일정관리</a></li>
 			  </ul>
 			</div>
 		</li>
@@ -245,7 +246,7 @@
 			  	<li><div class="divider2"></div></li>
 				  <li><a href="${ctp}/admin/product/productInput">기기 등록</a></li>
 				  <li><a href="${ctp}/admin/product/productList">장비 리스트</a></li>
-				  <li><a href="${ctp}/admin/product/productEstimate">견적 요청</a></li>
+				  <li><a href="${ctp}/admin/product/productEstimate">견적요청 현황</a></li>
 			  </ul>
 			</div>
 		</li>

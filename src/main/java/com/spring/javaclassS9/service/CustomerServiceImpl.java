@@ -66,8 +66,13 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public int setAsChangeStatement(int idx, Progress progress) {
-		return customerDAO.setAsChangeStatement(idx, progress);
+	public int setAsChangeStatement(int idx, String asDate, Progress progress) {
+		return customerDAO.setAsChangeStatement(idx, asDate, progress);
+	}
+
+	@Override
+	public int setAsAppointmentComplete(AsRequestVO vo) {
+		return customerDAO.setAsAppointmentComplete(vo);
 	}
 	
 	

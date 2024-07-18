@@ -42,4 +42,6 @@ public interface EngineerService {
 
 	public AsRequestVO getAsRequestContent(int idx);
 
+	public EngineerVO getEngineerNameCheck(String engineerName);
+
 }

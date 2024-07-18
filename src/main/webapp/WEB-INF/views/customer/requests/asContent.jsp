@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<% pageContext.setAttribute("newLine", "\n"); %>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/> 
 <!DOCTYPE html>
 <html>
@@ -159,12 +160,12 @@
 				</tr>
 				<tr>
 					<th>증상</th>
-					<td colspan="3">${vo.detailNote}</td>
+					<td colspan="3"><c:if test="${empty vo.detailNote}">-</c:if><c:if test="${!empty vo.detailNote}">${vo.detailNote}</c:if></td>
 				</tr>
 				<c:if test="${vo.progress=='PAYMENT' || vo.progress=='COMPLETE'}">
 					<tr>
 						<th>엔지니어 코멘트</th>
-						<td colspan="3">${vo.comment}</td>
+						<td colspan="3">${fn:replace(vo.comment,newLine,'<br/>')}</td>
 					</tr>
 				</c:if>
 				<tr><td colspan="4" class="m-0 p-0"></td></tr>
@@ -192,7 +193,7 @@
 							<textarea rows="2" name="review" id="review" class="form-control" placeholder="상세한 후기를 남겨주시면 서비스 개선에 참고하겠습니다."></textarea>
 						</div>
 						<div class="col-4">
-							<input type="button" value="별점등록" onclick="reviewCheck()" class="btn btn-main-3"/>
+							<input type="button" value="등록" onclick="reviewCheck()" class="btn btn-main-3"/>
 						</div>
 					</div>
 				</form>
@@ -201,7 +202,7 @@
 				<h4>평가가 완료되었습니다.</h4>
 			</div>
 			<div class="text-right mt-2">
-				<a href="${ctp}/customer/requests/asProgress?pag=${pag}&pageSize=${pageSize}" class="btn btn-main-3 btn-icon btn-round">목록으로</a>
+				<a href="${ctp}/customer/requests/asProgress?pag=${pag}&pageSize=${pageSize}" class="btn btn-main btn-icon btn-round">목록으로</a>
 			</div>
 		</div>
 	</section>

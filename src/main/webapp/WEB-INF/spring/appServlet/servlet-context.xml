@@ -28,6 +28,7 @@
 	<resources mapping="/ckeditor/**" location="/resources/ckeditor/" />
 	<resources mapping="/product/**" location="/resources/data/product/" />
 	<resources mapping="/engineer/**" location="/resources/data/engineer/" />
+	<resources mapping="/freeBoard/**" location="/resources/data/freeBoard/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

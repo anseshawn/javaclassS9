@@ -1,6 +1,7 @@
 package com.spring.javaclassS9.common;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -94,6 +95,27 @@ public class JavaclassProvide {
 		
 		File file = new File(realPath+photo);
 		if(file.exists()) file.delete();
+	}
+	
+	// 파일 복사처리
+	public void fileCopyCheck(String origFilePath, String copyFilePath) {
+		try {
+			FileInputStream fis = new FileInputStream(new File(origFilePath));
+			FileOutputStream fos = new FileOutputStream(new File(copyFilePath));
+			
+			byte[] b = new byte[2048];
+			int cnt = 0;
+			while((cnt = fis.read(b)) != -1) {
+				fos.write(b,0,cnt);
+			}
+			fos.flush();
+			fos.close();
+			fis.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

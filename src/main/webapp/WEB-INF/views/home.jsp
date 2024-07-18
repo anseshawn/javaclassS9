@@ -34,7 +34,7 @@
 					
 					<p class="mb-4 pr-5">우리 엔지니어링은 실험실 전반에 대한 기기와 소모품을 다루고 있습니다. 항상 고객과의 소통을 추구하여 세계로 나아가는 그린 엔지니어링이 되겠습니다.</p>
 					<div class="btn-container ">
-						<a href="#" target="_blank" class="btn btn-main-3 btn-icon btn-round-full">견적문의 <i class="icofont-simple-right ml-2  "></i></a>
+						<a href="${ctp}/product/productEstimate" target="_blank" class="btn btn-main-2 btn-icon btn-round-full">견적문의 <i class="icofont-simple-right ml-2  "></i></a>
 					</div>
 				</div>
 			</div>
@@ -244,7 +244,7 @@
 		<div class="row align-items-center">
 			<div class="col-lg-6 ">
 				<div class="appoinment-content">
-					<img src="images/bg/lab3.jpg" alt="" class="img-fluid">
+					<img src="${ctp}/images/bg/lab3.jpg" alt="" class="img-fluid">
 					<div class="emergency">
 						<h2 class="text-lg"><i class="icofont-phone-circle text-lg"></i>043	123 4567</h2>
 					</div>

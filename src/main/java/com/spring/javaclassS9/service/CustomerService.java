@@ -18,6 +18,8 @@ public interface CustomerService {
 
 	public int getReviewSearch(int idx);
 
-	public int setAsChangeStatement(int idx, Progress progress);
+	public int setAsChangeStatement(int idx, String asDate, Progress progress);
+
+	public int setAsAppointmentComplete(AsRequestVO vo);
 
 }

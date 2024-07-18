@@ -4,6 +4,9 @@
 	<select id="totRecCnt" resultType="int">
 		select count(*) from asRequest where asMid = #{searchString};
 	</select>
+	<select id="getAsRequestTotalCnt" resultType="int">
+		select count(*) from asRequest;
+	</select>
 	<select id="getAsRequestList" resultType="com.spring.javaclassS9.vo.AsRequestVO">
 		select a.*, datediff(asDate, now()) as date_diff, e.name as engineerName from asRequest a left join engineerS e on a.engineerIdx=e.idx
 			where a.asMid=#{asMid} order by a.idx desc limit #{startIndexNo},#{pageSize};
@@ -30,6 +33,9 @@
 	
 	
 	<update id="setAsChangeStatement">
-		update asRequest set progress=#{progress} where idx=#{idx};
+		update asRequest set progress=#{progress}, asDate=#{asDate} where idx=#{idx};
+	</update>
+	<update id="setAsAppointmentComplete">
+		update asRequest set progress=#{vo.progress}, comment=#{vo.comment} where idx=#{vo.idx};
 	</update>
 </mapper>
