@@ -29,6 +29,7 @@ import com.spring.javaclassS9.vo.BoardLikeVO;
 import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.FreeBoardVO;
 import com.spring.javaclassS9.vo.MemberVO;
+import com.spring.javaclassS9.vo.MessageVO;
 import com.spring.javaclassS9.vo.ProductLikeVO;
 import com.spring.javaclassS9.vo.ProductVO;
 
@@ -270,12 +271,9 @@ public class MemberController {
 	
 	// 마이페이지
 	@RequestMapping(value = "/myPage", method = RequestMethod.GET)
-	public String myPageGet(HttpSession session, Model model,
-			@RequestParam(name = "part", defaultValue = "", required = false) String part) {
+	public String myPageGet(HttpSession session, Model model) {
 		String mid = (String) session.getAttribute("sMid");
-		MemberVO vo = memberService.getMemberIdCheck(mid);
-		model.addAttribute("vo",vo);
-		model.addAttribute("part", part);
+		model.addAttribute("mid", mid);
 		return "member/myPage";
 	}
 	// 회원정보수정창
@@ -364,9 +362,46 @@ public class MemberController {
 				freeBoardVOS.add(vo);
 			}
 			//else if(likeVOS.get(i).getBoard().equals("questionBoard"))
-			
 		}
 		model.addAttribute("freeBoardVOS", freeBoardVOS);
 		return "member/boardLikeList";
+	}
+	
+	// 마이페이지 - 쪽지 확인
+	@RequestMapping(value = "/messageList", method = RequestMethod.GET)
+	public String messageListGet(HttpSession session, Model model) {
+		String mid = (String) session.getAttribute("sMid");
+		ArrayList<MessageVO> receiveVOS = memberService.getAllReceiveMessageList(mid);
+		ArrayList<MessageVO> sendVOS = memberService.getAllSendMessageList(mid);
+		for(int i=0; i<receiveVOS.size(); i++) {
+			if(receiveVOS.get(i).getReceiveSw() == 'n') model.addAttribute("newMsg", "OK");
+		}
+		model.addAttribute("receiveVOS", receiveVOS);
+		model.addAttribute("sendVOS", sendVOS);
+		return "member/messageList";
+	}
+	// 마이페이지 - 쪽지 수신확인 상태로 만들기
+	@ResponseBody
+	@RequestMapping(value = "/messageCheck", method = RequestMethod.POST)
+	public void messageCheckPost(int idx) {
+		memberService.setMessageCheck(idx);
+	}
+	
+	// 쪽지 보내기 창
+	@RequestMapping(value = "/sendMessage", method = RequestMethod.GET)
+	public String sendMessageGet(Model model,
+			@RequestParam(name = "receiveMid", defaultValue = "", required = false) String receiveMid
+			) {
+		model.addAttribute("receiveMid", receiveMid);
+		return "member/sendMessage";
+	}
+	// 쪽지 보내기
+	@ResponseBody
+	@RequestMapping(value = "/sendMessage", method = RequestMethod.POST)
+	public String sendMessagePost(MessageVO vo) {
+		vo.setSendSw('s');
+		vo.setReceiveSw('n');
+		int res = memberService.setMessageInputOk(vo);
+		return res + "";
 	}
 }

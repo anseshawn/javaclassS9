@@ -101,7 +101,7 @@
 		}
 		
 		function sendMessage(receiveMid){
-			let url = "${ctp}/customer/sendMessage?receiveMid="+receiveMid;
+			let url = "${ctp}/member/sendMessage?receiveMid="+receiveMid;
 			let widthSize= 450;
 			let heightSize = 500;
 			let leftCenter = Math.ceil((window.screen.width - widthSize)/2);

@@ -47,11 +47,13 @@ create table messageS(
 	sendMid varchar(20) not null,
 	receiveMid varchar(20) not null,
 	content text not null,
-	sendSw char(1) not null,
+	sendSw char(1) not null,		/* 보낸메세지(s), 휴지통(d), 휴지통삭제(x) 표시 */
 	sendDate datetime default now(),
-	receiveSw char(1) not null,
+	receiveSw char(1) not null,	/* 받은메세지(n), 읽은메세지(r), 휴지통(d), 휴지통삭제(x) 표시 */
 	receiveDate datetime default now(),
 	primary key(idx),
 	foreign key(sendMid) references memberS(mid),
 	foreign key(receiveMid) references memberS(mid)
 );
+
+select * from messageS where receiveMid = 'hkd1234' and receiveSw != 'g';

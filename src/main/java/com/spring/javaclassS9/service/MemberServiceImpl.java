@@ -1,10 +1,13 @@
 package com.spring.javaclassS9.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.javaclassS9.dao.MemberDAO;
 import com.spring.javaclassS9.vo.MemberVO;
+import com.spring.javaclassS9.vo.MessageVO;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -45,5 +48,25 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int setMemberDeleteOk(String mid) {
 		return memberDAO.setMemberDeleteOk(mid);
+	}
+
+	@Override
+	public int setMessageInputOk(MessageVO vo) {
+		return memberDAO.setMessageInputOk(vo);
+	}
+
+	@Override
+	public ArrayList<MessageVO> getAllReceiveMessageList(String mid) {
+		return memberDAO.getAllReceiveMessageList(mid);
+	}
+
+	@Override
+	public ArrayList<MessageVO> getAllSendMessageList(String mid) {
+		return memberDAO.getAllSendMessageList(mid);
+	}
+
+	@Override
+	public void setMessageCheck(int idx) {
+		memberDAO.setMessageCheck(idx);
 	}
 }

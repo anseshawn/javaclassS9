@@ -1,8 +1,11 @@
 package com.spring.javaclassS9.dao;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.spring.javaclassS9.vo.MemberVO;
+import com.spring.javaclassS9.vo.MessageVO;
 
 public interface MemberDAO {
 
@@ -23,5 +26,13 @@ public interface MemberDAO {
 	public int totRecCnt();
 
 	public int totRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
+
+	public int setMessageInputOk(@Param("vo") MessageVO vo);
+
+	public ArrayList<MessageVO> getAllReceiveMessageList(@Param("mid") String mid);
+
+	public ArrayList<MessageVO> getAllSendMessageList(@Param("mid") String mid);
+
+	public void setMessageCheck(@Param("idx") int idx);
 	
 }

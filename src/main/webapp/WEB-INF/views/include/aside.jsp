@@ -4,21 +4,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title></title>
-<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
-	<script>
-		'use strict';
-  	$(function(){
-  		if(${!empty part}) mypage(${part});
-  	});
-  	
-  	function mypage(part){
-  		// 선택값에 따라서 display:none 을 보였다 안보였다하는..?
-  		$(".context").hide();
-  		$("#context"+part).show();
-  	}
-	</script>
+	<meta charset="UTF-8">
+	<title></title>
+	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
 </head>
 <body>
 <div class="row">
@@ -58,7 +46,7 @@
 					<div class="col"><a href="javascript:mypage(2)">게시글 확인</a></div>
 				</div>
 				<div class="row">
-					<div class="col"><a href="#">받은 메세지</a></div>
+					<div class="col"><a href="${ctp}/member/messageList">받은 메세지</a></div>
 				</div>
 			</div>
 			</div>

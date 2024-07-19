@@ -27,13 +27,13 @@ import com.spring.javaclassS9.pagination.PageProcess;
 import com.spring.javaclassS9.service.BoardService;
 import com.spring.javaclassS9.service.CustomerService;
 import com.spring.javaclassS9.service.EngineerService;
+import com.spring.javaclassS9.service.MemberService;
 import com.spring.javaclassS9.vo.AsRequestVO;
 import com.spring.javaclassS9.vo.BoardLikeVO;
 import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.FreeBoardVO;
 import com.spring.javaclassS9.vo.NewsVO;
 import com.spring.javaclassS9.vo.PageVO;
-import com.spring.javaclassS9.vo.ProductLikeVO;
 import com.spring.javaclassS9.vo.QuestionBoardVO;
 import com.spring.javaclassS9.vo.ReplyVO;
 import com.spring.javaclassS9.vo.ReportVO;
@@ -51,6 +51,9 @@ public class CustomerController {
 	
 	@Autowired
 	BoardService boardService;
+	
+	@Autowired
+	MemberService memberService;
 	
 	@Autowired
 	PageProcess pageProcess;
@@ -508,20 +511,6 @@ public class CustomerController {
 		model.addAttribute("vos", vos);
 		model.addAttribute("recentVOS", recentVOS);
 		return "customer/board/questionBoardList";
-	}
-	
-	// 쪽지 보내기 창
-	@RequestMapping(value = "/sendMessage", method = RequestMethod.GET)
-	public String sendMessageGet(Model model,
-			@RequestParam(name = "receiveMid", defaultValue = "", required = false) String receiveMid
-			) {
-		model.addAttribute("receiveMid", receiveMid);
-		return "customer/sendMessage";
-	}
-	// 쪽지 보내기 창
-	@RequestMapping(value = "/sendMessage", method = RequestMethod.POST)
-	public String sendMessagePost() {
-		return "customer/sendMessage";
 	}
 
 	// 질문게시판 글 작성창 띄우기

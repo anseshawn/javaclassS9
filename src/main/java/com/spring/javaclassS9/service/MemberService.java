@@ -1,6 +1,9 @@
 package com.spring.javaclassS9.service;
 
+import java.util.ArrayList;
+
 import com.spring.javaclassS9.vo.MemberVO;
+import com.spring.javaclassS9.vo.MessageVO;
 
 public interface MemberService {
 
@@ -17,5 +20,13 @@ public interface MemberService {
 	public int setMemberUpdateOk(MemberVO vo);
 
 	public int setMemberDeleteOk(String mid);
+
+	public int setMessageInputOk(MessageVO vo);
+
+	public ArrayList<MessageVO> getAllReceiveMessageList(String mid);
+
+	public ArrayList<MessageVO> getAllSendMessageList(String mid);
+
+	public void setMessageCheck(int idx);
 
 }

@@ -17,6 +17,12 @@
 	<select id="totRecCntSearch" resultType="int">
 		select count(*) from memberS where ${search} like concat('%',#{searchString},'%');
 	</select>
+	<select id="getAllReceiveMessageList" resultType="com.spring.javaclassS9.vo.MessageVO">
+		select * from messageS where receiveMid = #{mid} and receiveSw != 'd';
+	</select>
+	<select id="getAllSendMessageList" resultType="com.spring.javaclassS9.vo.MessageVO">
+		select * from messageS where sendMid = #{mid} and sendSw != 'd';
+	</select>
 	
 	
 	<insert id="setMemberJoinOk">
@@ -25,10 +31,17 @@
 			#{vo.co_name}, #{vo.co_category}, #{vo.co_address}, #{vo.co_tel}, #{vo.purpose},
 			default, default, default, default, default);
 	</insert>
+	<insert id="setMessageInputOk">
+		insert into messageS values(default,#{vo.sendMid}, #{vo.receiveMid}, #{vo.content}, 
+			#{vo.sendSw}, default, #{vo.receiveSw}, default);
+	</insert>
 	
 	
 	<update id="setMemberPwdUpdate">
 		update memberS set pwd = #{pwd} where mid = #{mid};
+	</update>
+	<update id="setMessageCheck">
+		update messageS set receiveSw = 'r' where idx=#{idx};
 	</update>
 	
 	<update id="setMemberUpdateOk">

@@ -12,12 +12,32 @@
 		'use strict';
 		
 		function fCheck(){
-			let title = $("#title").val();
-			if(title.trim()=="") {
+			let content = $("#content").val();
+			let receiveMid = $("#receiveMid").val();
+			if(content.trim()=="") {
 				alert("제목을 입력하세요");
 				return false;
 			}
-			myform.submit();
+			let query = {
+					sendMid : "${sMid}",
+					receiveMid : receiveMid,
+					content : content
+			}
+			$.ajax({
+				url: "${ctp}/member/sendMessage",
+				type: "post",
+				data: query,
+				success: function(res) {
+					if(res != "0") {
+						alert("해당 사용자에게 쪽지를 전송했습니다.");
+						window.close();
+					}
+					else alert("쪽지 전송 실패");
+				},
+				error: function() {
+					alert("전송오류");
+				}
+			});
 		}
 		
 		function wClose(){
@@ -44,7 +64,7 @@
 			<textarea name="content" id="content" rows="6" class="form-control"></textarea>
 		</div>
 	</div>
-	<div class="divider2 mx-auto my-4"></div>
+	<div class="divider2 mx-auto my-4" style="width:100%;"></div>
 	<div class="row justify-content-center mb-3">
 		<div class="col-md-6 offset-md-2 col-sm-6 col-sm-offset-2 text-center">
 			<input type="button" value="보내기" onclick="fCheck()" class="btn btn-main-2 btn-icon-md btn-round-full" />
