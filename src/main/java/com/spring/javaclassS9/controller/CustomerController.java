@@ -277,7 +277,17 @@ public class CustomerController {
 			@RequestParam(name = "searchString", defaultValue = "", required = false) String searchString
 			) {
 		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "freeBoard", part, searchString);
-		ArrayList<FreeBoardVO> vos = boardService.getFreeBoardList(pageVO.getStartIndexNo(),pageSize);
+		ArrayList<FreeBoardVO> vos = null;
+		if(part.equals(""))	vos = boardService.getFreeBoardList(pageVO.getStartIndexNo(),pageSize, "", "");
+		else {
+			vos = boardService.getFreeBoardList(pageVO.getStartIndexNo(), pageSize, part, searchString);
+			if(part.equals("title")) part = "제목";
+			else if(part.equals("nickName")) part = "작성자";
+			else if(part.equals("content")) part = "내용";
+			model.addAttribute("part", part);
+			model.addAttribute("searchString", searchString);
+			model.addAttribute("searchCount", vos.size());
+		}
 		ArrayList<FreeBoardVO> gVos = boardService.getFreeBoardBestList();
 		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("vos", vos);

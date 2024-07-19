@@ -14,8 +14,8 @@ public class JavaclassScheduler {
 	@Autowired
 	CustomerDAO customerDAO;
 	
-	//@Scheduled(cron = "0 0 24 * * *")
-	@Scheduled(cron = "0/10 * * * * *")
+	//@Scheduled(cron = "0/10 * * * * *")
+	@Scheduled(cron = "59 59 23 * * *")
 	public void asRequestChangeStatement() {
 		System.out.println("스케줄 수행중입니다");
 		int cnt = customerDAO.getAsRequestTotalCnt();

@@ -23,4 +23,6 @@ public interface AdminService {
 
 	public int setProductEstimateChange(int idx, String statement);
 
+	public int getJoinMemberCount();
+
 }

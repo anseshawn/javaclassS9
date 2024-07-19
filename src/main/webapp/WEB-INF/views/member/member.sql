@@ -37,3 +37,5 @@ default,'010-1234-5678','63309/제주시 영평동/1층/로비','재직자','그
 select * from memberS;
 select emailNews from memberS;
 select * from memberS where mid='hkd1234';
+
+select *, datediff(startDate,now()) from memberS where datediff(startDate,now()) > -7;

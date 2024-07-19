@@ -53,4 +53,9 @@ public class AdminServiceImpl implements AdminService {
 	public int setProductEstimateChange(int idx, String statement) {
 		return adminDAO.setProductEstimateChange(idx, statement);
 	}
+
+	@Override
+	public int getJoinMemberCount() {
+		return adminDAO.getJoinMemberCount();
+	}
 }

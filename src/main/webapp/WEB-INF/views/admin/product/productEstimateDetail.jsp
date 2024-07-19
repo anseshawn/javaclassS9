@@ -169,7 +169,7 @@
 							<c:if test="${saleVO.statement == 'QUOTE'}">
 								<a href="${ctp}/admin/product/productEdit?idx=${vo.idx}" class="btn btn-main-2 btn-icon-md mr-2 mb-2">견적서 송부</a>
 							</c:if>
-							<a href="javascript:productDelete('${vo.idx}','${vo.proPhoto}')" class="btn btn-main-2 btn-icon-md mb-2">장비 삭제</a>
+							<a href="javascript:#" class="btn btn-main-2 btn-icon-md mb-2">발주 진행</a>
 						</div>
 					</div>
 				</div>

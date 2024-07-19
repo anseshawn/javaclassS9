@@ -22,7 +22,27 @@
 		.pagination .page-item a {
 			color: #fff;
 		}
+		
 	</style>
+	<script>
+		'use strict';
+
+		// 게시판 검색
+		function boardSearch() {
+			let part = $("#search").val();
+			let searchString = $("#searchString").val();
+			if(part.trim()=="") {
+				alert("검색 분류를 선택하세요.");
+				return false;
+			}
+			if(searchString.trim()=="") {
+				alert("검색어를 입력하세요.");
+				return false;
+			}
+			location.href="${ctp}/customer/board/freeBoardList?pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&part="+part+"&searchString="+searchString;
+		}
+
+	</script>
 </head>
 <body id="top">
 <jsp:include page="/WEB-INF/views/include/header.jsp" />
@@ -46,6 +66,14 @@
 
 <section class="section blog-wrap">
 	<div class="container">
+		<c:if test="${!empty part}">
+			<div class="row">
+				<div class="col-lg-12"><h2>검색결과</h2></div>
+				<br/>
+				<div class="col-lg-12" style="font-size:1.2rem;"><p>${part}(으)로 '${searchString}'(을)를 검색한 결과 <b>${searchCount}</b> 건의 게시글이 검색되었습니다.</p></div>
+			</div>
+		</c:if>
+	
 		<div class="row">
  			<div class="col-lg-8">
 				<div class="row">
@@ -61,7 +89,17 @@
 										<span class="text-black text-capitalize mr-3">
 											<i class="icofont-calendar mr-2"></i> ${vo.date_diff == 0 ? fn:substring(vo.writeDate,11,19) : fn:substring(vo.writeDate,0,10) }
 										</span>
-										<span class="text-muted text-capitalize mr-3"><i class="icofont-user mr-2"></i>${vo.nickName}</span>										
+										<span class="user-name text-muted text-capitalize mr-3">
+											<i class="icofont-user mr-2"></i>${vo.nickName}
+										</span>
+										<!-- 								
+								    <div id="userMenu" class="menu">
+							        <ul>
+						            <li onclick="sendMessage()">쪽지 보내기</li>
+						            <li onclick="reportUser()">유저 신고하기</li>
+							        </ul>
+							    	</div>
+							    	 -->
 									</div> 
 									<div class="title mt-3 mb-3">
 										<a href="${ctp}/customer/board/freeBoardContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">${vo.title}</a>
@@ -95,28 +133,26 @@
 			<div class="col-lg-4">
 				<div class="sidebar-wrap pl-lg-4 mt-5 mt-lg-0">
 				<c:if test="${!empty sLevel && sLevel != 1}">
-					<div class="sidebar-widget write mb-3 ">
+					<div class="sidebar-widget write mb-3 text-center">
 						<a href="${ctp}/customer/board/freeBoardInput" class="btn btn-main-2 btn-icon btn-round-full" style="width:80%; margin:8px;">글쓰기</a>
 					</div>
 				</c:if>	
 					<!-- 검색창 -->
 					<div class="sidebar-widget search mb-3 ">
 						<h5>게시판 검색</h5>
-						<form name="search-form" method="post" action="${ctp}/customer/board/freeBoardSearch">
-							<select name="search" id="search" class="form-control">
-								<option value="title">제목</option>
-								<option value="nickName">작성자</option>
-								<option value="content">내용</option>
-							</select>
-							<div class="input-group mb-1">
-								<input type="text" name="searchString" id="searchString" class="form-control mt-2" placeholder="검색어를 입력하세요." required />
-								<i class="ti-search"></i>
-								<div class="input-group-append">
-									<!-- <input type="submit" value="search" class="btn btn-main btn-icon-sm btn-round mt-2"/> -->
-									<button class="btn btn-main-2 btn-icon-md btn-round mt-2">검색<i class="fa-solid fa-magnifying-glass ml-2"></i></button>
-								</div>
+						<select name="search" id="search" class="form-control">
+							<option value="title">제목</option>
+							<option value="nickName">작성자</option>
+							<option value="content">내용</option>
+						</select>
+						<div class="input-group mb-1">
+							<input type="text" name="searchString" id="searchString" class="form-control mt-2" placeholder="검색어를 입력하세요." required />
+							<i class="ti-search"></i>
+							<div class="input-group-append">
+								<!-- <input type="submit" value="search" class="btn btn-main btn-icon-sm btn-round mt-2"/> -->
+								<button onclick="boardSearch()" class="btn btn-main-2 btn-icon-md btn-round mt-2">검색<i class="fa-solid fa-magnifying-glass ml-2"></i></button>
 							</div>
-						</form>
+						</div>
 					</div>
 					<!-- 검색창 끝 -->
 					

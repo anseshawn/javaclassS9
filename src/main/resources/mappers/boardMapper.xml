@@ -11,7 +11,10 @@
 	<select id="getFreeBoardList" resultType="com.spring.javaclassS9.vo.FreeBoardVO">
 		SELECT *, datediff(writeDate, now()) AS date_diff, timestampdiff(hour, writeDate, now()) AS hour_diff,
 			(SELECT count(*) FROM replyS WHERE board='freeBoard' and boardIdx = b.idx) as replyCnt 
-			FROM freeBoardS b ORDER BY idx desc <if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+			FROM freeBoardS b  
+				<if test="search != ''"> WHERE ${search} LIKE CONCAT('%',#{searchString},'%') </if> 
+				ORDER BY idx desc
+				<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	<select id="getFreeBoardBestList" resultType="com.spring.javaclassS9.vo.FreeBoardVO">
 		SELECT *, datediff(writeDate, now()) AS date_diff, timestampdiff(hour, writeDate, now()) 

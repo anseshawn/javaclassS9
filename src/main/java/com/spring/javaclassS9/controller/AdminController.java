@@ -65,6 +65,8 @@ public class AdminController {
 	
 	@RequestMapping(value = "/adminMain", method = RequestMethod.GET)
 	public String adminMainGet(Model model) {
+		int joinCount = adminService.getJoinMemberCount();
+		model.addAttribute("joinCount", joinCount);
 		return "admin/adminMain";
 	}
 	

@@ -15,7 +15,8 @@ public interface BoardDAO {
 
 	public int totRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
 
-	public ArrayList<FreeBoardVO> getFreeBoardList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize);
+	public ArrayList<FreeBoardVO> getFreeBoardList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, 
+			@Param("search") String search, @Param("searchString") String searchString);
 
 	public ArrayList<FreeBoardVO> getFreeBoardBestList();
 

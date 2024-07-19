@@ -9,7 +9,7 @@ import com.spring.javaclassS9.vo.ReportVO;
 
 public interface BoardService {
 
-	public ArrayList<FreeBoardVO> getFreeBoardList(int startIndexNo, int pageSize);
+	public ArrayList<FreeBoardVO> getFreeBoardList(int startIndexNo, int pageSize, String search, String searchString);
 
 	public ArrayList<FreeBoardVO> getFreeBoardBestList();
 

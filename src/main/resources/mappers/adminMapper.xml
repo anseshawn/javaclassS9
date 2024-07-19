@@ -3,7 +3,7 @@
 <mapper namespace="com.spring.javaclassS9.dao.AdminDAO">
 
 	<select id="getAllMemberList" resultType="com.spring.javaclassS9.vo.MemberVO">
-		select *, timestampdiff(day, lastDate, now()) as deleteDiff from memberS order by idx
+		select *, timestampdiff(day, lastDate, now()) as deleteDiff from memberS order by startDate desc
 		<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	<select id="getMemberLevelList" resultType="com.spring.javaclassS9.vo.MemberVO">
@@ -14,6 +14,9 @@
 		select *, timestampdiff(day, lastDate, now()) as deleteDiff from memberS
 			where ${part} like concat('%',#{searchString},'%') order by idx
 			<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+	</select>
+	<select id="getJoinMemberCount" resultType="int">
+		select count(*) from memberS where <![CDATA[datediff(startDate,now()) > -7]]>;
 	</select>
 	
 	

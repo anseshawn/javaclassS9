@@ -184,16 +184,15 @@
     </div>
     <div class="col-lg-3">
       <div class="card annual">
-        <div class="card-body d-flex justify-content-between">
-          <div>
-            <p class="card-text mb-2">Earnings (Annual)</p>
-            <h4>$800,000</h4>
-          </div>
-          <i
-            class="fa-solid fa-dollar-sign"
-            style="font-size: 30px; margin-top: 20px; color: #6c757d"
-          ></i>
-        </div>
+	      <a href="${ctp}/admin/member/memberList">
+	        <div class="card-body d-flex justify-content-between">
+	          <div>
+	            <p class="card-text mb-2">최근 가입 회원</p>
+	            <h4>${joinCount} 명</h4>
+	          </div>
+	          <i class="fa-solid fa-user-plus" style="font-size: 30px; margin-top: 20px; color: #6c757d"></i>
+	        </div>
+	       </a>
       </div>
     </div>
     <div class="col-lg-3">

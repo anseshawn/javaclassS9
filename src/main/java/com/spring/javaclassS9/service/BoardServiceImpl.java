@@ -30,8 +30,8 @@ public class BoardServiceImpl implements BoardService {
 	JavaclassProvide javaclassProvide;
 
 	@Override
-	public ArrayList<FreeBoardVO> getFreeBoardList(int startIndexNo, int pageSize) {
-		return boardDAO.getFreeBoardList(startIndexNo,pageSize);
+	public ArrayList<FreeBoardVO> getFreeBoardList(int startIndexNo, int pageSize, String search, String searchString) {
+		return boardDAO.getFreeBoardList(startIndexNo,pageSize,search,searchString);
 	}
 
 	@Override

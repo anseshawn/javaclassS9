@@ -25,4 +25,6 @@ public interface AdminDAO {
 
 	public int setProductEstimateChange(@Param("idx") int idx, @Param("statement") String statement);
 
+	public int getJoinMemberCount();
+
 }

@@ -317,6 +317,21 @@
 				}
 			});
 		}
+		
+		// 게시판 검색
+		function boardSearch() {
+			let part = $("#search").val();
+			let searchString = $("#searchString").val();
+			if(part.trim()=="") {
+				alert("검색 분류를 선택하세요.");
+				return false;
+			}
+			if(searchString.trim()=="") {
+				alert("검색어를 입력하세요.");
+				return false;
+			}
+			location.href="${ctp}/customer/board/freeBoardList?pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&part="+part+"&searchString="+searchString;
+		}
 	</script>
 </head>
 <body id="top">
@@ -365,18 +380,16 @@
 								<div class="mt-5 clearfix">
 							    <ul class="float-left list-inline tag-option">
 							    	<c:if test="${vo.mid != sMid && sLevel > 1}">
-						    		<c:if test="${good!='1'}">
 								    	<li class="list-inline-item">
 								    		<button class="btn likeBtn btn-icon-md" onclick="addBoardLike()" id="likeBtn">
 								    			<i class="icofont-thumbs-up mr-1"></i>추천<span class="ml-1">${vo.good}</span>
 								    		</button>
 								    	</li>
-						    		</c:if>
-							    	<li class="list-inline-item">
-								    	<button type="button" data-toggle="modal" data-target="#myModal" class="btn reportBtn btn-icon-md">
-								    		<i class="fa-solid fa-triangle-exclamation mr-2"></i>신고
-								    	</button>
-							    	</li>
+								    	<li class="list-inline-item">
+									    	<button type="button" data-toggle="modal" data-target="#myModal" class="btn reportBtn btn-icon-md">
+									    		<i class="fa-solid fa-triangle-exclamation mr-2"></i>신고
+									    	</button>
+								    	</li>
 							    	</c:if>
 							   	</ul>
 							    <ul class="float-right list-inline">
@@ -530,27 +543,25 @@
 			<div class="col-lg-4">
 				<div class="sidebar-wrap pl-lg-4 mt-5 mt-lg-0">
 				<c:if test="${!empty sLevel && sLevel != 1}">
-					<div class="sidebar-widget write mb-3 ">
+					<div class="sidebar-widget write mb-3 text-center">
 						<a href="${ctp}/customer/board/freeBoardInput" class="btn btn-main-2 btn-icon btn-round-full" style="width:80%; margin:8px;">글쓰기</a>
 					</div>
 				</c:if>	
 					<!-- 검색창 -->
 					<div class="sidebar-widget search mb-3 ">
 						<h5>게시판 검색</h5>
-						<form name="search-form" method="post" action="${ctp}/customer/board/freeBoardSearch">
-							<select name="search" id="search" class="form-control">
-								<option value="title">제목</option>
-								<option value="nickName">작성자</option>
-								<option value="content">내용</option>
-							</select>
-							<div class="input-group mb-1">
-								<input type="text" name="searchString" id="searchString" class="form-control mt-2" placeholder="검색어를 입력하세요." required />
-								<i class="ti-search"></i>
-								<div class="input-group-append">
-									<button class="btn btn-main-2 btn-icon-md btn-round mt-2">검색<i class="fa-solid fa-magnifying-glass ml-2"></i></button>
-								</div>
+						<select name="search" id="search" class="form-control">
+							<option value="title">제목</option>
+							<option value="nickName">작성자</option>
+							<option value="content">내용</option>
+						</select>
+						<div class="input-group mb-1">
+							<input type="text" name="searchString" id="searchString" class="form-control mt-2" placeholder="검색어를 입력하세요." required />
+							<i class="ti-search"></i>
+							<div class="input-group-append">
+								<button onclick="boardSearch()" class="btn btn-main-2 btn-icon-md btn-round mt-2">검색<i class="fa-solid fa-magnifying-glass ml-2"></i></button>
 							</div>
-						</form>
+						</div>
 					</div>
 					<!-- 검색창 끝 -->
 					<div class="sidebar-widget latest-post mb-3">
