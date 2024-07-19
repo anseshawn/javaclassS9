@@ -23,39 +23,49 @@
       background-color: #0E2B5E;
       color: white;
     }
+    
+    .place:disabled, .machine:disabled {
+    	border: none;
+      background-color: #C7C3BB;
+      pointer-events: none;
+      cursor: none;
+    }
 	</style>
 	<script>
 		'use strict';
 		$(function() {
-				/*
-	    	let places = document.querySelectorAll(".place");
-	    	let p = Array.from(places).map(element => element.getAttribute('data-value'));
-				for(let i=0; i<p.length; i++) {
-			  	let engineerMachine = '${eVo.place}';
-		      if(!engineerMachine.includes(p[i])){
-		    	  button.disabled = true;
-		      }
-				}
-	      */
+			for(let i=1; i<=17; i++) {
+		  	let engineerPlace = '${eVo.place}';
+	      if(!engineerPlace.includes($("#place"+i).val())){
+	    	  $("#place"+i).attr("disabled",true);
+	      }
+			}
+			for(let i=1; i<=6; i++) {
+		  	let engineerMachine = '${eVo.machine}';
+	      if(!engineerMachine.includes($("#machine"+i).val())){
+	    	  $("#machine"+i).addClass("disabled");
+	      }
+			}
+			
 			$('#datePicker').datepicker({
-			    format: "yyyy-mm-dd",	//데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
-			    startDate: '-0d',	//달력에서 선택 할 수 있는 가장 빠른 날짜. 이전으로는 선택 불가능 ( d : 일 m : 달 y : 년 w : 주)
-			    endDate: '+10m',	//달력에서 선택 할 수 있는 가장 느린 날짜. 이후로 선택 불가 ( d : 일 m : 달 y : 년 w : 주)
-			    autoclose : true,	//사용자가 날짜를 클릭하면 자동 캘린더가 닫히는 옵션
-			    //clearBtn : false, //날짜 선택한 값 초기화 해주는 버튼 보여주는 옵션 기본값 false 보여주려면 true
-			    disableTouchKeyboard : false,	//모바일에서 플러그인 작동 여부 기본값 false 가 작동 true가 작동 안함.
-			    immediateUpdates: true,	//사용자가 보는 화면으로 바로바로 날짜를 변경할지 여부 기본값 :false 
-			    multidate : false, //여러 날짜 선택할 수 있게 하는 옵션 기본값 :false 
-			    multidateSeparator :"~", //여러 날짜를 선택했을 때 사이에 나타나는 글짜 2019-05-01,2019-06-01
-			    templates : {
-			        leftArrow: '&laquo;',
-			        rightArrow: '&raquo;'
-			    }, //다음달 이전달로 넘어가는 화살표 모양 커스텀 마이징 
-			    showWeekDays : true,// 위에 요일 보여주는 옵션 기본값 : true
-			    todayHighlight : true ,	//오늘 날짜에 하이라이팅 기능 기본값 :false 
-			    toggleActive : false,	//이미 선택된 날짜 선택하면 기본값 : false인경우 그대로 유지 true인 경우 날짜 삭제
-			    weekStart : 0 ,//달력 시작 요일 선택하는 것 기본값은 0인 일요일 
-			    language : "ko"	//달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
+		    format: "yyyy-mm-dd",	//데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
+		    startDate: '-0d',	//달력에서 선택 할 수 있는 가장 빠른 날짜. 이전으로는 선택 불가능 ( d : 일 m : 달 y : 년 w : 주)
+		    endDate: '+10m',	//달력에서 선택 할 수 있는 가장 느린 날짜. 이후로 선택 불가 ( d : 일 m : 달 y : 년 w : 주)
+		    autoclose : true,	//사용자가 날짜를 클릭하면 자동 캘린더가 닫히는 옵션
+		    //clearBtn : false, //날짜 선택한 값 초기화 해주는 버튼 보여주는 옵션 기본값 false 보여주려면 true
+		    disableTouchKeyboard : false,	//모바일에서 플러그인 작동 여부 기본값 false 가 작동 true가 작동 안함.
+		    immediateUpdates: true,	//사용자가 보는 화면으로 바로바로 날짜를 변경할지 여부 기본값 :false 
+		    multidate : false, //여러 날짜 선택할 수 있게 하는 옵션 기본값 :false 
+		    multidateSeparator :"~", //여러 날짜를 선택했을 때 사이에 나타나는 글짜 2019-05-01,2019-06-01
+		    templates : {
+		        leftArrow: '&laquo;',
+		        rightArrow: '&raquo;'
+		    }, //다음달 이전달로 넘어가는 화살표 모양 커스텀 마이징 
+		    showWeekDays : true,// 위에 요일 보여주는 옵션 기본값 : true
+		    todayHighlight : true ,	//오늘 날짜에 하이라이팅 기능 기본값 :false 
+		    toggleActive : false,	//이미 선택된 날짜 선택하면 기본값 : false인경우 그대로 유지 true인 경우 날짜 삭제
+		    weekStart : 0 ,//달력 시작 요일 선택하는 것 기본값은 0인 일요일 
+		    language : "ko"	//달력의 언어 선택, 그에 맞는 js로 교체해줘야한다.
 			});
 		});
 		
@@ -173,23 +183,23 @@
 		<div class="row justify-content-center mb-3">
 			<div class="col-md-8 col-md-offset-2">
 				<div class="input-group"><h4>신청 지역 선택</h4><a href="javascript:activeSelect()" class="ml-2"><i class="fa-solid fa-arrow-rotate-right"></i></a></div>
-				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="place" value="서울" onclick="placeSelect(this)">
-				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="place" value="인천" onclick="placeSelect(this)">
-				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="place" value="부산" onclick="placeSelect(this)">
-				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="place" value="대구" onclick="placeSelect(this)">
-				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="place" value="광주" onclick="placeSelect(this)">
-				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="place" value="대전" onclick="placeSelect(this)">
-				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="place" value="울산" onclick="placeSelect(this)">
-				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="place" value="세종" onclick="placeSelect(this)">
-				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="place" value="경기" onclick="placeSelect(this)">
-				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="place" value="강원" onclick="placeSelect(this)">
-				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="place" value="충북" onclick="placeSelect(this)">
-				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="place" value="충남" onclick="placeSelect(this)">
-				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="place" value="전북" onclick="placeSelect(this)">
-				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="place" value="전남" onclick="placeSelect(this)">
-				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="place" value="경북" onclick="placeSelect(this)">
-				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="place" value="경남" onclick="placeSelect(this)">
-				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" name="place" value="제주" onclick="placeSelect(this)">
+				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" id="place1" value="서울" onclick="placeSelect(this)">
+				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" id="place2" value="인천" onclick="placeSelect(this)">
+				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" id="place3" value="부산" onclick="placeSelect(this)">
+				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" id="place4" value="대구" onclick="placeSelect(this)">
+				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" id="place5" value="광주" onclick="placeSelect(this)">
+				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" id="place6" value="대전" onclick="placeSelect(this)">
+				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" id="place7" value="울산" onclick="placeSelect(this)">
+				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" id="place8" value="세종" onclick="placeSelect(this)">
+				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" id="place9" value="경기" onclick="placeSelect(this)">
+				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" id="place10" value="강원" onclick="placeSelect(this)">
+				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" id="place11" value="충북" onclick="placeSelect(this)">
+				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" id="place12" value="충남" onclick="placeSelect(this)">
+				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" id="place13" value="전북" onclick="placeSelect(this)">
+				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" id="place14" value="전남" onclick="placeSelect(this)">
+				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" id="place15" value="경북" onclick="placeSelect(this)">
+				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" id="place16" value="경남" onclick="placeSelect(this)">
+				<input type="button" class="place btn btn-main btn-icon-md btn-round-full mr-2 mb-2" id="place17" value="제주" onclick="placeSelect(this)">
       </div>
 		</div>
 		<div class="row justify-content-center mb-3" id="addressInput" style="display:none;">

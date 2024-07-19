@@ -2,7 +2,7 @@ package com.spring.javaclassS9.service;
 
 import java.util.ArrayList;
 
-import com.spring.javaclassS9.vo.EngineerVO;
+import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.MemberVO;
 
 public interface AdminService {
@@ -24,5 +24,13 @@ public interface AdminService {
 	public int setProductEstimateChange(int idx, String statement);
 
 	public int getJoinMemberCount();
+
+	public void setMemberDeleteReason(String deleteReason, String etcReason);
+
+	public ArrayList<DeleteMemberVO> getMemberDeleteReason();
+
+	public ArrayList<MemberVO> getMemberJoinDate();
+
+	public int getProductEstimateCount();
 
 }

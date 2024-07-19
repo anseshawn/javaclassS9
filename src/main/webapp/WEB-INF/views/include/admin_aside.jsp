@@ -253,6 +253,6 @@
 	</ul>
 	<div class="ani-navbar-menu ani-navbar-menu__icon">
 	  <i class="fa-solid fa-chart-pie"></i>
-	  <p>사이트 통계</p>
+	  <a href="${ctp}/admin/siteChart">사이트 통계</a>
 	</div>
 </nav>

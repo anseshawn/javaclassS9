@@ -6,14 +6,19 @@ import org.apache.ibatis.annotations.Param;
 
 import com.spring.javaclassS9.vo.BoardLikeVO;
 import com.spring.javaclassS9.vo.FreeBoardVO;
+import com.spring.javaclassS9.vo.QuestionBoardVO;
 import com.spring.javaclassS9.vo.ReplyVO;
 import com.spring.javaclassS9.vo.ReportVO;
 
 public interface BoardDAO {
 
-	public int totRecCnt();
+	public int freeTotRecCnt();
 
-	public int totRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
+	public int freeTotRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
+	
+	public int questionTotRecCnt();
+	
+	public int questionTotRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
 
 	public ArrayList<FreeBoardVO> getFreeBoardList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, 
 			@Param("search") String search, @Param("searchString") String searchString);
@@ -63,6 +68,11 @@ public interface BoardDAO {
 	public void setFreeBoardReadNumPlus(@Param("idx") int idx);
 
 	public ArrayList<BoardLikeVO> getBoardLikeListAll(@Param("mid") String mid);
+
+	public ArrayList<QuestionBoardVO> getQuestionBoardList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize,
+			@Param("search") String search, @Param("searchString") String searchString);
+
+	public ArrayList<QuestionBoardVO> getRecentReplyQuestionBoard();
 
 
 }

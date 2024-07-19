@@ -34,6 +34,7 @@ import com.spring.javaclassS9.vo.FreeBoardVO;
 import com.spring.javaclassS9.vo.NewsVO;
 import com.spring.javaclassS9.vo.PageVO;
 import com.spring.javaclassS9.vo.ProductLikeVO;
+import com.spring.javaclassS9.vo.QuestionBoardVO;
 import com.spring.javaclassS9.vo.ReplyVO;
 import com.spring.javaclassS9.vo.ReportVO;
 import com.spring.javaclassS9.vo.ReviewVO;
@@ -304,7 +305,7 @@ public class CustomerController {
 	@RequestMapping(value = "/board/freeBoardInput", method = RequestMethod.POST)
 	public String freeBoardInputPost(FreeBoardVO vo) {
 		if(vo.getContent().indexOf("src=\"/") != -1) boardService.imgCheck(vo.getContent());
-		vo.setContent(vo.getContent().replace("/data/ckeditor", "/data/board/"));
+		vo.setContent(vo.getContent().replace("/data/ckeditor", "/data/freeBoard/"));
 		int res = boardService.setFreeBoardInput(vo);
 		if(res != 0) return "redirect:/message/boardInputOk?pathFlag=freeBoard";
 		else return "redirect:/message/boardInputNo?pathFlag=freeBoard";
@@ -331,7 +332,7 @@ public class CustomerController {
 			if(originVO.getContent().indexOf("src=\"/")!= -1) boardService.imgDelete(originVO.getContent());
 			vo.setContent(vo.getContent().replace("/data/board/", "data/ckeditor"));
 			if(vo.getContent().indexOf("src=\"/")!= -1) boardService.imgCheck(vo.getContent());
-			vo.setContent(vo.getContent().replace("/data/ckeditor/", "/data/board/"));
+			vo.setContent(vo.getContent().replace("/data/ckeditor/", "/data/freeBoard/"));
 		}
 		int res = boardService.setFreeBoardEdit(vo);
 		if(res != 0) return "redirect:/message/boardEditOk?pathFlag=freeBoard";
@@ -480,6 +481,63 @@ public class CustomerController {
 		return res+"";
 	}
 	
+	// 질문게시판 연결
+	@RequestMapping(value = "/board/questionBoardList", method = RequestMethod.GET)
+	public String questionBoardListGet(Model model,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name = "part", defaultValue = "", required = false) String part,
+			@RequestParam(name = "partSelect", defaultValue = "", required = false) String partSelect,
+			@RequestParam(name = "searchString", defaultValue = "", required = false) String searchString
+			) {
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "questionBoard", part, searchString);
+		ArrayList<QuestionBoardVO> vos = null;
+		if(part.equals("part")) searchString = partSelect;
+		vos = boardService.getQuestionBoardList(pageVO.getStartIndexNo(), pageSize, part, searchString);
+		if(!part.equals(""))	{
+			if(part.equals("title")) part = "제목";
+			else if(part.equals("nickName")) part = "작성자";
+			else if(part.equals("content")) part = "내용";
+			else if(part.equals("part")) part = "분류";
+			model.addAttribute("part", part);
+			model.addAttribute("searchString", searchString);
+			model.addAttribute("searchCount", vos.size());
+		}
+		ArrayList<QuestionBoardVO> recentVOS = boardService.getRecentReplyQuestionBoard();
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("vos", vos);
+		model.addAttribute("recentVOS", recentVOS);
+		return "customer/board/questionBoardList";
+	}
+	
+	// 쪽지 보내기 창
+	@RequestMapping(value = "/sendMessage", method = RequestMethod.GET)
+	public String sendMessageGet(Model model,
+			@RequestParam(name = "receiveMid", defaultValue = "", required = false) String receiveMid
+			) {
+		model.addAttribute("receiveMid", receiveMid);
+		return "customer/sendMessage";
+	}
+	// 쪽지 보내기 창
+	@RequestMapping(value = "/sendMessage", method = RequestMethod.POST)
+	public String sendMessagePost() {
+		return "customer/sendMessage";
+	}
+
+	// 질문게시판 글 작성창 띄우기
+	@RequestMapping(value = "/board/questionBoardInput", method = RequestMethod.GET)
+	public String questionBoardInputGet() {
+		return "customer/board/questionBoardInput";
+	}
+	// 질문게시판 글 작성
+	@RequestMapping(value = "/board/questionBoardInput", method = RequestMethod.POST)
+	public String questionBoardInputPost(FreeBoardVO vo) {
+		if(vo.getContent().indexOf("src=\"/") != -1) boardService.imgCheck(vo.getContent());
+		vo.setContent(vo.getContent().replace("/data/ckeditor", "/data/questionBoard/"));
+		int res = boardService.setFreeBoardInput(vo);
+		if(res != 0) return "redirect:/message/boardInputOk?pathFlag=questionBoard";
+		else return "redirect:/message/boardInputNo?pathFlag=questionBoard";
+	}
 	
 	
 }

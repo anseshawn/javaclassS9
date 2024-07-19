@@ -16,7 +16,7 @@
 	</select>
 	
 	<select id="getAllProductEstimateList" resultType="com.spring.javaclassS9.vo.ProductSaleVO">
-		select * from productSaleS order by idx <if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+		select * from productSaleS order by idx desc <if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	<select id="estimateTotRecCnt" resultType="int">
 		select count(*) from productSaleS;

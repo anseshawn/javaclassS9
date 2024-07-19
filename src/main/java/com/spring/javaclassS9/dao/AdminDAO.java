@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.MemberVO;
 
@@ -26,5 +27,13 @@ public interface AdminDAO {
 	public int setProductEstimateChange(@Param("idx") int idx, @Param("statement") String statement);
 
 	public int getJoinMemberCount();
+
+	public void setMemberDeleteReason(DeleteMemberVO vo);
+
+	public ArrayList<DeleteMemberVO> getMemberDeleteReason();
+
+	public ArrayList<MemberVO> getMemberJoinDate();
+
+	public int getProductEstimateCount();
 
 }

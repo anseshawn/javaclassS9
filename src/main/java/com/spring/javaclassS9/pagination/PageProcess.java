@@ -50,24 +50,31 @@ public class PageProcess {
 			}
 		}
 		else if(section.equals("asRequest")) {
-			if(part.equals("mid"))totRecCnt = customerDAO.totRecCnt(searchString);
+			if(part.equals("mid")) totRecCnt = customerDAO.totRecCnt(searchString);
 			else if(part.equals("engineerIdx")) totRecCnt = engineerDAO.totAsRequestRecCnt(searchString);
 		}
 		else if(section.equals("product")) {
-			if(part.equals(""))totRecCnt = productDAO.totRecCnt();
+			if(part.equals("")) totRecCnt = productDAO.totRecCnt();
 		}
 		else if(section.equals("productEstimate")) {
-			if(part.equals(""))totRecCnt = productDAO.estimateTotRecCnt();
+			if(part.equals("")) totRecCnt = productDAO.estimateTotRecCnt();
 			else {
 				search = part;
 				totRecCnt = productDAO.estimateTotRecCntSearch(search,searchString);
 			}
 		}
 		else if(section.equals("freeBoard")) {
-			if(part.equals(""))totRecCnt = boardDAO.totRecCnt();
+			if(part.equals("")) totRecCnt = boardDAO.freeTotRecCnt();
 			else {
 				search = part;
-				totRecCnt = boardDAO.totRecCntSearch(search,searchString);
+				totRecCnt = boardDAO.freeTotRecCntSearch(search,searchString);
+			}
+		}
+		else if(section.equals("questionBoard")) {
+			if(part.equals("")) totRecCnt = boardDAO.questionTotRecCnt();
+			else {
+				search = part;
+				totRecCnt = boardDAO.questionTotRecCntSearch(search,searchString);
 			}
 		}
 		//else if(section.equals("pds"))	totRecCnt = pdsDAO.totRecCnt(part);

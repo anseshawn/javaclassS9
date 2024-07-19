@@ -8,16 +8,35 @@
 	</select>
 	<select id="getMemberLevelList" resultType="com.spring.javaclassS9.vo.MemberVO">
 		select *, timestampdiff(day, lastDate, now()) as deleteDiff from memberS
-			where m_group=#{m_group} order by idx limit #{startIndexNo},#{pageSize};
+			where m_group=#{m_group} order by idx desc limit #{startIndexNo},#{pageSize};
 	</select>
 	<select id="getMemberSearchList" resultType="com.spring.javaclassS9.vo.MemberVO">
 		select *, timestampdiff(day, lastDate, now()) as deleteDiff from memberS
-			where ${part} like concat('%',#{searchString},'%') order by idx
+			where ${part} like concat('%',#{searchString},'%') order by idx desc
 			<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	<select id="getJoinMemberCount" resultType="int">
 		select count(*) from memberS where <![CDATA[datediff(startDate,now()) > -7]]>;
 	</select>
+	<select id="getProductEstimateCount" resultType="int">
+		select count(*) from productSaleS where statement='QUOTE';
+	</select>
+	<select id="getMemberDeleteReason" resultType="com.spring.javaclassS9.vo.DeleteMemberVO">
+		select deleteReason,reasonDetail, count(*) as reasonCnt from deleteMember
+			where deleteReason between 1 and 6 group by deleteReason;
+	</select>
+	<select id="getMemberJoinDate" resultType="com.spring.javaclassS9.vo.MemberVO">
+		select date_format(startDate,'%Y-%m-%d') as joinDate, count(*) as joinCnt from memberS 
+			group by date_format(startDate,'%Y-%m-%d');
+	</select>
+	
+	
+	<insert id="setMemberDeleteReason">
+		insert into deleteMember values(default, #{vo.deleteReason}, #{vo.reasonDetail}, 
+		<if test="vo.deleteReason!=6">""</if>
+		<if test="vo.deleteReason==6">#{vo.etc}</if>
+		);
+	</insert>
 	
 	
 	<update id="setMemberLevelUpdateOk">

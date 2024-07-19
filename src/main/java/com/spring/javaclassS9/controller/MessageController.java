@@ -118,11 +118,11 @@ public class MessageController {
 		}
 		else if(msgFlag.equals("productSaleCustomerInputOk")) {
 			model.addAttribute("msg", "견적을 요청했습니다.");
-			model.addAttribute("url", "/customer/product/productSale");
+			model.addAttribute("url", "/product/productSale");
 		}
 		else if(msgFlag.equals("productSaleCustomerInputNo")) {
 			model.addAttribute("msg", "견적 요청 중 오류가 발생했습니다.\\n다시 시도해주세요.");
-			model.addAttribute("url", "/customer/product/productEstimate");
+			model.addAttribute("url", "/product/productEstimate");
 		}
 		else if(msgFlag.equals("productEditOk")) {
 			model.addAttribute("msg", "장비 내용이 수정되었습니다.");
@@ -145,31 +145,37 @@ public class MessageController {
 		else if(msgFlag.equals("boardInputOk")) {
 			model.addAttribute("msg", "게시판에 글이 등록되었습니다.");
 			if(pathFlag.equals("freeBoard")) model.addAttribute("url", "/customer/board/freeBoardList");
+			else if(pathFlag.equals("questionBoard")) model.addAttribute("url", "/customer/board/questionBoardList");
 			else model.addAttribute("url", "/customer/cmain");
 		}
 		else if(msgFlag.equals("boardInputNo")) {
 			model.addAttribute("msg", "글 등록 실패");
 			if(pathFlag.equals("freeBoard")) model.addAttribute("url", "/customer/board/freeBoardInput");
+			else if(pathFlag.equals("questionBoard")) model.addAttribute("url", "/customer/board/questionBoardInput");
 			else model.addAttribute("url", "/customer/cmain");
 		}
 		else if(msgFlag.equals("boardEditOk")) {
 			model.addAttribute("msg", "게시글이 수정되었습니다.");
 			if(pathFlag.equals("freeBoard")) model.addAttribute("url", "/customer/board/freeBoardList");
+			else if(pathFlag.equals("questionBoard")) model.addAttribute("url", "/customer/board/questionBoardList");
 			else model.addAttribute("url", "/customer/cmain");
 		}
 		else if(msgFlag.equals("boardEditNo")) {
 			model.addAttribute("msg", "게시글 수정 실패");
 			if(pathFlag.equals("freeBoard")) model.addAttribute("url", "/customer/board/freeBoardEdit?idx="+idx);
+			else if(pathFlag.equals("questionBoard")) model.addAttribute("url", "/customer/board/questionBoardEdit?idx="+idx);
 			else model.addAttribute("url", "/customer/cmain");
 		}
 		else if(msgFlag.equals("boardDeleteOk")) {
 			model.addAttribute("msg", "게시글이 삭제되었습니다.");
 			if(pathFlag.equals("freeBoard")) model.addAttribute("url", "/customer/board/freeBoardList");
+			else if(pathFlag.equals("questionBoard")) model.addAttribute("url", "/customer/board/questionBoardList");
 			else model.addAttribute("url", "/customer/cmain");
 		}
 		else if(msgFlag.equals("boardDeleteNo")) {
 			model.addAttribute("msg", "게시글 삭제 실패");
 			if(pathFlag.equals("freeBoard")) model.addAttribute("url", "/customer/board/freeBoardContent?idx="+idx);
+			else if(pathFlag.equals("questionBoard")) model.addAttribute("url", "/customer/board/questionBoardContent?idx="+idx);
 			else model.addAttribute("url", "/customer/cmain");
 		}
 		

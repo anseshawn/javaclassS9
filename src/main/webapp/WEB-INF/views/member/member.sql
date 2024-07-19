@@ -39,3 +39,19 @@ select emailNews from memberS;
 select * from memberS where mid='hkd1234';
 
 select *, datediff(startDate,now()) from memberS where datediff(startDate,now()) > -7;
+
+select date_format(startDate,'%Y-%m-%d') as joinDate, count(*) as joinCnt from memberS group by date_format(startDate,'%Y-%m-%d');
+
+create table messageS(
+	idx int not null auto_increment,
+	sendMid varchar(20) not null,
+	receiveMid varchar(20) not null,
+	content text not null,
+	sendSw char(1) not null,
+	sendDate datetime default now(),
+	receiveSw char(1) not null,
+	receiveDate datetime default now(),
+	primary key(idx),
+	foreign key(sendMid) references memberS(mid),
+	foreign key(receiveMid) references memberS(mid)
+);

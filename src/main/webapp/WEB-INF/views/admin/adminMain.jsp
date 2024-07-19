@@ -108,14 +108,12 @@
                 }
               });
            }
-
          });
-         // 캘린더 랜더링
          calendar.render();
        });
      })();
 	   
-	   // 가입자 / 탈퇴자 수 차트
+	  // 가입자 / 탈퇴자 수 차트
 	  google.charts.load('current', {'packages':['line']});
     google.charts.setOnLoadCallback(drawChart);
 
@@ -197,20 +195,22 @@
     </div>
     <div class="col-lg-3">
       <div class="card tasks">
-        <div class="card-body d-flex justify-content-between">
-          <div>
-            <p class="card-text mb-2">Tasks</p>
-            <h4>13</h4>
-          </div>
-          <i class="fa-solid fa-list-check" style="font-size: 30px; margin-top: 20px; color: #6c757d"></i>
-        </div>
+      	<a href="${ctp}/admin/product/productEstimate">
+	        <div class="card-body d-flex justify-content-between">
+	          <div>
+	            <p class="card-text mb-2">새로운 견적 요청</p>
+	            <h4>${estimateCount} 건</h4>
+	          </div>
+	          <i class="fa-solid fa-list-check" style="font-size: 30px; margin-top: 20px; color: #6c757d"></i>
+	        </div>
+        </a>
       </div>
     </div>
     <div class="col-lg-3">
       <div class="card requests">
         <div class="card-body d-flex justify-content-between">
           <div>
-            <p class="card-text mb-2">Requests</p>
+            <p class="card-text mb-2">새로운 문의 내용</p>
             <h4>26</h4>
             </div>
             <i

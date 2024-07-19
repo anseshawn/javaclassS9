@@ -2,11 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.javaclassS9.dao.BoardDAO">
 
-	<select id="totRecCnt" resultType="int">
+	<select id="freeTotRecCnt" resultType="int">
 		SELECT count(*) FROM freeBoardS;
 	</select>
-	<select id="totRecCntSearch" resultType="int">
+	<select id="freeTotRecCntSearch" resultType="int">
 		SELECT count(*) FROM freeBoardS WHERE ${search} LIKE CONCAT('%',#{searchString},'%');
+	</select>
+	<select id="questionTotRecCnt" resultType="int">
+		SELECT count(*) FROM questionBoardS;
+	</select>
+	<select id="questionTotRecCntSearch" resultType="int">
+		SELECT count(*) FROM questionBoardS WHERE ${search} LIKE CONCAT('%',#{searchString},'%');
 	</select>
 	<select id="getFreeBoardList" resultType="com.spring.javaclassS9.vo.FreeBoardVO">
 		SELECT *, datediff(writeDate, now()) AS date_diff, timestampdiff(hour, writeDate, now()) AS hour_diff,
@@ -42,10 +48,22 @@
 		SELECT * FROM boardLikeS WHERE board=#{board} AND memberMid=#{mid};
 	</select>
 	<select id="getBoardReportRecord" resultType="com.spring.javaclassS9.vo.ReportVO">
-		SELECT * FROM reportS WHERE board=#{vo.board} AND boardIdx=#{vo.boardIdx} AND memberMid=#{vo.mid};
+		SELECT * FROM reportS WHERE board=#{vo.board} AND boardIdx=#{vo.boardIdx} AND rpMid=#{vo.rpMid};
 	</select>
 	<select id="getBoardLikeListAll" resultType="com.spring.javaclassS9.vo.BoardLikeVO">
 		SELECT * FROM boardLikeS WHERE memberMid=#{mid};
+	</select>
+	<select id="getQuestionBoardList" resultType="com.spring.javaclassS9.vo.QuestionBoardVO">
+		SELECT *, datediff(writeDate, now()) AS date_diff, timestampdiff(hour, writeDate, now()) AS hour_diff,
+			(SELECT count(*) FROM replyS WHERE board='questionBoard' and boardIdx = b.idx) as replyCnt FROM questionBoardS b  
+			<if test="search != ''"> WHERE ${search} LIKE CONCAT('%',#{searchString},'%') </if> 
+			ORDER BY idx desc	<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+	</select>
+	<select id="getRecentReplyQuestionBoard" resultType="com.spring.javaclassS9.vo.QuestionBoardVO">
+		SELECT b.*, datediff(writeDate, now()) AS date_diff, timestampdiff(hour, writeDate, now()) AS hour_diff,
+			(SELECT count(*) FROM replyS WHERE board='questionBoard' and boardIdx = b.idx) as replyCnt, 
+			r.replyDate FROM questionBoardS b, replyS r WHERE b.idx=r.boardIdx AND <![CDATA[b.report < 5]]>
+			GROUP BY b.idx ORDER BY r.replyDate DESC limit 5;
 	</select>
 	
 	

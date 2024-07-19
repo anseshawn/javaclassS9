@@ -116,6 +116,8 @@
 				          popup : 'custom-swal-popup',
 				          htmlContainer : 'custom-swal-text'
 								}
+							}).then(function(){
+								location.reload();
 							});
 							//location.reload();
 						},
@@ -191,9 +193,9 @@
 			<div class="input-group">
 				<select name="part" id="part" class="custom-select" style="height:36px;">
 					<option value="">분류</option>
-					<option value="mid">아이디</option>
-					<option value="name">이름</option>
-					<option value="email">이메일</option>
+					<option value="mid" ${pageVO.part=='mid'? 'selected' : ''}>아이디</option>
+					<option value="name" ${pageVO.part=='name'? 'selected' : ''}>이름</option>
+					<option value="email" ${pageVO.part=='email'? 'selected' : ''}>이메일</option>
 				</select>
 				<input type="text" name="searchString" id="searchString" class="form-control" style="height:36px;"/>
 				<div class="input-group-append">
@@ -211,33 +213,33 @@
 					<select name="searchMachine" id="searchMachine" class="custom-select" onchange="selectMachineShow()">
 						<option>기기별 보기</option>
 						<option value="">전체</option>
-						<option value="UV">UV</option>
-						<option value="AAs">AAs</option>
-						<option value="ICP">ICP</option>
-						<option value="GC">GC</option>
-						<option value="LC">LC</option>
-						<option value="etc">기타</option>
+						<option value="UV" ${pageVO.searchString=='UV' ? 'selected' : ''}>UV</option>
+						<option value="AAs" ${pageVO.searchString=='AAs' ? 'selected' : ''}>AAs</option>
+						<option value="ICP" ${pageVO.searchString=='ICP' ? 'selected' : ''}>ICP</option>
+						<option value="GC" ${pageVO.searchString=='GC' ? 'selected' : ''}>GC</option>
+						<option value="LC" ${pageVO.searchString=='LC' ? 'selected' : ''}>LC</option>
+						<option value="etc" ${pageVO.searchString=='etc' ? 'selected' : ''}>기타</option>
 					</select>
 					<select name="searchPlace" id="searchPlace" class="custom-select" onchange="selectPlaceShow()">
 						<option>지역별 보기</option>
 						<option value="">전체</option>
-						<option value="서울" ${pageVo.searchString=="서울" ? "selected" : ""}>서울</option>
-						<option value="인천" ${pageVo.searchString=="인천" ? "selected" : ""}>인천</option>
-						<option value="부산">부산</option>
-						<option value="대구">대구</option>
-						<option value="광주">광주</option>
-						<option value="대전">대전</option>
-						<option value="울산">울산</option>
-						<option value="세종">세종</option>
-						<option value="경기">경기</option>
-						<option value="강원">강원</option>
-						<option value="충북">충북</option>
-						<option value="충남">충남</option>
-						<option value="전북">전북</option>
-						<option value="전남">전남</option>
-						<option value="경북">경북</option>
-						<option value="경남">경남</option>
-						<option value="제주">제주</option>
+						<option value="서울" ${pageVO.searchString=='서울' ? 'selected' : ''}>서울</option>
+						<option value="인천" ${pageVO.searchString=='인천' ? 'selected' : ''}>인천</option>
+						<option value="부산" ${pageVO.searchString=='부산' ? 'selected' : ''}>부산</option>
+						<option value="대구" ${pageVO.searchString=='대구' ? 'selected' : ''}>대구</option>
+						<option value="광주" ${pageVO.searchString=='광주' ? 'selected' : ''}>광주</option>
+						<option value="대전" ${pageVO.searchString=='대전' ? 'selected' : ''}>대전</option>
+						<option value="울산" ${pageVO.searchString=='울산' ? 'selected' : ''}>울산</option>
+						<option value="세종" ${pageVO.searchString=='세종' ? 'selected' : ''}>세종</option>
+						<option value="경기" ${pageVO.searchString=='경기' ? 'selected' : ''}>경기</option>
+						<option value="강원" ${pageVO.searchString=='강원' ? 'selected' : ''}>강원</option>
+						<option value="충북" ${pageVO.searchString=='충북' ? 'selected' : ''}>충북</option>
+						<option value="충남" ${pageVO.searchString=='충남' ? 'selected' : ''}>충남</option>
+						<option value="전북" ${pageVO.searchString=='전북' ? 'selected' : ''}>전북</option>
+						<option value="전남" ${pageVO.searchString=='전남' ? 'selected' : ''}>전남</option>
+						<option value="경북" ${pageVO.searchString=='경북' ? 'selected' : ''}>경북</option>
+						<option value="경남" ${pageVO.searchString=='경남' ? 'selected' : ''}>경남</option>
+						<option value="제주" ${pageVO.searchString=='제주' ? 'selected' : ''}>제주</option>
 					</select>
 				</div>
 			</form>

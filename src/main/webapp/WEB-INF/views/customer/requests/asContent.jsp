@@ -52,7 +52,7 @@
 				success: function(eVo) {
 					str += '<table class="table table-borderless text-center">';
 					str += '<tr>';
-					str += '<td rowspan="3" style="width:20%;"><img src="${ctp}/images/'+eVo.photo+'" width="150px"/></td>';
+					str += '<td rowspan="3" style="width:20%;"><img src="${ctp}/engineer/'+eVo.photo+'" width="150px"/></td>';
 					str += '<td colspan="2"><b>'+eVo.name+'</b> 엔지니어</td>';
 					str += '<td colspan="2"><i class="fa-solid fa-star mr-2" style="color:#FFB724"></i>'+eVo.starPoint+'</td>';
 					str += '</tr>';

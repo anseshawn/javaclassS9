@@ -30,6 +30,7 @@ import com.spring.javaclassS9.service.EngineerService;
 import com.spring.javaclassS9.service.MemberService;
 import com.spring.javaclassS9.service.ProductService;
 import com.spring.javaclassS9.vo.ChartVO;
+import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.PageVO;
@@ -66,7 +67,9 @@ public class AdminController {
 	@RequestMapping(value = "/adminMain", method = RequestMethod.GET)
 	public String adminMainGet(Model model) {
 		int joinCount = adminService.getJoinMemberCount();
+		int estimateCount = adminService.getProductEstimateCount();
 		model.addAttribute("joinCount", joinCount);
+		model.addAttribute("estimateCount", estimateCount);
 		return "admin/adminMain";
 	}
 	
@@ -535,6 +538,46 @@ public class AdminController {
   @RequestMapping(value = "/engineer/schedule", method = RequestMethod.GET)
   public String scheduleGet() {
   	return "admin/engineer/schedule";
+  }
+  @RequestMapping(value = "/siteChart", method = RequestMethod.GET)
+  public String siteChartGet(Model model) {
+  	// 탈퇴 현황 pie chart
+  	ArrayList<DeleteMemberVO> vos = adminService.getMemberDeleteReason();
+  	int[] deleteReasons = new int[6];
+  	String[] reasonDetails = new String[6];
+  	int[] reasonCnts = new int[6];
+  	for(int i=0; i<vos.size(); i++) {
+  		deleteReasons[i] = vos.get(i).getDeleteReason();
+  		reasonDetails[i] = vos.get(i).getReasonDetail();
+  		reasonCnts[i] = vos.get(i).getReasonCnt();
+  	}
+  	ChartVO vo = new ChartVO();
+  	vo.setTitle("탈퇴 사유 현황");
+  	vo.setXtitle("탈퇴 사유");
+  	vo.setLegend1("비율");
+  	model.addAttribute("vo", vo);
+  	model.addAttribute("deleteReasons",deleteReasons);
+  	model.addAttribute("reasonDetails", reasonDetails);
+  	model.addAttribute("reasonCnts", reasonCnts);
+  	
+  	// 회원 가입 현황 line chart
+  	ArrayList<MemberVO> memberVOS = adminService.getMemberJoinDate();
+  	int mVosLength = memberVOS.size();
+  	String[] joinDates = new String[mVosLength];
+  	int[] joinCnts = new int[mVosLength];
+  	for(int i=0; i<mVosLength; i++) {
+  		joinDates[i] = memberVOS.get(i).getJoinDate();
+  		joinCnts[i] = memberVOS.get(i).getJoinCnt();
+  	}
+  	ChartVO lineVO = new ChartVO();
+  	lineVO.setTitle("회원 가입 현황");
+  	lineVO.setSubTitle("날짜 별 회원 가입 현황");
+  	lineVO.setXtitle("가입자 수");
+  	model.addAttribute("lineVO", lineVO);
+  	model.addAttribute("joinDates", joinDates);
+  	model.addAttribute("joinCnts", joinCnts);
+  	model.addAttribute("size", mVosLength);
+  	return "admin/siteChart";
   }
 	
 }

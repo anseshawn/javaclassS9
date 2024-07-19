@@ -58,6 +58,8 @@
 				          popup : 'custom-swal-popup',
 				          htmlContainer : 'custom-swal-text'
 								}
+							}).then(function(){
+								location.reload();
 							});
 						},
 						error: function(){
@@ -167,7 +169,7 @@
 						</table>
 						<div class="text-right">
 							<c:if test="${saleVO.statement == 'QUOTE'}">
-								<a href="${ctp}/admin/product/productEdit?idx=${vo.idx}" class="btn btn-main-2 btn-icon-md mr-2 mb-2">견적서 송부</a>
+								<a href="#" class="btn btn-main-2 btn-icon-md mr-2 mb-2">견적서 송부</a>
 							</c:if>
 							<a href="javascript:#" class="btn btn-main-2 btn-icon-md mb-2">발주 진행</a>
 						</div>

@@ -19,6 +19,22 @@ DESC freeBoardS;
 
 INSERT INTO freeBoardS VALUES (default,'admin','관리자','게시판 서비스를 시작합니다.','많은 이용부탁드립니다.','192.168.50.58',default,default,default,default);
 
+create table questionBoardS(
+	idx int not null auto_increment,	/* 게시글 고유번호 */
+	mid varchar(10) not null,					/* 작성자 아이디 */
+	nickName varchar(10) not null,		/* 작성자 닉네임 */
+	title varchar(50) not null,				/* 게시글 제목 */
+	content text not null,						/* 게시글 내용 */
+	hostIp varchar(40) not null,			/* 작성자 아이피 */
+	readNum int default 0,						/* 조회수 */
+	writeDate datetime default now(),	/* 작성일 */
+	part varchar(10) not null,				/* 질문분류(실험방법,실험장비,법규,기타) */
+	good int default 0,								/* 좋아요 */
+	report int default 0,							/* 신고(5번 신고하면 리스트에서 블라인드) */
+	primary key(idx),
+	foreign key(mid) references member(mid)
+);
+INSERT INTO questionBoardS VALUES (default,'admin','관리자','질문 게시판 서비스를 시작합니다.','회원님들의 많은 이용부탁드립니다.','192.168.50.58',default,default,'기타',default,default);
 create table replyS(
 	idx INT NOT NULL auto_increment,
 	board VARCHAR(20) NOT NULL,		/* 게시판 종류 */

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.spring.javaclassS9.vo.BoardLikeVO;
 import com.spring.javaclassS9.vo.FreeBoardVO;
+import com.spring.javaclassS9.vo.QuestionBoardVO;
 import com.spring.javaclassS9.vo.ReplyVO;
 import com.spring.javaclassS9.vo.ReportVO;
 
@@ -56,5 +57,10 @@ public interface BoardService {
 	public void setFreeBoardReadNumPlus(int idx);
 
 	public ArrayList<BoardLikeVO> getBoardLikeListAll(String mid);
+
+	public ArrayList<QuestionBoardVO> getQuestionBoardList(int startIndexNo, int pageSize, String search,
+			String searchString);
+
+	public ArrayList<QuestionBoardVO> getRecentReplyQuestionBoard();
 
 }

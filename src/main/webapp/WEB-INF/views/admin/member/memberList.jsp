@@ -98,7 +98,6 @@
 							if(res != "0") {
 								message = "등급 변경이 완료되었습니다.";
 								icon = "success";
-								location.reload();
 							}
 							else {
 								message = "등급 변경에 실패했습니다.";
@@ -113,6 +112,8 @@
 				          popup : 'custom-swal-popup',
 				          htmlContainer : 'custom-swal-text'
 								}
+							}).then(function(){
+								location.reload();
 							});
 						},
 						error: function(){
@@ -176,7 +177,7 @@
 		// 회원 등급별 보기
 		function selectLevelShow() {
 			let m_group = $("#searchLevel").val();
-			location.href="${ctp}/admin/member/memberList?pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&m_group="+m_group;
+			location.href="${ctp}/admin/member/memberList?pag=${pageVO.pag}&pageSize=${pageVO.pageSize}&m_group="+m_group;
 		}
 		
 		// 회원 검색
@@ -191,7 +192,7 @@
 				alert("검색어를 입력하세요.");
 				return false;
 			}
-			location.href="${ctp}/admin/member/memberList?pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&part="+part+"&searchString="+searchString;
+			location.href="${ctp}/admin/member/memberList?pag=${pageVO.pag}&pageSize=${pageVO.pageSize}&part="+part+"&searchString="+searchString;
 		}
 		
 		// 선택 회원 메일 보내기
@@ -232,9 +233,9 @@
 			<div class="input-group">
 				<select name="part" id="part" class="custom-select" style="height:36px;">
 					<option value="">분류</option>
-					<option value="mid" ${part=='mid' ? 'selected' : ''}>아이디</option>
-					<option value="name" ${part=='name' ? 'selected' : ''}>이름</option>
-					<option value="email" ${part=='email' ? 'selected' : ''}>이메일</option>
+					<option value="mid" ${pageVO.part=='mid' ? 'selected' : ''}>아이디</option>
+					<option value="name" ${pageVO.part=='name' ? 'selected' : ''}>이름</option>
+					<option value="email" ${pageVO.part=='email' ? 'selected' : ''}>이메일</option>
 				</select>
 				<input type="text" name="searchString" id="searchString" class="form-control" style="height:36px;"/>
 				<div class="input-group-append">
@@ -251,8 +252,8 @@
 				<select name="searchLevel" id="searchLevel" class="custom-select" onchange="selectLevelShow()">
 					<option>등급별 보기</option>
 					<option value="">전체</option>
-					<option value="개인">개인회원</option>
-					<option value="재직자">기업회원</option>
+					<option value="개인" ${pageVO.searchString=='개인' ? 'selected' : ''}>개인회원</option>
+					<option value="재직자" ${pageVO.searchString=='재직자' ? 'selected' : ''}>기업회원</option>
 				</select>
 			</form>
 		</div>

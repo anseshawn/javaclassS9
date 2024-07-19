@@ -29,7 +29,7 @@
 						<li><a href="${ctp}/product/productSale">분석장비</a></li>
 						<li><a href="#">소모품</a></li>
 						<li><a href="${ctp}/customer/requests/asRequest">A/S신청</a></li>
-						<li><a href="QuestionBoard.do">Q/A게시판</a></li>
+						<li><a href="${ctp}/customer/board/questionBoardList">Q/A게시판</a></li>
 						<li><a href="FreeBoard.do">자유게시판</a></li>
 					</ul>
 				</div>

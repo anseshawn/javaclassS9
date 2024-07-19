@@ -15,17 +15,75 @@
 		  font-size: 1.75rem;
 		}
 		
-		.pagination .page-item {
-			background-color: #C7C3BB;
+		.writeNickName {
+			cursor: pointer;
 		}
 		
-		.pagination .page-item a {
-			color: #fff;
+		.menu-container {
+	    position: relative;
+	    display: inline-block;
 		}
 		
+		.menu {
+	    position: absolute;
+	    top: 100%;
+	    left: 0;
+	    background-color: white;
+	    border: 1px solid #ccc;
+	    padding: 5px;
+	    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	    z-index: 100;
+		}
+		
+		.menu ul {
+	    list-style-type: none;
+	    margin: 0;
+	    padding: 0;
+	  	white-space: nowrap;
+		}
+		
+		.menu li {
+			display: inline-block;
+			margin-right: 10px;
+	    margin-bottom: 5px;
+		}
+		
+		.menu a {
+	    display: block;
+	    padding: 5px;
+	    text-decoration: none;
+	    color: #333;
+		}
+		
+		.menu a:hover {
+	    color: #6F8BA4;
+		}
+		
+		.hidden {
+	    display: none;
+		}
 	</style>
 	<script>
 		'use strict';
+		
+		document.addEventListener('DOMContentLoaded', function() {
+	    var menus = document.querySelectorAll('.menu-container');
+
+	    menus.forEach(function(menuContainer) {
+        var writeNickName = menuContainer.querySelector('.writeNickName');
+        var menu = menuContainer.querySelector('.menu');
+        // 닉네임을 클릭하면 메뉴를 토글합니다
+        writeNickName.addEventListener('click', function() {
+            menu.classList.toggle('hidden');
+        });
+	        // 화면의 다른 곳을 클릭하면 메뉴를 숨깁니다
+        document.addEventListener('click', function(event) {
+          if (!menuContainer.contains(event.target)) {
+              menu.classList.add('hidden');
+          }
+        });
+	  	});
+		});
 
 		// 게시판 검색
 		function boardSearch() {
@@ -40,6 +98,19 @@
 				return false;
 			}
 			location.href="${ctp}/customer/board/freeBoardList?pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&part="+part+"&searchString="+searchString;
+		}
+		
+		function sendMessage(receiveMid){
+			let url = "${ctp}/customer/sendMessage?receiveMid="+receiveMid;
+			let widthSize= 450;
+			let heightSize = 500;
+			let leftCenter = Math.ceil((window.screen.width - widthSize)/2);
+			let topCenter = Math.ceil((window.screen.height - heightSize)/2);
+			window.open(
+				url, // url
+				'쪽지 보내기', // title
+				'width='+widthSize+', height='+heightSize+', top='+topCenter+', left='+leftCenter // 설정
+			);
 		}
 
 	</script>
@@ -89,17 +160,16 @@
 										<span class="text-black text-capitalize mr-3">
 											<i class="icofont-calendar mr-2"></i> ${vo.date_diff == 0 ? fn:substring(vo.writeDate,11,19) : fn:substring(vo.writeDate,0,10) }
 										</span>
-										<span class="user-name text-muted text-capitalize mr-3">
-											<i class="icofont-user mr-2"></i>${vo.nickName}
-										</span>
-										<!-- 								
-								    <div id="userMenu" class="menu">
-							        <ul>
-						            <li onclick="sendMessage()">쪽지 보내기</li>
-						            <li onclick="reportUser()">유저 신고하기</li>
-							        </ul>
-							    	</div>
-							    	 -->
+										<div class="menu-container">
+											<span class="text-muted text-capitalize mr-3">
+												<i class="icofont-user mr-2"></i><span class="writeNickName">${vo.nickName}</span>
+											</span>
+					            <div class="menu hidden">
+				                <ul>
+			                    <li><a href="javascript:sendMessage('${vo.mid}')">쪽지 보내기</a></li>
+				                </ul>
+					            </div>
+						        </div>
 									</div> 
 									<div class="title mt-3 mb-3">
 										<a href="${ctp}/customer/board/freeBoardContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">${vo.title}</a>
@@ -115,17 +185,21 @@
 				</div>
 				
 				<!-- 블록페이지 시작 -->	
-				<div class="text-center">
-					<ul class="pagination justify-content-center" style="margin:20px 0">
-						<c:if test="${pageVO.pag > 1}"><li class="page-item"><a class="page-link" href="freeBoardList?search=${pageVo.search}&searchString=${pageVo.searchString}&pag=1&pageSize=${pageVO.pageSize}">처음</a></li></c:if>
-						<c:if test="${pageVO.curBlock > 0}"><li class="page-item"><a class="page-link" href="freeBoardList?search=${pageVo.search}&searchString=${pageVo.searchString}&pag=${(pageVO.curBlock-1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}">이전블록</a></li></c:if>
-						<c:forEach var="i" begin="${(pageVO.curBlock*pageVO.blockSize+1)}" end="${(pageVO.curBlock)*pageVO.blockSize+pageVO.blockSize}" varStatus="st">
-							<c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><li class="page-item active"><a class="page-link" href="freeBoardList?search=${pageVo.search}&searchString=${pageVo.searchString}&pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></li></c:if>
-							<c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><li class="page-item"><a class="page-link" href="freeBoardList?search=${pageVo.search}&searchString=${pageVo.searchString}&pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></li></c:if>
-						</c:forEach>
-						<c:if test="${pageVO.curBlock < pageVO.lastBlock}"><li class="page-item"><a class="page-link" href="freeBoardList?search=${pageVo.search}&searchString=${pageVo.searchString}&pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}">다음블록</a></li></c:if>
-						<c:if test="${pageVO.pag < pageVO.totPage}"><li class="page-item"><a class="page-link" href="freeBoardList?search=${pageVo.search}&searchString=${pageVo.searchString}&pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}">끝</a></li></c:if>
-					</ul>
+		    <div class="row mt-5">
+		      <div class="col-lg-9">
+		        <nav class="pagination py-2 d-inline-block">
+		          <div class="nav-links">
+			          <c:if test="${pageVO.pag > 1}"><a class="page-numbers" href="freeBoardList?pag=1&pageSize=${pageVO.pageSize}"><i class="icofont-thin-double-left"></i></a></c:if>
+			          <c:if test="${pageVO.curBlock > 0}"><a class="page-numbers" href="freeBoardList?pag=${(pageVO.curBlock-1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-left"></i></a></c:if>
+								<c:forEach var="i" begin="${(pageVO.curBlock*pageVO.blockSize+1)}" end="${(pageVO.curBlock)*pageVO.blockSize+pageVO.blockSize}" varStatus="st">
+									<c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><span aria-current="page" class="page-numbers current">${i}</span></c:if>
+									<c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><a class="page-numbers" href="freeBoardList?pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></c:if>
+								</c:forEach>
+								<c:if test="${pageVO.curBlock < pageVO.lastBlock}"><a class="page-numbers" href="freeBoardList?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-right"></i></a></c:if>
+								<c:if test="${pageVO.pag < pageVO.totPage}"><a class="page-numbers" href="freeBoardList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-double-right"></i></a></c:if>
+		        	</div>
+		      	</nav>
+					</div>
 				</div>
 				<!-- 블록페이지 끝 -->
 			</div>

@@ -27,4 +27,8 @@ public class MemberVO {
 	private String lastDate;
 	
 	private int deleteDiff;
+	
+	// 차트를 위한 vo
+	private String joinDate;
+	private int joinCnt;
 }

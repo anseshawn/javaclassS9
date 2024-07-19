@@ -22,54 +22,6 @@
       color: #EC4651;
       background-color: #fff;
     }
-		
-		.writeNickName {
-			cursor: pointer;
-		}
-		
-		.menu-container {
-	    position: relative;
-	    display: inline-block;
-		}
-		
-		.menu {
-	    position: absolute;
-	    top: 100%;
-	    left: 0;
-	    background-color: white;
-	    border: 1px solid #ccc;
-	    padding: 5px;
-	    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	    z-index: 1000;
-		}
-		
-		.menu ul {
-	    list-style-type: none;
-	    margin: 0;
-	    padding: 0;
-	  	white-space: nowrap;
-		}
-		
-		.menu li {
-			display: inline-block;
-			margin-right: 10px;
-	    margin-bottom: 5px;
-		}
-		
-		.menu a {
-	    display: block;
-	    padding: 5px;
-	    text-decoration: none;
-	    color: #333;
-		}
-		
-		.menu a:hover {
-	    color: #6F8BA4;
-		}
-		
-		.hidden {
-	    display: none;
-		}
 	</style>
 	<script>
 		'use strict';
@@ -80,20 +32,7 @@
 				$(".likeBtn").addClass("act");
 				likeBtnP = "good";
 			}
-	    var menus = document.querySelectorAll('.menu-container');
-
-	    menus.forEach(function(menuContainer) {
-        var writeNickName = menuContainer.querySelector('.writeNickName');
-        var menu = menuContainer.querySelector('.menu');
-        writeNickName.addEventListener('click', function() {
-            menu.classList.toggle('hidden');
-        });
-        document.addEventListener('click', function(event) {
-          if (!menuContainer.contains(event.target)) {
-              menu.classList.add('hidden');
-          }
-        });
-	  	});
+			//console.log(likeBtnP);
 		});
 		
 		// 관심글 등록 버튼
@@ -393,19 +332,6 @@
 			}
 			location.href="${ctp}/customer/board/freeBoardList?pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&part="+part+"&searchString="+searchString;
 		}
-		
-		function sendMessage(receiveMid){
-			let url = "${ctp}/customer/sendMessage?receiveMid="+receiveMid;
-			let widthSize= 450;
-			let heightSize = 500;
-			let leftCenter = Math.ceil((window.screen.width - widthSize)/2);
-			let topCenter = Math.ceil((window.screen.height - heightSize)/2);
-			window.open(
-				url, // url
-				'쪽지 보내기', // title
-				'width='+widthSize+', height='+heightSize+', top='+topCenter+', left='+leftCenter // 설정
-			);
-		}
 	</script>
 </head>
 <body id="top">
@@ -488,14 +414,7 @@
 										<c:if test="${rVo.re_step < 1}">
 											<div class="comment-info">
 												<c:if test="${rVo.nickName!='' || rVo.mid!=''}">
-													<div class="menu-container">
-													 <h5 class="mb-1 writeNickName">${rVo.nickName}(${rVo.mid})</h5>
-								            <div class="menu hidden">
-							                <ul>
-						                    <li><a href="javascript:sendMessage('${rVo.mid}')">쪽지 보내기</a></li>
-							                </ul>
-								            </div>
-						        			</div>
+													<h5 class="mb-1">${rVo.nickName}(${rVo.mid})</h5>
 													<span>${rVo.hostIp}</span>
 													<span class="date-comm mr-2">| ${rVo.date_diff == 0 ? fn:substring(rVo.replyDate,11,19) : fn:substring(rVo.replyDate,0,10) }</span>
 													<span class="comment-meta mr-2"><a href="javascript:replyFormRe(${rVo.idx})" ><i class="icofont-reply mr-2 text-muted"></i>답글</a></span>
@@ -516,14 +435,7 @@
 										<hr/>
 											<div class="col-lg-8">
 											<div class="comment-info">
-												<div class="menu-container">
-													<h5 class="mb-1 writeNickName">${rVo.nickName}(${rVo.mid})</h5>
-													<div class="menu hidden">
-						                <ul>
-					                    <li><a href="javascript:sendMessage('${rVo.mid}')">쪽지 보내기</a></li>
-						                </ul>
-							            </div>
-						            </div>
+												<h5 class="mb-1">${rVo.nickName}(${rVo.mid})</h5>
 												<span>${rVo.hostIp}</span>
 												<span class="date-comm mr-2">| ${rVo.date_diff == 0 ? fn:substring(rVo.replyDate,11,19) : fn:substring(rVo.replyDate,0,10) }</span>
 												<c:if test="${sLevel==0 || sMid == rVo.mid}">

@@ -17,6 +17,7 @@ import com.spring.javaclassS9.common.JavaclassProvide;
 import com.spring.javaclassS9.dao.BoardDAO;
 import com.spring.javaclassS9.vo.BoardLikeVO;
 import com.spring.javaclassS9.vo.FreeBoardVO;
+import com.spring.javaclassS9.vo.QuestionBoardVO;
 import com.spring.javaclassS9.vo.ReplyVO;
 import com.spring.javaclassS9.vo.ReportVO;
 
@@ -190,6 +191,17 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public ArrayList<BoardLikeVO> getBoardLikeListAll(String mid) {
 		return boardDAO.getBoardLikeListAll(mid);
+	}
+
+	@Override
+	public ArrayList<QuestionBoardVO> getQuestionBoardList(int startIndexNo, int pageSize, String search,
+			String searchString) {
+		return boardDAO.getQuestionBoardList(startIndexNo,pageSize,search,searchString);
+	}
+
+	@Override
+	public ArrayList<QuestionBoardVO> getRecentReplyQuestionBoard() {
+		return boardDAO.getRecentReplyQuestionBoard();
 	}
 
 

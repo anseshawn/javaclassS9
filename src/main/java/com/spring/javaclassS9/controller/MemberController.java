@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.javaclassS9.common.JavaclassProvide;
+import com.spring.javaclassS9.service.AdminService;
 import com.spring.javaclassS9.service.BoardService;
 import com.spring.javaclassS9.service.EngineerService;
 import com.spring.javaclassS9.service.MemberService;
@@ -52,6 +53,9 @@ public class MemberController {
 	
 	@Autowired
 	BoardService boardService;
+	
+	@Autowired
+	AdminService adminService;
 	
 	// 회원가입창 연결
 	@RequestMapping(value = "/memberJoin", method = RequestMethod.GET)
@@ -316,15 +320,17 @@ public class MemberController {
 		MemberVO vo = memberService.getMemberIdCheck(mid);
 		if(!passwordEncoder.matches(pwd, vo.getPwd())) return "redirect:/message/pwdCheckNo";
 		
-		String reason="";
+		String etcReason="";
 		if(deleteReason.contains("/")) {
 			String[] reasons = deleteReason.split("/");
 			deleteReason = reasons[0];
-			reason = reasons[1];
+			etcReason = reasons[1];
 		}
 		int res = memberService.setMemberDeleteOk(mid);
 		
 		// adminService 에서 탈퇴사유 추가하기 (탈퇴사유 한글로 바꾸는건 서비스에서...?)
+		adminService.setMemberDeleteReason(deleteReason,etcReason);
+		
 		if(res != 0) {
 			session.invalidate();
 			return "redirect:/message/memberDeleteOk";
