@@ -29,4 +29,8 @@ public interface MemberService {
 
 	public void setMessageCheck(int idx);
 
+	public int setMessageDelete(int idx, String sw);
+
+	public int setMessageDeleteDB(int idx);
+
 }

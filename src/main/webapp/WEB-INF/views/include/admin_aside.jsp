@@ -213,11 +213,18 @@
 	  <i class="fa-solid fa-headphones"></i>
 	  <a href="#">문의 내역</a>
 	</div>
-	<div class="ani-navbar-menu ani-navbar-menu__icon">
-	  <i class="fa-solid fa-flag"></i>
-	  <p>Alerts</p>
-	</div>
+	
 	<ul>
+		<li class="dropdown">
+		<div class="ani-navbar-menu ani-navbar-menu__icon">
+		  <i class="fa-solid fa-flag"></i><a href="#">신고 내역</a>
+		  <ul class="dropdown-content">
+		  	<li><div class="divider2"></div></li>
+			  <li><a href="${ctp}/admin/report/reportBoardList">신고 게시글</a></li>
+			  <li><a href="${ctp}/admin/report/reportMemberList">회원 리포트</a></li>
+		  </ul>
+		</div>
+		</li>
 		<li class="dropdown">
 			<div class="ani-navbar-menu ani-navbar-menu__icon">
 			  <i class="fa-solid fa-users"></i><a href="#">회원 관리</a>

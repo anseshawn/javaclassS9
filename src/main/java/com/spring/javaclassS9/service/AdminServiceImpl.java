@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.spring.javaclassS9.dao.AdminDAO;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.MemberVO;
+import com.spring.javaclassS9.vo.ReportVO;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -91,5 +92,19 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int getProductEstimateCount() {
 		return adminDAO.getProductEstimateCount();
+	}
+
+	@Override
+	public ArrayList<ReportVO> getReportBoardList(int startIndexNo, int pageSize, String search, String searchString) {
+		return adminDAO.getReportBoardList(startIndexNo, pageSize, search, searchString);
+	}
+
+	@Override
+	public int setReportBoardDelete(int idx, String board) {
+		int res = 0;
+		if(board.equals("freeBoard")) res = adminDAO.setReportFreeBoardDelete(idx);
+		else if(board.equals("questionBoard")) res = adminDAO.setReportQuestionBoardDelete(idx);
+		adminDAO.setReportContentDelete(idx);
+		return res;
 	}
 }

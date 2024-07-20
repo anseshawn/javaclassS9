@@ -47,9 +47,9 @@ create table messageS(
 	sendMid varchar(20) not null,
 	receiveMid varchar(20) not null,
 	content text not null,
-	sendSw char(1) not null,		/* 보낸메세지(s), 휴지통(d), 휴지통삭제(x) 표시 */
+	sendSw varchar(1) not null,		/* 보낸메세지(s), 휴지통(d), 휴지통삭제(x) 표시 */
 	sendDate datetime default now(),
-	receiveSw char(1) not null,	/* 받은메세지(n), 읽은메세지(r), 휴지통(d), 휴지통삭제(x) 표시 */
+	receiveSw varchar(1) not null,	/* 받은메세지(n), 읽은메세지(r), 휴지통(d), 휴지통삭제(x) 표시 */
 	receiveDate datetime default now(),
 	primary key(idx),
 	foreign key(sendMid) references memberS(mid),
@@ -57,3 +57,13 @@ create table messageS(
 );
 
 select * from messageS where receiveMid = 'hkd1234' and receiveSw != 'g';
+
+		SELECT *, datediff(rpDate, now()) AS date_diff,
+		(SELECT title AS fbTitle, content AS fbContent, mid AS fbMid FROM freeBoardS WHERE idx = r.boardIdx) FROM reportS r;
+		
+select r.*, datediff(r.rpDate, now()) as date_diff,
+	b.idx as fbIdx, b.title as fbTitle, b.content as fbContent, b.mid as fbMid,
+	q.idx as qtIdx, q.title as qtTitle, q.content as qtContent, q.mid as qtMid
+	from reportS r 
+	left join freeBoardS b on b.idx = r.boardIdx and r.board='freeBoard' 
+	left join questionBoardS q on q.idx = r.boardIdx and r.board='questionBoard' ORDER BY r.rpDate desc limit 0,10;

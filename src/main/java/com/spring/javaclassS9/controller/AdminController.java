@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -36,6 +35,7 @@ import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.PageVO;
 import com.spring.javaclassS9.vo.ProductSaleVO;
 import com.spring.javaclassS9.vo.ProductVO;
+import com.spring.javaclassS9.vo.ReportVO;
 import com.spring.javaclassS9.vo.ScheduleVO;
 
 @Controller
@@ -539,6 +539,49 @@ public class AdminController {
   public String scheduleGet() {
   	return "admin/engineer/schedule";
   }
+  
+  // 신고 게시글 리스트 보기
+  @RequestMapping(value = "/report/reportBoardList", method = RequestMethod.GET)
+  public String reportBoardListGet(Model model,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name = "part", defaultValue = "", required = false) String part
+  		) {
+  	PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "reportBoardList", part, "");
+  	ArrayList<ReportVO> vos = adminService.getReportBoardList(pageVO.getStartIndexNo(), pageSize,"","");
+  	if(!part.equals("")) {
+			for(int i=0; i<vos.size(); i++) {
+				if(part.equals("freeBoard") && !vos.get(i).getBoard().equals("freeBoard") ) {
+					System.out.println(i+"free vos : "+vos.get(i).getBoard());
+					vos.remove(i);
+				}
+				else if(part.equals("questionBoard") && !vos.get(i).getBoard().equals("questionBoard") ) {
+					System.out.println(i+"question vos : "+i+"."+vos.get(i).getBoard());
+					vos.remove(i);
+				}
+			}
+		}
+  	model.addAttribute("pageVO", pageVO);
+  	model.addAttribute("vos", vos);
+  	return "admin/report/reportBoardList";
+  }
+  
+  // 신고된 게시글 일괄 삭제
+  @ResponseBody
+  @RequestMapping(value = "/report/reportBoardDeleteAll", method = RequestMethod.POST)
+  public String reportBoardDeleteAllPost(String idx) {
+  	int res = 0;
+  	String[] idxs = idx.split(",");
+  	
+  	for(String i : idxs) {
+  		String[] boardIdx = i.split("/"); // report idx / board 종류
+  		int reportIdx = Integer.parseInt(boardIdx[0]);
+  		res = adminService.setReportBoardDelete(reportIdx,boardIdx[1]);
+  	}
+  	return res + "";
+  }
+  
+  // 사이트 통계
   @RequestMapping(value = "/siteChart", method = RequestMethod.GET)
   public String siteChartGet(Model model) {
   	// 탈퇴 현황 pie chart

@@ -374,7 +374,7 @@ public class MemberController {
 		ArrayList<MessageVO> receiveVOS = memberService.getAllReceiveMessageList(mid);
 		ArrayList<MessageVO> sendVOS = memberService.getAllSendMessageList(mid);
 		for(int i=0; i<receiveVOS.size(); i++) {
-			if(receiveVOS.get(i).getReceiveSw() == 'n') model.addAttribute("newMsg", "OK");
+			if(receiveVOS.get(i).getReceiveSw().equals("n")) model.addAttribute("newMsg", "OK");
 		}
 		model.addAttribute("receiveVOS", receiveVOS);
 		model.addAttribute("sendVOS", sendVOS);
@@ -385,6 +385,13 @@ public class MemberController {
 	@RequestMapping(value = "/messageCheck", method = RequestMethod.POST)
 	public void messageCheckPost(int idx) {
 		memberService.setMessageCheck(idx);
+	}
+	// 마이페이지 - 받은 메세지 / 보낸 메세지 삭제하기
+	@ResponseBody
+	@RequestMapping(value = "/messageDelete", method = RequestMethod.POST)
+	public String messageDeletePost(int idx, String sw) {
+		int res =	memberService.setMessageDelete(idx, sw);
+		return res + "";
 	}
 	
 	// 쪽지 보내기 창
@@ -399,9 +406,21 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value = "/sendMessage", method = RequestMethod.POST)
 	public String sendMessagePost(MessageVO vo) {
-		vo.setSendSw('s');
-		vo.setReceiveSw('n');
-		int res = memberService.setMessageInputOk(vo);
+		MemberVO mVo = memberService.getMemberIdCheck(vo.getReceiveMid());
+		int res = 0;
+		if(mVo==null) return res+"";
+		else {
+			vo.setSendSw("s");
+			vo.setReceiveSw("n");
+			res = memberService.setMessageInputOk(vo);
+		}
+		return res + "";
+	}
+	// 쪽지 완전 삭제하기 (DB삭제)
+	@ResponseBody
+	@RequestMapping(value = "/messageDeleteDB", method = RequestMethod.POST)
+	public String messageDeleteDBPost(int idx) {
+		int res =	memberService.setMessageDeleteDB(idx);
 		return res + "";
 	}
 }

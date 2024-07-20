@@ -8,9 +8,9 @@ public class MessageVO {
 	private String sendMid;
 	private String receiveMid;
 	private String content;
-	private char sendSw;
+	private String sendSw;
 	private String sendDate;
-	private char receiveSw;
+	private String receiveSw;
 	private String receiveDate;
 }
 

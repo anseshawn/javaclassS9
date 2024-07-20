@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.MemberVO;
+import com.spring.javaclassS9.vo.ReportVO;
 
 public interface AdminDAO {
 
@@ -35,5 +36,18 @@ public interface AdminDAO {
 	public ArrayList<MemberVO> getMemberJoinDate();
 
 	public int getProductEstimateCount();
+
+	public int reportBoardTotRecCnt();
+
+	public int reportBoardTotRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
+
+	public ArrayList<ReportVO> getReportBoardList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, 
+			@Param("search") String search, @Param("searchString") String searchString);
+
+	public int setReportFreeBoardDelete(@Param("idx") int idx);
+
+	public int setReportQuestionBoardDelete(@Param("idx") int idx);
+
+	public void setReportContentDelete(@Param("idx") int idx);
 
 }

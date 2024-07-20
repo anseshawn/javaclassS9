@@ -50,6 +50,17 @@
 	    white-space: nowrap;
 	    overflow: hidden;
 	    text-overflow: ellipsis;
+	    
+		  display: flex;
+		  justify-content: space-between;
+		  align-items: center;
+		}
+		
+		.message-status {
+	    margin-left: auto;
+	    margin-right: 10px;
+	    font-weight: bold;
+	    color: #999;
 		}
 		
 		.message-time {
@@ -110,12 +121,48 @@
 			);
 		}
 		
-		function deleteMessage(idx) {
+		function deleteMessage(idx, sw) {
 			let ans = confirm("쪽지를 삭제하겠습니까?");
 			if(!ans) return false;
 			
 			$.ajax({
-				
+				url: "${ctp}/member/messageDelete",
+				type: "post",
+				data: {
+					idx : idx,
+					sw : sw
+				},
+				success: function(res) {
+					if(res != "0") {
+						alert("쪽지를 삭제했습니다.");
+						location.reload();
+					}
+					else alert("쪽지 삭제 실패. 다시 시도해주세요.");
+				},
+				error: function(){
+					alert("전송 오류");
+				}
+			});
+		}
+		
+		function deleteMessageDB(idx) {
+			let ans = confirm("발송 취소하시겠습니까?");
+			if(!ans) return false;
+			
+			$.ajax({
+				url: "${ctp}/member/messageDeleteDB",
+				type: "post",
+				data: {idx : idx},
+				success: function(res) {
+					if(res != "0") {
+						alert("쪽지를 삭제했습니다.");
+						location.reload();
+					}
+					else alert("쪽지 삭제 실패. 다시 시도해주세요.");
+				},
+				error: function(){
+					alert("전송 오류");
+				}
 			});
 		}
  	</script>
@@ -155,13 +202,13 @@
 	                <!-- 메시지 목록 아이템 -->
 	                <div class="receiveMessage-item" data-index="${rVO.idx}">
 	                  <div class="message-sender">${rVO.sendMid}</div>
-	                  <div class="message-snippet">${fn:substring(rVO.content,0,10)}......</div>
+	                  <div class="message-snippet">${fn:substring(rVO.content,0,8)}......</div>
 	                  <div class="message-time">${fn:substring(rVO.receiveDate,0,19)}</div>
                     <div class="message-full-content" style="display: none;">
                       ${fn:replace(rVO.content, newLine, '<br/>')}
                       <div class="message-actions text-right">
                         <a href="javascript:sendMessage('${rVO.sendMid}')" class="btn btn-main btn-icon-md">답장</a>
-                        <a href="javascript:deleteMessage('${rVO.idx}')" class="btn btn-main-3 btn-icon-md">삭제</a>
+                        <a href="javascript:deleteMessage('${rVO.idx}','receiveSw')" class="btn btn-main-3 btn-icon-md">삭제</a>
                       </div>
                     </div>
 	                </div>
@@ -175,12 +222,20 @@
 	                <!-- 보낸 메시지 목록 아이템 -->
 	                <div class="sendMessage-item" data-index="${sVO.idx}">
 	                  <div class="message-sender">${sVO.receiveMid}</div>
-	                  <div class="message-snippet">${fn:substring(sVO.content,0,10)}......</div>
+	                  <div class="message-snippet">
+	                  	${fn:substring(sVO.content,0,8)}......
+	                  	<span class="message-status">${sVO.receiveSw == 'r' ? '읽음' : '읽지 않음'}</span>
+	                  </div>
 	                  <div class="message-time">${fn:substring(sVO.sendDate,0,19)}</div>
                     <div class="message-full-content" style="display: none;">
                       ${fn:replace(sVO.content, newLine, '<br/>')}
                       <div class="message-actions text-right">
-                        <a href="javascript:deleteMessage('${sVO.idx}')" class="btn btn-main-3 btn-icon-md">삭제</a>
+                      	<c:if test="${sVO.receiveSw=='r'}">
+                        	<a href="javascript:deleteMessage('${sVO.idx}','sendSw')" class="btn btn-main-3 btn-icon-md">삭제</a>
+                        </c:if>
+                      	<c:if test="${sVO.receiveSw != 'r'}">
+                        	<a href="javascript:deleteMessageDB('${sVO.idx}')" class="btn btn-main-3 btn-icon-md">발송취소</a>
+                        </c:if>
                       </div>
                     </div>	                  
 	                </div>

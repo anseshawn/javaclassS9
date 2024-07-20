@@ -24,7 +24,7 @@ public class JavaclassScheduler {
 			AsRequestVO vo = customerDAO.getAsRequestContent(i);
 			if(vo != null) {
 				System.out.println("스케쥴 수행중(for if문 안)");
-				if(vo.getDate_diff() <= 0) vo.setProgress(Progress.PROGRESS);
+				if(vo.getDate_diff() <= 0 && vo.getProgress().toString().equals("ACCEPT")) vo.setProgress(Progress.PROGRESS);
 			}
 		}
 	}

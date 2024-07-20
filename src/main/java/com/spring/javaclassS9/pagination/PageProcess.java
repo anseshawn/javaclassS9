@@ -3,6 +3,7 @@ package com.spring.javaclassS9.pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.javaclassS9.dao.AdminDAO;
 import com.spring.javaclassS9.dao.BoardDAO;
 import com.spring.javaclassS9.dao.CustomerDAO;
 import com.spring.javaclassS9.dao.EngineerDAO;
@@ -27,6 +28,9 @@ public class PageProcess {
 	
 	@Autowired
 	BoardDAO boardDAO;
+	
+	@Autowired
+	AdminDAO adminDAO;
 	
 	// 게시판종류: section, 소분류: part
 	public PageVO totRecCnt(int pag, int pageSize, String section, String part, String searchString) {
@@ -76,6 +80,9 @@ public class PageProcess {
 				search = part;
 				totRecCnt = boardDAO.questionTotRecCntSearch(search,searchString);
 			}
+		}
+		else if(section.equals("reportBoardList")) {
+			totRecCnt = adminDAO.reportBoardTotRecCnt();
 		}
 		//else if(section.equals("pds"))	totRecCnt = pdsDAO.totRecCnt(part);
 		

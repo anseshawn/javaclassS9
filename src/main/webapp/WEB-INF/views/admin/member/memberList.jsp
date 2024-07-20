@@ -149,7 +149,6 @@
 							if(res != "0") {
 								message = "회원 정보를 영구 삭제했습니다.";
 								icon = "success";
-								location.reload();
 							}
 							else {
 								message = "삭제에 실패했습니다.";
@@ -164,6 +163,8 @@
 				          popup : 'custom-swal-popup',
 				          htmlContainer : 'custom-swal-text'
 								}
+							}).then(function(){
+								location.reload();
 							});
 						},
 						error: function(){

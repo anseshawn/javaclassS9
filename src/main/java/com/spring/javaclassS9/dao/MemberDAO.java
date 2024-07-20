@@ -34,5 +34,9 @@ public interface MemberDAO {
 	public ArrayList<MessageVO> getAllSendMessageList(@Param("mid") String mid);
 
 	public void setMessageCheck(@Param("idx") int idx);
+
+	public int setMessageDelete(@Param("idx") int idx, @Param("sw") String sw);
+
+	public int setMessageDeleteDB(@Param("idx") int idx);
 	
 }

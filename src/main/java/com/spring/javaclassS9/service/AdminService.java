@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.MemberVO;
+import com.spring.javaclassS9.vo.ReportVO;
 
 public interface AdminService {
 
@@ -32,5 +33,9 @@ public interface AdminService {
 	public ArrayList<MemberVO> getMemberJoinDate();
 
 	public int getProductEstimateCount();
+
+	public ArrayList<ReportVO> getReportBoardList(int startIndexNo, int pageSize, String search, String searchString);
+
+	public int setReportBoardDelete(int idx, String board);
 
 }

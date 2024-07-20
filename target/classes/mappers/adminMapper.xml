@@ -29,6 +29,24 @@
 		select date_format(startDate,'%Y-%m-%d') as joinDate, count(*) as joinCnt from memberS 
 			group by date_format(startDate,'%Y-%m-%d');
 	</select>
+	<select id="reportBoardTotRecCnt" resultType="int">
+		select count(*) from reportS;
+	</select>
+	<!-- 
+	<select id="reportBoardTotRecCntSearch" resultType="int">
+		select count(*) from reportS where ${search} like concat('%',#{searchString},'%');
+	</select>
+	-->
+	<select id="getReportBoardList" resultType="com.spring.javaclassS9.vo.ReportVO">
+		select r.*, datediff(r.rpDate, now()) as date_diff, 
+			b.idx as fbIdx, b.title as fbTitle, b.content as fbContent, b.mid as fbMid, 
+			q.idx as qtIdx, q.title as qtTitle, q.content as qtContent, q.mid as qtMid 
+			from reportS r 
+			left join freeBoardS b on b.idx = r.boardIdx and r.board='freeBoard' 
+			left join questionBoardS q on q.idx = r.boardIdx and r.board='questionBoard' 
+			order by r.rpDate desc
+			<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+	</select>
 	
 	
 	<insert id="setMemberDeleteReason">
@@ -55,5 +73,14 @@
 	</delete>
 	<delete id="setProductDeleteOk">
 		delete from productS where idx = #{idx};
+	</delete>
+	<delete id="setReportFreeBoardDelete">
+		delete from freeBoardS where idx = (select boardIdx from reportS where idx = #{idx});
+	</delete>
+	<delete id="setReportQuestionBoardDelete">
+		delete from questionBaordS where idx = (select boardIdx from reportS where idx = #{idx});
+	</delete>
+	<delete id="setReportContentDelete">
+		delete from reportS where idx = #{idx};
 	</delete>
 </mapper>

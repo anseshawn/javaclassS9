@@ -69,4 +69,14 @@ public class MemberServiceImpl implements MemberService {
 	public void setMessageCheck(int idx) {
 		memberDAO.setMessageCheck(idx);
 	}
+
+	@Override
+	public int setMessageDelete(int idx, String sw) {
+		return memberDAO.setMessageDelete(idx, sw);
+	}
+
+	@Override
+	public int setMessageDeleteDB(int idx) {
+		return memberDAO.setMessageDeleteDB(idx);
+	}
 }

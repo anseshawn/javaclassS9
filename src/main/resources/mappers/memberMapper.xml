@@ -18,10 +18,10 @@
 		select count(*) from memberS where ${search} like concat('%',#{searchString},'%');
 	</select>
 	<select id="getAllReceiveMessageList" resultType="com.spring.javaclassS9.vo.MessageVO">
-		select * from messageS where receiveMid = #{mid} and receiveSw != 'd';
+		select * from messageS where receiveMid = #{mid} and receiveSw != 'd' order by sendDate desc;
 	</select>
 	<select id="getAllSendMessageList" resultType="com.spring.javaclassS9.vo.MessageVO">
-		select * from messageS where sendMid = #{mid} and sendSw != 'd';
+		select * from messageS where sendMid = #{mid} and sendSw != 'd' order by sendDate desc;
 	</select>
 	
 	
@@ -40,19 +40,28 @@
 	<update id="setMemberPwdUpdate">
 		update memberS set pwd = #{pwd} where mid = #{mid};
 	</update>
-	<update id="setMessageCheck">
-		update messageS set receiveSw = 'r' where idx=#{idx};
-	</update>
-	
 	<update id="setMemberUpdateOk">
 		update memberS set name=#{vo.name}, nickName=#{vo.nickName}, birthday=#{vo.birthday}, email=#{vo.email},
 			emailNews=#{vo.emailNews}, tel=#{vo.tel}, address=#{vo.address}, m_group=#{vo.m_group},
 			co_name=#{vo.co_name}, co_category=#{vo.co_category}, co_address=#{vo.co_address}, co_tel=#{vo.co_tel},
 			purpose=#{vo.purpose} where mid = #{vo.mid};
 	</update>
-	
 	<update id="setMemberDeleteOk">
 		update memberS set userDel='OK', level=99 where mid = #{mid};
-	</update>	
+	</update>
+	
+	<update id="setMessageCheck">
+		update messageS set receiveSw = 'r' where idx=#{idx};
+	</update>
+	<update id="setMessageDelete">
+		update messageS set 
+			<if test="sw == 'receiveSw'"> receiveSw = 'd' </if>
+			<if test="sw == 'sendSw'"> sendSw = 'd' </if> where idx=#{idx};
+	</update>
+	
+	
+	<delete id="setMessageDeleteDB">
+		delete from messageS where idx = #{idx};
+	</delete>
 	
 </mapper>

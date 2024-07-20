@@ -32,7 +32,7 @@
 						alert("해당 사용자에게 쪽지를 전송했습니다.");
 						window.close();
 					}
-					else alert("쪽지 전송 실패");
+					else alert("쪽지 전송 실패.\n아이디를 확인해주세요.");
 				},
 				error: function() {
 					alert("전송오류");
