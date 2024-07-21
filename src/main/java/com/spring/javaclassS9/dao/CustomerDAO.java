@@ -26,8 +26,10 @@ public interface CustomerDAO {
 
 	public int setAsChangeStatement(@Param("idx") int idx, @Param("asDate") String asDate, @Param("progress") Progress progress);
 
-	public int getAsRequestTotalCnt();
+	public ArrayList<Integer> getAsRequestTotalIdx();
 
 	public int setAsAppointmentComplete(@Param("vo") AsRequestVO vo);
+
+	public void setAsAppointmentProgress(@Param("vo") AsRequestVO vo);
 
 }

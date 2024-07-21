@@ -21,7 +21,7 @@ public interface AdminDAO {
 
 	public ArrayList<MemberVO> getMemberSearchList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("part") String part, @Param("searchString") String searchString);
 
-	public int setEngineerDeleteAll(@Param("mid") String mid);
+	public int setEngineerDeleteAll(@Param("idx") int idx);
 
 	public int setProductDeleteOk(@Param("idx") int idx);
 
@@ -49,5 +49,9 @@ public interface AdminDAO {
 	public int setReportQuestionBoardDelete(@Param("idx") int idx);
 
 	public void setReportContentDelete(@Param("idx") int idx);
+
+	public int adminAsRequestTotRecCnt();
+
+	public int adminAsRequestTotRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
 
 }

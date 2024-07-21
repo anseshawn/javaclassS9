@@ -10,6 +10,7 @@ import java.util.TimeZone;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,6 +29,7 @@ import com.spring.javaclassS9.service.AdminService;
 import com.spring.javaclassS9.service.EngineerService;
 import com.spring.javaclassS9.service.MemberService;
 import com.spring.javaclassS9.service.ProductService;
+import com.spring.javaclassS9.vo.AsRequestVO;
 import com.spring.javaclassS9.vo.ChartVO;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.EngineerVO;
@@ -229,7 +231,11 @@ public class AdminController {
 	@ResponseBody
 	@RequestMapping(value = "/engineer/engineerDeleteAll", method = RequestMethod.POST)
 	public String engineerDeleteAllPost(@RequestParam(name = "mid", defaultValue = "", required = false) String mid) {
-		return adminService.setEngineerDeleteAll(mid)+"";
+		EngineerVO vo = engineerService.getEngineerIdCheck(mid);
+		ArrayList<AsRequestVO> vos = engineerService.getAsRequestList(vo.getIdx(), 0, 0);
+		int res = 0;
+		if(vos == null) res = adminService.setEngineerDeleteAll(vo.getIdx());
+		return res+"";
 	}
 	
 	//엔지니어 수정 창 연결
@@ -535,10 +541,60 @@ public class AdminController {
  		return res+"";
  	}
  
+  // 일정 현황 페이지
   @RequestMapping(value = "/engineer/schedule", method = RequestMethod.GET)
   public String scheduleGet() {
   	return "admin/engineer/schedule";
   }
+  
+  // A/S 현황 전체 리스트
+  @RequestMapping(value = "/engineer/asRequestList", method = RequestMethod.GET)
+  public String asRequestListGet(Model model,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name = "part", defaultValue = "", required = false) String part,
+			@RequestParam(name = "searchString", defaultValue = "", required = false) String searchString
+			) {
+  	// 엔지니어 이름 or 신청한 회사명으로만 검색 가능
+  	if(part.equals("engineerName")) part = "e.name";
+  	else if(part.equals("asName")) part = "r.asName";
+  	else if(part.equals("progress")) part = "progress";
+  	PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "adminAsRequestList", part, searchString);
+  	ArrayList<AsRequestVO> vos = engineerService.getAllAsRequestList(pageVO.getStartIndexNo(),pageSize,part,searchString);
+  	model.addAttribute("pageVO", pageVO);
+  	model.addAttribute("vos", vos);
+  	return "admin/engineer/asRequestList";
+  }
+  
+  // A/S 현황 기간 검색
+	@RequestMapping(value = "/engineer/asRequestList", method = RequestMethod.POST)
+	public String asRequestListPost(HttpSession session, Model model, String startSearchDate, String endSearchDate,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize
+		) throws ParseException {
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "adminAsRequestList", "", "");
+		ArrayList<AsRequestVO> vos = engineerService.getAllAsRequestList(pageVO.getStartIndexNo(),pageSize,"","");
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date endDate = null;
+		Date startDate = null;
+		for(int i=0; i<vos.size(); i++) {
+			if(vos.get(i).getEndDate() != null)	{
+				endDate = sdf.parse(vos.get(i).getEndDate());
+			}
+			startDate = sdf.parse(vos.get(i).getRequestDate());
+			Date sSearchDate = sdf.parse(startSearchDate);
+			Date eSearchDate = sdf.parse(endSearchDate);
+			if(startDate.before(sSearchDate) || startDate.after(eSearchDate)) vos.remove(i);
+			if(endDate != null) {
+				if(endDate.before(sSearchDate) || endDate.after(eSearchDate)) vos.remove(i);
+			}
+		}
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("vos", vos);
+		
+		return "admin/engineer/asRequestList";
+	}
   
   // 신고 게시글 리스트 보기
   @RequestMapping(value = "/report/reportBoardList", method = RequestMethod.GET)

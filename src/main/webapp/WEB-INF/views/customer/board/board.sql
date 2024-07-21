@@ -32,7 +32,7 @@ create table questionBoardS(
 	good int default 0,								/* 좋아요 */
 	report int default 0,							/* 신고(5번 신고하면 리스트에서 블라인드) */
 	primary key(idx),
-	foreign key(mid) references member(mid)
+	foreign key(mid) references memberS(mid)
 );
 INSERT INTO questionBoardS VALUES (default,'admin','관리자','질문 게시판 서비스를 시작합니다.','회원님들의 많은 이용부탁드립니다.','192.168.50.58',default,default,'기타',default,default);
 create table replyS(

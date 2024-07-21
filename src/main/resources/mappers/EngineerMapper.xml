@@ -14,11 +14,11 @@
 		select count(*) from engineerS where ${search} like concat('%',#{searchString},'%');
 	</select>
 	<select id="getEngineerSearchList" resultType="com.spring.javaclassS9.vo.EngineerVO">
-		select * from engineerS where ${part} like concat('%',#{searchString},'%') order by idx
+		select * from engineerS where ${part} like concat('%',#{searchString},'%') order by idx desc
 			<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	<select id="getAllEngineerList" resultType="com.spring.javaclassS9.vo.EngineerVO">
-		select * from engineerS order by idx <if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+		select * from engineerS order by idx desc <if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	<select id="getEngineerIdxCheck" resultType="com.spring.javaclassS9.vo.EngineerVO">
 		select * from engineerS where idx = #{idx};
@@ -40,6 +40,13 @@
 	</select>
 	<select id="getAsRequestContent" resultType="com.spring.javaclassS9.vo.AsRequestVO">
 		select *, datediff(asDate, now()) as date_diff from asRequest where idx=#{idx};
+	</select>
+	<select id="getAllAsRequestList" resultType="com.spring.javaclassS9.vo.AsRequestVO">
+		select r.*, datediff(r.asDate, now()) as date_diff, 
+			e.name as engineerName, e.mid as engineerMid 
+			from asRequest r left join engineerS e on e.idx = r.engineerIdx 
+			<if test="search != ''"> where ${search} like concat('%',#{searchString},'%') </if>
+			order by r.idx desc <if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	
 	

@@ -243,6 +243,7 @@
 				  <li><a href="${ctp}/admin/engineer/engineerInput">엔지니어 등록</a></li>
 				  <li><a href="${ctp}/admin/engineer/engineerList">엔지니어 현황</a></li>
 				  <li><a href="${ctp}/admin/engineer/schedule">일정관리</a></li>
+				  <li><a href="${ctp}/admin/engineer/asRequestList">A/S현황</a></li>
 			  </ul>
 			</div>
 		</li>

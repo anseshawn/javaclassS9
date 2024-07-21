@@ -136,4 +136,9 @@ public class EngineerServiceImpl implements EngineerService {
 	public EngineerVO getEngineerNameCheck(String engineerName) {
 		return engineerDAO.getEngineerNameCheck(engineerName);
 	}
+
+	@Override
+	public ArrayList<AsRequestVO> getAllAsRequestList(int startIndexNo, int pageSize, String search, String searchString) {
+		return engineerDAO.getAllAsRequestList(startIndexNo, pageSize, search, searchString);
+	}
 }

@@ -34,3 +34,9 @@ desc scheduleS;
 drop table scheduleS;
 
 insert into scheduleS values(default, 2, '일정시작', '2024-06-01', '2024-06-02', false);
+
+select r.*, datediff(r.asDate, now()) as date_diff, 
+	e.name as engineerName, e.mid as engineerMid 
+	from asRequest r
+	left join engineerS e on e.idx = r.engineerIdx where e.name like '%철%'
+	order by r.idx desc;

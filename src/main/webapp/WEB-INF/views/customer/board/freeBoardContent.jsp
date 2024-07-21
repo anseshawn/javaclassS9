@@ -490,11 +490,13 @@
 												<c:if test="${rVo.nickName!='' || rVo.mid!=''}">
 													<div class="menu-container">
 													 <h5 class="mb-1 writeNickName">${rVo.nickName}(${rVo.mid})</h5>
-								            <div class="menu hidden">
-							                <ul>
-						                    <li><a href="javascript:sendMessage('${rVo.mid}')">쪽지 보내기</a></li>
-							                </ul>
-								            </div>
+													 <c:if test="${rVo.mid != 'guest'}">
+									            <div class="menu hidden">
+								                <ul>
+							                    <li><a href="javascript:sendMessage('${rVo.mid}')">쪽지 보내기</a></li>
+								                </ul>
+									            </div>
+								            </c:if>
 						        			</div>
 													<span>${rVo.hostIp}</span>
 													<span class="date-comm mr-2">| ${rVo.date_diff == 0 ? fn:substring(rVo.replyDate,11,19) : fn:substring(rVo.replyDate,0,10) }</span>
@@ -518,11 +520,13 @@
 											<div class="comment-info">
 												<div class="menu-container">
 													<h5 class="mb-1 writeNickName">${rVo.nickName}(${rVo.mid})</h5>
-													<div class="menu hidden">
-						                <ul>
-					                    <li><a href="javascript:sendMessage('${rVo.mid}')">쪽지 보내기</a></li>
-						                </ul>
-							            </div>
+													<c:if test="${rVo.mid != 'guest'}">
+														<div class="menu hidden">
+							                <ul>
+						                    <li><a href="javascript:sendMessage('${rVo.mid}')">쪽지 보내기</a></li>
+							                </ul>
+								            </div>
+							            </c:if>
 						            </div>
 												<span>${rVo.hostIp}</span>
 												<span class="date-comm mr-2">| ${rVo.date_diff == 0 ? fn:substring(rVo.replyDate,11,19) : fn:substring(rVo.replyDate,0,10) }</span>

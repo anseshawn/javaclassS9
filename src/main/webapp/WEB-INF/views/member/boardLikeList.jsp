@@ -40,7 +40,7 @@
       });
     });
   	*/
-  	function boardRemoveLike(idx){
+  	function boardRemoveLike(board,idx){
   		let message = "";
 			let icon = "";
 			Swal.fire({
@@ -58,7 +58,7 @@
 						url: "${ctp}/customer/board/removeBoardLike",
 						type: "post",
 						data: {
-	    				board:"freeBoard",
+	    				board: board,
 	    				boardIdx: idx,
 	    				memberMid: '${sMid}'
 						},
@@ -137,17 +137,40 @@
 											${freeVO.date_diff == 0 ? fn:substring(freeVO.writeDate,11,19) : fn:substring(freeVO.writeDate,0,10) }
 										</td>
 										<td>${freeVO.good}</td>
-										<td><input type="button" value="삭제" onclick="boardRemoveLike(${freeVO.idx})" class="btn btn-main-3 btn-icon-sm btn-round-full"/></td>
+										<td><input type="button" value="삭제" onclick="boardRemoveLike('freeBoard','${freeVO.idx}')" class="btn btn-main-3 btn-icon-sm btn-round-full"/></td>
 									</tr>
 								</c:forEach>
 							</table>
 						</div>
 						<!-- 자유게시판 관심목록 끝 -->
-						<!-- Q&A 관심목록 -->
-	      			<div id="questionBoard" class="container tab-pane">
-	      				<h3>관심목록 호출</h3>
-							</div>
-						<!-- Q&A 관심목록 끝 -->
+						<!-- Q&A게시판 관심글 목록 -->
+      			<div id="questionBoard" class="container tab-pane">
+							<table class="table table-hover text-center">
+								<tr style="background:#003675; color:#fff;">
+									<th>번호</th>
+									<th>제목</th>
+									<th>작성자</th>
+									<th>작성일</th>
+									<th>추천</th>
+									<th></th>
+								</tr>
+								<c:forEach var="questionVO" items="${questionBoardVOS}">
+									<tr>
+										<td>${questionVO.idx}</td>
+										<td>
+											<a href="${ctp}/customer/board/questionBoardContent?idx=${questionVO.idx}">${questionVO.title}</a>
+										</td>
+										<td>${questionVO.nickName}</td>
+										<td>
+											${questionVO.date_diff == 0 ? fn:substring(questionVO.writeDate,11,19) : fn:substring(questionVO.writeDate,0,10) }
+										</td>
+										<td>${questionVO.good}</td>
+										<td><input type="button" value="삭제" onclick="boardRemoveLike('questionBoard','${questionVO.idx}')" class="btn btn-main-3 btn-icon-sm btn-round-full"/></td>
+									</tr>
+								</c:forEach>
+							</table>
+						</div>
+						<!-- 자유게시판 관심목록 끝 -->
 						
 					</div>
 			  </div>

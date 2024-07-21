@@ -74,5 +74,17 @@ public interface BoardDAO {
 
 	public ArrayList<QuestionBoardVO> getRecentReplyQuestionBoard();
 
+	public int setQuestionBoardInput(@Param("vo") QuestionBoardVO vo);
+
+	public QuestionBoardVO getQuestionBoardContent(@Param("idx") int idx);
+
+	public void setQuestionBoardReadNumPlus(@Param("idx") int idx);
+
+	public int setQuestionBoardGoodUpdate(@Param("idx") int boardIdx);
+
+	public int setQuestionBoardGoodDown(@Param("idx") int boardIdx);
+
+	public void setQuestionBoardReportUpdate(@Param("idx") int boardIdx);
+
 
 }

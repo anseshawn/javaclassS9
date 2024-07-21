@@ -372,12 +372,13 @@ public class EngineerController {
 			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize
 		) {
 		AsRequestVO vo = engineerService.getAsRequestContent(idx);
-		if(vo.getDate_diff() <= 0) vo.setProgress(Progress.PROGRESS);
+		//if(vo.getDate_diff() == 0) vo.setProgress(Progress.PROGRESS);
 		model.addAttribute("vo", vo);
 		model.addAttribute("pag", pag);
 		model.addAttribute("pageSize", pageSize);
 		return "engineer/asRequestContent";
 	}
+	
 	// A/S요청 상세 내용 신청자 정보 보기
 	@ResponseBody
 	@RequestMapping(value = "/getMemberContent", method = RequestMethod.POST)
@@ -385,6 +386,7 @@ public class EngineerController {
 		MemberVO mVo = memberService.getMemberIdCheck(mid);
 		return mVo;
 	}
+	
 	// A/S요청 날짜 고정하고 진행 상태 바꾸기
 	@ResponseBody
 	@RequestMapping(value = "/asRequestDateFixed", method = RequestMethod.POST)

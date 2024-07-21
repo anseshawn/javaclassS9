@@ -15,6 +15,10 @@
 			background-color: #0E2B5E; 
 			color: #fff;
 		}
+		.btn:disabled {
+      pointer-events: none;
+      cursor: none;
+    }
 	</style>
 	<script>
 		'use strict';
@@ -43,6 +47,12 @@
 			    weekStart : 0 ,
 			    language : "ko"
 			});
+			if('${vo.progress}'=='PROGRESS') $("#datepicker").prop("disabled", true);
+			if('${vo.progress}'=='PAYMENT') {
+				console.log("상태");
+				$("#datepicker").prop("disabled",true);
+				$("#commentBtn").attr("disabled",true);
+			}
 		});
 		
 		function modalView(mid) {
@@ -80,6 +90,8 @@
 		}
 		
 		function asRequestDateFixed() {
+			let start = document.getElementById("datePicker").value;
+			console.log(start);
 			Swal.fire({
         html : "<h3>해당 날짜로 일정을 고정하겠습니까?</h3>",
         confirmButtonText : '확인',
@@ -96,7 +108,7 @@
 						type: "post",
 						data: {
 							idx : ${vo.idx},
-							asDate: '${vo.asDate}',
+							asDate: start,
 							progress : 'ACCEPT'
 						},
 						success:function(res) {
@@ -122,7 +134,7 @@
 						data: {
 							title: '${vo.asName}',
 							engineerIdx: ${vo.engineerIdx},
-							start: '${vo.asDate}',
+							start: start,
 							allDay: true,
 							sw: "engineerAsRequest"
 						},
@@ -138,7 +150,6 @@
 				          htmlContainer : 'custom-swal-text'
 								}
 							}).then(function(){
-								$("#datepicker").prop("disabled", true);
 								location.reload();
 							});
 						},
@@ -146,53 +157,6 @@
 							alert("스케줄 전송 오류");
 						}
 					});
-				}
-			});
-		}
-		
-		function asRequestDateEdit() {
-			let start = document.getElementById("datePicker").value;
-			$.ajax({ // 날짜 변경, 상태를 접수완료로 변경 후
-				url: "${ctp}/engineer/asRequestDateFixed",
-				type: "post",
-				data: {
-					idx : ${vo.idx},
-					asDate: start,
-					progress : 'ACCEPT'
-				},
-				success: function(res) {},
-				error: function(){
-					alert("스케줄 전송 오류");
-				}
-			});
-			$.ajax({
-				url: "${ctp}/engineer/scheduleInput",
-				type: "post",
-				data: {
-					title: '${vo.asName}',
-					engineerIdx: ${vo.engineerIdx},
-					start: start,
-					allDay: true,
-					sw: "engineerAsRequest"
-				},
-				success: function(res) {
-					if(res != "0") message = "해당 날짜로 출장일이 변경 되었습니다.";
-					else message = "일정 변경에 실패했습니다.";
-					Swal.fire({
-						html: message,
-						confirmButtonText: '확인',
-						customClass: {
-		        	confirmButton : 'swal2-confirm‎',
-		          popup : 'custom-swal-popup',
-		          htmlContainer : 'custom-swal-text'
-						}
-					}).then(function(){
-						$("#datepicker").prop("disabled", true);
-						location.reload();
-					});
-				},
-				error: function(){
-					alert("스케줄 전송 오류");
 				}
 			});
 		}
@@ -289,8 +253,7 @@
 					</td>
 					<td>
 						<c:if test="${vo.progress=='REGIST'}">
-							<input type="button" value="일정확인" onclick="asRequestDateFixed()" class="btn btn-main btn-icon-sm btn-round-full ml-2"/>
-							<input type="button" value="수정" onclick="asRequestDateEdit()" class="btn btn-main btn-icon-sm btn-round-full ml-1"/>
+							<input type="button" value="일정확인" onclick="asRequestDateFixed()" class="btn btn-main btn-icon-md btn-round-full ml-2"/>
 						</c:if>
 					</td>
 				</tr>
@@ -310,7 +273,7 @@
 				<tr><td colspan="4" class="m-0 p-0"></td></tr>
 			</table>
 			<div class="text-right mt-2">
-				<a href="javascript:commentInput()" class="btn btn-main btn-icon-md btn-round">코멘트 작성</a>
+				<input type="button" onclick="commentInput()" id="commentBtn" value="코멘트 작성" class="btn btn-main btn-icon-md btn-round" />
 				<a href="${ctp}/engineer/asRequestList?pag=${pag}&pageSize=${pageSize}" class="btn btn-main btn-icon-md btn-round">목록으로</a>
 			</div>
 		</div>

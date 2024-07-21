@@ -84,6 +84,13 @@ public class PageProcess {
 		else if(section.equals("reportBoardList")) {
 			totRecCnt = adminDAO.reportBoardTotRecCnt();
 		}
+		else if(section.equals("adminAsRequestList")) {
+			if(part.equals("")) totRecCnt = adminDAO.adminAsRequestTotRecCnt();
+			else {
+				search = part;
+				totRecCnt = adminDAO.adminAsRequestTotRecCntSearch(search,searchString);
+			}
+		}
 		//else if(section.equals("pds"))	totRecCnt = pdsDAO.totRecCnt(part);
 		
 		int totPage = (totRecCnt % pageSize)==0 ? (totRecCnt / pageSize) : (totRecCnt / pageSize) + 1;

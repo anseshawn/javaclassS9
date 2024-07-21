@@ -104,7 +104,7 @@
 								icon = "success";
 							}
 							else {
-								message = "삭제에 실패했습니다.";
+								message = "삭제에 실패했습니다.\n(근무 중인 사원은 삭제할 수 없습니다. 정보를 다시 확인하세요.)";
 								icon = "warning";
 							}
 							Swal.fire({

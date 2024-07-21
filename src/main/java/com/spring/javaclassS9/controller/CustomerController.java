@@ -307,7 +307,7 @@ public class CustomerController {
 	// 자유게시판 글 작성
 	@RequestMapping(value = "/board/freeBoardInput", method = RequestMethod.POST)
 	public String freeBoardInputPost(FreeBoardVO vo) {
-		if(vo.getContent().indexOf("src=\"/") != -1) boardService.imgCheck(vo.getContent());
+		if(vo.getContent().indexOf("src=\"/") != -1) boardService.imgCheck(vo.getContent(),"freeBoard");
 		vo.setContent(vo.getContent().replace("/data/ckeditor", "/data/freeBoard/"));
 		int res = boardService.setFreeBoardInput(vo);
 		if(res != 0) return "redirect:/message/boardInputOk?pathFlag=freeBoard";
@@ -332,9 +332,9 @@ public class CustomerController {
 	public String freeBoardEditPost(FreeBoardVO vo) {
 		FreeBoardVO originVO = boardService.getFreeBoardContent(vo.getIdx());
 		if(!originVO.getContent().equals(vo.getContent())) {
-			if(originVO.getContent().indexOf("src=\"/")!= -1) boardService.imgDelete(originVO.getContent());
+			if(originVO.getContent().indexOf("src=\"/")!= -1) boardService.imgDelete(originVO.getContent(),"freeBoard");
 			vo.setContent(vo.getContent().replace("/data/board/", "data/ckeditor"));
-			if(vo.getContent().indexOf("src=\"/")!= -1) boardService.imgCheck(vo.getContent());
+			if(vo.getContent().indexOf("src=\"/")!= -1) boardService.imgCheck(vo.getContent(),"freeBoard");
 			vo.setContent(vo.getContent().replace("/data/ckeditor/", "/data/freeBoard/"));
 		}
 		int res = boardService.setFreeBoardEdit(vo);
@@ -461,6 +461,7 @@ public class CustomerController {
 		int res2 = 0;
 		if(res != 0) {
 			if(vo.getBoard().equals("freeBoard")) res2 = boardService.setFreeBoardGoodUpdate(vo.getBoardIdx());
+			else if(vo.getBoard().equals("questionBoard")) res2 = boardService.setQuestionBoardGoodUpdate(vo.getBoardIdx());
 		}
 		return res2+"";
 	}
@@ -480,6 +481,7 @@ public class CustomerController {
 		int res = boardService.setBoardReportInput(vo);
 		if(res != 0) {
 			if(vo.getBoard().equals("freeBoard")) boardService.setFreeBoardReportUpdate(vo.getBoardIdx());
+			else if(vo.getBoard().equals("questionBoard")) boardService.setQuestionBoardReportUpdate(vo.getBoardIdx());
 		}
 		return res+"";
 	}
@@ -520,12 +522,68 @@ public class CustomerController {
 	}
 	// 질문게시판 글 작성
 	@RequestMapping(value = "/board/questionBoardInput", method = RequestMethod.POST)
-	public String questionBoardInputPost(FreeBoardVO vo) {
-		if(vo.getContent().indexOf("src=\"/") != -1) boardService.imgCheck(vo.getContent());
+	public String questionBoardInputPost(QuestionBoardVO vo) {
+		if(vo.getContent().indexOf("src=\"/") != -1) boardService.imgCheck(vo.getContent(),"questionBoard");
 		vo.setContent(vo.getContent().replace("/data/ckeditor", "/data/questionBoard/"));
-		int res = boardService.setFreeBoardInput(vo);
+		int res = boardService.setQuestionBoardInput(vo);
 		if(res != 0) return "redirect:/message/boardInputOk?pathFlag=questionBoard";
 		else return "redirect:/message/boardInputNo?pathFlag=questionBoard";
+	}
+	
+	// 자유게시판 내용 보기
+	@RequestMapping(value = "/board/questionBoardContent", method = RequestMethod.GET)
+	public String questionBoardContentGet(Model model, HttpSession session, HttpServletRequest request,
+			@RequestParam(name="idx",defaultValue = "0", required = false) int idx,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name = "part", defaultValue = "", required = false) String part,
+			@RequestParam(name = "searchString", defaultValue = "", required = false) String searchString
+			) {
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "questionBoard", part, searchString);
+		QuestionBoardVO vo = boardService.getQuestionBoardContent(idx);
+		ArrayList<QuestionBoardVO> recentVOS = boardService.getRecentReplyQuestionBoard();
+		ArrayList<ReplyVO> replyVos = boardService.getBoardReply("questionBoard",idx);
+		
+		String mid = (String) session.getAttribute("sMid");
+		if(mid != null) {
+			ArrayList<BoardLikeVO> vos = boardService.getBoardLikeList("questionBoard",mid);
+			if(vos.size()!=0) {
+				for(int i=0; i<vos.size(); i++) {
+					if(vos.get(i).getBoardIdx() == idx) model.addAttribute("likeSw", "act");
+				}
+			}
+		}
+		// 게시글 조회수 1씩 증가시키기
+		session = request.getSession();
+		ArrayList<String> contentReadNum = (ArrayList<String>)session.getAttribute("sContentIdx");
+		if(contentReadNum==null) contentReadNum = new ArrayList<String>();
+		String imsiContentReadNum = "questionBoard"+idx;
+		if(!contentReadNum.contains(imsiContentReadNum)) {
+			boardService.setQuestionBoardReadNumPlus(idx);
+			contentReadNum.add(imsiContentReadNum);
+		}
+		session.setAttribute("sContentIdx", contentReadNum);
+		
+		model.addAttribute("vo", vo);
+		model.addAttribute("recentVOS", recentVOS);
+		model.addAttribute("replyVos", replyVos);
+		model.addAttribute("pageVO", pageVO);
+		return "customer/board/questionBoardContent";
+	}
+	
+	// 질문 게시판 글 삭제 (댓글 있을 경우 삭제 불가능)
+	@RequestMapping(value = "/board/questionBoardDelete", method = RequestMethod.GET)
+	public String fquestionBoardDeleteGet(
+			@RequestParam(name = "idx", defaultValue = "0", required = false) int idx
+			) {
+		int res = 0;
+		ReplyVO vo = boardService.getBoardParentReplyCheck("questionBoard", idx);
+		if(vo != null) res = 0;
+		else {
+			res = boardService.setFreeBoardDelete(idx);
+		}
+		if(res != 0) return "redirect:/message/boardDeleteOk?pathFlag=questionBoard";
+		else return "redirect:/message/boardDeleteNo?pathFlag=questionBoard&idx="+idx;
 	}
 	
 	

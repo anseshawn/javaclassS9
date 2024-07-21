@@ -19,6 +19,7 @@ public class AsRequestVO {
 	private String comment;
 	
 	private String engineerName;
+	private String engineerMid;
 	private int date_diff;
 	
 	public enum Machine {

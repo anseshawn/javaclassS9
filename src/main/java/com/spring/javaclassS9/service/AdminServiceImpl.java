@@ -42,8 +42,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public int setEngineerDeleteAll(String mid) {
-		return adminDAO.setEngineerDeleteAll(mid);
+	public int setEngineerDeleteAll(int idx) {
+		return adminDAO.setEngineerDeleteAll(idx);
 	}
 
 	@Override

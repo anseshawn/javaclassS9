@@ -32,6 +32,7 @@ import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.MessageVO;
 import com.spring.javaclassS9.vo.ProductLikeVO;
 import com.spring.javaclassS9.vo.ProductVO;
+import com.spring.javaclassS9.vo.QuestionBoardVO;
 
 @Controller
 @RequestMapping("/member")
@@ -356,14 +357,19 @@ public class MemberController {
 		String mid = (String) session.getAttribute("sMid");
 		ArrayList<BoardLikeVO> likeVOS = boardService.getBoardLikeListAll(mid);
 		ArrayList<FreeBoardVO> freeBoardVOS = new ArrayList<FreeBoardVO>();
+		ArrayList<QuestionBoardVO> questionBoardVOS = new ArrayList<QuestionBoardVO>();
 		for(int i=0; i<likeVOS.size(); i++) {
 			if(likeVOS.get(i).getBoard().equals("freeBoard")){
-				FreeBoardVO vo = boardService.getFreeBoardContent(likeVOS.get(i).getBoardIdx());
-				freeBoardVOS.add(vo);
+				FreeBoardVO fVo = boardService.getFreeBoardContent(likeVOS.get(i).getBoardIdx());
+				freeBoardVOS.add(fVo);
 			}
-			//else if(likeVOS.get(i).getBoard().equals("questionBoard"))
+			if(likeVOS.get(i).getBoard().equals("questionBoard")) {
+				QuestionBoardVO qVo = boardService.getQuestionBoardContent(likeVOS.get(i).getBoardIdx());
+				questionBoardVOS.add(qVo);
+			}
 		}
 		model.addAttribute("freeBoardVOS", freeBoardVOS);
+		model.addAttribute("questionBoardVOS", questionBoardVOS);
 		return "member/boardLikeList";
 	}
 	

@@ -47,6 +47,12 @@
 			order by r.rpDate desc
 			<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
+	<select id="adminAsRequestTotRecCnt" resultType="int">
+		select count(*) from asRequest;
+	</select>
+	<select id="adminAsRequestTotRecCntSearch" resultType="int">
+		select count(*) from asRequest where ${search} like concat('%',#{searchString},'%');
+	</select>
 	
 	
 	<insert id="setMemberDeleteReason">
@@ -69,7 +75,7 @@
 		delete from memberS where mid = #{mid};
 	</delete>
 	<delete id="setEngineerDeleteAll">
-		delete from engineerS where mid = #{mid};
+		delete from engineerS where idx = #{idx};
 	</delete>
 	<delete id="setProductDeleteOk">
 		delete from productS where idx = #{idx};

@@ -16,13 +16,13 @@ public interface BoardService {
 
 	public FreeBoardVO getFreeBoardContent(int idx);
 
-	public void imgCheck(String content);
+	public void imgCheck(String content, String board);
 
 	public int setFreeBoardInput(FreeBoardVO vo);
 
 	public int setFreeBoardEdit(FreeBoardVO vo);
 
-	public void imgDelete(String content);
+	public void imgDelete(String content, String board);
 
 	public ReplyVO getBoardParentReplyCheck(String board, int boardIdx);
 
@@ -62,5 +62,15 @@ public interface BoardService {
 			String searchString);
 
 	public ArrayList<QuestionBoardVO> getRecentReplyQuestionBoard();
+
+	public int setQuestionBoardInput(QuestionBoardVO vo);
+
+	public QuestionBoardVO getQuestionBoardContent(int idx);
+
+	public void setQuestionBoardReadNumPlus(int idx);
+
+	public int setQuestionBoardGoodUpdate(int boardIdx);
+
+	public void setQuestionBoardReportUpdate(int boardIdx);
 
 }

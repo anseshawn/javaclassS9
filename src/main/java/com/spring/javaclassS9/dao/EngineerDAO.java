@@ -55,4 +55,7 @@ public interface EngineerDAO {
 
 	public EngineerVO getEngineerNameCheck(@Param("name") String engineerName);
 
+	public ArrayList<AsRequestVO> getAllAsRequestList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, 
+			@Param("search") String search, @Param("searchString") String searchString);
+
 }

@@ -17,14 +17,14 @@
 	<select id="getFreeBoardList" resultType="com.spring.javaclassS9.vo.FreeBoardVO">
 		SELECT *, datediff(writeDate, now()) AS date_diff, timestampdiff(hour, writeDate, now()) AS hour_diff,
 			(SELECT count(*) FROM replyS WHERE board='freeBoard' and boardIdx = b.idx) as replyCnt 
-			FROM freeBoardS b  
-				<if test="search != ''"> WHERE ${search} LIKE CONCAT('%',#{searchString},'%') </if> 
+			FROM freeBoardS b WHERE <![CDATA[b.report < 5]]>
+				<if test="search != ''"> AND ${search} LIKE CONCAT('%',#{searchString},'%') </if> 
 				ORDER BY idx desc
 				<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	<select id="getFreeBoardBestList" resultType="com.spring.javaclassS9.vo.FreeBoardVO">
 		SELECT *, datediff(writeDate, now()) AS date_diff, timestampdiff(hour, writeDate, now()) 
-			FROM freeBoardS ORDER BY good desc limit 5;
+			FROM freeBoardS WHERE <![CDATA[report < 5]]> ORDER BY good desc limit 5;
 	</select>
 	<select id="getFreeBoardContent" resultType="com.spring.javaclassS9.vo.FreeBoardVO">
 		SELECT *,(SELECT count(*) FROM replyS WHERE board='freeBoard' and boardIdx = b.idx) as replyCnt 
@@ -55,8 +55,9 @@
 	</select>
 	<select id="getQuestionBoardList" resultType="com.spring.javaclassS9.vo.QuestionBoardVO">
 		SELECT *, datediff(writeDate, now()) AS date_diff, timestampdiff(hour, writeDate, now()) AS hour_diff,
-			(SELECT count(*) FROM replyS WHERE board='questionBoard' and boardIdx = b.idx) as replyCnt FROM questionBoardS b  
-			<if test="search != ''"> WHERE ${search} LIKE CONCAT('%',#{searchString},'%') </if> 
+			(SELECT count(*) FROM replyS WHERE board='questionBoard' and boardIdx = b.idx) as replyCnt FROM questionBoardS b
+			WHERE <![CDATA[b.report < 5]]>  
+			<if test="search != ''"> AND ${search} LIKE CONCAT('%',#{searchString},'%') </if> 
 			ORDER BY idx desc	<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	<select id="getRecentReplyQuestionBoard" resultType="com.spring.javaclassS9.vo.QuestionBoardVO">
@@ -65,11 +66,19 @@
 			r.replyDate FROM questionBoardS b, replyS r WHERE b.idx=r.boardIdx AND <![CDATA[b.report < 5]]>
 			GROUP BY b.idx ORDER BY r.replyDate DESC limit 5;
 	</select>
+	<select id="getQuestionBoardContent" resultType="com.spring.javaclassS9.vo.QuestionBoardVO">
+		SELECT *,(SELECT count(*) FROM replyS WHERE board='questionBoard' and boardIdx = b.idx) as replyCnt 
+			FROM questionBoardS b WHERE idx = #{idx};
+	</select>
 	
 	
 	<insert id="setFreeBoardInput">
 		INSERT INTO freeBoardS VALUES (default, #{vo.mid}, #{vo.nickName}, #{vo.title}, #{vo.content}, #{vo.hostIp}, 
 			default, default, default, default);
+	</insert>
+	<insert id="setQuestionBoardInput">
+		INSERT INTO questionBoardS VALUES (default, #{vo.mid}, #{vo.nickName}, #{vo.title}, #{vo.content}, #{vo.hostIp}, 
+			default, default, #{vo.part}, default, default);
 	</insert>
 	<insert id="setBoardReplyInput">
 		insert into replyS values (default, #{vo.board}, #{vo.boardIdx}, #{vo.re_step}, #{vo.re_order}, 
@@ -100,11 +109,23 @@
 	<update id="setFreeBoardGoodDown">
 		update freeBoardS set good = good-1 where idx=#{idx};
 	</update>
+	<update id="setQuestionBoardGoodUpdate">
+		update questionBoardS set good = good+1 where idx=#{idx};
+	</update>
+	<update id="setQuestionBoardGoodDown">
+		update questionBoardS set good = good-1 where idx=#{idx};
+	</update>
 	<update id="setFreeBoardReportUpdate">
 		update freeBoardS set report = report+1 where idx=#{idx};
 	</update>
+	<update id="setQuestionBoardReportUpdate">
+		update questionBoardS set report = report+1 where idx=#{idx};
+	</update>
 	<update id="setFreeBoardReadNumPlus">
 		update freeBoardS set readNum = readNum+1 where idx=#{idx};
+	</update>
+	<update id="setQuestionBoardReadNumPlus">
+		update questionBoardS set readNum = readNum+1 where idx=#{idx};
 	</update>
 
 	

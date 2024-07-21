@@ -7,6 +7,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>글쓰기 - 질문게시판</title>
+  <script src="${ctp}/ckeditor/ckeditor.js"></script>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
 	<script>
 		'use strict';
@@ -18,10 +19,6 @@
 				alert("제목을 입력하세요");
 				return false;
 			}
-			else if(content.trim()==""){
-				alert("내용을 입력하세요");
-				return false;
-			}
 			myform.submit();
 		}
 	</script>
@@ -31,7 +28,7 @@
 <jsp:include page="/WEB-INF/views/include/nav2.jsp" />
 <p><br/></p>
 <div class="container">
-<form name="myform" method="post" action="QuestionBoardInputOk.do">
+<form name="myform" method="post">
 	<div class="row justify-content-center mb-3">
 		<div class="col-md-4 col-md-offset-2">
 			<div class="form-group">
@@ -60,7 +57,14 @@
 	</div>
 	<div class="row justify-content-center mb-3">
 		<div class="col-md-8 col-md-offset-2"><h4 style="font-family:Gowun Dodum;">내용</h4>
-			<textarea name="content" id="content" rows="10" class="form-control"></textarea>
+			<textarea name="content" id="CKEDITOR" rows="10" class="form-control"></textarea>
+			<script>
+				CKEDITOR.replace("content",{
+					height:450,
+					filebrowserUploadUrl: "${ctp}/imageUpload",	/* 파일(이미지)를 업로드 시키기 위한 매핑경로(메소드) */
+					uploadUrl: "${ctp}/imageUpload"	/* uploadUrl : 여러개의 그림파일을 드래그&드롭해서 올릴 수 있다. */
+				});
+			</script>
 		</div>
 	</div>
 	<div class="divider2 mx-auto my-4"></div>

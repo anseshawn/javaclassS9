@@ -18,7 +18,7 @@ public interface AdminService {
 
 	public ArrayList<MemberVO> getMemberSearchList(int startIndexNo, int pageSize, String part, String searchString);
 
-	public int setEngineerDeleteAll(String mid);
+	public int setEngineerDeleteAll(int idx);
 
 	public int setProductDeleteOk(int idx);
 

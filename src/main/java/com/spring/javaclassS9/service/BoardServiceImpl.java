@@ -47,7 +47,7 @@ public class BoardServiceImpl implements BoardService {
 
 	// content에 이미지가 있다면 이미지를 'ckeditor'폴더에서 'board'폴더로 복사처리한다.
 	@Override
-	public void imgCheck(String content) {
+	public void imgCheck(String content, String board) {
 		
 		Document doc = Jsoup.parse(content); // content에 뽑아낼 html 문자열을 넣는다
 		
@@ -65,7 +65,9 @@ public class BoardServiceImpl implements BoardService {
 			//imagesName.add(fileName); // images 리스트에 추가
 			
 			String origFilePath  = realPath+"ckeditor/" + fileName;
-			String copyFilePath  = realPath+"freeBoard/" + fileName;
+			String copyFilePath = "";
+			if(board.equals("freeBoard")) copyFilePath  = realPath+"freeBoard/" + fileName;
+			else if(board.equals("questionBoard")) copyFilePath  = realPath+"questionBoard/" + fileName;
 			javaclassProvide.fileCopyCheck(origFilePath,copyFilePath); // ckeditor폴더의 그림 파일을 board폴더 위치로 복사처리하는 메소드
 		}
 		//String imageFileName = String.join("|", imagesName); // 파일명들만 가진 문자열이 필요하면 join으로 결합
@@ -77,7 +79,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void imgDelete(String content) {
+	public void imgDelete(String content, String board) {
 		Document doc = Jsoup.parse(content);
 		
 		Elements imgElements = doc.select("img");
@@ -88,7 +90,7 @@ public class BoardServiceImpl implements BoardService {
 			if(src.indexOf("http") == -1) fileName = src.substring(src.lastIndexOf("/") + 1);
 			else fileName = src;
 			
-			javaclassProvide.deleteFile(fileName, "freeBoard");
+			javaclassProvide.deleteFile(fileName, board);
 		}
 	}
 	
@@ -156,6 +158,7 @@ public class BoardServiceImpl implements BoardService {
 		int res2 = 0;
 		if(res != 0) {
 			if(vo.getBoard().equals("freeBoard")) res2 = boardDAO.setFreeBoardGoodDown(vo.getBoardIdx());
+			else if(vo.getBoard().equals("questionBoard")) res2 = boardDAO.setQuestionBoardGoodDown(vo.getBoardIdx());
 		}
 		return res2;
 	}
@@ -202,6 +205,31 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public ArrayList<QuestionBoardVO> getRecentReplyQuestionBoard() {
 		return boardDAO.getRecentReplyQuestionBoard();
+	}
+
+	@Override
+	public int setQuestionBoardInput(QuestionBoardVO vo) {
+		return boardDAO.setQuestionBoardInput(vo);
+	}
+
+	@Override
+	public QuestionBoardVO getQuestionBoardContent(int idx) {
+		return boardDAO.getQuestionBoardContent(idx);
+	}
+
+	@Override
+	public void setQuestionBoardReadNumPlus(int idx) {
+		boardDAO.setQuestionBoardReadNumPlus(idx);
+	}
+
+	@Override
+	public int setQuestionBoardGoodUpdate(int boardIdx) {
+		return boardDAO.setQuestionBoardGoodUpdate(boardIdx);
+	}
+
+	@Override
+	public void setQuestionBoardReportUpdate(int boardIdx) {
+		boardDAO.setQuestionBoardReportUpdate(boardIdx);
 	}
 
 

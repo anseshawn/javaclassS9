@@ -8,7 +8,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>자유게시판 - ${vo.title}</title>
+  <title>질문게시판 - ${vo.title}</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
 	<style>
 		.likeBtn, .reportBtn {
@@ -22,9 +22,68 @@
       color: #EC4651;
       background-color: #fff;
     }
+    .writeNickName {
+			cursor: pointer;
+		}
+		.menu-container {
+	    position: relative;
+	    display: inline-block;
+		}
+		.menu {
+	    position: absolute;
+	    top: 100%;
+	    left: 0;
+	    background-color: white;
+	    border: 1px solid #ccc;
+	    padding: 5px;
+	    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	    z-index: 100;
+		}
+		.menu ul {
+	    list-style-type: none;
+	    margin: 0;
+	    padding: 0;
+	  	white-space: nowrap;
+		}
+		.menu li {
+			display: inline-block;
+			margin-right: 10px;
+	    margin-bottom: 5px;
+		}
+		.menu a {
+	    display: block;
+	    padding: 5px;
+	    text-decoration: none;
+	    color: #333;
+		}
+		.menu a:hover {
+	    color: #6F8BA4;
+		}
+		.hidden {
+	    display: none;
+		}
 	</style>
 	<script>
 		'use strict';
+		
+		document.addEventListener('DOMContentLoaded', function() {
+	    var menus = document.querySelectorAll('.menu-container');
+
+	    menus.forEach(function(menuContainer) {
+        var writeNickName = menuContainer.querySelector('.writeNickName');
+        var menu = menuContainer.querySelector('.menu');
+        // 닉네임을 클릭하면 메뉴를 토글합니다
+        writeNickName.addEventListener('click', function() {
+            menu.classList.toggle('hidden');
+        });
+	        // 화면의 다른 곳을 클릭하면 메뉴를 숨깁니다
+        document.addEventListener('click', function(event) {
+          if (!menuContainer.contains(event.target)) {
+              menu.classList.add('hidden');
+          }
+        });
+	  	});
+		});
 		
 		let likeBtnP = null;
 		$(function(){
@@ -44,7 +103,7 @@
     			url: "${ctp}/customer/board/removeBoardLike",
     			type: "post",
     			data: {
-    				board:"freeBoard",
+    				board:"questionBoard",
     				boardIdx: ${vo.idx},
     				memberMid: '${sMid}'
     			},
@@ -67,7 +126,7 @@
 					url: "${ctp}/customer/board/addBoardLike",
 					type: "post",
 					data: {
-						board:"freeBoard",
+						board:"questionBoard",
 						boardIdx: ${vo.idx},
 						memberMid: '${sMid}'
 					},
@@ -91,10 +150,12 @@
 			let ans = confirm("현재 게시글을 삭제하시겠습니까?");
 			if(!ans) return false;
 			else if(${vo.replyCnt} != 0) {
-				ans = confirm("현재 게시글을 삭제하면 다른 회원의 댓글까지 모두 삭제됩니다.\n정말 삭제하시겠습니까?");
-				if(!ans) return false;
+				alert("댓글이 달린 게시글은 삭제할 수 없습니다.");
+				return false;
 			}
-			location.href="${ctp}/customer/board/freeBoardDelete?idx=${vo.idx}";
+			else {
+				location.href="${ctp}/customer/board/questionBoardDelete?idx=${vo.idx}";
+			}
 		}
 		
 		// 신고 (중복 불허)
@@ -115,7 +176,7 @@
 			if(rpContent=='기타') rpContent += "/"+$("#reportTxt").val();
 			
 			let query = {
-					board: 'freeBoard',
+					board: 'questionBoard',
 					boardIdx: ${vo.idx},
 					rpMid: '${sMid}',
 					rpContent: rpContent 
@@ -160,7 +221,7 @@
 				return false;
 			}
 			let query = {
-					board: "freeBoard",
+					board: "questionBoard",
 					boardIdx: ${vo.idx},
 					mid: mid,
 					nickName: nickName,
@@ -193,7 +254,7 @@
 				url: "${ctp}/customer/board/replyDelete",
 				type: "post",
 				data: {
-					board : "freeBoard",
+					board : "questionBoard",
 					boardIdx : ${vo.idx},
 					idx : idx
 				},
@@ -289,7 +350,7 @@
 			}
 			
 			let query = {
-					board: "freeBoard",
+					board: "questionBoard",
 					boardIdx: ${vo.idx},
 					re_step: re_step,
 					re_order: re_order,
@@ -330,7 +391,20 @@
 				alert("검색어를 입력하세요.");
 				return false;
 			}
-			location.href="${ctp}/customer/board/freeBoardList?pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&part="+part+"&searchString="+searchString;
+			location.href="${ctp}/customer/board/questionBoardList?pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&part="+part+"&searchString="+searchString;
+		}
+		
+		function sendMessage(receiveMid){
+			let url = "${ctp}/member/sendMessage?receiveMid="+receiveMid;
+			let widthSize= 450;
+			let heightSize = 500;
+			let leftCenter = Math.ceil((window.screen.width - widthSize)/2);
+			let topCenter = Math.ceil((window.screen.height - heightSize)/2);
+			window.open(
+				url, // url
+				'쪽지 보내기', // title
+				'width='+widthSize+', height='+heightSize+', top='+topCenter+', left='+leftCenter // 설정
+			);
 		}
 	</script>
 </head>
@@ -339,14 +413,14 @@
 <jsp:include page="/WEB-INF/views/include/nav2.jsp" />
 <p><br/></p>
 <div class="container">
-<section class="page-title bg-1">
+<section class="page-title bg-3">
   <div class="overlay"></div>
   <div class="container">
     <div class="row">
       <div class="col-md-12">
         <div class="block text-center">
-          <span class="text-white">다양한 이야기를 올려주세요</span>
-	      	<h1 class="text-capitalize mb-5 text-lg"><a href="freeBoardList" style="color: #fff;">자유게시판</a></h1>
+          <span class="text-white">실험에 관한 질문을 올려주세요</span>
+          <h1 class="text-capitalize text-lg"><a href="${ctp}/customer/board/questionBoardList" style="color: #fff;">Q & A</a></h1>
         </div>
       </div>
     </div>
@@ -367,10 +441,17 @@
 								</div>
 												
 								<h2 class="mb-2 text-md"><a href="#">${vo.title}</a></h2>
-								<div class="nav-item lead mb-4 font-weight-normal text-black">${vo.nickName}(${vo.mid})</div>
+								<div class="menu-container">
+									<div class="nav-item writeNickName lead mb-4 font-weight-normal text-black"> ${vo.nickName}(${vo.mid})</div>
+									<div class="menu hidden">
+		                <ul>
+	                    <li><a href="javascript:sendMessage('${vo.mid}')">쪽지 보내기</a></li>
+		                </ul>
+		            	</div>
+		            </div>
 								<c:if test="${sLevel==0 || sMid==vo.mid}">
 									<div class="text-right">
-										<input type="button" value="수정하기" onclick="location.href='${ctp}/customer/board/freeBoardEdit?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}';" class="btn btn-main-2 btn-icon-sm btn-round-full mr-2" >
+										<input type="button" value="수정하기" onclick="location.href='${ctp}/customer/board/questionBoardEdit?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}';" class="btn btn-main-2 btn-icon-sm btn-round-full mr-2" >
 										<input type="button" value="삭제하기" onclick="deleteCheck()" class="btn btn-main btn-icon-sm btn-round-full" >
 									</div>
 								</c:if>
@@ -414,7 +495,16 @@
 										<c:if test="${rVo.re_step < 1}">
 											<div class="comment-info">
 												<c:if test="${rVo.nickName!='' || rVo.mid!=''}">
-													<h5 class="mb-1">${rVo.nickName}(${rVo.mid})</h5>
+													<div class="menu-container">
+														<h5 class="mb-1 writeNickName">${rVo.nickName}(${rVo.mid})</h5>
+														<c:if test="${rVo.mid != 'guest'}">
+															<div class="menu hidden">
+								                <ul>
+							                    <li><a href="javascript:sendMessage('${rVo.mid}')">쪽지 보내기</a></li>
+								                </ul>
+								            	</div>
+							            	</c:if>
+													</div>
 													<span>${rVo.hostIp}</span>
 													<span class="date-comm mr-2">| ${rVo.date_diff == 0 ? fn:substring(rVo.replyDate,11,19) : fn:substring(rVo.replyDate,0,10) }</span>
 													<span class="comment-meta mr-2"><a href="javascript:replyFormRe(${rVo.idx})" ><i class="icofont-reply mr-2 text-muted"></i>답글</a></span>
@@ -435,7 +525,16 @@
 										<hr/>
 											<div class="col-lg-8">
 											<div class="comment-info">
-												<h5 class="mb-1">${rVo.nickName}(${rVo.mid})</h5>
+												<div class="menu-container">
+													<h5 class="mb-1 writeNickName">${rVo.nickName}(${rVo.mid})</h5>
+													<c:if test="${rVo.mid != 'guest'}">
+														<div class="menu hidden">
+							                <ul>
+						                    <li><a href="javascript:sendMessage('${rVo.mid}')">쪽지 보내기</a></li>
+							                </ul>
+								            </div>
+							            </c:if>
+												</div>
 												<span>${rVo.hostIp}</span>
 												<span class="date-comm mr-2">| ${rVo.date_diff == 0 ? fn:substring(rVo.replyDate,11,19) : fn:substring(rVo.replyDate,0,10) }</span>
 												<c:if test="${sLevel==0 || sMid == rVo.mid}">
@@ -533,8 +632,8 @@
 					<div class="col-lg-12 text-center">
 						<div class="mt-5">
 							<hr/>
-							<c:if test="${empty flag}"><a href="${ctp}/customer/board/freeBoardList?pag=${pageVO.pag}&pageSize=${pageVO.pageSize}" class="btn btn-main btn-icon" style="padding: .4rem 1.2rem;">목록으로</a></c:if>
-							<c:if test="${!empty flag}"><a href="FreeBoardSearch.do?pag=${pageVO.pag}&pageSize=${pageVO.pageSize}&search=${pageVO.search}&searchString=${pageVO.searchString}" class="btn btn-main btn-icon" style="padding: .4rem 1.2rem;">목록으로</a></c:if>
+							<c:if test="${empty pageVO.search}"><a href="${ctp}/customer/board/questionBoardList?pag=${pageVO.pag}&pageSize=${pageVO.pageSize}" class="btn btn-main btn-icon" style="padding: .4rem 1.2rem;">목록으로</a></c:if>
+							<c:if test="${!empty pageVO.search}"><a href="questionBoardList?pag=${pageVO.pag}&pageSize=${pageVO.pageSize}&search=${pageVO.search}&searchString=${pageVO.searchString}" class="btn btn-main btn-icon" style="padding: .4rem 1.2rem;">목록으로</a></c:if>
 						</div>
 					</div>
 				</div>
@@ -542,36 +641,41 @@
 			
 			<div class="col-lg-4">
 				<div class="sidebar-wrap pl-lg-4 mt-5 mt-lg-0">
-				<c:if test="${!empty sLevel && sLevel != 1}">
-					<div class="sidebar-widget write mb-3 text-center">
-						<a href="${ctp}/customer/board/freeBoardInput" class="btn btn-main-2 btn-icon btn-round-full" style="width:80%; margin:8px;">글쓰기</a>
-					</div>
-				</c:if>	
+					<c:if test="${!empty sLevel && sLevel != 1}">
+						<div class="sidebar-widget write mb-3 text-center">
+							<a href="${ctp}/customer/board/questionBoardInput" class="btn btn-main-2 btn-icon btn-round-full" style="width:80%; margin:8px;">글쓰기</a>
+						</div>
+					</c:if>	
 					<!-- 검색창 -->
 					<div class="sidebar-widget search mb-3 ">
-						<h5>게시판 검색</h5>
-						<select name="search" id="search" class="form-control">
-							<option value="title">제목</option>
-							<option value="nickName">작성자</option>
-							<option value="content">내용</option>
-						</select>
-						<div class="input-group mb-1">
+						<h5>질문 검색</h5>
+						<form name="searchForm" method="post">
+							<select name="search" id="search" class="form-control" onchange="searchValue()">
+								<option value="title">제목</option>
+								<option value="nickName">작성자</option>
+								<option value="content">내용</option>
+								<option value="part">분류</option>
+							</select>
+							<select name="partSelect" id="partSelect" class="form-control mt-2" style="display:none;">
+								<option>실험방법</option>
+								<option>실험장비</option>
+								<option>법규</option>
+								<option>기타</option>
+							</select>
 							<input type="text" name="searchString" id="searchString" class="form-control mt-2" placeholder="검색어를 입력하세요." required />
 							<i class="ti-search"></i>
-							<div class="input-group-append">
-								<button onclick="boardSearch()" class="btn btn-main-2 btn-icon-md btn-round mt-2">검색<i class="fa-solid fa-magnifying-glass ml-2"></i></button>
-							</div>
-						</div>
+							<div class="text-right"><a href="javascript:searchEnter()" class="btn btn-main btn-icon-sm btn-round mt-2"><i class="icofont-search-2"></i> 검색</a></div>
+						</form>
 					</div>
 					<!-- 검색창 끝 -->
-					<div class="sidebar-widget latest-post mb-3">
-						<h5>인기 게시글</h5>
-						<c:forEach var="gVo" items="${gVos}" varStatus="st">
-	        		<div class="py-2">
-		        		<span class="text-sm text-muted">${gVo.date_diff == 0 ? fn:substring(gVo.writeDate,11,19) : fn:substring(gVo.writeDate,0,10) }</span>
-		            <h6 class="my-2"><a href="${ctp}/customer/board/freeBoardContent?idx=${gVo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">${gVo.title}</a></h6>
-	        		</div>
-        		</c:forEach>
+					<div class="sidebar-widget latest-post mb-2">
+						<h5>최근 댓글</h5>
+						<c:forEach var="recentVO" items="${recentVOS}" varStatus="st">
+			     		<div class="py-1">
+			      		<span class="text-sm text-muted">${recentVO.date_diff == 0 ? fn:substring(recentVO.writeDate,11,19) : fn:substring(recentVO.writeDate,0,10) }</span>
+			          <h6 class="my-1"><a href="questionBoardContent?idx=${recentVO.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">${recentVO.title}</a></h6>
+			     		</div>
+				    </c:forEach>
 					</div>
 	
 				</div>

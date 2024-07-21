@@ -44,4 +44,6 @@ public interface EngineerService {
 
 	public EngineerVO getEngineerNameCheck(String engineerName);
 
+	public ArrayList<AsRequestVO> getAllAsRequestList(int startIndexNo, int pageSize, String search, String searchString);
+
 }

@@ -20,6 +20,14 @@
 	<script>
 		'use strict';
 		
+		$(function(){
+			$("#myModal").on('show.bs.modal', function(e){
+				$("#memberAll").show();
+				$("#midSearchResult").hide();
+				$("#mid").val("");
+			})
+		});
+		
 		function fCheck() {
 			document.getElementById("spinner").style.display='block';
 			let toMail = $("#toMail").val();
@@ -47,13 +55,24 @@
 				data: {mid : mid},
 				success: function(mVos) {
 					for(let i=0; i<mVos.length; i++) {
-						
+						str += '<tr>';
+						str += '<td>'+mVos[i].name+'</td>';
+						str += '<td><a href="${ctp}/admin/emailInput/${vo.mid}">'+mVos[i].mid+'</td>';
+						str += '<td>'+mVos[i].nickName+'</td>';
+						str += '</tr>';
 					}
+					$("#memberAll").hide();
+					$("#midSearchResult").html(str).show();
 				},
 				error: function() {
 					alert("전송오류");
 				}
 			});
+		}
+		
+		function allMemberShow() {
+			$("#memberAll").show();
+			$("#midSearchResult").hide();
 		}
 	</script>
 </head>
@@ -114,7 +133,8 @@
       <div class="modal-body">
       	<div class="input-group mb-2">
       		<input type="text" name="mid" id="mid" placeholder="검색할 아이디를 입력하세요" class="form-control" />
-	        <input type="button" value="아이디 검색" onclick="midSearchView()" id="midSearchBtn" class="btn btn-main btn-icon-md btn-round" />
+	        <input type="button" value="아이디 검색" onclick="midSearchView()" id="midSearchBtn" class="btn btn-main btn-icon-md" />
+	        <input type="button" value="전체보기" onclick="allMemberShow()" class="btn btn-main-3 btn-icon-md" />
       	</div>
       	<table class="table table-hover text-center">
       		<tr style="background-color:#003675; color:#fff;">
@@ -122,13 +142,16 @@
       			<th>아이디</th>
       			<th>닉네임</th>
       		</tr>
-      		<c:forEach var="vo" items="${mVos}" varStatus="st">
-      			<tr>
-      				<td>${vo.name}</td>
-      				<td><a href="${ctp}/admin/emailInput/${vo.mid}">${vo.mid}</a></td>
-      				<td>${vo.nickName}</td>
-      			</tr>
-      		</c:forEach>
+      		<tbody id="memberAll">
+	      		<c:forEach var="vo" items="${mVos}" varStatus="st">
+	      			<tr>
+	      				<td>${vo.name}</td>
+	      				<td><a href="${ctp}/admin/emailInput/${vo.mid}">${vo.mid}</a></td>
+	      				<td>${vo.nickName}</td>
+	      			</tr>
+	      		</c:forEach>
+      		</tbody>
+      		<tbody id="midSearchResult" style="display:none;"></tbody>
       		<tr><td colspan="3" class="m-0 p-0"></td></tr>
       	</table>
       </div>
