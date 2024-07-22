@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.MemberVO;
@@ -53,5 +54,20 @@ public interface AdminDAO {
 	public int adminAsRequestTotRecCnt();
 
 	public int adminAsRequestTotRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
+
+	public int setConsultingInput(@Param("vo") ConsultingVO vo);
+
+	public ArrayList<ConsultingVO> getConsultingList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, 
+			@Param("search") String search, @Param("searchString") String searchString);
+
+	public int consultingTotRecCnt();
+
+	public int consultingTotRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
+
+	public int getNewConsultingCount();
+
+	public ConsultingVO getConsultingContent(@Param("idx") int idx);
+
+	public int setConsultingAnswer(@Param("idx") int idx, @Param("answer") String answer);
 
 }

@@ -56,7 +56,7 @@
 	<div class="row justify-content-center mb-3">
 		<div class="col-md-8 col-md-offset-2 text-right">
 			<input type="button" value="등록하기" onclick="fCheck()" class="btn btn-main-2 btn-icon btn-round-full" />
-			<input type="button" value="취소" onclick="location.href='${ctp}/customer/board/freeBoardList';" class="btn btn-main btn-icon btn-round-full" />
+			<a href='${ctp}/customer/board/freeBoardList' class="btn btn-main btn-icon btn-round-full">취소</a>
 		</div>
 	</div>
 	<input type="hidden" name="mid" value="${sMid}"/>

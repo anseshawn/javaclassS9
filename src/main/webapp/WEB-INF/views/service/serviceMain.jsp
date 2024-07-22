@@ -8,6 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>온라인 상담 - 고객서비스</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
+	<jsp:include page="/WEB-INF/views/include/scripts.jsp" />
 </head>
 <body id="top">
 <jsp:include page="/WEB-INF/views/include/header.jsp" />
@@ -76,9 +77,8 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-12 col-md-12 col-sm-12">
-				<form name="myform" id="contact-form" class="contact__form " method="post" action="SendMessage.do">
+				<form name="myform" id="contact-form" class="contact__form " method="post">
 					<!-- form message -->
-
 						<div class="row">
 							<div class="col-lg-6">
 								<div class="form-group">
@@ -104,7 +104,7 @@
 							</div>
 							<div class="col-lg-6">
 								<div class="form-group">
-									<input name="phone" id="phone" type="text" class="form-control" placeholder="휴대폰 번호"/>
+									<input name="phone" id="phone" type="text" class="form-control" placeholder="휴대폰 번호('-' 없이 적어주세요)"/>
 								</div>
 							</div>
 						</div>
@@ -114,7 +114,7 @@
 						<div class="text-center">
 							<input class="btn btn-main btn-round-full" name="submit" type="submit" value="상담 요청 보내기"></input>
 						</div>
-						<input type="hidden" name="msgType" value="askService"/>
+						<input type="hidden" name="part" value="SERVICE"/>
       		</form>
     		</div>
   	</div>
@@ -159,7 +159,6 @@
 </script>
 </div>
 <p><br/></p>
-<jsp:include page="/WEB-INF/views/include/scripts.jsp" />
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
 </html>

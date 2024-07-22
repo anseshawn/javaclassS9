@@ -192,7 +192,7 @@
 	</div>
 	<div class="row">
 		<div class="col-md-3">
-			<input type="button" onclick="location.href='${ctp}/admin/member/memberList';" value="전체보기" class="btn btn-main-2 btn-icon-md btn-round-full" style="padding:0.3rem 0.5rem;"/>
+			<input type="button" onclick="location.href='${ctp}/admin/report/reportBoardList';" value="전체보기" class="btn btn-main-2 btn-icon-md btn-round-full" style="padding:0.3rem 0.5rem;"/>
 			<input type="button" onclick="deleteBoard()" value="게시글삭제" class="btn btn-main btn-icon-md btn-round-full" style="padding:0.3rem 0.5rem;"/>
 		</div>
 		<div class="col-md-3 offset-md-6 text-right">
@@ -202,6 +202,7 @@
 					<option value="">전체</option>
 					<option value="freeBoard" ${pageVO.part=='freeBoard' ? 'selected' : ''}>자유게시판</option>
 					<option value="questionBoard" ${pageVO.part=='questionBoard' ? 'selected' : ''}>Q&A게시판</option>
+					<option value="recruitBoard" ${pageVO.part=='recruitBoard' ? 'selected' : ''}>채용공고 게시판</option>
 				</select>
 			</form>
 		</div>
@@ -231,6 +232,7 @@
 					<td>
 						<c:if test="${vo.board=='freeBoard'}">자유게시판</c:if>
 						<c:if test="${vo.board=='questionBoard'}">Q&A게시판</c:if>
+						<c:if test="${vo.board=='recruitBoard'}">채용공고 게시판</c:if>
 					</td>
 					<td>
 						<a href="#" onclick="modalView('${vo.rpMid}')" data-toggle="modal" data-target="#memberInfoModal">${vo.rpMid}</a>
@@ -244,10 +246,14 @@
 						<c:if test="${vo.board=='questionBoard'}">
 							<a href="${ctp}/customer/board/questionBoardContent?idx=${vo.qtIdx}">${vo.qtTitle}</a>
 						</c:if>
+						<c:if test="${vo.board=='recruitBoard'}">
+							<a href="${ctp}/customer/board/recruitBoardContent?idx=${vo.rcIdx}">${vo.rcTitle}</a>
+						</c:if>
 					</td>
 					<td>
 						<c:if test="${vo.board=='freeBoard'}"><a href="#" onclick="modalView('${vo.fbMid}')" data-toggle="modal" data-target="#memberInfoModal">${vo.fbMid}</a></c:if>
 						<c:if test="${vo.board=='questionBoard'}"><a href="#" onclick="modalView('${vo.qtMid}')" data-toggle="modal" data-target="#memberInfoModal">${vo.qtMid}</a></c:if>
+						<c:if test="${vo.board=='recruitBoard'}"><a href="#" onclick="modalView('${vo.rcMid}')" data-toggle="modal" data-target="#memberInfoModal">${vo.rcMid}</a></c:if>
 					</td>
 				</tr>
 				<c:set var="curScrStartNo" value="${curScrStartNo - 1}"/>
@@ -296,6 +302,6 @@
     </div>
   </div>
 </div>
-
+<p><br/></p>
 </body>
 </html>

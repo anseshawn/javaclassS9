@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.javaclassS9.dao.MemberDAO;
+import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.MessageVO;
 
@@ -78,5 +79,15 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int setMessageDeleteDB(int idx) {
 		return memberDAO.setMessageDeleteDB(idx);
+	}
+
+	@Override
+	public ArrayList<ConsultingVO> getConsultingList(int startIndexNo, int pageSize, String name, String email) {
+		return memberDAO.getConsultingList(startIndexNo, pageSize, name, email);
+	}
+
+	@Override
+	public ConsultingVO getConsultingContent(int idx) {
+		return memberDAO.getConsultingContent(idx);
 	}
 }

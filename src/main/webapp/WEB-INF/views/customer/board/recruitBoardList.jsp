@@ -7,7 +7,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>자유게시판</title>
+  <title>채용공고</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
 	<style>
 		.blog-item-content .title {
@@ -97,7 +97,7 @@
 				alert("검색어를 입력하세요.");
 				return false;
 			}
-			location.href="${ctp}/customer/board/freeBoardList?pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&part="+part+"&searchString="+searchString;
+			location.href="${ctp}/customer/board/recruitBoardList?pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&part="+part+"&searchString="+searchString;
 		}
 		
 		function sendMessage(receiveMid){
@@ -127,8 +127,8 @@
     <div class="row">
       <div class="col-md-12">
         <div class="block text-center">
-          <span class="text-white">다양한 이야기를 올려주세요</span>
-          <h1 class="text-capitalize mb-5 text-lg"><a href="${ctp}/customer/board/freeBoardList" style="color: #fff;">자유게시판</a></h1>
+          <span class="text-white">진행 중인 공고를 올려주세요</span>
+          <h1 class="text-capitalize mb-5 text-lg"><a href="recruitBoardList" style="color: #fff;">채용공고</a></h1>
         </div>
       </div>
     </div>
@@ -154,29 +154,34 @@
 						<div class="col-lg-12 col-md-12 mb-3">
 							<div class="blog-item">
 								<div class="blog-item-content">
-									<div class="blog-item-meta mb-3 mt-4">
+									<div class="blog-item-meta mb-2 mt-4">
 										<span class="text-muted text-capitalize mr-3"><i class="fa-solid fa-eye mr-2"></i>${vo.readNum}</span>
 										<span class="text-muted text-capitalize mr-3"><i class="icofont-comment mr-2"></i>${vo.replyCnt} Comments</span>
 										<span class="text-black text-capitalize mr-3">
 											<i class="icofont-calendar mr-2"></i> ${vo.date_diff == 0 ? fn:substring(vo.writeDate,11,19) : fn:substring(vo.writeDate,0,10) }
 										</span>
 										<div class="menu-container">
-											<span class="text-muted text-capitalize mr-3">
-												<i class="icofont-user mr-2"></i><span class="writeNickName">${vo.nickName}</span>
-											</span>
-					            <div class="menu hidden">
+											<span class="text-muted text-capitalize mr-3"><i class="icofont-user mr-2"></i><span class="writeNickName">${vo.nickName}</span></span>
+											<div class="menu hidden">
 				                <ul>
 			                    <li><a href="javascript:sendMessage('${vo.mid}')">쪽지 보내기</a></li>
 				                </ul>
-					            </div>
-						        </div>
-									</div> 
-									<div class="title mt-3 mb-3">
-										<a href="${ctp}/customer/board/freeBoardContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">${vo.title}</a>
-										<a href="${ctp}/customer/board/freeBoardContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}" target="_blank" class="btn btn-main btn-icon-sm btn-round-full ml-2">
-											새창으로 보기<i class="fa-solid fa-up-right-from-square ml-2"></i>
-										</a>
+					            </div>								
+				            </div>
 									</div>
+									<div class="blog-item-meta mb-3">
+										<span class="text-muted text-capitalize mr-3"><i class="icofont-clock-time mr-2"></i>${fn:substring(vo.startDate,0,10)} ~ ${fn:substring(vo.endDate,0,10)}</span>
+									</div>
+									<c:if test="${today <= fn:substring(vo.endDate,0,10)}">
+										<div class="title mt-3 mb-3">
+											<a href="${ctp}/customer/board/recruitBoardContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">${vo.title}</a>
+										</div>
+									</c:if>
+									<c:if test="${today > fn:substring(vo.endDate,0,10)}">
+										<div class="title mt-3 mb-3">
+											<div>${vo.title}(종료)</div>
+										</div>
+									</c:if>
 								</div>
 							</div>
 							<hr/>			
@@ -189,14 +194,14 @@
 		      <div class="col-lg-9">
 		        <nav class="pagination py-2 d-inline-block">
 		          <div class="nav-links">
-			          <c:if test="${pageVO.pag > 1}"><a class="page-numbers" href="freeBoardList?pag=1&pageSize=${pageVO.pageSize}"><i class="icofont-thin-double-left"></i></a></c:if>
-			          <c:if test="${pageVO.curBlock > 0}"><a class="page-numbers" href="freeBoardList?pag=${(pageVO.curBlock-1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-left"></i></a></c:if>
+			          <c:if test="${pageVO.pag > 1}"><a class="page-numbers" href="recruitBoardList?pag=1&pageSize=${pageVO.pageSize}"><i class="icofont-thin-double-left"></i></a></c:if>
+			          <c:if test="${pageVO.curBlock > 0}"><a class="page-numbers" href="recruitBoardList?pag=${(pageVO.curBlock-1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-left"></i></a></c:if>
 								<c:forEach var="i" begin="${(pageVO.curBlock*pageVO.blockSize+1)}" end="${(pageVO.curBlock)*pageVO.blockSize+pageVO.blockSize}" varStatus="st">
 									<c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><span aria-current="page" class="page-numbers current">${i}</span></c:if>
-									<c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><a class="page-numbers" href="freeBoardList?pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></c:if>
+									<c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><a class="page-numbers" href="recruitBoardList?pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></c:if>
 								</c:forEach>
-								<c:if test="${pageVO.curBlock < pageVO.lastBlock}"><a class="page-numbers" href="freeBoardList?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-right"></i></a></c:if>
-								<c:if test="${pageVO.pag < pageVO.totPage}"><a class="page-numbers" href="freeBoardList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-double-right"></i></a></c:if>
+								<c:if test="${pageVO.curBlock < pageVO.lastBlock}"><a class="page-numbers" href="recruitBoardList?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-right"></i></a></c:if>
+								<c:if test="${pageVO.pag < pageVO.totPage}"><a class="page-numbers" href="recruitBoardList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-double-right"></i></a></c:if>
 		        	</div>
 		      	</nav>
 					</div>
@@ -206,14 +211,14 @@
 			
 			<div class="col-lg-4">
 				<div class="sidebar-wrap pl-lg-4 mt-5 mt-lg-0">
-				<c:if test="${!empty sLevel && sLevel != 1}">
+				<c:if test="${!empty sLevel && sLevel != 1 && sLevel != 3}">
 					<div class="sidebar-widget write mb-3 text-center">
-						<a href="${ctp}/customer/board/freeBoardInput" class="btn btn-main-2 btn-icon btn-round-full" style="width:80%; margin:8px;">글쓰기</a>
+						<a href="${ctp}/customer/board/recruitBoardInput" class="btn btn-main-2 btn-icon btn-round-full" style="width:80%; margin:8px;">글쓰기</a>
 					</div>
 				</c:if>	
 					<!-- 검색창 -->
 					<div class="sidebar-widget search mb-3 ">
-						<h5>게시판 검색</h5>
+						<h5>공고 검색</h5>
 						<select name="search" id="search" class="form-control">
 							<option value="title">제목</option>
 							<option value="nickName">작성자</option>
@@ -230,14 +235,16 @@
 					</div>
 					<!-- 검색창 끝 -->
 					
-					<div class="sidebar-widget latest-post mb-3">
-						<h5>인기 게시글</h5>
-						<c:forEach var="gVo" items="${gVos}" varStatus="st">
-	        		<div class="py-2">
-		        		<span class="text-sm text-muted">${gVo.date_diff == 0 ? fn:substring(gVo.writeDate,11,19) : fn:substring(gVo.writeDate,0,10) }</span>
-		            <h6 class="my-2"><a href="${ctp}/customer/board/freeBoardContent?idx=${gVo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">${gVo.title}</a></h6>
-	        		</div>
-        		</c:forEach>
+					<div class="sidebar-widget category mb-3">
+						<h5 class="mb-4">분류</h5>
+						<ul class="list-unstyled">
+							<c:forEach var="rcVo" items="${rcVos}" varStatus="st">
+								<li class="align-items-center">
+							    <a href="recruitBoardList?pag=1&pageSize=${pageSize}&flag=search&part=part&searchString=${rcVo.part}">${rcVo.part}</a>
+							    <span>(${rcVo.partCnt})</span>
+							  </li>
+							</c:forEach>
+						</ul>
 					</div>
 
 				</div>

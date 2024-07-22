@@ -8,7 +8,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>자유게시판 - ${vo.title}</title>
+  <title>채용공고 - ${vo.title}</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
 	<style>
 		.likeBtn, .reportBtn {
@@ -70,6 +70,17 @@
 		.hidden {
 	    display: none;
 		}
+		
+		ul {
+		  display: block;
+		  list-style-type: decimal;
+		  margin-block-start: 1em;
+		  margin-block-end: 1em;
+		  margin-inline-start: 20px;
+		  margin-inline-end: 20px;
+		  padding-inline-start: 40px;
+		  padding-inline-end: 20px;
+		}
 	</style>
 	<script>
 		'use strict';
@@ -105,7 +116,7 @@
     			url: "${ctp}/customer/board/removeBoardLike",
     			type: "post",
     			data: {
-    				board:"freeBoard",
+    				board:"recruitBoard",
     				boardIdx: ${vo.idx},
     				memberMid: '${sMid}'
     			},
@@ -128,7 +139,7 @@
 					url: "${ctp}/customer/board/addBoardLike",
 					type: "post",
 					data: {
-						board:"freeBoard",
+						board:"recruitBoard",
 						boardIdx: ${vo.idx},
 						memberMid: '${sMid}'
 					},
@@ -155,7 +166,24 @@
 				ans = confirm("현재 게시글을 삭제하면 다른 회원의 댓글까지 모두 삭제됩니다.\n정말 삭제하시겠습니까?");
 				if(!ans) return false;
 			}
-			location.href="${ctp}/customer/board/freeBoardDelete?idx=${vo.idx}";
+			$.ajax({
+				url: "${ctp}/customer/board/recruitBoardDelete",
+				type: "post",
+				data: {
+					idx : ${vo.idx},
+					rcfSName : "${vo.rcfSName}"
+				},
+				success: function(res) {
+					if(res != 0) {
+						alert("게시글이 삭제되었습니다.");
+						location.href="${ctp}/customer/board/recruitBoardList?pag=${pageVO.pag}&pageSize=${pageVO.pageSize}";
+					}
+					else alert("게시글 삭제 실패");
+				},
+				error: function(){
+					alert("전송 오류");
+				}
+			});
 		}
 		
 		// 신고 (중복 불허)
@@ -176,7 +204,7 @@
 			if(rpContent=='기타') rpContent += "/"+$("#reportTxt").val();
 			
 			let query = {
-					board: 'freeBoard',
+					board: 'recruitBoard',
 					boardIdx: ${vo.idx},
 					rpMid: '${sMid}',
 					rpContent: rpContent 
@@ -221,7 +249,7 @@
 				return false;
 			}
 			let query = {
-					board: "freeBoard",
+					board: "recruitBoard",
 					boardIdx: ${vo.idx},
 					mid: mid,
 					nickName: nickName,
@@ -254,7 +282,7 @@
 				url: "${ctp}/customer/board/replyDelete",
 				type: "post",
 				data: {
-					board : "freeBoard",
+					board : "recruitBoard",
 					boardIdx : ${vo.idx},
 					idx : idx
 				},
@@ -350,7 +378,7 @@
 			}
 			
 			let query = {
-					board: "freeBoard",
+					board: "recruitBoard",
 					boardIdx: ${vo.idx},
 					re_step: re_step,
 					re_order: re_order,
@@ -391,7 +419,7 @@
 				alert("검색어를 입력하세요.");
 				return false;
 			}
-			location.href="${ctp}/customer/board/freeBoardList?pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&part="+part+"&searchString="+searchString;
+			location.href="${ctp}/customer/board/recruitBoardList?pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&part="+part+"&searchString="+searchString;
 		}
 		
 		function sendMessage(receiveMid){
@@ -419,13 +447,15 @@
     <div class="row">
       <div class="col-md-12">
         <div class="block text-center">
-          <span class="text-white">다양한 이야기를 올려주세요</span>
-	      	<h1 class="text-capitalize mb-5 text-lg"><a href="freeBoardList" style="color: #fff;">자유게시판</a></h1>
+          <span class="text-white">진행 중인 공고를 올려주세요</span>
+          <h1 class="text-capitalize mb-5 text-lg"><a href="recruitBoardList" style="color: #fff;">채용공고</a></h1>
         </div>
       </div>
     </div>
   </div>
 </section>
+<c:set var="rcfNames" value="${fn:split(vo.rcfName,'/')}"/>
+<c:set var="rcfSNames" value="${fn:split(vo.rcfSName,'/')}"/>
 <section class="section blog-wrap">
 	<div class="container">
 		<div class="row">
@@ -435,20 +465,55 @@
 						<div class="single-blog-item">
 							<div class="blog-item-content mt-2">
 								<div class="blog-item-meta mb-3">
+									<div style="color:#223a66; font-size:1.2rem;">
+										<a href="recruitBoardList?pag=1&pageSize=${pageVO.pageSize}&part=part&searchString=${vo.part}"><i class="icofont-ui-folder mr-2"></i>${vo.part}</a>
+									</div>
+								</div>
+								<div class="blog-item-meta mb-3">
 									<span class="text-muted text-capitalize mr-3"><i class="fa-solid fa-eye mr-2"></i>${vo.readNum}</span>
 									<span class="text-muted text-capitalize mr-3"><i class="icofont-comment mr-2"></i>${vo.replyCnt} Comments</span>
 									<span class="text-black text-capitalize mr-3"><i class="icofont-calendar mr-2"></i> ${vo.date_diff == 0 ? fn:substring(vo.writeDate,11,19) : fn:substring(vo.writeDate,0,10) }</span>
 								</div>
 												
 								<h2 class="mb-2 text-md"><a href="#">${vo.title}</a></h2>
-								<div class="nav-item lead mb-4 font-weight-normal text-black">${vo.nickName}(${vo.mid})</div>
+								<div class="menu-container">
+									<div class="nav-item lead mb-4 font-weight-normal text-black"><span class="writeNickName">${vo.nickName}(${vo.mid})</span></div>
+										<div class="menu hidden">
+			                <ul>
+		                    <li><a href="javascript:sendMessage('${vo.mid}')">쪽지 보내기</a></li>
+			                </ul>
+				            </div>								
+				        </div>
 								<c:if test="${sLevel==0 || sMid==vo.mid}">
 									<div class="text-right">
-										<input type="button" value="수정하기" onclick="location.href='${ctp}/customer/board/freeBoardEdit?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}';" class="btn btn-main-2 btn-icon-sm btn-round-full mr-2" >
+										<input type="button" value="수정하기" onclick="location.href='${ctp}/customer/board/recruitBoardEdit?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}';" class="btn btn-main-2 btn-icon-sm btn-round-full mr-2" >
 										<input type="button" value="삭제하기" onclick="deleteCheck()" class="btn btn-main btn-icon-sm btn-round-full" >
 									</div>
 								</c:if>
 								<hr/>
+								
+								<br/>
+								<div class="mb-3">
+									<ul class="w-hours list-unstyled ">
+									  <li class="text-black d-flex justify-content-between mb-2">채용일정 : <span>${fn:substring(vo.startDate,0,10)} - ${fn:substring(vo.endDate,0,10)}</span></li>
+									  <li class="text-black d-flex justify-content-between mb-2">근무지역 : <span>${vo.location}</span></li>
+									  <li class="text-black d-flex justify-content-between mb-2">유의사항 : <span>${vo.etcContent}</span></li>
+									</ul>
+								</div>
+								<br/>
+								
+								<div class="text-center mt-3 mb=3">
+									<c:forEach var="rcfSName" items="${rcfSNames}" varStatus="st">
+										<c:set var="len" value="${fn:length(rcfSName)}"/>
+										<c:set var="ext" value="${fn:substring(rcfSName,len-3,len)}"/>
+										<c:set var="extLower" value="${fn:toLowerCase(ext)}"/>
+										<c:if test="${extLower == 'jpg' || extLower == 'gif' || extLower == 'png'}">
+											<img src="${ctp}/data/recruitBoard/${rcfSName}" width="85%"/>
+										</c:if>
+										<br/><br/>
+									</c:forEach>
+								</div>
+								
 								<p>${fn:replace(vo.content,newLine,'<br/>')}</p>
 				
 								<div class="mt-5 clearfix">
@@ -473,6 +538,18 @@
 						        <li class="list-inline-item"><a href="#" target="_blank"><i class="icofont-linkedin" aria-hidden="true"></i></a></li>
 							  	</ul>
 							  </div>
+							</div>
+							<div class="mt-5 clearfix" style="border:1px solid #eee; color:black;">
+								<ul style="list-style-type: none;">
+									<li>첨부파일 목록</li>								
+								</ul>
+								<ul class="files">
+									<c:forEach var="rcfName" items="${rcfNames}" varStatus="st">
+										<li>
+											<a href="${ctp}/data/recruitBoard/${rcfSNames[st.index]}" download="${rcfName}"> ${rcfName} </a>
+										</li> 
+									</c:forEach>
+								</ul>
 							</div>
 						</div>
 					</div>
@@ -625,7 +702,7 @@
 					<div class="col-lg-12 text-center">
 						<div class="mt-5">
 							<hr/>
-							<a href="freeBoardList?pag=${pageVO.pag}&pageSize=${pageVO.pageSize}&search=${pageVO.search}&searchString=${pageVO.searchString}" class="btn btn-main btn-icon" style="padding: .4rem 1.2rem;">목록으로</a>
+							<a href="recruitBoardList?pag=${pageVO.pag}&pageSize=${pageVO.pageSize}&search=${pageVO.search}&searchString=${pageVO.searchString}" class="btn btn-main btn-icon" style="padding: .4rem 1.2rem;">목록으로</a>
 						</div>
 					</div>
 				</div>
@@ -633,14 +710,14 @@
 			
 			<div class="col-lg-4">
 				<div class="sidebar-wrap pl-lg-4 mt-5 mt-lg-0">
-				<c:if test="${!empty sLevel && sLevel != 1}">
+				<c:if test="${!empty sLevel && sLevel != 1 && sLevel != 3}">
 					<div class="sidebar-widget write mb-3 text-center">
-						<a href="${ctp}/customer/board/freeBoardInput" class="btn btn-main-2 btn-icon btn-round-full" style="width:80%; margin:8px;">글쓰기</a>
+						<a href="${ctp}/customer/board/recruitBoardInput" class="btn btn-main-2 btn-icon btn-round-full" style="width:80%; margin:8px;">글쓰기</a>
 					</div>
 				</c:if>	
 					<!-- 검색창 -->
 					<div class="sidebar-widget search mb-3 ">
-						<h5>게시판 검색</h5>
+						<h5>공고 검색</h5>
 						<select name="search" id="search" class="form-control">
 							<option value="title">제목</option>
 							<option value="nickName">작성자</option>
@@ -650,19 +727,23 @@
 							<input type="text" name="searchString" id="searchString" class="form-control mt-2" placeholder="검색어를 입력하세요." required />
 							<i class="ti-search"></i>
 							<div class="input-group-append">
+								<!-- <input type="submit" value="search" class="btn btn-main btn-icon-sm btn-round mt-2"/> -->
 								<button onclick="boardSearch()" class="btn btn-main-2 btn-icon-md btn-round mt-2">검색<i class="fa-solid fa-magnifying-glass ml-2"></i></button>
 							</div>
 						</div>
 					</div>
 					<!-- 검색창 끝 -->
-					<div class="sidebar-widget latest-post mb-3">
-						<h5>인기 게시글</h5>
-						<c:forEach var="gVo" items="${gVos}" varStatus="st">
-	        		<div class="py-2">
-		        		<span class="text-sm text-muted">${gVo.date_diff == 0 ? fn:substring(gVo.writeDate,11,19) : fn:substring(gVo.writeDate,0,10) }</span>
-		            <h6 class="my-2"><a href="${ctp}/customer/board/freeBoardContent?idx=${gVo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">${gVo.title}</a></h6>
-	        		</div>
-        		</c:forEach>
+					
+					<div class="sidebar-widget category mb-3">
+						<h5 class="mb-4">분류</h5>
+						<ul class="list-unstyled">
+							<c:forEach var="rcVo" items="${rcVos}" varStatus="st">
+								<li class="align-items-center">
+							    <a href="recruitBoardList?pag=1&pageSize=${pageSize}&part=part&searchString=${rcVo.part}">${rcVo.part}</a>
+							    <span>(${rcVo.partCnt})</span>
+							  </li>
+							</c:forEach>
+						</ul>
 					</div>
 	
 				</div>

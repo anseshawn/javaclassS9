@@ -81,6 +81,13 @@ public class PageProcess {
 				totRecCnt = boardDAO.questionTotRecCntSearch(search,searchString);
 			}
 		}
+		else if(section.equals("recruitBoard")) {
+			if(part.equals("")) totRecCnt = boardDAO.recruitTotRecCnt();
+			else {
+				search = part;
+				totRecCnt = boardDAO.recruitTotRecCntSearch(search,searchString);
+			}
+		}
 		else if(section.equals("reportBoardList")) {
 			totRecCnt = adminDAO.reportBoardTotRecCnt();
 		}
@@ -90,6 +97,17 @@ public class PageProcess {
 				search = part;
 				totRecCnt = adminDAO.adminAsRequestTotRecCntSearch(search,searchString);
 			}
+		}
+		else if(section.equals("consulting")) {
+			if(part.equals("")) totRecCnt = adminDAO.consultingTotRecCnt();
+			else {
+				search = part;
+				totRecCnt = adminDAO.consultingTotRecCntSearch(search,searchString);
+			}
+		}
+		else if(section.equals("consultingMember")) {
+			String[] searchStrings = searchString.split("/");
+			totRecCnt = memberDAO.consultingTotRecCnt(searchStrings[0],searchStrings[1]);
 		}
 		//else if(section.equals("pds"))	totRecCnt = pdsDAO.totRecCnt(part);
 		

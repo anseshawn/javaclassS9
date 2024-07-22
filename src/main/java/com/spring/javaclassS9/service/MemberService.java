@@ -2,6 +2,7 @@ package com.spring.javaclassS9.service;
 
 import java.util.ArrayList;
 
+import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.MessageVO;
 
@@ -32,5 +33,9 @@ public interface MemberService {
 	public int setMessageDelete(int idx, String sw);
 
 	public int setMessageDeleteDB(int idx);
+
+	public ArrayList<ConsultingVO> getConsultingList(int startIndexNo, int pageSize, String name, String email);
+
+	public ConsultingVO getConsultingContent(int idx);
 
 }

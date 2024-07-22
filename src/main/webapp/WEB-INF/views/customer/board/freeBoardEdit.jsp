@@ -58,14 +58,14 @@
 	<div class="row justify-content-center mb-3">
 		<div class="col-md-8 col-md-offset-2 text-right">
 			<input type="button" value="수정하기" onclick="fCheck()" class="btn btn-main-2 btn-icon btn-round-full" />
-			<input type="button" value="취소" onclick="location.href='${ctp}/customer/board/freeBoardContent?idx=${vo.idx}&pag=${pag}&pageSize=${pageSize}';" class="btn btn-main btn-icon btn-round-full" />
+			<a href='${ctp}/customer/board/freeBoardContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}' class="btn btn-main btn-icon btn-round-full">취소</a>
 		</div>
 	</div>
 	<input type="hidden" name="idx" value="${vo.idx}"/>
 	<input type="hidden" name="mid" value="${sMid}"/>
 	<input type="hidden" name="nickName" value="${sNickName}"/>
-	<input type="hidden" name="pag" value="${pag}"/>
-	<input type="hidden" name="pageSize" value="${pageSize}"/>
+	<input type="hidden" name="pag" value="${pageVO.pag}"/>
+	<input type="hidden" name="pageSize" value="${pageVO.pageSize}"/>
 	<input type="hidden" name="hostIp" value="${pageContext.request.remoteAddr}"/>
 </form>
 </div>

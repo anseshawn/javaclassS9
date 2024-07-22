@@ -90,14 +90,13 @@
 		</div>
 		<div class="col-lg-9">
 			<div class="bodyRight">
-				<div class="context" id="context1" style="display:none;">
-					<jsp:include page='/WEB-INF/views/member/memberUpdate.jsp' />
-				</div>
-				<div class="context" id="context2" style="display:none;">
-					<%-- <jsp:include page='/mypage/checkBoard.jsp' /> --%>
+			<p><br/></p>
+				<div class="row mb-3">
+					<div class="col text-right"><h3>관심 장비 목록</h3></div>
 				</div>
 				<!-- 관심장비 목록 -->
 				<div class="row">
+					<p><br/></p>
 			    <c:forEach var="vo" items="${vos}" varStatus="st">
 				    <div class="border col-lg-4 col-sm-6 col-md-6 mb-4 mr-2">
 							<div class="position-relative">

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.javaclassS9.dao.AdminDAO;
+import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.ReportVO;
@@ -106,5 +107,30 @@ public class AdminServiceImpl implements AdminService {
 		else if(board.equals("questionBoard")) res = adminDAO.setReportQuestionBoardDelete(idx);
 		adminDAO.setReportContentDelete(idx);
 		return res;
+	}
+
+	@Override
+	public int setConsultingInput(ConsultingVO vo) {
+		return adminDAO.setConsultingInput(vo);
+	}
+
+	@Override
+	public ArrayList<ConsultingVO> getConsultingList(int startIndexNo, int pageSize, String part, String searchString) {
+		return adminDAO.getConsultingList(startIndexNo, pageSize, part, searchString);
+	}
+
+	@Override
+	public int getNewConsultingCount() {
+		return adminDAO.getNewConsultingCount();
+	}
+
+	@Override
+	public ConsultingVO getConsultingContent(int idx) {
+		return adminDAO.getConsultingContent(idx);
+	}
+
+	@Override
+	public int setConsultingAnswer(int idx, String answer) {
+		return adminDAO.setConsultingAnswer(idx,answer);
 	}
 }

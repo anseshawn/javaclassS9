@@ -2,8 +2,11 @@ package com.spring.javaclassS9.service;
 
 import java.util.ArrayList;
 
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import com.spring.javaclassS9.vo.AsRequestVO;
 import com.spring.javaclassS9.vo.AsRequestVO.Progress;
+import com.spring.javaclassS9.vo.RecruitBoardVO;
 import com.spring.javaclassS9.vo.ReviewVO;
 
 public interface CustomerService {
@@ -21,5 +24,7 @@ public interface CustomerService {
 	public int setAsChangeStatement(int idx, String asDate, Progress progress);
 
 	public int setAsAppointmentComplete(AsRequestVO vo);
+
+	public ArrayList<ReviewVO> getReviewList(int engineerIdx);
 
 }

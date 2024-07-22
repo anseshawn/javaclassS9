@@ -2,9 +2,12 @@ package com.spring.javaclassS9.service;
 
 import java.util.ArrayList;
 
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import com.spring.javaclassS9.vo.BoardLikeVO;
 import com.spring.javaclassS9.vo.FreeBoardVO;
 import com.spring.javaclassS9.vo.QuestionBoardVO;
+import com.spring.javaclassS9.vo.RecruitBoardVO;
 import com.spring.javaclassS9.vo.ReplyVO;
 import com.spring.javaclassS9.vo.ReportVO;
 
@@ -72,5 +75,24 @@ public interface BoardService {
 	public int setQuestionBoardGoodUpdate(int boardIdx);
 
 	public void setQuestionBoardReportUpdate(int boardIdx);
+
+	public ArrayList<RecruitBoardVO> getRecruitPartCount();
+
+	public ArrayList<RecruitBoardVO> getRecruitBoardList(int startIndexNo, int pageSize, String part,
+			String searchString);
+
+	public int setRecruitBoardInput(MultipartHttpServletRequest mFile, RecruitBoardVO vo);
+
+	public RecruitBoardVO getRecruitBoardContent(int idx);
+
+	public int setRecruitBoardDelete(int idx, String rcfSName);
+
+	public int setRecruitBoardEdit(MultipartHttpServletRequest mFile, RecruitBoardVO vo);
+
+	public int setRecruitBoardGoodUpdate(int boardIdx);
+
+	public void setRecruitBoardReportUpdate(int boardIdx);
+
+	public void setRecruitBoardReadNumPlus(int idx);
 
 }

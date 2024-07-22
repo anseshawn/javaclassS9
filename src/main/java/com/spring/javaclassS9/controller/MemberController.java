@@ -20,19 +20,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.javaclassS9.common.JavaclassProvide;
+import com.spring.javaclassS9.pagination.PageProcess;
 import com.spring.javaclassS9.service.AdminService;
 import com.spring.javaclassS9.service.BoardService;
 import com.spring.javaclassS9.service.EngineerService;
 import com.spring.javaclassS9.service.MemberService;
 import com.spring.javaclassS9.service.ProductService;
 import com.spring.javaclassS9.vo.BoardLikeVO;
+import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.FreeBoardVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.MessageVO;
+import com.spring.javaclassS9.vo.PageVO;
 import com.spring.javaclassS9.vo.ProductLikeVO;
 import com.spring.javaclassS9.vo.ProductVO;
 import com.spring.javaclassS9.vo.QuestionBoardVO;
+import com.spring.javaclassS9.vo.RecruitBoardVO;
 
 @Controller
 @RequestMapping("/member")
@@ -58,6 +62,9 @@ public class MemberController {
 	
 	@Autowired
 	AdminService adminService;
+	
+	@Autowired
+	PageProcess pageProcess;
 	
 	// 회원가입창 연결
 	@RequestMapping(value = "/memberJoin", method = RequestMethod.GET)
@@ -358,6 +365,7 @@ public class MemberController {
 		ArrayList<BoardLikeVO> likeVOS = boardService.getBoardLikeListAll(mid);
 		ArrayList<FreeBoardVO> freeBoardVOS = new ArrayList<FreeBoardVO>();
 		ArrayList<QuestionBoardVO> questionBoardVOS = new ArrayList<QuestionBoardVO>();
+		ArrayList<RecruitBoardVO> recruitBoardVOS = new ArrayList<RecruitBoardVO>();
 		for(int i=0; i<likeVOS.size(); i++) {
 			if(likeVOS.get(i).getBoard().equals("freeBoard")){
 				FreeBoardVO fVo = boardService.getFreeBoardContent(likeVOS.get(i).getBoardIdx());
@@ -367,10 +375,41 @@ public class MemberController {
 				QuestionBoardVO qVo = boardService.getQuestionBoardContent(likeVOS.get(i).getBoardIdx());
 				questionBoardVOS.add(qVo);
 			}
+			if(likeVOS.get(i).getBoard().equals("recruitBoard")) {
+				RecruitBoardVO rVo = boardService.getRecruitBoardContent(likeVOS.get(i).getBoardIdx());
+				recruitBoardVOS.add(rVo);
+			}
 		}
 		model.addAttribute("freeBoardVOS", freeBoardVOS);
 		model.addAttribute("questionBoardVOS", questionBoardVOS);
+		model.addAttribute("recruitBoardVOS", recruitBoardVOS);
 		return "member/boardLikeList";
+	}
+	
+	// 마이페이지 - 문의 내역
+	@RequestMapping(value = "/consultingList", method = RequestMethod.GET)
+	public String consultingListGet(HttpSession session, Model model,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize
+			) {
+		String mid = (String) session.getAttribute("sMid");
+		MemberVO mVo = memberService.getMemberIdCheck(mid);
+		String nameEmail = mVo.getName()+"/"+mVo.getEmail(); 
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "consultingMember", "member", nameEmail);
+		ArrayList<ConsultingVO> vos = memberService.getConsultingList(pageVO.getStartIndexNo(),pageSize,mVo.getName(),mVo.getEmail());
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("vos", vos);
+		return "member/consultingList";
+	}
+	
+	// 마이페이지 - 문의 내역 답변 내용 보기
+	@ResponseBody
+	@RequestMapping(value = "/consultingContent", method = RequestMethod.POST)
+	public ConsultingVO consultingContentPost(
+			@RequestParam(name="idx",defaultValue = "10", required = false) int idx
+			) {
+		ConsultingVO vo = memberService.getConsultingContent(idx);
+		return vo;
 	}
 	
 	// 마이페이지 - 쪽지 확인

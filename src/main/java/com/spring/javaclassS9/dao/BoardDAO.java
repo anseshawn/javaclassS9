@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.spring.javaclassS9.vo.BoardLikeVO;
 import com.spring.javaclassS9.vo.FreeBoardVO;
 import com.spring.javaclassS9.vo.QuestionBoardVO;
+import com.spring.javaclassS9.vo.RecruitBoardVO;
 import com.spring.javaclassS9.vo.ReplyVO;
 import com.spring.javaclassS9.vo.ReportVO;
 
@@ -86,5 +87,29 @@ public interface BoardDAO {
 
 	public void setQuestionBoardReportUpdate(@Param("idx") int boardIdx);
 
+	public ArrayList<RecruitBoardVO> getRecruitPartCount();
+
+	public int recruitTotRecCnt();
+
+	public int recruitTotRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
+
+	public ArrayList<RecruitBoardVO> getRecruitBoardList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize,
+			@Param("search") String search, @Param("searchString") String searchString);
+
+	public int setRecruitBoardInput(@Param("vo") RecruitBoardVO vo);
+
+	public RecruitBoardVO getRecruitBoardContent(@Param("idx") int idx);
+
+	public int setRecruitBoardDelete(@Param("idx") int idx);
+
+	public int setRecruitBoardEdit(@Param("vo") RecruitBoardVO vo);
+
+	public void setRecruitBoardReadNumPlus(@Param("idx") int idx);
+
+	public int setRecruitBoardGoodUpdate(@Param("idx") int boardIdx);
+
+	public void setRecruitBoardReportUpdate(@Param("idx") int boardIdx);
+
+	public int setRecruitBoardGoodDown(@Param("idx") int boardIdx);
 
 }

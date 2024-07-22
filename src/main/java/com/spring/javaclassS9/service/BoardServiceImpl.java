@@ -1,6 +1,8 @@
 package com.spring.javaclassS9.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,12 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.javaclassS9.common.JavaclassProvide;
 import com.spring.javaclassS9.dao.BoardDAO;
 import com.spring.javaclassS9.vo.BoardLikeVO;
 import com.spring.javaclassS9.vo.FreeBoardVO;
 import com.spring.javaclassS9.vo.QuestionBoardVO;
+import com.spring.javaclassS9.vo.RecruitBoardVO;
 import com.spring.javaclassS9.vo.ReplyVO;
 import com.spring.javaclassS9.vo.ReportVO;
 
@@ -141,9 +146,13 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int setFreeBoardDelete(int idx) {
-		int res = boardDAO.setBoardReplyDelete("freeBoard", idx, 0);
-		int res2 = 0;
-		if(res != 0) res2 = boardDAO.setFreeBoardDelete(idx);
+		ArrayList<ReplyVO> vos = boardDAO.getBoardReply("freeBoard", idx);
+		int res = 0;
+		if(vos != null) {
+			res = boardDAO.setBoardReplyDelete("freeBoard", idx, 0);
+		}
+		System.out.println("res: "+res);
+		int res2 = boardDAO.setFreeBoardDelete(idx);
 		return res2;
 	}
 
@@ -159,6 +168,7 @@ public class BoardServiceImpl implements BoardService {
 		if(res != 0) {
 			if(vo.getBoard().equals("freeBoard")) res2 = boardDAO.setFreeBoardGoodDown(vo.getBoardIdx());
 			else if(vo.getBoard().equals("questionBoard")) res2 = boardDAO.setQuestionBoardGoodDown(vo.getBoardIdx());
+			else if(vo.getBoard().equals("recruitBoard")) res2 = boardDAO.setRecruitBoardGoodDown(vo.getBoardIdx());
 		}
 		return res2;
 	}
@@ -232,5 +242,122 @@ public class BoardServiceImpl implements BoardService {
 		boardDAO.setQuestionBoardReportUpdate(boardIdx);
 	}
 
+	@Override
+	public ArrayList<RecruitBoardVO> getRecruitPartCount() {
+		return boardDAO.getRecruitPartCount();
+	}
+
+	@Override
+	public ArrayList<RecruitBoardVO> getRecruitBoardList(int startIndexNo, int pageSize, String part, String searchString) {
+		return boardDAO.getRecruitBoardList(startIndexNo,pageSize,part,searchString);
+	}
+
+	@Override
+	public int setRecruitBoardInput(MultipartHttpServletRequest mFile, RecruitBoardVO vo) {
+		try {
+			List<MultipartFile> fileList = mFile.getFiles("file");
+			String oFileNames = "";
+			String sFileNames = "";
+			for(MultipartFile file : fileList) {
+				String oFileName = file.getOriginalFilename();
+				if(mFile != null && oFileName != "") {
+					String sFileName = javaclassProvide.saveFileName(oFileName);
+					javaclassProvide.writeFile(file, sFileName, "recruitBoard");
+					
+					oFileNames += oFileName + "/";
+					sFileNames += sFileName + "/";
+				}
+			}
+			if(oFileNames != "") {
+				oFileNames = oFileNames.substring(0,oFileNames.length()-1);
+				sFileNames = sFileNames.substring(0,sFileNames.length()-1);
+			}
+			
+			vo.setRcfName(oFileNames);
+			vo.setRcfSName(sFileNames);
+		} catch (IOException e) {e.printStackTrace();}
+		return boardDAO.setRecruitBoardInput(vo);
+	}
+
+	@Override
+	public RecruitBoardVO getRecruitBoardContent(int idx) {
+		return boardDAO.getRecruitBoardContent(idx);
+	}
+
+	@Override
+	public int setRecruitBoardDelete(int idx, String rcfSName) {
+		int res = 0;
+		ArrayList<ReplyVO> vos = boardDAO.getBoardReply("recruitBoard", idx);
+		if(vos != null) {
+			res = boardDAO.setBoardReplyDelete("recruitBoard", idx, 0);
+		}
+		int res2 = 0;
+		if(!rcfSName.equals("")) {
+			String[] fSNames = rcfSName.split("/");
+			for(String fSName : fSNames) {
+				javaclassProvide.deleteFile(fSName, "recruitBoard");
+			}
+			res2 = boardDAO.setRecruitBoardDelete(idx);
+		}
+		return res2;
+	}
+
+	@Override
+	public int setRecruitBoardEdit(MultipartHttpServletRequest mFile, RecruitBoardVO vo) {
+		try {
+			List<MultipartFile> fileList = mFile.getFiles("file");
+			String oFileNames = "";
+			String sFileNames = "";
+			for(MultipartFile file : fileList) {
+				String oFileName = file.getOriginalFilename();
+				if(mFile != null && oFileName != "") { // 우선 올라온 파일은 전부 업로드 처리 후
+					String sFileName = javaclassProvide.saveFileName(oFileName);
+					javaclassProvide.writeFile(file, sFileName, "recruitBoard");
+					oFileNames += oFileName + "/";
+					sFileNames += sFileName + "/";
+				}
+			}
+			if(oFileNames != "") {
+				oFileNames = oFileNames.substring(0,oFileNames.length()-1);
+				sFileNames = sFileNames.substring(0,sFileNames.length()-1);
+			}
+			
+			// 기존에 있던 파일 목록과 다르다면 기존 파일을 삭제한다.
+			if(oFileNames != "" && !oFileNames.equals(vo.getOriginFile())) {
+				String[] fSNames = vo.getOriginSFile().split("/");
+				for(String fSName : fSNames) {
+					javaclassProvide.deleteFile(fSName, "recruitBoard");
+				}
+				//if(oFileNames != "") {
+					vo.setRcfName(oFileNames);
+					vo.setRcfSName(sFileNames);
+				//}
+				//else {
+					//vo.setRcfName(vo.getOriginFile());
+					//vo.setRcfSName(vo.getOriginSFile());
+				//}
+			}
+			else {
+				vo.setRcfName(vo.getOriginFile());
+				vo.setRcfSName(vo.getOriginSFile());
+			}
+		} catch (IOException e) {e.printStackTrace();}
+		return boardDAO.setRecruitBoardEdit(vo);
+	}
+
+	@Override
+	public void setRecruitBoardReadNumPlus(int idx) {
+		boardDAO.setRecruitBoardReadNumPlus(idx);
+	}
+
+	@Override
+	public int setRecruitBoardGoodUpdate(int boardIdx) {
+		return boardDAO.setRecruitBoardGoodUpdate(boardIdx);
+	}
+
+	@Override
+	public void setRecruitBoardReportUpdate(int boardIdx) {
+		boardDAO.setRecruitBoardReportUpdate(boardIdx);
+	}
 
 }

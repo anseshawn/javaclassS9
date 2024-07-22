@@ -35,6 +35,31 @@ create table questionBoardS(
 	foreign key(mid) references memberS(mid)
 );
 INSERT INTO questionBoardS VALUES (default,'admin','관리자','질문 게시판 서비스를 시작합니다.','회원님들의 많은 이용부탁드립니다.','192.168.50.58',default,default,'기타',default,default);
+
+create table recruitBoardS(
+	idx int not null auto_increment,	/* 게시글 고유번호 */
+	mid varchar(20) not null,					/* 작성자 아이디 */
+	nickName varchar(10) not null,		/* 작성자 닉네임 */
+	title varchar(50) not null,				/* 게시글 제목 */
+	content text not null,						/* 게시글 내용 */
+	hostIp varchar(40) not null,			/* 작성자 아이피 */
+	readNum int default 0,						/* 조회수 */
+	writeDate datetime default now(),			/* 작성일 */
+	part varchar(10) not null,				/* 채용구분(신입,경력,경력무관,인턴) */
+	location varchar(100) not null,		/* 근무지역 */
+	startDate datetime not null default now(),	/* 채용시작일 */
+	endDate datetime not null,									/* 채용종료일 */
+	etcContent text,									/* 유의사항 */
+	rcfName varchar(200),							/* 첨부파일 (있을 경우) */
+	rcfSName varchar(200),						/* 서버에 저장되는 첨부파일 이름 */
+	good int default 0,								/* 좋아요 */
+	report int default 0,							/* 신고(5번 신고하면 리스트에서 블라인드) */
+	primary key(idx),
+	foreign key(mid) references memberS(mid)
+);
+drop table recruitBoardS;
+desc recruitBoardS;
+
 create table replyS(
 	idx INT NOT NULL auto_increment,
 	board VARCHAR(20) NOT NULL,		/* 게시판 종류 */

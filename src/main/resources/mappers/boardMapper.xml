@@ -14,6 +14,12 @@
 	<select id="questionTotRecCntSearch" resultType="int">
 		SELECT count(*) FROM questionBoardS WHERE ${search} LIKE CONCAT('%',#{searchString},'%');
 	</select>
+	<select id="recruitTotRecCnt" resultType="int">
+		SELECT count(*) FROM recruitBoardS;
+	</select>
+	<select id="recruitTotRecCntSearch" resultType="int">
+		SELECT count(*) FROM recruitBoardS WHERE ${search} LIKE CONCAT('%',#{searchString},'%');
+	</select>
 	<select id="getFreeBoardList" resultType="com.spring.javaclassS9.vo.FreeBoardVO">
 		SELECT *, datediff(writeDate, now()) AS date_diff, timestampdiff(hour, writeDate, now()) AS hour_diff,
 			(SELECT count(*) FROM replyS WHERE board='freeBoard' and boardIdx = b.idx) as replyCnt 
@@ -70,6 +76,21 @@
 		SELECT *,(SELECT count(*) FROM replyS WHERE board='questionBoard' and boardIdx = b.idx) as replyCnt 
 			FROM questionBoardS b WHERE idx = #{idx};
 	</select>
+	<select id="getRecruitPartCount" resultType="com.spring.javaclassS9.vo.RecruitBoardVO">
+		select part, count(*) as partCnt from recruitBoardS group by part order by writeDate desc;
+	</select>
+	<select id="getRecruitBoardList" resultType="com.spring.javaclassS9.vo.RecruitBoardVO">
+		SELECT *, datediff(writeDate, now()) AS date_diff, timestampdiff(hour, writeDate, now()) AS hour_diff,
+			(SELECT count(*) FROM replyS WHERE board='recruitBoard' and boardIdx = b.idx) as replyCnt 
+			FROM recruitBoardS b WHERE <![CDATA[b.report < 5]]>
+			<if test="search != ''"> AND ${search} LIKE CONCAT('%',#{searchString},'%') </if> 
+			ORDER BY idx desc
+			<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+	</select>
+	<select id="getRecruitBoardContent" resultType="com.spring.javaclassS9.vo.RecruitBoardVO">
+		SELECT *,(SELECT count(*) FROM replyS WHERE board='recruitBoard' and boardIdx = b.idx) as replyCnt 
+			FROM recruitBoardS b WHERE idx = #{idx};
+	</select>
 	
 	
 	<insert id="setFreeBoardInput">
@@ -90,6 +111,11 @@
 	</insert>
 	<insert id="setBoardReportInput">
 		insert into reportS values(default, #{vo.board}, #{vo.boardIdx}, #{vo.rpMid}, #{vo.rpContent}, default);
+	</insert>
+	<insert id="setRecruitBoardInput">
+		insert into recruitBoardS values(default, #{vo.mid}, #{vo.nickName}, #{vo.title}, #{vo.content}, #{vo.hostIp}, 
+			default, default, #{vo.part}, #{vo.location}, default, #{vo.endDate}, #{vo.etcContent}, #{vo.rcfName}, 
+			#{vo.rcfSName}, default, default);
 	</insert>
 	
 	
@@ -115,17 +141,34 @@
 	<update id="setQuestionBoardGoodDown">
 		update questionBoardS set good = good-1 where idx=#{idx};
 	</update>
+	<update id="setRecruitBoardGoodUpdate">
+		update recruitBoardS set good = good+1 where idx=#{idx};
+	</update>
+	<update id="setRecruitBoardGoodDown">
+		update recruitBoardS set good = good-1 where idx=#{idx};
+	</update>
 	<update id="setFreeBoardReportUpdate">
 		update freeBoardS set report = report+1 where idx=#{idx};
 	</update>
 	<update id="setQuestionBoardReportUpdate">
 		update questionBoardS set report = report+1 where idx=#{idx};
 	</update>
+	<update id="setRecruitBoardReportUpdate">
+		update recruitBoardS set report = report+1 where idx=#{idx};
+	</update>
 	<update id="setFreeBoardReadNumPlus">
 		update freeBoardS set readNum = readNum+1 where idx=#{idx};
 	</update>
 	<update id="setQuestionBoardReadNumPlus">
 		update questionBoardS set readNum = readNum+1 where idx=#{idx};
+	</update>
+	<update id="setRecruitBoardReadNumPlus">
+		update recruitBoardS set readNum = readNum+1 where idx=#{idx};
+	</update>
+	<update id="setRecruitBoardEdit">
+		update recruitBoardS set mid=#{vo.mid}, nickName=#{vo.nickName}, title=#{vo.title}, content=#{vo.content}, 
+			hostIp=#{vo.hostIp}, part=#{vo.part}, location=#{vo.location}, endDate=#{vo.endDate}, etcContent=#{vo.etcContent}, 
+			rcfName=#{vo.rcfName}, rcfSName=#{vo.rcfSName} where idx = #{vo.idx};
 	</update>
 
 	
@@ -134,6 +177,9 @@
 	</delete>
 	<delete id="setFreeBoardDelete">
 		delete from freeBoardS where idx=#{idx};
+	</delete>
+	<delete id="setRecruitBoardDelete">
+		delete from recruitBoardS where idx=#{idx};
 	</delete>
 	<delete id="setBoardLikeDelete">
 		delete from boardLikeS where board=#{vo.board} and boardIdx=#{vo.boardIdx} and memberMid=#{vo.memberMid};

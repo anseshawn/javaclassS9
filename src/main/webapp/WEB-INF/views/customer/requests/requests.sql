@@ -40,4 +40,3 @@ create table review(
 
 desc review;
 drop table review;
-

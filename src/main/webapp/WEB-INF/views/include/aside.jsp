@@ -28,7 +28,7 @@
 					<div class="col"><a href="${ctp}/member/memberUpdate"> 정보 수정</a></div>
 				</div>
 				<div class="row">
-					<div class="col"><a href="#">문의내역</a></div>
+					<div class="col"><a href="${ctp}/member/consultingList">문의내역</a></div>
 				</div>
 				<div class="row">
 					<div class="col"><a href="${ctp}/member/machineLikeList">관심장비 목록</a></div>
@@ -43,7 +43,7 @@
 				</div>
 				<div class="divider2 mx-auto my-2"></div>
 				<div class="row">
-					<div class="col"><a href="javascript:mypage(2)">게시글 확인</a></div>
+					<div class="col"><a href="#">게시글 확인</a></div>
 				</div>
 				<div class="row">
 					<div class="col"><a href="${ctp}/member/messageList">받은 메세지</a></div>

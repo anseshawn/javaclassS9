@@ -63,12 +63,13 @@
 		}
 		
 		function asRequestSearch() {
-			let part = $("part").val();
-			let searchString = $("searchString").val();
+			let part = $("#part").val();
+			let searchString = $("#searchString").val();
 			if($("#part").val() != 'progress' && searchString.trim()=="") {
 				alert("검색어를 입력하세요.");
 				return false;
 			}
+			if(part=='progress') searchString = $("#progressSelect").val();
 			location.href="${ctp}/admin/engineer/asRequestList?part="+part+"&searchString="+searchString;
 		}
 	</script>
@@ -186,6 +187,7 @@
 	<!-- 블록페이지 끝 -->
 	
 </div>
+<p><br/></p>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
 <script src="${ctp}/js/bootstrap-datepicker.ko.js"></script>
 </body>

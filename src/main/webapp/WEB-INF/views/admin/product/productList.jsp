@@ -77,6 +77,7 @@
 <body>
 <jsp:include page="/WEB-INF/views/include/admin_aside.jsp" />
 <div class="container">
+<p><br/></p>
 	<section class="section doctors">
 	  <div class="container">
     	<div class="col-12 text-center mb-5">
@@ -135,6 +136,7 @@
 		  
 	  </div>
 	</section>
+<p><br/></p>
 </div>
 <!-- 블록페이지 시작 -->	
 <div class="text-center">

@@ -8,9 +8,15 @@
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
 	<!-- Interceptor 설정 -->
-	<beans:bean id="level0Interceptor" class="com.spring.javaclassS.interceptor.Level0Interceptor" />
-	<beans:bean id="level1Interceptor" class="com.spring.javaclassS.interceptor.Level1Interceptor" />
-	<beans:bean id="level2Interceptor" class="com.spring.javaclassS.interceptor.Level2Interceptor" />
-	<beans:bean id="level3Interceptor" class="com.spring.javaclassS.interceptor.Level3Interceptor" />
+	<beans:bean id="level0Interceptor" class="com.spring.javaclassS9.interceptor.Level0Interceptor" />
+	<beans:bean id="level1Interceptor" class="com.spring.javaclassS9.interceptor.Level1Interceptor" />
+	<beans:bean id="level2Interceptor" class="com.spring.javaclassS9.interceptor.Level2Interceptor" />
+	<beans:bean id="level3Interceptor" class="com.spring.javaclassS9.interceptor.Level3Interceptor" />
 	
+	<interceptors>
+		<interceptor>
+			<mapping path="/admin/**"/>
+			<beans:ref bean="level0Interceptor"/>
+		</interceptor>
+	</interceptors>
 </beans:beans>

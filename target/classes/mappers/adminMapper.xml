@@ -21,6 +21,9 @@
 	<select id="getProductEstimateCount" resultType="int">
 		select count(*) from productSaleS where statement='QUOTE';
 	</select>
+	<select id="getNewConsultingCount" resultType="int">
+		select count(*) from consultingS where completeDate is null;
+	</select>
 	<select id="getMemberDeleteReason" resultType="com.spring.javaclassS9.vo.DeleteMemberVO">
 		select deleteReason,reasonDetail, count(*) as reasonCnt from deleteMember
 			where deleteReason between 1 and 6 group by deleteReason;
@@ -40,10 +43,12 @@
 	<select id="getReportBoardList" resultType="com.spring.javaclassS9.vo.ReportVO">
 		select r.*, datediff(r.rpDate, now()) as date_diff, 
 			b.idx as fbIdx, b.title as fbTitle, b.content as fbContent, b.mid as fbMid, 
-			q.idx as qtIdx, q.title as qtTitle, q.content as qtContent, q.mid as qtMid 
+			q.idx as qtIdx, q.title as qtTitle, q.content as qtContent, q.mid as qtMid, 
+			c.idx as rcIdx, c.title as rcTitle, c.content as rcContent, c.mid as rcMid 
 			from reportS r 
 			left join freeBoardS b on b.idx = r.boardIdx and r.board='freeBoard' 
 			left join questionBoardS q on q.idx = r.boardIdx and r.board='questionBoard' 
+			left join recruitBoardS c on c.idx = r.boardIdx and r.board='recruitBoard' 
 			order by r.rpDate desc
 			<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
@@ -53,6 +58,22 @@
 	<select id="adminAsRequestTotRecCntSearch" resultType="int">
 		select count(*) from asRequest where ${search} like concat('%',#{searchString},'%');
 	</select>
+	<select id="consultingTotRecCnt" resultType="int">
+		select count(*) from consultingS;
+	</select>
+	<select id="consultingTotRecCntSearch" resultType="int">
+		select count(*) from consultingS where ${search} like concat('%',#{searchString},'%');
+	</select>
+	<select id="getConsultingList" resultType="com.spring.javaclassS9.vo.ConsultingVO">
+		SELECT *, datediff(writeDate, now()) AS date_diff 
+			FROM consultingS 
+			<if test="search != ''"> WHERE ${search} LIKE CONCAT('%',#{searchString},'%') </if> 
+			ORDER BY idx desc 
+			<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+	</select>
+	<select id="getConsultingContent" resultType="com.spring.javaclassS9.vo.ConsultingVO">
+		select * from consultingS where idx = #{idx};
+	</select>
 	
 	
 	<insert id="setMemberDeleteReason">
@@ -61,6 +82,10 @@
 		<if test="vo.deleteReason==6">#{vo.etc}</if>
 		);
 	</insert>
+	<insert id="setConsultingInput">
+		insert into consultingS values(default, #{vo.part}, #{vo.name}, #{vo.email}, #{vo.phone}, 
+			#{vo.title}, #{vo.content}, default, null, null);
+	</insert>
 	
 	
 	<update id="setMemberLevelUpdateOk">
@@ -68,6 +93,9 @@
 	</update>
 	<update id="setProductEstimateChange">
 		update productSaleS set statement=#{statement} where idx = #{idx};
+	</update>
+	<update id="setConsultingAnswer">
+		update consultingS set completeDate = now(), answer=#{answer} where idx=#{idx};
 	</update>
 	
 	

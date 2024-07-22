@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,7 @@ import com.spring.javaclassS9.service.MemberService;
 import com.spring.javaclassS9.service.ProductService;
 import com.spring.javaclassS9.vo.AsRequestVO;
 import com.spring.javaclassS9.vo.ChartVO;
+import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.MemberVO;
@@ -70,8 +72,10 @@ public class AdminController {
 	public String adminMainGet(Model model) {
 		int joinCount = adminService.getJoinMemberCount();
 		int estimateCount = adminService.getProductEstimateCount();
+		int consultingCount = adminService.getNewConsultingCount();
 		model.addAttribute("joinCount", joinCount);
 		model.addAttribute("estimateCount", estimateCount);
+		model.addAttribute("consultingCount", consultingCount);
 		return "admin/adminMain";
 	}
 	
@@ -568,7 +572,7 @@ public class AdminController {
   
   // A/S 현황 기간 검색
 	@RequestMapping(value = "/engineer/asRequestList", method = RequestMethod.POST)
-	public String asRequestListPost(HttpSession session, Model model, String startSearchDate, String endSearchDate,
+	public String asRequestListPost(Model model, String startSearchDate, String endSearchDate,
 			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
 			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize
 		) throws ParseException {
@@ -615,6 +619,10 @@ public class AdminController {
 					System.out.println(i+"question vos : "+i+"."+vos.get(i).getBoard());
 					vos.remove(i);
 				}
+				else if(part.equals("recruitBoard") && !vos.get(i).getBoard().equals("recruitBoard") ) {
+					System.out.println(i+"recruit vos : "+i+"."+vos.get(i).getBoard());
+					vos.remove(i);
+				}
 			}
 		}
   	model.addAttribute("pageVO", pageVO);
@@ -636,6 +644,67 @@ public class AdminController {
   	}
   	return res + "";
   }
+  
+  // 문의 내역 리스트 보기
+  @RequestMapping(value = "/consultingList", method = RequestMethod.GET)
+  public String consultingListGet(Model model,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name = "part", defaultValue = "", required = false) String part,
+			@RequestParam(name = "searchString", defaultValue = "", required = false) String searchString
+			) {
+  	PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "consulting", part, searchString);
+  	ArrayList<ConsultingVO> vos = adminService.getConsultingList(pageVO.getStartIndexNo(),pageSize,part,searchString);
+  	model.addAttribute("pageVO", pageVO);
+  	model.addAttribute("vos", vos);
+  	return "admin/consultingList";
+  }
+  // 문의 내역 리스트 보기(기간 검색)
+  @RequestMapping(value = "/consultingList", method = RequestMethod.POST)
+  public String consultingListPost(Model model, String startSearchDate, String endSearchDate,
+  		@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+  		@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
+  		@RequestParam(name = "part", defaultValue = "", required = false) String part,
+  		@RequestParam(name = "searchString", defaultValue = "", required = false) String searchString
+  		) throws ParseException {
+  	PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "consulting", part, searchString);
+  	ArrayList<ConsultingVO> vos = adminService.getConsultingList(pageVO.getStartIndexNo(),pageSize,part,searchString);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date writeDate = null;
+		for(int i=0; i<vos.size(); i++) {
+			writeDate = sdf.parse(vos.get(i).getWriteDate());
+			Date sSearchDate = sdf.parse(startSearchDate);
+			Date eSearchDate = sdf.parse(endSearchDate);
+			if(writeDate.before(sSearchDate) || writeDate.after(eSearchDate)) vos.remove(i);
+		}
+		model.addAttribute("pageVO", pageVO);
+  	model.addAttribute("vos", vos);
+  	return "admin/consultingList";
+  }
+  // 문의 내역 내용 보기
+  @ResponseBody
+  @RequestMapping(value = "/consultingContent", method = RequestMethod.POST)
+  public ConsultingVO consultingContentPost(
+  		@RequestParam(name="idx",defaultValue = "0", required = false) int idx
+  		) {
+  	ConsultingVO vo = adminService.getConsultingContent(idx);
+  	return vo;
+  }
+  // 문의 답변하기
+  @Transactional
+  @ResponseBody
+  @RequestMapping(value = "/consultingAnswer", method = RequestMethod.POST)
+  public String consultingAnswerPost(HttpServletRequest request,
+  		@RequestParam(name="idx",defaultValue = "0", required = false) int idx,
+  		@RequestParam(name="answer",defaultValue = "", required = false) String answer,
+  		@RequestParam(name="email",defaultValue = "", required = false) String email
+  		) throws MessagingException {
+  	int res = adminService.setConsultingAnswer(idx,answer);
+  	javaclassProvide.mailSend(email, "문의에 대한 답변이 등록되었습니다.", answer, "consultingAnswer", request);
+  	return res + "";
+  }
+  
   
   // 사이트 통계
   @RequestMapping(value = "/siteChart", method = RequestMethod.GET)

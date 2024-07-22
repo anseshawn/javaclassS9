@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.MessageVO;
 
@@ -38,5 +39,12 @@ public interface MemberDAO {
 	public int setMessageDelete(@Param("idx") int idx, @Param("sw") String sw);
 
 	public int setMessageDeleteDB(@Param("idx") int idx);
+
+	public int consultingTotRecCnt(@Param("name") String name, @Param("email") String email);
+
+	public ArrayList<ConsultingVO> getConsultingList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, 
+			@Param("name") String name, @Param("email") String email);
+
+	public ConsultingVO getConsultingContent(@Param("idx") int idx);
 	
 }

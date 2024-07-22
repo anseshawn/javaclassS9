@@ -22,18 +22,6 @@
   		margin-top: 0.5rem;
   	}
   </style>
-  <script>
-  	'use strict';
-  	$(function(){
-  		if(${!empty part}) mypage(${part});
-  	});
-  	
-  	function mypage(part){
-  		// 선택값에 따라서 display:none 을 보였다 안보였다하는..?
-  		$(".context").hide();
-  		$("#context"+part).show();
-  	}
- 	</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/header.jsp" />
@@ -48,12 +36,7 @@
 		</div>
 		<div class="col-lg-9">
 			<div class="bodyRight">
-				<div class="context" id="context1" style="display:none;">
-					<jsp:include page='/WEB-INF/views/member/memberUpdate.jsp' />
-				</div>
-				<div class="context" id="context2" style="display:none;">
-					<%-- <jsp:include page='/mypage/checkBoard.jsp' /> --%>
-				</div>
+			
 			</div>
 		</div>
 		

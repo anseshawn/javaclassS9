@@ -3,6 +3,7 @@ package com.spring.javaclassS9.controller;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.javaclassS9.pagination.PageProcess;
 import com.spring.javaclassS9.service.BoardService;
@@ -35,6 +37,7 @@ import com.spring.javaclassS9.vo.FreeBoardVO;
 import com.spring.javaclassS9.vo.NewsVO;
 import com.spring.javaclassS9.vo.PageVO;
 import com.spring.javaclassS9.vo.QuestionBoardVO;
+import com.spring.javaclassS9.vo.RecruitBoardVO;
 import com.spring.javaclassS9.vo.ReplyVO;
 import com.spring.javaclassS9.vo.ReportVO;
 import com.spring.javaclassS9.vo.ReviewVO;
@@ -272,6 +275,14 @@ public class CustomerController {
 		return customerService.setReviewInput(vo)+"";
 	}
 	
+	// A/S 창에서 엔지니어 별점 보기
+	@ResponseBody
+	@RequestMapping(value = "/requests/engineerStarShow", method = RequestMethod.POST)
+	public ArrayList<ReviewVO> engineerStarShowPost(int engineerIdx) {
+		ArrayList<ReviewVO> vos = customerService.getReviewList(engineerIdx);
+		return vos;
+	}
+	
 	// 자유게시판 연결
 	@RequestMapping(value = "/board/freeBoardList", method = RequestMethod.GET)
 	public String freeBoardListGet(Model model,
@@ -462,6 +473,7 @@ public class CustomerController {
 		if(res != 0) {
 			if(vo.getBoard().equals("freeBoard")) res2 = boardService.setFreeBoardGoodUpdate(vo.getBoardIdx());
 			else if(vo.getBoard().equals("questionBoard")) res2 = boardService.setQuestionBoardGoodUpdate(vo.getBoardIdx());
+			else if(vo.getBoard().equals("recruitBoard")) res2 = boardService.setRecruitBoardGoodUpdate(vo.getBoardIdx());
 		}
 		return res2+"";
 	}
@@ -482,6 +494,7 @@ public class CustomerController {
 		if(res != 0) {
 			if(vo.getBoard().equals("freeBoard")) boardService.setFreeBoardReportUpdate(vo.getBoardIdx());
 			else if(vo.getBoard().equals("questionBoard")) boardService.setQuestionBoardReportUpdate(vo.getBoardIdx());
+			else if(vo.getBoard().equals("recruitBoard")) boardService.setRecruitBoardReportUpdate(vo.getBoardIdx());
 		}
 		return res+"";
 	}
@@ -530,7 +543,7 @@ public class CustomerController {
 		else return "redirect:/message/boardInputNo?pathFlag=questionBoard";
 	}
 	
-	// 자유게시판 내용 보기
+	// 질문게시판 내용 보기
 	@RequestMapping(value = "/board/questionBoardContent", method = RequestMethod.GET)
 	public String questionBoardContentGet(Model model, HttpSession session, HttpServletRequest request,
 			@RequestParam(name="idx",defaultValue = "0", required = false) int idx,
@@ -586,5 +599,139 @@ public class CustomerController {
 		else return "redirect:/message/boardDeleteNo?pathFlag=questionBoard&idx="+idx;
 	}
 	
+	// 질문 게시판 글 수정창 띄우기
+	@RequestMapping(value = "/board/questionBoardEdit", method = RequestMethod.GET)
+	public String questionBoardEditGet(Model model,
+			@RequestParam(name="idx",defaultValue = "0", required = false) int idx,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name="search",defaultValue = "10", required = false) String search,
+			@RequestParam(name="searchString",defaultValue = "10", required = false) String searchString
+		) {
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "questionBoard", search, searchString);
+		QuestionBoardVO vo = boardService.getQuestionBoardContent(idx);
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("vo", vo);
+		return "customer/board/questionBoardEdit";
+	}
+	
+	// 채용공고 게시판 연결
+	@RequestMapping(value = "/board/recruitBoardList", method = RequestMethod.GET)
+	public String recruitBoardListGet(Model model,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name = "part", defaultValue = "", required = false) String part,
+			@RequestParam(name = "searchString", defaultValue = "", required = false) String searchString
+			) {
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "recruitBoard", part, searchString);
+		ArrayList<RecruitBoardVO> vos = null;
+		vos = boardService.getRecruitBoardList(pageVO.getStartIndexNo(), pageSize, part, searchString);
+		if(!part.equals(""))	{
+			if(part.equals("title")) part = "제목";
+			else if(part.equals("nickName")) part = "작성자";
+			else if(part.equals("content")) part = "내용";
+			else if(part.equals("part")) part = "분류";
+			model.addAttribute("part", part);
+			model.addAttribute("searchString", searchString);
+			model.addAttribute("searchCount", vos.size());
+		}
+		ArrayList<RecruitBoardVO> rcVos = boardService.getRecruitPartCount();
+		LocalDate today = LocalDate.now();
+		model.addAttribute("today", today);
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("vos", vos);
+		model.addAttribute("rcVos", rcVos);
+		return "customer/board/recruitBoardList";
+	}
+	
+	// 채용공고 게시판 글쓰기 창 연결
+	@RequestMapping(value = "/board/recruitBoardInput", method = RequestMethod.GET)
+	public String recruitBoardInputGet() {
+		return "customer/board/recruitBoardInput";
+	}
+	
+	// 채용공고 게시판 글쓰기 (파일 업로드)
+	@RequestMapping(value = "/board/recruitBoardInput", method = RequestMethod.POST)
+	public String recruitBoardInputPost(MultipartHttpServletRequest mFile, RecruitBoardVO vo) {
+		int res = boardService.setRecruitBoardInput(mFile,vo);
+		if(res != 0) return "redirect:/message/boardInputOk?pathFlag=recruitBoard";
+		else return "redirect:/message/boardInputNo?pathFlag=recruitBoard";
+	}
+	
+	// 채용공고 게시판 내용 보기
+	@RequestMapping(value = "/board/recruitBoardContent", method = RequestMethod.GET)
+	public String recruitBoardContentGet(Model model, HttpSession session, HttpServletRequest request,
+			@RequestParam(name = "idx", defaultValue = "0", required = false) int idx,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name = "part", defaultValue = "", required = false) String part,
+			@RequestParam(name = "searchString", defaultValue = "", required = false) String searchString
+			) {
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "recruitBoard", part, searchString);
+		RecruitBoardVO vo = boardService.getRecruitBoardContent(idx);
+		ArrayList<RecruitBoardVO> rcVos = boardService.getRecruitPartCount();
+		ArrayList<ReplyVO> replyVos = boardService.getBoardReply("recruitBoard",idx);
+		
+		String mid = (String) session.getAttribute("sMid");
+		if(mid != null) {
+			ArrayList<BoardLikeVO> vos = boardService.getBoardLikeList("recruitBoard",mid);
+			if(vos.size()!=0) {
+				for(int i=0; i<vos.size(); i++) {
+					if(vos.get(i).getBoardIdx() == idx) model.addAttribute("likeSw", "act");
+				}
+			}
+		}
+		// 게시글 조회수 1씩 증가시키기
+		session = request.getSession();
+		ArrayList<String> contentReadNum = (ArrayList<String>)session.getAttribute("sContentIdx");
+		if(contentReadNum==null) contentReadNum = new ArrayList<String>();
+		String imsiContentReadNum = "recruitBoard"+idx;
+		if(!contentReadNum.contains(imsiContentReadNum)) {
+			boardService.setRecruitBoardReadNumPlus(idx);
+			contentReadNum.add(imsiContentReadNum);
+		}
+		session.setAttribute("sContentIdx", contentReadNum);
+		
+		model.addAttribute("vo", vo);
+		model.addAttribute("rcVos", rcVos);
+		model.addAttribute("replyVos", replyVos);
+		model.addAttribute("pageVO", pageVO);
+		return "customer/board/recruitBoardContent";
+	}
+	
+	// 채용공고 게시판 글 삭제(댓글도 모두 삭제하기)
+	@ResponseBody
+	@RequestMapping(value = "/board/recruitBoardDelete", method = RequestMethod.POST)
+	public String recruitBoardDeletePost(
+			@RequestParam(name = "idx", defaultValue = "0", required = false) int idx,
+			@RequestParam(name = "rcfSName", defaultValue = "", required = false) String rcfSName
+			) {
+		int res = boardService.setRecruitBoardDelete(idx,rcfSName);
+		return res + "";
+	}
+	
+	// 채용공고 게시판 글 수정창 띄우기
+	@RequestMapping(value = "/board/recruitBoardEdit", method = RequestMethod.GET)
+	public String recruitBoardEditGet(Model model,
+			@RequestParam(name="idx",defaultValue = "0", required = false) int idx,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name="search",defaultValue = "10", required = false) String search,
+			@RequestParam(name="searchString",defaultValue = "10", required = false) String searchString
+		) {
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "recruitBoard", search, searchString);
+		RecruitBoardVO vo = boardService.getRecruitBoardContent(idx);
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("vo", vo);
+		return "customer/board/recruitBoardEdit";
+	}
+	
+	// 채용공고 게시판 글 수정하기
+	@RequestMapping(value = "/board/recruitBoardEdit", method = RequestMethod.POST)
+	public String recruitBoardEditPost(MultipartHttpServletRequest mFile, RecruitBoardVO vo) {
+		int res = boardService.setRecruitBoardEdit(mFile,vo);
+		if(res != 0) return "redirect:/message/boardEditOk?pathFlag=recruitBoard";
+		else return "redirect:/message/boardEditNo?pathFlag=recruitBoard&idx="+vo.getIdx();
+	}
 	
 }

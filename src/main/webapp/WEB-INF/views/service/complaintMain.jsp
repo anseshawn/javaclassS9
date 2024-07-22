@@ -76,7 +76,7 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-12 col-md-12 col-sm-12">
-				<form name="myform" id="contact-form" class="contact__form " method="post" action="SendMessage.do">
+				<form name="myform" id="contact-form" class="contact__form " method="post">
 					<!-- form message -->
 
 						<div class="row">
@@ -104,7 +104,7 @@
 							</div>
 							<div class="col-lg-6">
 								<div class="form-group">
-									<input name="phone" id="phone" type="text" class="form-control" placeholder="휴대폰 번호">
+									<input name="phone" id="phone" type="text" class="form-control" placeholder="휴대폰 번호('-' 없이 적어주세요)">
 								</div>
 							</div>
 						</div>
@@ -114,7 +114,7 @@
 						<div class="text-center">
 							<input class="btn btn-main btn-round-full" name="submit" type="submit" value="신고하기"></input>
 						</div>
-						<input type="hidden" name="msgType" value="complaint"/>
+						<input type="hidden" name="part" value="COMPLAINT"/>
       		</form>
     		</div>
   	</div>
@@ -124,7 +124,7 @@
 <!-- <div class="google-map "><div id="map"></div></div> -->
 </div>
 <p><br/></p>
-<jsp:include page="/WEB-INF/views/include/scripts.jsp" />
+<%-- <jsp:include page="/WEB-INF/views/include/scripts.jsp" /> --%>
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
 </html>

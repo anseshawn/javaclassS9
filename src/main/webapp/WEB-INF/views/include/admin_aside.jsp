@@ -211,7 +211,7 @@
 	</div>
 	<div class="ani-navbar-menu ani-navbar-menu__icon">
 	  <i class="fa-solid fa-headphones"></i>
-	  <a href="#">문의 내역</a>
+	  <a href="${ctp}/admin/consultingList">문의 내역</a>
 	</div>
 	
 	<ul>
@@ -243,7 +243,7 @@
 				  <li><a href="${ctp}/admin/engineer/engineerInput">엔지니어 등록</a></li>
 				  <li><a href="${ctp}/admin/engineer/engineerList">엔지니어 현황</a></li>
 				  <li><a href="${ctp}/admin/engineer/schedule">일정관리</a></li>
-				  <li><a href="${ctp}/admin/engineer/asRequestList">A/S현황</a></li>
+				  <li><a href="${ctp}/admin/engineer/asRequestList">A/S 현황</a></li>
 			  </ul>
 			</div>
 		</li>

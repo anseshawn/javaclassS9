@@ -74,6 +74,10 @@ public class CustomerServiceImpl implements CustomerService {
 	public int setAsAppointmentComplete(AsRequestVO vo) {
 		return customerDAO.setAsAppointmentComplete(vo);
 	}
-	
-	
+
+	@Override
+	public ArrayList<ReviewVO> getReviewList(int engineerIdx) {
+		return customerDAO.getReviewList(engineerIdx);
+	}
+
 }

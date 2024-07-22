@@ -21,6 +21,10 @@ public class ReportVO {
 	private String qtTitle;
 	private String qtContent;
 	private String qtMid;
+	private int rcIdx;
+	private String rcTitle;
+	private String rcContent;
+	private String rcMid;
 	
 }
 

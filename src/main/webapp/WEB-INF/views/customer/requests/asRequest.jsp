@@ -12,6 +12,28 @@
 	<script src="${ctp}/js/shuffle.js"></script>
 	<script>
 		var element = document.querySelector('.shuffle-container');
+		
+		function modalView(engineerIdx) {
+			let str = "<table class='table text-left'>";
+			$.ajax({
+				url: "${ctp}/customer/requests/engineerStarShow",
+				type: "post",
+				data: {engineerIdx : engineerIdx},
+				success: function(vos) {
+					for(let i=0; i<vos.length; i++){
+						let star = "";
+						for(let j=1; j<=vos[i].starPoint; j++) star += '<font color="gold"><i class="fa-solid fa-star"></i></font>';
+						for(let j=1; j<=(5-vos[i].starPoint); j++) star += '<font color="#ddd"><i class="fa-solid fa-star"></i></font>';
+						str += "<tr><td>"+star+"</td><td>"+vos[i].reviewDetail+"</td></tr>";
+					}
+					str += "</table>";
+					$("#content").html(str);
+				},
+				error: function() {
+					alert("전송 오류");
+				}
+			});
+		}
 	</script>
 </head>
 <body>
@@ -84,7 +106,10 @@
 				      <tr>
 				      	<td rowspan="3" style="width:20%;"><img src="${ctp}/engineer/${vo.photo}" width="150px"/></td>
 				      	<td colspan="2"><b>${vo.name}</b> 엔지니어</td>
-				      	<td><i class="fa-solid fa-star mr-2" style="color:#FFB724"></i> ${vo.starPoint}</td>
+				      	<td>
+				      		<a href="#" onclick="modalView('${vo.idx}')" data-toggle="modal" data-target="#myModal"><i class="fa-solid fa-star mr-2" style="color:#FFB724"></i> ${vo.starPoint}
+				      		<span style="font-size:13px;"><br/>상세리뷰</span></a>
+				      	</td>
 				      </tr>
 				      <tr class="text-center">
 				      	<th>담당기기</th>
@@ -107,6 +132,33 @@
   </div>
 </section>
 </div>
+
+<!-- 별점 상세 내역 모달에 출력하기 -->
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+    
+      <!-- Modal Header -->
+      <div class="modal-header text-center">
+        <h4 class="modal-title">리뷰 상세보기</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      
+      <!-- Modal body -->
+      <div class="modal-body">
+    		<span id="content"></span>
+    		<hr/>
+      </div>
+      
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-main-3 btn-icon-md" data-dismiss="modal">Close</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
 <script>
 	var Shuffle = window.Shuffle;
 	var shuffleInstances = [];

@@ -2,6 +2,7 @@ package com.spring.javaclassS9.service;
 
 import java.util.ArrayList;
 
+import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.ReportVO;
@@ -37,5 +38,15 @@ public interface AdminService {
 	public ArrayList<ReportVO> getReportBoardList(int startIndexNo, int pageSize, String search, String searchString);
 
 	public int setReportBoardDelete(int idx, String board);
+
+	public int setConsultingInput(ConsultingVO vo);
+
+	public ArrayList<ConsultingVO> getConsultingList(int startIndexNo, int pageSize, String part, String searchString);
+
+	public int getNewConsultingCount();
+
+	public ConsultingVO getConsultingContent(int idx);
+
+	public int setConsultingAnswer(int idx, String answer);
 
 }

@@ -23,13 +23,11 @@
 	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
 	<!-- fullcalendar 언어 CDN -->
 	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
-	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<script>
 		'use strict';
 	   /* full calender */
     (function(){
        $(function(){
-         // calendar element 취득
          var calendarEl = $('#calendar')[0];
          // full-calendar 생성하기
          var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -37,7 +35,6 @@
            expandRows: true, // 화면에 맞게 높이 재설정
            slotMinTime: '00:00', // Day 캘린더에서 시작 시간
            slotMaxTime: '24:00', // Day 캘린더에서 종료 시간
-           // 해더에 표시할 툴바
            headerToolbar: {
              left: 'prev,next today',
              center: 'title',
@@ -112,53 +109,6 @@
          calendar.render();
        });
      })();
-	   
-	  // 가입자 / 탈퇴자 수 차트
-	  google.charts.load('current', {'packages':['line']});
-    google.charts.setOnLoadCallback(drawChart);
-
-	  function drawChart() {
-	
-	    var data = new google.visualization.DataTable();
-	    data.addColumn('number', 'Day');
-	    data.addColumn('number', 'Guardians of the Galaxy');
-	    data.addColumn('number', 'The Avengers');
-	    data.addColumn('number', 'Transformers: Age of Extinction');
-	
-	    data.addRows([
-	      [1,  37.8, 80.8, 41.8],
-	      [2,  30.9, 69.5, 32.4],
-	      [3,  25.4,   57, 25.7],
-	      [4,  11.7, 18.8, 10.5],
-	      [5,  11.9, 17.6, 10.4],
-	      [6,   8.8, 13.6,  7.7],
-	      [7,   7.6, 12.3,  9.6],
-	      [8,  12.3, 29.2, 10.6],
-	      [9,  16.9, 42.9, 14.8],
-	      [10, 12.8, 30.9, 11.6],
-	      [11,  5.3,  7.9,  4.7],
-	      [12,  6.6,  8.4,  5.2],
-	      [13,  4.8,  6.3,  3.6],
-	      [14,  4.2,  6.2,  3.4]
-	    ]);
-	
-	    var options = {
-	      chart: {
-	        title: 'Box Office Earnings in First Two Weeks of Opening',
-	        subtitle: 'in millions of dollars (USD)'
-	      },
-	      width: 900,
-	      height: 500,
-	      axes: {
-	        x: {
-	          0: {side: 'bottom'}
-	        }
-	      }
-	    };
-	
-	    var chart = new google.charts.Line(document.getElementById('line_top_x'));
-	    chart.draw(data, google.charts.Line.convertOptions(options));
-	  }
 	</script>
 </head>
 <body>
@@ -208,20 +158,19 @@
     </div>
     <div class="col-lg-3">
       <div class="card requests">
-        <div class="card-body d-flex justify-content-between">
-          <div>
-            <p class="card-text mb-2">새로운 문의 내용</p>
-            <h4>26</h4>
-            </div>
-            <i
-              class="fa-solid fa-comments"
-              style="font-size: 30px; margin-top: 20px; color: #6c757d"
-            ></i>
-          </div>
-        </div>
+      	<a href="${ctp}/admin/consultingList">
+	        <div class="card-body d-flex justify-content-between">
+	          <div>
+	          <p class="card-text mb-2">새로운 문의 내용</p>
+	          <h4>${consultingCount} 건</h4>
+	          </div>
+	          <i class="fa-solid fa-comments" style="font-size: 30px; margin-top: 20px; color: #6c757d"></i>
+	        </div>
+        </a>
       </div>
     </div>
-    <hr/>
+  </div>
+  <hr/>
     <!-- full calendar -->
     <div class="row">
     	<div class="col text-center">
@@ -235,12 +184,6 @@
     	</div>
     </div>
     <hr/>
-    <!-- 그래프 요약 추가하기 -->
-    <div class="row">
-    	<div class="col">
-		    <div id="line_top_x"></div>
-    	</div>
-    </div>
     
   </div>
 <p><br/></p>

@@ -26,3 +26,19 @@ insert into deleteMember values(default, 3, '다른 사이트가 더 좋아서',
 
 select deleteReason,reasonDetail, count(*) as reasonCnt from deleteMember
 	where deleteReason between 1 and 6 group by deleteReason;
+	
+create table consultingS(
+	idx int not null auto_increment,
+	part enum('SERVICE','COMPLAINT'),
+	name varchar(20) not null,
+	email varchar(40) not null,
+	phone varchar(20),
+	title varchar(20) not null,
+	content text not null,
+	writeDate datetime default now(),
+	answer text,
+	completeDate datetime,
+	primary key(idx)
+);
+
+desc consultingS;

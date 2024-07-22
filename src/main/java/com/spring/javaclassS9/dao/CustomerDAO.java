@@ -32,4 +32,6 @@ public interface CustomerDAO {
 
 	public void setAsAppointmentProgress(@Param("vo") AsRequestVO vo);
 
+	public ArrayList<ReviewVO> getEngineerReviewList(int engineerIdx);
+
 }

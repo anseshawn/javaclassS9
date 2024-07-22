@@ -39,11 +39,16 @@ public class JavaclassProvide {
 		if(mailFlag.equals("pwdSearch")) {
 			content += "<br><hr><h3>임시 비밀번호 발급</h3><hr><br>";
 			content += imsiContent+"<br>";
-			content += "<div>로그인 후 비밀번호를 변경해주세요.</div><br><hr>";
+			content += "<div>로그인 후 비밀번호를 변경해주세요.</div><br><hr><br>";
 		}
 		else if(mailFlag.equals("adminSendEmail")) {
 			content += "<h3>그린 엔지니어링에서 전해드립니다.</h3><br>";
-			content += imsiContent+"<br><hr>";
+			content += imsiContent+"<br><hr><br>";
+		}
+		else if(mailFlag.equals("consultingAnswer")) {
+			content += "<h3>답변 내용 : </h3><br>";
+			content += imsiContent+"<br><hr><br>";
+			content += "마이페이지 문의 내역에서도 답변을 확인할 수 있습니다. <br>";
 		}
 		
 		content += "<p><img src='cid:logo.jpg'></p>";

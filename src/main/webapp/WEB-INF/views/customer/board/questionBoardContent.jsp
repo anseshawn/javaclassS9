@@ -435,6 +435,9 @@
 						<div class="single-blog-item">
 							<div class="blog-item-content mt-2">
 								<div class="blog-item-meta mb-3">
+									<div style="color:#223a66; font-size:1.2rem;">
+										<a href="questionBoardList?pag=1&pageSize=${pageVO.pageSize}&part=part&searchString=${vo.part}"><i class="icofont-ui-folder mr-2"></i>${vo.part}</a>
+									</div>
 									<span class="text-muted text-capitalize mr-3"><i class="fa-solid fa-eye mr-2"></i>${vo.readNum}</span>
 									<span class="text-muted text-capitalize mr-3"><i class="icofont-comment mr-2"></i>${vo.replyCnt} Comments</span>
 									<span class="text-black text-capitalize mr-3"><i class="icofont-calendar mr-2"></i> ${vo.date_diff == 0 ? fn:substring(vo.writeDate,11,19) : fn:substring(vo.writeDate,0,10) }</span>
@@ -632,8 +635,7 @@
 					<div class="col-lg-12 text-center">
 						<div class="mt-5">
 							<hr/>
-							<c:if test="${empty pageVO.search}"><a href="${ctp}/customer/board/questionBoardList?pag=${pageVO.pag}&pageSize=${pageVO.pageSize}" class="btn btn-main btn-icon" style="padding: .4rem 1.2rem;">목록으로</a></c:if>
-							<c:if test="${!empty pageVO.search}"><a href="questionBoardList?pag=${pageVO.pag}&pageSize=${pageVO.pageSize}&search=${pageVO.search}&searchString=${pageVO.searchString}" class="btn btn-main btn-icon" style="padding: .4rem 1.2rem;">목록으로</a></c:if>
+							<a href="questionBoardList?pag=${pageVO.pag}&pageSize=${pageVO.pageSize}&search=${pageVO.search}&searchString=${pageVO.searchString}" class="btn btn-main btn-icon" style="padding: .4rem 1.2rem;">목록으로</a>
 						</div>
 					</div>
 				</div>

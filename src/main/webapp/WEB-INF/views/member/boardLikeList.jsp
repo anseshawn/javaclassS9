@@ -170,7 +170,35 @@
 								</c:forEach>
 							</table>
 						</div>
-						<!-- 자유게시판 관심목록 끝 -->
+						<!-- Q&A게시판 관심목록 끝 -->
+						<!-- 채용공고 관심글 목록 -->
+      			<div id="recruitBoard" class="container tab-pane">
+							<table class="table table-hover text-center">
+								<tr style="background:#003675; color:#fff;">
+									<th>번호</th>
+									<th>제목</th>
+									<th>작성자</th>
+									<th>작성일</th>
+									<th>추천</th>
+									<th></th>
+								</tr>
+								<c:forEach var="recruitVO" items="${recruitBoardVOS}">
+									<tr>
+										<td>${recruitVO.idx}</td>
+										<td>
+											<a href="${ctp}/customer/board/recruitBoardContent?idx=${recruitVO.idx}">${recruitVO.title}</a>
+										</td>
+										<td>${recruitVO.nickName}</td>
+										<td>
+											${recruitVO.date_diff == 0 ? fn:substring(recruitVO.writeDate,11,19) : fn:substring(recruitVO.writeDate,0,10) }
+										</td>
+										<td>${recruitVO.good}</td>
+										<td><input type="button" value="삭제" onclick="boardRemoveLike('recruitBoard','${recruitVO.idx}')" class="btn btn-main-3 btn-icon-sm btn-round-full"/></td>
+									</tr>
+								</c:forEach>
+							</table>
+						</div>
+						<!-- 채용공고 관심목록 끝 -->
 						
 					</div>
 			  </div>

@@ -146,37 +146,68 @@ public class MessageController {
 			model.addAttribute("msg", "게시판에 글이 등록되었습니다.");
 			if(pathFlag.equals("freeBoard")) model.addAttribute("url", "/customer/board/freeBoardList");
 			else if(pathFlag.equals("questionBoard")) model.addAttribute("url", "/customer/board/questionBoardList");
+			else if(pathFlag.equals("recruitBoard")) model.addAttribute("url", "/customer/board/recruitBoardList");
 			else model.addAttribute("url", "/customer/cmain");
 		}
 		else if(msgFlag.equals("boardInputNo")) {
 			model.addAttribute("msg", "글 등록 실패");
 			if(pathFlag.equals("freeBoard")) model.addAttribute("url", "/customer/board/freeBoardInput");
 			else if(pathFlag.equals("questionBoard")) model.addAttribute("url", "/customer/board/questionBoardInput");
+			else if(pathFlag.equals("recruitBoard")) model.addAttribute("url", "/customer/board/recruitBoardInput");
 			else model.addAttribute("url", "/customer/cmain");
 		}
 		else if(msgFlag.equals("boardEditOk")) {
 			model.addAttribute("msg", "게시글이 수정되었습니다.");
 			if(pathFlag.equals("freeBoard")) model.addAttribute("url", "/customer/board/freeBoardList");
 			else if(pathFlag.equals("questionBoard")) model.addAttribute("url", "/customer/board/questionBoardList");
+			else if(pathFlag.equals("recruitBoard")) model.addAttribute("url", "/customer/board/recruitBoardList");
 			else model.addAttribute("url", "/customer/cmain");
 		}
 		else if(msgFlag.equals("boardEditNo")) {
 			model.addAttribute("msg", "게시글 수정 실패");
 			if(pathFlag.equals("freeBoard")) model.addAttribute("url", "/customer/board/freeBoardEdit?idx="+idx);
 			else if(pathFlag.equals("questionBoard")) model.addAttribute("url", "/customer/board/questionBoardEdit?idx="+idx);
+			else if(pathFlag.equals("recruitBoard")) model.addAttribute("url", "/customer/board/recruitBoardEdit?idx="+idx);
 			else model.addAttribute("url", "/customer/cmain");
 		}
 		else if(msgFlag.equals("boardDeleteOk")) {
 			model.addAttribute("msg", "게시글이 삭제되었습니다.");
 			if(pathFlag.equals("freeBoard")) model.addAttribute("url", "/customer/board/freeBoardList");
 			else if(pathFlag.equals("questionBoard")) model.addAttribute("url", "/customer/board/questionBoardList");
+			else if(pathFlag.equals("recruitBoard")) model.addAttribute("url", "/customer/board/recruitBoardList");
 			else model.addAttribute("url", "/customer/cmain");
 		}
 		else if(msgFlag.equals("boardDeleteNo")) {
 			model.addAttribute("msg", "게시글 삭제 실패");
 			if(pathFlag.equals("freeBoard")) model.addAttribute("url", "/customer/board/freeBoardContent?idx="+idx);
 			else if(pathFlag.equals("questionBoard")) model.addAttribute("url", "/customer/board/questionBoardContent?idx="+idx);
+			else if(pathFlag.equals("recruitBoard")) model.addAttribute("url", "/customer/board/recruitBoardContent?idx="+idx);
 			else model.addAttribute("url", "/customer/cmain");
+		}
+		else if(msgFlag.equals("consultingInputOk")) {
+			model.addAttribute("msg", "문의가 전송되었습니다.\\n답변에 2~3일 소요됩니다.");
+			model.addAttribute("url", "/customer/cmain");
+		}
+		else if(msgFlag.equals("consultingInputNo")) {
+			model.addAttribute("msg", "문의 등록 실패\\n다시 시도하세요");
+			if(pathFlag.equals("service")) model.addAttribute("url", "/service/serviceMain");
+			else model.addAttribute("url", "/service/complaintMain");
+		}
+		else if(msgFlag.equals("adminNo")) {
+			model.addAttribute("msg", "관리자 전용 메뉴입니다. 일반 회원은 사용할 수 없습니다.");
+			model.addAttribute("url", "/");
+		}
+		else if(msgFlag.equals("memberNo")) {
+			model.addAttribute("msg", "회원 로그인 후 사용 가능합니다.");
+			model.addAttribute("url", "/member/memberLogin/main");
+		}
+		else if(msgFlag.equals("engineerNo")) {
+			model.addAttribute("msg", "엔지니어 전용 메뉴입니다. 일반 회원은 사용할 수 없습니다.");
+			model.addAttribute("url", "/member/myPage");
+		}
+		else if(msgFlag.equals("memberLevelNo")) {
+			model.addAttribute("msg", "재직자 회원만 사용 가능합니다.\\n재직자 인증을 받아주세요.");
+			model.addAttribute("url", "/member/myPage");
 		}
 		
 		return "include/message";

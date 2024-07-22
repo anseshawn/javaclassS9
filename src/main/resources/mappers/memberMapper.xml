@@ -23,6 +23,18 @@
 	<select id="getAllSendMessageList" resultType="com.spring.javaclassS9.vo.MessageVO">
 		select * from messageS where sendMid = #{mid} and sendSw != 'd' order by sendDate desc;
 	</select>
+	<select id="consultingTotRecCnt" resultType="int">
+		select count(*) from consultingS where name=#{name} and email=#{email};
+	</select>
+	<select id="getConsultingList" resultType="com.spring.javaclassS9.vo.ConsultingVO">
+		select *, datediff(writeDate,now()) as date_diff, datediff(completeDate,now()) as date_diffC 
+			from consultingS where name=#{name} and email=#{email} 
+			order by idx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="getConsultingContent" resultType="com.spring.javaclassS9.vo.ConsultingVO">
+		select *, datediff(writeDate,now()) as date_diff, datediff(completeDate,now()) as date_diffC 
+			from consultingS where idx = #{idx};
+	</select>
 	
 	
 	<insert id="setMemberJoinOk">

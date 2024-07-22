@@ -33,7 +33,7 @@
 			<ul class="dropdown-menu" aria-labelledby="dropdown03">
 				<li><a class="dropdown-item" href="${ctp}/customer/board/questionBoardList">Q&A</a></li>
 				<li><a class="dropdown-item" href="${ctp}/customer/board/freeBoardList">자유게시판</a></li>
-				<li><a class="dropdown-item" href="RecruitBoard.do">채용공고</a></li>
+				<li><a class="dropdown-item" href="${ctp}/customer/board/recruitBoardList">채용공고</a></li>
 			</ul>
 			</li>
 			<li class="nav-item"><a class="nav-link" href="${ctp}/service/serviceMain">고객서비스</a></li>
