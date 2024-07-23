@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.MemberVO;
+import com.spring.javaclassS9.vo.NoticeVO;
 import com.spring.javaclassS9.vo.ReportVO;
 
 public interface AdminService {
@@ -48,5 +49,19 @@ public interface AdminService {
 	public ConsultingVO getConsultingContent(int idx);
 
 	public int setConsultingAnswer(int idx, String answer);
+
+	public ReportVO getReportBoardContent(int idx, String board);
+
+	public NoticeVO getPopupNoticeContent();
+
+	public int setPopupNoticeDelete();
+
+	public int setNoticeInputOk(NoticeVO vo);
+
+	public ArrayList<NoticeVO> getImportantNoticeList();
+
+	public ArrayList<NoticeVO> getNoticeListAll(int startIndexNo, int pageSize, String part, String searchString);
+
+	public NoticeVO getNoticeContent(int idx);
 
 }

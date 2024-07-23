@@ -73,6 +73,7 @@ public class BoardServiceImpl implements BoardService {
 			String copyFilePath = "";
 			if(board.equals("freeBoard")) copyFilePath  = realPath+"freeBoard/" + fileName;
 			else if(board.equals("questionBoard")) copyFilePath  = realPath+"questionBoard/" + fileName;
+			else if(board.equals("notice")) copyFilePath  = realPath+"notice/" + fileName;
 			javaclassProvide.fileCopyCheck(origFilePath,copyFilePath); // ckeditor폴더의 그림 파일을 board폴더 위치로 복사처리하는 메소드
 		}
 		//String imageFileName = String.join("|", imagesName); // 파일명들만 가진 문자열이 필요하면 join으로 결합
@@ -358,6 +359,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void setRecruitBoardReportUpdate(int boardIdx) {
 		boardDAO.setRecruitBoardReportUpdate(boardIdx);
+	}
+
+	@Override
+	public int setQuestionBoardEdit(QuestionBoardVO vo) {
+		return boardDAO.setQuestionBoardEdit(vo);
 	}
 
 }

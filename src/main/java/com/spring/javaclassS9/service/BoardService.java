@@ -95,4 +95,6 @@ public interface BoardService {
 
 	public void setRecruitBoardReadNumPlus(int idx);
 
+	public int setQuestionBoardEdit(QuestionBoardVO vo);
+
 }

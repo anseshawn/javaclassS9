@@ -48,7 +48,6 @@
 							if(res != "0") {
 								message = "장비가 삭제 되었습니다.";
 								icon = "success";
-								location.href="${ctp}/admin/product/productList";
 							}
 							else {
 								message = "장비 삭제에 실패했습니다.";
@@ -63,6 +62,8 @@
 				          popup : 'custom-swal-popup',
 				          htmlContainer : 'custom-swal-text'
 								}
+							}).then(function(){
+								location.href="${ctp}/admin/product/productList";
 							});
 						},
 						error: function(){

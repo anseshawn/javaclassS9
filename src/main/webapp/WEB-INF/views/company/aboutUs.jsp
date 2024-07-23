@@ -8,6 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About Us</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
+	<jsp:include page="/WEB-INF/views/include/scripts.jsp" />
 </head>
 <body id="top">
 <jsp:include page="/WEB-INF/views/include/header.jsp" />
@@ -186,6 +187,7 @@
 </section>	
 </div>
 <p><br/></p>
+<%-- <jsp:include page="/WEB-INF/views/include/scripts.jsp" /> --%>
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
 </html>

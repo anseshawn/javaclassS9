@@ -5,12 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.spring.javaclassS9.common.JavaclassProvide;
 import com.spring.javaclassS9.pagination.PageProcess;
 import com.spring.javaclassS9.service.AdminService;
+import com.spring.javaclassS9.service.BoardService;
 import com.spring.javaclassS9.service.EngineerService;
 import com.spring.javaclassS9.service.MemberService;
 import com.spring.javaclassS9.service.ProductService;
@@ -36,9 +37,11 @@ import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.MemberVO;
+import com.spring.javaclassS9.vo.NoticeVO;
 import com.spring.javaclassS9.vo.PageVO;
 import com.spring.javaclassS9.vo.ProductSaleVO;
 import com.spring.javaclassS9.vo.ProductVO;
+import com.spring.javaclassS9.vo.ReplyVO;
 import com.spring.javaclassS9.vo.ReportVO;
 import com.spring.javaclassS9.vo.ScheduleVO;
 
@@ -66,6 +69,9 @@ public class AdminController {
 	
 	@Autowired
 	ProductService productService;
+	
+	@Autowired
+	BoardService boardService;
 	
 	
 	@RequestMapping(value = "/adminMain", method = RequestMethod.GET)
@@ -133,7 +139,7 @@ public class AdminController {
 	public String emailInputGet(Model model,
 			@PathVariable String mids
 			) {
-		ArrayList<MemberVO> mVos = adminService.getAllMemberList(0, 0);
+		ArrayList<MemberVO> mVos = adminService.getAllMemberList(-1, 0);
 		model.addAttribute("mVos", mVos);
 		
 		if(!mids.equals("all")) model.addAttribute("toMail", mids);
@@ -170,7 +176,7 @@ public class AdminController {
 	@ResponseBody
 	@RequestMapping(value = "/midSearch", method = RequestMethod.POST)
 	public ArrayList<MemberVO> midSearchPost(Model model, String mid) {
-		ArrayList<MemberVO> mVos = adminService.getMemberSearchList(0, 0, "mid", mid);
+		ArrayList<MemberVO> mVos = adminService.getMemberSearchList(-1, 0, "mid", mid);
 		//model.addAttribute("mVos", mVos);
 		return mVos;
 	}
@@ -236,7 +242,7 @@ public class AdminController {
 	@RequestMapping(value = "/engineer/engineerDeleteAll", method = RequestMethod.POST)
 	public String engineerDeleteAllPost(@RequestParam(name = "mid", defaultValue = "", required = false) String mid) {
 		EngineerVO vo = engineerService.getEngineerIdCheck(mid);
-		ArrayList<AsRequestVO> vos = engineerService.getAsRequestList(vo.getIdx(), 0, 0);
+		ArrayList<AsRequestVO> vos = engineerService.getAsRequestList(vo.getIdx(), -1, 0);
 		int res = 0;
 		if(vos == null) res = adminService.setEngineerDeleteAll(vo.getIdx());
 		return res+"";
@@ -281,7 +287,7 @@ public class AdminController {
 	// 장비 리스트 창 출력
 	@RequestMapping(value = "/product/productList", method = RequestMethod.GET)
 	public String productListGet(Model model) {
-		ArrayList<ProductVO> vos = productService.getAllProductList(0, 0);
+		ArrayList<ProductVO> vos = productService.getAllProductList(-1, 0);
 		model.addAttribute("vos", vos);
 		return "admin/product/productList";
 	}
@@ -582,7 +588,25 @@ public class AdminController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date endDate = null;
 		Date startDate = null;
-		for(int i=0; i<vos.size(); i++) {
+		Iterator<AsRequestVO> it = vos.iterator();
+		while(it.hasNext()) {
+			AsRequestVO vo = it.next();
+			if(vo.getEndDate() != null)	{
+				endDate = sdf.parse(vo.getEndDate());
+			}
+			startDate = sdf.parse(vo.getRequestDate());
+			Date sSearchDate = sdf.parse(startSearchDate);
+			Date eSearchDate = sdf.parse(endSearchDate);
+			if(startDate.before(sSearchDate) || startDate.after(eSearchDate)) {
+				it.remove();
+				continue;
+			}
+			if(endDate != null) {
+				if(endDate.before(sSearchDate) || endDate.after(eSearchDate)) it.remove();
+			}
+		}
+		/*
+		for(int i=vos.size()-1; i>=0; i--) {
 			if(vos.get(i).getEndDate() != null)	{
 				endDate = sdf.parse(vos.get(i).getEndDate());
 			}
@@ -594,6 +618,7 @@ public class AdminController {
 				if(endDate.before(sSearchDate) || endDate.after(eSearchDate)) vos.remove(i);
 			}
 		}
+		*/
 		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("vos", vos);
 		
@@ -610,19 +635,10 @@ public class AdminController {
   	PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "reportBoardList", part, "");
   	ArrayList<ReportVO> vos = adminService.getReportBoardList(pageVO.getStartIndexNo(), pageSize,"","");
   	if(!part.equals("")) {
-			for(int i=0; i<vos.size(); i++) {
-				if(part.equals("freeBoard") && !vos.get(i).getBoard().equals("freeBoard") ) {
-					System.out.println(i+"free vos : "+vos.get(i).getBoard());
-					vos.remove(i);
-				}
-				else if(part.equals("questionBoard") && !vos.get(i).getBoard().equals("questionBoard") ) {
-					System.out.println(i+"question vos : "+i+"."+vos.get(i).getBoard());
-					vos.remove(i);
-				}
-				else if(part.equals("recruitBoard") && !vos.get(i).getBoard().equals("recruitBoard") ) {
-					System.out.println(i+"recruit vos : "+i+"."+vos.get(i).getBoard());
-					vos.remove(i);
-				}
+			for(int i=vos.size()-1; i>=0; i--) {
+				if(part.equals("freeBoard") && !vos.get(i).getBoard().equals("freeBoard")) vos.remove(i);
+				else if(part.equals("questionBoard") && !vos.get(i).getBoard().equals("questionBoard")) vos.remove(i);
+				else if(part.equals("recruitBoard") && !vos.get(i).getBoard().equals("recruitBoard")) vos.remove(i);
 			}
 		}
   	model.addAttribute("pageVO", pageVO);
@@ -635,14 +651,30 @@ public class AdminController {
   @RequestMapping(value = "/report/reportBoardDeleteAll", method = RequestMethod.POST)
   public String reportBoardDeleteAllPost(String idx) {
   	int res = 0;
+  	System.out.println("idx(제일 마지막에 쉼표 여부): "+idx);
   	String[] idxs = idx.split(",");
-  	
   	for(String i : idxs) {
   		String[] boardIdx = i.split("/"); // report idx / board 종류
-  		int reportIdx = Integer.parseInt(boardIdx[0]);
+  		int reportIdx = Integer.parseInt(boardIdx[0]); // [0]: 신고 테이블의 idx, [1]: 신고된 게시판 종류
   		res = adminService.setReportBoardDelete(reportIdx,boardIdx[1]);
   	}
   	return res + "";
+  }
+  
+  // 신고된 게시글 하나만 삭제
+  @ResponseBody
+  @RequestMapping(value = "/report/reportBoardDeleteOne", method = RequestMethod.POST)
+  public String reportBoardDeleteOnePost(int idx, String board) {
+  	int res = adminService.setReportBoardDelete(idx,board);
+  	return res + "";
+  }
+  
+  // 신고된 게시글 내용 보기
+  @ResponseBody
+  @RequestMapping(value = "/report/reportBoardContent", method = RequestMethod.POST)
+  public ReportVO reportContentPost(int idx, String board) {
+  	ReportVO vo = adminService.getReportBoardContent(idx, board);
+  	return vo;
   }
   
   // 문의 내역 리스트 보기
@@ -672,7 +704,7 @@ public class AdminController {
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date writeDate = null;
-		for(int i=0; i<vos.size(); i++) {
+		for(int i=vos.size()-1; i>=0; i--) {
 			writeDate = sdf.parse(vos.get(i).getWriteDate());
 			Date sSearchDate = sdf.parse(startSearchDate);
 			Date eSearchDate = sdf.parse(endSearchDate);
@@ -705,6 +737,41 @@ public class AdminController {
   	return res + "";
   }
   
+  // 공지사항 입력 폼 띄우기
+  @RequestMapping(value = "/notice/noticeInput", method = RequestMethod.GET)
+  public String noticeInputGet() {
+  	return "admin/notice/noticeInput";
+  }
+  
+  // 팝업 공지 존재 여부 체크
+  @ResponseBody
+  @RequestMapping(value = "/notice/popupCheck", method = RequestMethod.POST)
+  public String popupCheckGet() {
+  	int res = 0;
+  	NoticeVO vo = adminService.getPopupNoticeContent();
+  	if(vo != null) res = 1;
+  	return res + "";
+  }
+  // 기존의 팝업 공지 팝업여부 삭제
+  @ResponseBody
+  @RequestMapping(value = "/notice/popupChange", method = RequestMethod.POST)
+  public String popupChangeGet() {
+  	int res = adminService.setPopupNoticeDelete();
+  	return res + "";
+  }
+  
+  // 공지사항 입력하기
+  @RequestMapping(value = "/notice/noticeInput", method = RequestMethod.POST)
+  public String noticeInputPost(NoticeVO vo) {
+  	if(vo.getPopup()==null) vo.setPopup("NO");
+  	if(vo.getImportant()==null) vo.setImportant("NO");
+  	if(vo.getPart().equals("notices")) vo.setEndDate(null);
+  	if(vo.getContent().indexOf("src=\"/") != -1) boardService.imgCheck(vo.getContent(),"notice");
+		vo.setContent(vo.getContent().replace("/data/ckeditor", "/data/notice/"));
+  	int res = adminService.setNoticeInputOk(vo);
+  	if(res != 0) return "redirect:/message/noticeInputOk";
+  	else return "redirect:/message/noticeInputNo";
+  }
   
   // 사이트 통계
   @RequestMapping(value = "/siteChart", method = RequestMethod.GET)

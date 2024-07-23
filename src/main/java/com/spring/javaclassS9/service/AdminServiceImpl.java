@@ -4,11 +4,18 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.javaclassS9.dao.AdminDAO;
+import com.spring.javaclassS9.dao.BoardDAO;
 import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
+import com.spring.javaclassS9.vo.FreeBoardVO;
 import com.spring.javaclassS9.vo.MemberVO;
+import com.spring.javaclassS9.vo.NoticeVO;
+import com.spring.javaclassS9.vo.QuestionBoardVO;
+import com.spring.javaclassS9.vo.RecruitBoardVO;
+import com.spring.javaclassS9.vo.ReplyVO;
 import com.spring.javaclassS9.vo.ReportVO;
 
 @Service
@@ -16,6 +23,9 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	AdminDAO adminDAO;
+	
+	@Autowired
+	BoardDAO boardDAO;
 	
 	@Override
 	public ArrayList<MemberVO> getAllMemberList(int startIndexNo, int pageSize) {
@@ -100,12 +110,38 @@ public class AdminServiceImpl implements AdminService {
 		return adminDAO.getReportBoardList(startIndexNo, pageSize, search, searchString);
 	}
 
+	@Transactional
 	@Override
 	public int setReportBoardDelete(int idx, String board) {
 		int res = 0;
-		if(board.equals("freeBoard")) res = adminDAO.setReportFreeBoardDelete(idx);
-		else if(board.equals("questionBoard")) res = adminDAO.setReportQuestionBoardDelete(idx);
-		adminDAO.setReportContentDelete(idx);
+		ReportVO rVo = adminDAO.getReportBoardContent(idx,"");
+		ArrayList<ReplyVO> vos = null;
+		if(rVo != null) {
+			vos = boardDAO.getBoardReply(board,rVo.getBoardIdx());
+			if(vos.size()!=0) {
+				for(int j=0; j<vos.size(); j++) {
+					boardDAO.setBoardReplyDelete(board, rVo.getBoardIdx(), vos.get(j).getIdx()); // 딸린 댓글 같이 지우기
+				}
+			}
+			if(board.equals("freeBoard")) {
+				FreeBoardVO vo = boardDAO.getFreeBoardContent(rVo.getBoardIdx());
+				if(vo != null) res = adminDAO.setReportFreeBoardDelete(idx);
+				else res = 1;
+			}
+			else if(board.equals("questionBoard")) {
+				QuestionBoardVO vo = boardDAO.getQuestionBoardContent(rVo.getBoardIdx());
+				if(vo != null) res = adminDAO.setReportQuestionBoardDelete(idx);
+				else res = 1;
+			}
+			else if(board.equals("recruitBoard")) {
+				RecruitBoardVO vo = boardDAO.getRecruitBoardContent(rVo.getBoardIdx());
+				if(vo != null) res = adminDAO.setReportRecruitBoardDelete(idx);
+				else res = 1;
+			}
+		}
+		else res = 1;
+		//adminDAO.setReportContentDelete(idx);
+		adminDAO.setReportSameContentDelete(idx);
 		return res;
 	}
 
@@ -132,5 +168,40 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int setConsultingAnswer(int idx, String answer) {
 		return adminDAO.setConsultingAnswer(idx,answer);
+	}
+
+	@Override
+	public ReportVO getReportBoardContent(int idx, String board) {
+		return adminDAO.getReportBoardContent(idx, board);
+	}
+
+	@Override
+	public NoticeVO getPopupNoticeContent() {
+		return adminDAO.getPopupNoticeContent();
+	}
+
+	@Override
+	public int setPopupNoticeDelete() {
+		return adminDAO.setPopupNoticeDelete();
+	}
+
+	@Override
+	public int setNoticeInputOk(NoticeVO vo) {
+		return adminDAO.setNoticeInputOk(vo);
+	}
+
+	@Override
+	public ArrayList<NoticeVO> getImportantNoticeList() {
+		return adminDAO.getImportantNoticeList();
+	}
+
+	@Override
+	public ArrayList<NoticeVO> getNoticeListAll(int startIndexNo, int pageSize, String part, String searchString) {
+		return adminDAO.getNoticeListAll(startIndexNo,pageSize,part,searchString);
+	}
+
+	@Override
+	public NoticeVO getNoticeContent(int idx) {
+		return adminDAO.getNoticeContent(idx);
 	}
 }

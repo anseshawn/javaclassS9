@@ -6,7 +6,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>글쓰기 - 질문게시판</title>
+  <title>수정하기 - 질문게시판</title>
   <script src="${ctp}/ckeditor/ckeditor.js"></script>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
 	<script>
@@ -38,10 +38,10 @@
 		<div class="col-md-4 col-md-offset-2">
 			<div class="form-group">
 				<select class="form-control" name="part" id="part" style="height:45px;">
-					<option ${pageVO.part=="실험방법" ? "selected" : "" }>실험방법</option>
-					<option ${pageVO.part=="실험장비" ? "selected" : "" }>실험장비</option>
-					<option ${pageVO.part=="법규" ? "selected" : "" }>법규</option>
-					<option ${pageVO.part=="기타" ? "selected" : "" }>기타</option>
+					<option ${vo.part=="실험방법" ? "selected" : "" }>실험방법</option>
+					<option ${vo.part=="실험장비" ? "selected" : "" }>실험장비</option>
+					<option ${vo.part=="법규" ? "selected" : "" }>법규</option>
+					<option ${vo.part=="기타" ? "selected" : "" }>기타</option>
 				</select>
 			</div>
 		</div>
@@ -51,13 +51,13 @@
 	</div>
 	<div class="divider2 mx-auto my-4"></div>
 	<div class="row justify-content-center mb-3">
-		<div class="col-md-8 col-md-offset-2"><h4 style="font-family:Gowun Dodum;">제목</h4>
-			<input type="text" name="title" id="title" class="form-control mt-2" placeholder="제목을 입력하세요" required/>
+		<div class="col-md-8 col-md-offset-2"><h4>제목</h4>
+			<input type="text" name="title" id="title" class="form-control mt-2" value="${vo.title}" placeholder="제목을 입력하세요" required/>
 		</div>
 	</div>
 	<div class="row justify-content-center mb-3">
-		<div class="col-md-8 col-md-offset-2"><h4 style="font-family:Gowun Dodum;">내용</h4>
-			<textarea name="content" id="CKEDITOR" rows="10" class="form-control"></textarea>
+		<div class="col-md-8 col-md-offset-2"><h4>내용</h4>
+			<textarea name="content" id="CKEDITOR" rows="10" class="form-control">${vo.content}</textarea>
 			<script>
 				CKEDITOR.replace("content",{
 					height:450,
@@ -70,10 +70,11 @@
 	<div class="divider2 mx-auto my-4"></div>
 	<div class="row justify-content-center mb-3">
 		<div class="col-md-8 col-md-offset-2 text-right">
-			<input type="button" value="등록하기" onclick="fCheck()" class="btn btn-main-2 btn-icon btn-round-full" />
+			<input type="button" value="수정하기" onclick="fCheck()" class="btn btn-main-2 btn-icon btn-round-full" />
 			<a href='questionBoardList' class="btn btn-main btn-icon btn-round-full">취소</a>
 		</div>
 	</div>
+	<input type="hidden" name="idx" value="${vo.idx}"/>
 	<input type="hidden" name="mid" value="${sMid}"/>
 	<input type="hidden" name="nickName" value="${sNickName}"/>
 	<input type="hidden" name="hostIp" value="${pageContext.request.remoteAddr}"/>

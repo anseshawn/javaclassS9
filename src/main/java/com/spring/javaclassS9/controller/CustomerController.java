@@ -222,7 +222,7 @@ public class CustomerController {
 		Date startDate = null;
 		//System.out.println("startSearchDate : " + startSearchDate);
 		//System.out.println("endSearchDate : " + endSearchDate);
-		for(int i=0; i<vos.size(); i++) {
+		for(int i=vos.size()-1; i>=0; i--) {
 			if(vos.get(i).getEndDate() != null)	{
 				endDate = sdf.parse(vos.get(i).getEndDate());
 			}
@@ -344,7 +344,7 @@ public class CustomerController {
 		FreeBoardVO originVO = boardService.getFreeBoardContent(vo.getIdx());
 		if(!originVO.getContent().equals(vo.getContent())) {
 			if(originVO.getContent().indexOf("src=\"/")!= -1) boardService.imgDelete(originVO.getContent(),"freeBoard");
-			vo.setContent(vo.getContent().replace("/data/board/", "data/ckeditor"));
+			vo.setContent(vo.getContent().replace("/data/freeBoard/", "/data/ckeditor/"));
 			if(vo.getContent().indexOf("src=\"/")!= -1) boardService.imgCheck(vo.getContent(),"freeBoard");
 			vo.setContent(vo.getContent().replace("/data/ckeditor/", "/data/freeBoard/"));
 		}
@@ -505,12 +505,12 @@ public class CustomerController {
 			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
 			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
 			@RequestParam(name = "part", defaultValue = "", required = false) String part,
-			@RequestParam(name = "partSelect", defaultValue = "", required = false) String partSelect,
 			@RequestParam(name = "searchString", defaultValue = "", required = false) String searchString
 			) {
+		//System.out.println("part : "+part);
+		//System.out.println("searchString: "+searchString);
 		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "questionBoard", part, searchString);
 		ArrayList<QuestionBoardVO> vos = null;
-		if(part.equals("part")) searchString = partSelect;
 		vos = boardService.getQuestionBoardList(pageVO.getStartIndexNo(), pageSize, part, searchString);
 		if(!part.equals(""))	{
 			if(part.equals("title")) part = "제목";
@@ -522,6 +522,8 @@ public class CustomerController {
 			model.addAttribute("searchCount", vos.size());
 		}
 		ArrayList<QuestionBoardVO> recentVOS = boardService.getRecentReplyQuestionBoard();
+		
+		//System.out.println("vos : "+vos);
 		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("vos", vos);
 		model.addAttribute("recentVOS", recentVOS);
@@ -613,6 +615,21 @@ public class CustomerController {
 		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("vo", vo);
 		return "customer/board/questionBoardEdit";
+	}
+	
+	// 질문 게시판 글 수정하기
+	@RequestMapping(value = "/board/questionBoardEdit", method = RequestMethod.POST)
+	public String questionBoardEditPost(QuestionBoardVO vo) {
+		QuestionBoardVO originVO = boardService.getQuestionBoardContent(vo.getIdx());
+		if(!originVO.getContent().equals(vo.getContent())) {
+			if(originVO.getContent().indexOf("src=\"/")!= -1) boardService.imgDelete(originVO.getContent(),"questionBoard");
+			vo.setContent(vo.getContent().replace("/data/questionBoard/", "/data/ckeditor/"));
+			if(vo.getContent().indexOf("src=\"/")!= -1) boardService.imgCheck(vo.getContent(),"questionBoard");
+			vo.setContent(vo.getContent().replace("/data/ckeditor/", "/data/questionBoard/"));
+		}
+		int res = boardService.setQuestionBoardEdit(vo);
+		if(res != 0) return "redirect:/message/boardEditOk?pathFlag=questionBoard";
+		else return "redirect:/message/boardEditNo?pathFlag=questionBoard&idx="+vo.getIdx();
 	}
 	
 	// 채용공고 게시판 연결

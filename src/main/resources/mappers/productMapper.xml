@@ -5,7 +5,7 @@
 		select count(*) from productS;
 	</select>
 	<select id="getAllProductList" resultType="com.spring.javaclassS9.vo.ProductVO">
-		select * from productS order by idx desc <if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+		select * from productS order by idx desc <if test="startIndexNo != -1"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	<select id="getProductContent" resultType="com.spring.javaclassS9.vo.ProductVO">
 		select * from productS where idx=#{idx};
@@ -16,7 +16,7 @@
 	</select>
 	
 	<select id="getAllProductEstimateList" resultType="com.spring.javaclassS9.vo.ProductSaleVO">
-		select * from productSaleS order by idx desc <if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+		select * from productSaleS order by idx desc limit #{startIndexNo},#{pageSize};
 	</select>
 	<select id="estimateTotRecCnt" resultType="int">
 		select count(*) from productSaleS;
@@ -26,7 +26,7 @@
 	</select>
 	<select id="getSearchProductEstimateList" resultType="com.spring.javaclassS9.vo.ProductSaleVO">
 		select * from productSaleS where ${search} like concat('%',#{searchString},'%')
-			<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+			limit #{startIndexNo},#{pageSize};
 	</select>
 	<select id="getProductSaleContent" resultType="com.spring.javaclassS9.vo.ProductSaleVO">
 		select * from productSales where idx=#{idx};

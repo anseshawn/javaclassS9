@@ -209,6 +209,14 @@ public class MessageController {
 			model.addAttribute("msg", "재직자 회원만 사용 가능합니다.\\n재직자 인증을 받아주세요.");
 			model.addAttribute("url", "/member/myPage");
 		}
+		else if(msgFlag.equals("noticeInputOk")) {
+			model.addAttribute("msg", "공지사항이 등록되었습니다.");
+			model.addAttribute("url", "/admin/notice/noticeList");
+		}
+		else if(msgFlag.equals("noticeInputNo")) {
+			model.addAttribute("msg", "공지사항 등록 실패");
+			model.addAttribute("url", "/admin/notice/noticeInput");
+		}
 		
 		return "include/message";
 	}

@@ -217,6 +217,16 @@
 	<ul>
 		<li class="dropdown">
 		<div class="ani-navbar-menu ani-navbar-menu__icon">
+		  <i class="fa-solid fa-list"></i><a href="#">공지사항</a>
+		  <ul class="dropdown-content">
+		  	<li><div class="divider2"></div></li>
+			  <li><a href="${ctp}/admin/notice/noticeInput">공지사항 등록하기</a></li>
+			  <li><a href="${ctp}/admin/notice/noticeList">목록보기</a></li>
+		  </ul>
+		</div>
+		</li>
+		<li class="dropdown">
+		<div class="ani-navbar-menu ani-navbar-menu__icon">
 		  <i class="fa-solid fa-flag"></i><a href="#">신고 내역</a>
 		  <ul class="dropdown-content">
 		  	<li><div class="divider2"></div></li>

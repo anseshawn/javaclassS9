@@ -9,7 +9,7 @@
 	</select>
 	<select id="getAsRequestList" resultType="com.spring.javaclassS9.vo.AsRequestVO">
 		select a.*, datediff(asDate, now()) as date_diff, e.name as engineerName from asRequest a left join engineerS e on a.engineerIdx=e.idx
-			where a.asMid=#{asMid} order by a.idx desc limit #{startIndexNo},#{pageSize};
+			where a.asMid=#{asMid} order by a.idx desc <if test="startIndexNo != -1"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	<select id="getAsRequestContent" resultType="com.spring.javaclassS9.vo.AsRequestVO">
 		select a.*, datediff(asDate, now()) as date_diff, e.name as engineerName from asRequest a left join engineerS e 

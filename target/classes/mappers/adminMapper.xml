@@ -4,7 +4,7 @@
 
 	<select id="getAllMemberList" resultType="com.spring.javaclassS9.vo.MemberVO">
 		select *, timestampdiff(day, lastDate, now()) as deleteDiff from memberS order by startDate desc
-		<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+		<if test="startIndexNo != -1"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	<select id="getMemberLevelList" resultType="com.spring.javaclassS9.vo.MemberVO">
 		select *, timestampdiff(day, lastDate, now()) as deleteDiff from memberS
@@ -13,7 +13,7 @@
 	<select id="getMemberSearchList" resultType="com.spring.javaclassS9.vo.MemberVO">
 		select *, timestampdiff(day, lastDate, now()) as deleteDiff from memberS
 			where ${part} like concat('%',#{searchString},'%') order by idx desc
-			<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+			<if test="startIndexNo != -1"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	<select id="getJoinMemberCount" resultType="int">
 		select count(*) from memberS where <![CDATA[datediff(startDate,now()) > -7]]>;
@@ -49,8 +49,18 @@
 			left join freeBoardS b on b.idx = r.boardIdx and r.board='freeBoard' 
 			left join questionBoardS q on q.idx = r.boardIdx and r.board='questionBoard' 
 			left join recruitBoardS c on c.idx = r.boardIdx and r.board='recruitBoard' 
-			order by r.rpDate desc
-			<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+			order by r.rpDate desc limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="getReportBoardContent" resultType="com.spring.javaclassS9.vo.ReportVO">
+		select r.*
+			<if test="board == 'freeBoard'">, b.idx as fbIdx, b.title as fbTitle, b.content as fbContent </if> 
+			<if test="board == 'questionBoard'">, q.idx as qtIdx, q.title as qtTitle, q.content as qtContent </if> 
+			<if test="board == 'recruitBoard'">, c.idx as rcIdx, c.title as rcTitle, c.content as rcContent </if> 
+			from reportS r 
+			<if test="board == 'freeBoard'">left join freeBoardS b on b.idx = r.boardIdx and r.board='freeBoard' </if>
+			<if test="board == 'questionBoard'">left join questionBoardS q on q.idx = r.boardIdx and r.board='questionBoard' </if>
+			<if test="board == 'recruitBoard'">left join recruitBoardS c on c.idx = r.boardIdx and r.board='recruitBoard' </if>
+			where r.idx = #{idx};
 	</select>
 	<select id="adminAsRequestTotRecCnt" resultType="int">
 		select count(*) from asRequest;
@@ -68,11 +78,31 @@
 		SELECT *, datediff(writeDate, now()) AS date_diff 
 			FROM consultingS 
 			<if test="search != ''"> WHERE ${search} LIKE CONCAT('%',#{searchString},'%') </if> 
-			ORDER BY idx desc 
-			<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+			ORDER BY idx desc limit #{startIndexNo},#{pageSize};
 	</select>
 	<select id="getConsultingContent" resultType="com.spring.javaclassS9.vo.ConsultingVO">
 		select * from consultingS where idx = #{idx};
+	</select>
+	<select id="getPopupNoticeContent" resultType="com.spring.javaclassS9.vo.NoticeVO">
+		select * from noticeS where popup = 'OK';
+	</select>
+	<select id="getImportantNoticeList" resultType="com.spring.javaclassS9.vo.NoticeVO">
+		select * from noticeS where important = 'OK';
+	</select>
+	<select id="noticeTotRecCnt" resultType="int">
+		select count(*) from noticeS where important = 'NO';
+	</select>
+	<select id="noticeTotRecCntSearch" resultType="int">
+		select count(*) from noticeS where important = 'NO' and ${search} like concat('%',#{searchString},'%');
+	</select>
+	<select id="getNoticeListAll" resultType="com.spring.javaclassS9.vo.NoticeVO">
+		SELECT *, datediff(writeDate, now()) AS date_diff 
+			FROM noticeS 
+			<if test="search != ''"> WHERE ${search} LIKE CONCAT('%',#{searchString},'%') </if> 
+			ORDER BY idx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="getNoticeContent" resultType="com.spring.javaclassS9.vo.NoticeVO">
+		select *, datediff(writeDate,now()) as date_diff from noticeS where idx=#{idx};
 	</select>
 	
 	
@@ -86,6 +116,10 @@
 		insert into consultingS values(default, #{vo.part}, #{vo.name}, #{vo.email}, #{vo.phone}, 
 			#{vo.title}, #{vo.content}, default, null, null);
 	</insert>
+	<insert id="setNoticeInputOk">
+		insert into noticeS values(default, #{vo.part}, #{vo.title}, #{vo.content}, #{vo.popup}, 
+			default, #{vo.endDate}, #{vo.important});
+	</insert>
 	
 	
 	<update id="setMemberLevelUpdateOk">
@@ -96,6 +130,9 @@
 	</update>
 	<update id="setConsultingAnswer">
 		update consultingS set completeDate = now(), answer=#{answer} where idx=#{idx};
+	</update>
+	<update id="setPopupNoticeDelete">
+		update noticeS set popup='NO' where popup='OK';
 	</update>
 	
 	
@@ -112,9 +149,15 @@
 		delete from freeBoardS where idx = (select boardIdx from reportS where idx = #{idx});
 	</delete>
 	<delete id="setReportQuestionBoardDelete">
-		delete from questionBaordS where idx = (select boardIdx from reportS where idx = #{idx});
+		delete from questionBoardS where idx = (select boardIdx from reportS where idx = #{idx});
+	</delete>
+	<delete id="setReportRecruitBoardDelete">
+		delete from recruitBoardS where idx = (select boardIdx from reportS where idx = #{idx});
 	</delete>
 	<delete id="setReportContentDelete">
 		delete from reportS where idx = #{idx};
+	</delete>
+	<delete id="setReportSameContentDelete">
+		delete r1 from reportS r1 join (select boardIdx from reportS where idx = #{idx}) r2 on r1.boardIdx=r2.boardIdx;
 	</delete>
 </mapper>

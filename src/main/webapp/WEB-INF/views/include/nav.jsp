@@ -19,7 +19,7 @@
 			<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">소개말<i class="icofont-thin-down"></i></a>
 			<ul class="dropdown-menu" aria-labelledby="dropdown01">
-				<li><a class="dropdown-item" href="#">공지사항</a></li>
+				<li><a class="dropdown-item" href="${ctp}/company/noticeList">공지사항</a></li>
 				<li><a class="dropdown-item" href="${ctp}/company/aboutUs">기업소개</a></li>
 				<li><a class="dropdown-item" href="#">자료실</a></li>
 			</ul>

@@ -15,6 +15,44 @@
 	
 	<interceptors>
 		<interceptor>
+			<mapping path="/customer/"/>
+			<mapping path="/member/"/>
+			<mapping path="/product/productEstimate"/>
+			<exclude-mapping path="/customer/cmain"/>
+			<exclude-mapping path="/customer/board/freeBoardContent"/>
+			<exclude-mapping path="/customer/board/freeBoardList"/>
+			<exclude-mapping path="/customer/board/questionBoardContent"/>
+			<exclude-mapping path="/customer/board/questionBoardList"/>
+			<exclude-mapping path="/customer/board/recruitBoardContent"/>
+			<exclude-mapping path="/customer/board/recruitBoardList"/>
+			<exclude-mapping path="/customer/board/replyInput"/>
+			<exclude-mapping path="/customer/board/replyInputRe"/>
+			<exclude-mapping path="/customer/board/replyDelete"/>
+			<exclude-mapping path="/member/memberJoin"/>
+			<exclude-mapping path="/member/memberIdCheck"/>
+			<exclude-mapping path="/member/memberNickCheck"/>
+			<exclude-mapping path="/member/memberLogin/**"/>
+			<exclude-mapping path="/member/memberLogout"/>
+			<exclude-mapping path="/member/midSearch"/>
+			<exclude-mapping path="/member/midSearchResult"/>
+			<exclude-mapping path="/member/pwdSearch"/>
+			<exclude-mapping path="/member/pwdSearchOk"/>
+			<beans:ref bean="level3Interceptor"/>
+		</interceptor>
+	
+		<interceptor>
+			<mapping path="/customer/board/recruitBoardInput"/>
+			<mapping path="/customer/board/recruitBoardEdit"/>
+			<beans:ref bean="level2Interceptor"/>
+		</interceptor>
+	
+		<interceptor>
+			<mapping path="/engineer/**"/>
+			<exclude-mapping path="/engineer/engineerContent"/>
+			<beans:ref bean="level1Interceptor"/>
+		</interceptor>
+	
+		<interceptor>
 			<mapping path="/admin/**"/>
 			<beans:ref bean="level0Interceptor"/>
 		</interceptor>

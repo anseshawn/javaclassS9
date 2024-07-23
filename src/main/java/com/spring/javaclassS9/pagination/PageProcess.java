@@ -109,6 +109,13 @@ public class PageProcess {
 			String[] searchStrings = searchString.split("/");
 			totRecCnt = memberDAO.consultingTotRecCnt(searchStrings[0],searchStrings[1]);
 		}
+		else if(section.equals("notice")) {
+			if(part.equals("")) totRecCnt = adminDAO.noticeTotRecCnt();
+			else {
+				search = part;
+				totRecCnt = adminDAO.noticeTotRecCntSearch(search,searchString);
+			}
+		}
 		//else if(section.equals("pds"))	totRecCnt = pdsDAO.totRecCnt(part);
 		
 		int totPage = (totRecCnt % pageSize)==0 ? (totRecCnt / pageSize) : (totRecCnt / pageSize) + 1;
@@ -118,7 +125,7 @@ public class PageProcess {
 		int blockSize = 3;
 		int curBlock = (pag - 1) / blockSize;
 		int lastBlock = (totPage - 1) / blockSize;
-		
+		System.out.println("페이지네이션 startindexNo : "+startIndexNo);
 		pageVO.setPag(pag);
 		pageVO.setPageSize(pageSize);
 		pageVO.setTotRecCnt(totRecCnt);

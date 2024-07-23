@@ -70,6 +70,50 @@
 			});
 		}
 		
+		// 신고 게시글 자세히 확인하기
+		function modal2View(idx, board) {
+			let str = "<table class='table text-center'>";
+			$.ajax({
+				url: "${ctp}/admin/report/reportBoardContent",
+				type: "post",
+				data: {
+					idx : idx,
+					board : board
+				},
+				success: function(cVo) {
+					let boardIdx="";
+					let title = "";
+					let content = "";
+					if(cVo.board=='freeBoard') {
+						boardIdx = cVo.fbIdx;
+						title = cVo.fbTitle;
+						content = cVo.fbContent;
+					}
+					else if(cVo.board=='questionBoard') {
+						boardIdx = cVo.qtIdx;
+						title = cVo.qtTitle;
+						content = cVo.qtContent;
+					}
+					else if(cVo.board=='recruitBoard') {
+						boardIdx = cVo.rcIdx;
+						title = cVo.rcTitle;
+						content = cVo.rcContent;
+					}
+					str += "<tr><th>게시글 번호</th><td>"+boardIdx+"</td></tr>";
+					str += "<tr><th>신고사유</th><td>"+cVo.rpContent+"</td></tr>";
+					str += "<tr><th>제목</th><td>"+title+"</td></tr>";
+					str += "<tr><th>내용</th><td>"+content+"</td></tr>";
+					str += "<span id='selectIdx' style='display:none;'>"+cVo.idx+"</span>";
+					str += "<span id='selectBoard' style='display:none;'>"+cVo.board+"</span>";
+					str += "</table>";
+					$("#reportContent").html(str);
+				},
+				error: function() {
+					alert("전송 오류");
+				}
+			});
+		}
+		
 		
 		// 회원 탈퇴 & 삭제
 		function memberDelete(mid) {
@@ -128,6 +172,7 @@
 		// 게시글 한번에 지우기
 		function deleteBoard() {
 			let idx = "";
+			// '신고idx/게시글카테고리' 로 가져와서 쉼표로 묶기
 			for(let i=0; i<document.getElementsByName("selectReport").length; i++) {
 				if(document.getElementsByName("selectReport")[i].checked) {
 					idx += document.getElementsByName("selectReport")[i].value+",";
@@ -152,7 +197,6 @@
 							if(res != "0") {
 								message = "신고된 게시글을 영구 삭제했습니다.";
 								icon = "success";
-								location.reload();
 							}
 							else {
 								message = "삭제에 실패했습니다.";
@@ -167,6 +211,62 @@
 				          popup : 'custom-swal-popup',
 				          htmlContainer : 'custom-swal-text'
 								}
+							}).then(function(){
+								location.reload();
+							});
+						},
+						error: function(){
+							alert("전송오류");
+						}
+					});
+				}
+			});
+		}
+		
+		// 게시글 하나만(모달에서) 지우기
+		function deleteBoardOne(idx) {
+			if(idx==='modal') {
+				idx = document.getElementById("selectIdx").innerText;
+				board = document.getElementById("selectBoard").innerText;
+			}
+			Swal.fire({
+        html : "<h3>해당 게시글을 삭제 처리하시겠습니까?</h3>",
+        confirmButtonText : '삭제',
+        showCancelButton: true,
+      	confirmButtonColor : '#003675',
+        customClass: {
+          popup : 'custom-swal-popup',
+          htmlContainer : 'custom-swal-text'
+        }
+			}).then((result)=>{
+				if(result.isConfirmed) {
+					$.ajax({
+						url: "${ctp}/admin/report/reportBoardDeleteOne",
+						type: "post",
+						data: {
+							idx : idx,
+							board : board
+						},
+						success: function(res){
+							if(res != "0") {
+								message = "신고된 게시글을 영구 삭제했습니다.";
+								icon = "success";
+							}
+							else {
+								message = "삭제에 실패했습니다.";
+								icon = "warning";
+							}
+							Swal.fire({
+								html: message,
+								icon: icon,
+								confirmButtonText: '확인',
+								customClass: {
+				        	confirmButton : 'swal2-confirm‎',
+				          popup : 'custom-swal-popup',
+				          htmlContainer : 'custom-swal-text'
+								}
+							}).then(function(){
+								location.reload();
 							});
 						},
 						error: function(){
@@ -208,6 +308,11 @@
 		</div>
 	</div>
 	<hr/>
+	<div class="row mb-2">
+		<div class="col text-center">
+			<div style="font-size:15px;">신고 사유를 누르면 게시글 내용 및 정확한 사유를 확인할 수 있으며 제목을 클릭하면 게시글로 이동합니다.</div>
+		</div>
+	</div>
 	<div class="row">
 		<table class="table table-hover text-center">
 			<tr style="background:#003675; color:#fff;">
@@ -237,7 +342,11 @@
 					<td>
 						<a href="#" onclick="modalView('${vo.rpMid}')" data-toggle="modal" data-target="#memberInfoModal">${vo.rpMid}</a>
 					</td>
-					<td>${vo.rpContent}</td>
+					<td>
+						<a href="#" onclick="modal2View('${vo.idx}','${vo.board}')" data-toggle="modal" data-target="#reportInfo">
+							${vo.rpContent}
+						</a>
+					</td>
 					<td>${fn:substring(vo.rpDate,0,10)}</td>
 					<td>
 						<c:if test="${vo.board=='freeBoard'}">
@@ -302,6 +411,29 @@
     </div>
   </div>
 </div>
+<!-- 신고 사유 및 게시글 내용 모달에 출력하기 -->
+<div class="modal fade" id="reportInfo">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header text-center">
+        <h4 class="modal-title">게시글 내용 확인</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+    		<span id="reportContent"></span>
+    		<hr/>
+    		<input type="button" onclick="deleteBoardOne('modal')" value="게시글 삭제" class="btn btn-main btn-icon-sm btn-round" />
+      </div>
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-main-3 btn-icon-md" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <p><br/></p>
 </body>
 </html>

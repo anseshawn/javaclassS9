@@ -25,8 +25,7 @@
 			(SELECT count(*) FROM replyS WHERE board='freeBoard' and boardIdx = b.idx) as replyCnt 
 			FROM freeBoardS b WHERE <![CDATA[b.report < 5]]>
 				<if test="search != ''"> AND ${search} LIKE CONCAT('%',#{searchString},'%') </if> 
-				ORDER BY idx desc
-				<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+				ORDER BY idx desc limit #{startIndexNo},#{pageSize};
 	</select>
 	<select id="getFreeBoardBestList" resultType="com.spring.javaclassS9.vo.FreeBoardVO">
 		SELECT *, datediff(writeDate, now()) AS date_diff, timestampdiff(hour, writeDate, now()) 
@@ -64,7 +63,7 @@
 			(SELECT count(*) FROM replyS WHERE board='questionBoard' and boardIdx = b.idx) as replyCnt FROM questionBoardS b
 			WHERE <![CDATA[b.report < 5]]>  
 			<if test="search != ''"> AND ${search} LIKE CONCAT('%',#{searchString},'%') </if> 
-			ORDER BY idx desc	<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+			ORDER BY idx desc	limit #{startIndexNo},#{pageSize};
 	</select>
 	<select id="getRecentReplyQuestionBoard" resultType="com.spring.javaclassS9.vo.QuestionBoardVO">
 		SELECT b.*, datediff(writeDate, now()) AS date_diff, timestampdiff(hour, writeDate, now()) AS hour_diff,
@@ -84,8 +83,7 @@
 			(SELECT count(*) FROM replyS WHERE board='recruitBoard' and boardIdx = b.idx) as replyCnt 
 			FROM recruitBoardS b WHERE <![CDATA[b.report < 5]]>
 			<if test="search != ''"> AND ${search} LIKE CONCAT('%',#{searchString},'%') </if> 
-			ORDER BY idx desc
-			<if test="startIndexNo != 0"> limit #{startIndexNo},#{pageSize}</if>;
+			ORDER BY idx desc limit #{startIndexNo},#{pageSize};
 	</select>
 	<select id="getRecruitBoardContent" resultType="com.spring.javaclassS9.vo.RecruitBoardVO">
 		SELECT *,(SELECT count(*) FROM replyS WHERE board='recruitBoard' and boardIdx = b.idx) as replyCnt 
@@ -169,6 +167,10 @@
 		update recruitBoardS set mid=#{vo.mid}, nickName=#{vo.nickName}, title=#{vo.title}, content=#{vo.content}, 
 			hostIp=#{vo.hostIp}, part=#{vo.part}, location=#{vo.location}, endDate=#{vo.endDate}, etcContent=#{vo.etcContent}, 
 			rcfName=#{vo.rcfName}, rcfSName=#{vo.rcfSName} where idx = #{vo.idx};
+	</update>
+	<update id="setQuestionBoardEdit">
+		update questionBoardS set mid=#{vo.mid}, nickName=#{vo.nickName}, title=#{vo.title}, content=#{vo.content}, 
+			hostIp=#{vo.hostIp}, part=#{vo.part} where idx = #{vo.idx};
 	</update>
 
 	

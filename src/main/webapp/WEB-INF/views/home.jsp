@@ -15,6 +15,19 @@
 			if("${sLogin}" != "") {
 				alert("현재 임시 비밀번호로 로그인 중입니다.\n비밀번호를 새로 변경해주세요.");
 			}
+			if("${todayNoPopup}" == "" || "${todayNoPopup}" != "${sMid}"){
+				console.log("팝업오픈");
+				let url = "${ctp}/company/popupNotice";
+				let widthSize= 500;
+				let heightSize = 600;
+				let leftCenter = Math.ceil((window.screen.width - widthSize)/2);
+				let topCenter = Math.ceil((window.screen.height - heightSize)/2);
+				window.open(
+					url, // url
+					'공지사항', // title
+					'width='+widthSize+', height='+heightSize+', top='+topCenter+', left='+leftCenter // 설정
+				);
+			}
 		}
 	</script>
 </head>

@@ -112,4 +112,6 @@ public interface BoardDAO {
 
 	public int setRecruitBoardGoodDown(@Param("idx") int boardIdx);
 
+	public int setQuestionBoardEdit(@Param("vo") QuestionBoardVO vo);
+
 }

@@ -8,6 +8,7 @@ import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.MemberVO;
+import com.spring.javaclassS9.vo.NoticeVO;
 import com.spring.javaclassS9.vo.ReportVO;
 
 public interface AdminDAO {
@@ -48,6 +49,8 @@ public interface AdminDAO {
 	public int setReportFreeBoardDelete(@Param("idx") int idx);
 
 	public int setReportQuestionBoardDelete(@Param("idx") int idx);
+	
+	public int setReportRecruitBoardDelete(@Param("idx") int idx);
 
 	public void setReportContentDelete(@Param("idx") int idx);
 
@@ -69,5 +72,26 @@ public interface AdminDAO {
 	public ConsultingVO getConsultingContent(@Param("idx") int idx);
 
 	public int setConsultingAnswer(@Param("idx") int idx, @Param("answer") String answer);
+
+	public ReportVO getReportBoardContent(@Param("idx") int idx, @Param("board") String board);
+
+	public void setReportSameContentDelete(@Param("idx") int idx);
+
+	public NoticeVO getPopupNoticeContent();
+
+	public int setPopupNoticeDelete();
+
+	public int setNoticeInputOk(@Param("vo") NoticeVO vo);
+
+	public ArrayList<NoticeVO> getImportantNoticeList();
+
+	public int noticeTotRecCnt();
+
+	public int noticeTotRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
+
+	public ArrayList<NoticeVO> getNoticeListAll(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, 
+			@Param("search") String part, @Param("searchString") String searchString);
+
+	public NoticeVO getNoticeContent(@Param("idx") int idx);
 
 }

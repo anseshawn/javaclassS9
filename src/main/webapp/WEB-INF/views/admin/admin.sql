@@ -42,3 +42,16 @@ create table consultingS(
 );
 
 desc consultingS;
+
+create table noticeS(
+	idx int not null auto_increment,
+	part varchar(10) not null,	/* 일반공지사항(notices), 이벤트(events) */
+	title varchar(30) not null,
+	content text not null,
+	popup varchar(2) not null default 'NO',
+	writeDate datetime default now(),
+	endDate datetime,		/* 이벤트 진행 시 종료 날짜 선택 */
+	important varchar(2) not null default 'NO',
+	primary key(idx)
+);
+desc noticeS;

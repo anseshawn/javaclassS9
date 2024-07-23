@@ -346,7 +346,7 @@ public class EngineerController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date endDate = null;
 		Date startDate = null;
-		for(int i=0; i<vos.size(); i++) {
+		for(int i=vos.size()-1; i>=0; i--) {
 			if(vos.get(i).getEndDate() != null)	{
 				endDate = sdf.parse(vos.get(i).getEndDate());
 			}

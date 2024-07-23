@@ -387,10 +387,11 @@
 				alert("검색 분류를 선택하세요.");
 				return false;
 			}
-			if(searchString.trim()=="") {
+			if(part != 'part' && searchString.trim()=="") {
 				alert("검색어를 입력하세요.");
 				return false;
 			}
+			if(part=='part') searchString = $("#partSelect").val();
 			location.href="${ctp}/customer/board/questionBoardList?pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&part="+part+"&searchString="+searchString;
 		}
 		
@@ -651,23 +652,21 @@
 					<!-- 검색창 -->
 					<div class="sidebar-widget search mb-3 ">
 						<h5>질문 검색</h5>
-						<form name="searchForm" method="post">
-							<select name="search" id="search" class="form-control" onchange="searchValue()">
-								<option value="title">제목</option>
-								<option value="nickName">작성자</option>
-								<option value="content">내용</option>
-								<option value="part">분류</option>
-							</select>
-							<select name="partSelect" id="partSelect" class="form-control mt-2" style="display:none;">
-								<option>실험방법</option>
-								<option>실험장비</option>
-								<option>법규</option>
-								<option>기타</option>
-							</select>
-							<input type="text" name="searchString" id="searchString" class="form-control mt-2" placeholder="검색어를 입력하세요." required />
-							<i class="ti-search"></i>
-							<div class="text-right"><a href="javascript:searchEnter()" class="btn btn-main btn-icon-sm btn-round mt-2"><i class="icofont-search-2"></i> 검색</a></div>
-						</form>
+						<select name="search" id="search" class="form-control" onchange="searchValue()">
+							<option value="title">제목</option>
+							<option value="nickName">작성자</option>
+							<option value="content">내용</option>
+							<option value="part">분류</option>
+						</select>
+						<select name="partSelect" id="partSelect" class="form-control mt-2" style="display:none;">
+							<option>실험방법</option>
+							<option>실험장비</option>
+							<option>법규</option>
+							<option>기타</option>
+						</select>
+						<input type="text" name="searchString" id="searchString" class="form-control mt-2" placeholder="검색어를 입력하세요." required />
+						<i class="ti-search"></i>
+						<div class="text-right"><a href="javascript:boardSearch()" class="btn btn-main btn-icon-sm btn-round mt-2"><i class="icofont-search-2"></i> 검색</a></div>
 					</div>
 					<!-- 검색창 끝 -->
 					<div class="sidebar-widget latest-post mb-2">

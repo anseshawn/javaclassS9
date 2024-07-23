@@ -165,6 +165,8 @@
 	</div>
 	<hr/>
 	<div class="row">
+	<p><br/></p>
+	<div class="col align-items-center">
 		<table class="table table-hover text-center">
 			<tr style="background:#003675; color:#fff;">
 				<th><input type="checkbox" name="allSelect" id="allSelect" onclick="allSelect()" class="custom-conrol-input"/></th>
@@ -217,6 +219,8 @@
 			</c:forEach>
 			<tr><td colspan="9" class="m-0 p-0"></td></tr>
 		</table>
+		</div>
+		<p><br/></p>
 	</div>
 </div>
 <!-- 블록페이지 시작 -->	
