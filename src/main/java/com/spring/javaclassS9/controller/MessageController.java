@@ -217,6 +217,34 @@ public class MessageController {
 			model.addAttribute("msg", "공지사항 등록 실패");
 			model.addAttribute("url", "/admin/notice/noticeInput");
 		}
+		else if(msgFlag.equals("noticeDeleteOk")) {
+			model.addAttribute("msg", "공지사항을 삭제했습니다.");
+			model.addAttribute("url", "/admin/notice/noticeList");
+		}
+		else if(msgFlag.equals("noticeDeleteNo")) {
+			model.addAttribute("msg", "공지사항 삭제 실패");
+			model.addAttribute("url", "/admin/notice/noticeList");
+		}
+		else if(msgFlag.equals("noticeEditOk")) {
+			model.addAttribute("msg", "공지사항을 수정했습니다.");
+			model.addAttribute("url", "/admin/notice/noticeContent?idx="+idx);
+		}
+		else if(msgFlag.equals("noticeEditNo")) {
+			model.addAttribute("msg", "공지사항 수정 실패");
+			model.addAttribute("url", "/admin/notice/noticeEdit?idx="+idx);
+		}
+		else if(msgFlag.equals("expendableCodeNo")) {
+			model.addAttribute("msg", "이미 존재하는 소모품 코드입니다.");
+			model.addAttribute("url", "/admin/product/expendableInput");
+		}
+		else if(msgFlag.equals("expendableInputOk")) {
+			model.addAttribute("msg", "소모품을 등록했습니다.");
+			model.addAttribute("url", "/admin/product/expendableInput");
+		}
+		else if(msgFlag.equals("expendableInputNo")) {
+			model.addAttribute("msg", "소모품 등록 실패. 다시 시도하세요.");
+			model.addAttribute("url", "/admin/product/expendableInput");
+		}
 		
 		return "include/message";
 	}

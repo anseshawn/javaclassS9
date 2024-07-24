@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.javaclassS9.vo.AsRequestVO.Machine;
+import com.spring.javaclassS9.vo.ExpendableVO;
 import com.spring.javaclassS9.vo.ProductLikeVO;
 import com.spring.javaclassS9.vo.ProductSaleVO;
 import com.spring.javaclassS9.vo.ProductVO;
@@ -38,5 +40,19 @@ public interface ProductDAO {
 			@Param("searchString") String searchString);
 
 	public ProductSaleVO getProductSaleContent(@Param("idx") int idx);
+
+	public ArrayList<ExpendableVO> getExpendableList();
+
+	public ExpendableVO getExpendableCode(@Param("vo") ExpendableVO vo);
+
+	public ExpendableVO getExpendableMaxIdx();
+
+	public int setExpendableInput(@Param("vo") ExpendableVO vo);
+
+	public int setExpendableDelete(@Param("vo") ExpendableVO vo);
+
+	public ArrayList<ExpendableVO> getExpendableListOne(@Param("categoryMain") Machine machine);
+
+	public ExpendableVO getExpendableNameCheck(@Param("expendableName") String expendableName);
 
 }

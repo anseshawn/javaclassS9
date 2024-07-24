@@ -40,3 +40,23 @@ create table review(
 
 desc review;
 drop table review;
+
+create table asCharge(
+	idx int not null auto_increment,
+	asIdx int not null,
+	engineerIdx int not null,
+	categoryMain enum('UV','AAs','ICP','GC','LC','etc'),
+	expendableName varchar(100),
+	price int,
+	quantity varchar(50),
+	laborCharge int not null default 100000,
+	totPrice int not null,
+	chargeDate datetime default now(),
+	payDate datetime,
+	statement enum('WAITING','COMPLETE'), /* 입금대기(payDate 없는 경우)/입금완료(payDate에 값이 들어온 경우) */
+	primary key(idx),
+	foreign key(asIdx) references asRequest(idx),
+	foreign key(engineerIdx) references engineerS(idx)
+);
+desc asCharge;
+drop table asCharge;

@@ -21,6 +21,9 @@
 	<select id="getReviewSearch" resultType="int">
 		select count(*) from review where asIdx = #{idx};
 	</select>
+	<select id="getAsChargeContent" resultType="com.spring.javaclassS9.vo.AsChargeVO">
+		select * from asCharge where asIdx = #{asIdx};
+	</select>
 	
 	
 	<insert id="setAsAppointmentOk">
@@ -29,6 +32,10 @@
 	</insert>
 	<insert id="setReviewInput">
 		insert into review values(default, #{vo.memberMid}, #{vo.asIdx}, #{vo.engineerIdx}, #{vo.starPoint}, #{vo.reviewDetail});
+	</insert>
+	<insert id="setAsChargeInput">
+		insert into asCharge values(default, #{vo.asIdx}, #{vo.engineerIdx}, #{vo.categoryMain}, #{vo.expendableName}, 
+			#{vo.price}, #{vo.quantity}, default, #{vo.totPrice}, default, null, #{vo.statement});
 	</insert>
 	
 	

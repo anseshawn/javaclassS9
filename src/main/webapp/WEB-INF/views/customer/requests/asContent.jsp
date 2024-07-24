@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <% pageContext.setAttribute("newLine", "\n"); %>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/> 
 <!DOCTYPE html>
@@ -12,7 +13,8 @@
 	<link rel="stylesheet" href="${ctp}/css/bootstrap-datepicker.css">
 	<style>
 		.content th {
-			background-color: #CDD7E4; 
+			background-color: #2A5C96;
+			color: #fff; 
 		}
 		/* 별점 스타일 적용하기 */
   	#starForm fieldset {
@@ -167,9 +169,45 @@
 						<th>엔지니어 코멘트</th>
 						<td colspan="3">${fn:replace(vo.comment,newLine,'<br/>')}</td>
 					</tr>
-				</c:if>
+				<%-- </c:if> --%>
 				<tr><td colspan="4" class="m-0 p-0"></td></tr>
 			</table>
+			<%-- <c:if test="${vo.progress == 'PAYMENT' || vo.progress == 'COMPLETE'}"> --%>
+			<hr/>
+				<div class="mb-2" id="waiting">
+					<div class="mb-2 text-right">
+						<input type="button" value="결제하기" class="btn btn-main btn-icon-md"/>
+						<input type="button" value="명세서 출력" class="btn btn-main-3 btn-icon-md" />
+					</div>
+					<table class="table content table-hover text-center mb-2" id="expendableUse">
+						<tr>
+							<th>소모품</th>
+							<th>수량</th>
+						</tr>
+						<c:forEach var="ex" items="${expendables}" varStatus="st">
+							<tr>
+								<td width="50%">${ex}</td>
+								<c:forEach var="qu" items="${quantities[st.index]}" varStatus="st2">
+									<td>${qu}</td>
+								</c:forEach>
+							</tr>
+						</c:forEach>
+						<tr>
+							<th>소모품 총액</th>
+							<td><fmt:formatNumber value="${chargeVO.price}" pattern="#,###"/> 원</td>
+						</tr>
+						<tr>
+							<th>출장비</th>
+							<td><fmt:formatNumber value="${chargeVO.laborCharge}" pattern="#,###"/> 원</td>
+						</tr>
+						<tr>
+							<th>총액(V.A.T.포함)</th>
+							<td><fmt:formatNumber value="${chargeVO.totPrice}" pattern="#,###"/> 원</td>
+						</tr>
+						<tr><td colspan="4" class="m-0 p-0"></td></tr>
+					</table>
+				</div>
+			</c:if>
 			<c:if test="${vo.progress=='COMPLETE' && sw==0}">
 				<hr/>
 				<form name="starForm" id="starForm">
@@ -201,7 +239,8 @@
 			<div id="starFinish" style="display:none; text-align:center;">
 				<h4>평가가 완료되었습니다.</h4>
 			</div>
-			<div class="text-right mt-2">
+			<hr/>
+			<div class="text-center mt-2">
 				<a href="${ctp}/customer/requests/asProgress?pag=${pag}&pageSize=${pageSize}" class="btn btn-main btn-icon btn-round">목록으로</a>
 			</div>
 		</div>

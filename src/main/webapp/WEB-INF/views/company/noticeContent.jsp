@@ -14,9 +14,9 @@
 		'use strict';
 		
 		function deleteCheck(){
-			let ans = confirm("현재 게시글을 삭제하시겠습니까?");
+			let ans = confirm("현재 공지사항을 삭제하시겠습니까?");
 			if(!ans) return false;
-			location.href="${ctp}/admin/company/noticeDelete?idx=${vo.idx}";
+			location.href="${ctp}/admin/notice/noticeDelete?idx=${vo.idx}";
 		}
 		
 		// 게시판 검색
@@ -49,7 +49,7 @@
       <div class="col-md-12">
         <div class="block text-center">
           <span class="text-white">공지사항</span>
-          <h1 class="text-capitalize mb-5 text-lg"><a href="${ctp}/company/noticeList">Notice</a></h1>
+          <h1 class="text-capitalize mb-5 text-lg"><a href="${ctp}/company/noticeList" style="color: #fff;">Notice</a></h1>
         </div>
       </div>
     </div>
@@ -64,7 +64,7 @@
 						<div class="single-blog-item">
 							<div class="blog-item-content mt-2">
 								<div class="blog-item-meta mb-3">
-									<div style="color:#223a66; font-size:1.2rem;">
+									<div class="mb-2" style="color:#223a66; font-size:1.2rem;">
 										<a href="noticeList?pag=1&pageSize=${pageVO.pageSize}&part=part&searchString=${vo.part}"><i class="icofont-ui-folder mr-2"></i>
 											${vo.part=='events' ? '이벤트' : ''}
 											${vo.part=='notices' ? '일반공지' : ''}</a>
@@ -76,7 +76,7 @@
 								<div class="nav-item lead mb-4 font-weight-normal text-black">관리자</div>
 								<c:if test="${sLevel==0}">
 									<div class="text-right">
-										<input type="button" value="수정하기" onclick="location.href='${ctp}/admin/company/noticeEdit?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}';" class="btn btn-main-2 btn-icon-sm btn-round-full mr-2" >
+										<input type="button" value="수정하기" onclick="location.href='${ctp}/admin/notice/noticeEdit?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}';" class="btn btn-main-2 btn-icon-sm btn-round-full mr-2" >
 										<input type="button" value="삭제하기" onclick="deleteCheck()" class="btn btn-main btn-icon-sm btn-round-full" >
 									</div>
 								</c:if>

@@ -366,4 +366,9 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.setQuestionBoardEdit(vo);
 	}
 
+	@Override
+	public int setQuestionBoardDelete(int idx) {
+		return boardDAO.setQuestionBoardDelete(idx);
+	}
+
 }

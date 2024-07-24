@@ -64,4 +64,8 @@ public interface AdminService {
 
 	public NoticeVO getNoticeContent(int idx);
 
+	public int setNoticeDelete(int idx);
+
+	public int setNoticeEdit(NoticeVO vo);
+
 }

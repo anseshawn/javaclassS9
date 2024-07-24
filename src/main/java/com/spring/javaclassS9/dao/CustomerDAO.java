@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.javaclassS9.vo.AsChargeVO;
 import com.spring.javaclassS9.vo.AsRequestVO;
 import com.spring.javaclassS9.vo.AsRequestVO.Progress;
 import com.spring.javaclassS9.vo.ReviewVO;
@@ -32,6 +33,10 @@ public interface CustomerDAO {
 
 	public void setAsAppointmentProgress(@Param("vo") AsRequestVO vo);
 
-	public ArrayList<ReviewVO> getEngineerReviewList(int engineerIdx);
+	public ArrayList<ReviewVO> getEngineerReviewList(@Param("engineerIdx") int engineerIdx);
+
+	public int setAsChargeInput(@Param("vo") AsChargeVO vo);
+
+	public AsChargeVO getAsChargeContent(@Param("asIdx") int asIdx);
 
 }

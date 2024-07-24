@@ -114,4 +114,6 @@ public interface BoardDAO {
 
 	public int setQuestionBoardEdit(@Param("vo") QuestionBoardVO vo);
 
+	public int setQuestionBoardDelete(@Param("idx") int idx);
+
 }

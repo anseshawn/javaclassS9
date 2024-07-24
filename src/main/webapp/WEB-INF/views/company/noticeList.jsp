@@ -10,12 +10,16 @@
   <title>공지사항</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
 	<style>
-		.btn:disabled {
+		.btn.important {
 			pointer-events: none;
       cursor: none;
+      background-color: #5089EF;
+      border-color: #5089EF;
+      color: #fff;
+      border-radius: 0px;
 		}
 		.badge.delete {
-			background-color: #EC4651;
+			background-color: #8E8E8E;
 			color: #fff;
 		}
 	</style>
@@ -69,7 +73,7 @@
       <div class="col-md-12">
         <div class="block text-center">
           <span class="text-white">공지사항</span>
-          <h1 class="text-capitalize mb-5 text-lg"><a href="${ctp}/company/noticeList">Notice</a></h1>
+          <h1 class="text-capitalize mb-5 text-lg"><a href="${ctp}/company/noticeList" style="color: #fff;">Notice</a></h1>
         </div>
       </div>
     </div>
@@ -111,19 +115,19 @@
 				</tr>
 				<c:forEach var="iVo" items="${imVos}" varStatus="st">
 					<tr>
-						<td><input type="button" value="중요" class="btn btn-main btn-icon-sm" disabled/></td>
+						<td><input type="button" value="중요" class="btn important btn-main btn-icon-sm"/></td>
 						<td>
-							${vo.part=='events' ? '이벤트' : ''}
-							${vo.part=='notices' ? '일반공지' : ''}
+							${iVo.part=='events' ? '이벤트' : ''}
+							${iVo.part=='notices' ? '공지' : ''}
 						</td>
 						<td class="text-left">
-							<a href="noticeContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">${vo.title}</a>
-							<c:if test="${!empty vo.endDate && today > fn:substring(vo.endDate,0,10)}">
+							<a href="noticeContent?idx=${iVo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">${iVo.title}</a>
+							<c:if test="${!empty iVo.endDate && today > fn:substring(iVo.endDate,0,10)}">
 								<a href="#" class="badge delete">종료</a>
 							</c:if>
 						</td>
 						<td>관리자</td>
-						<td>${iVo.date_diff == 0 ? fn:substring(vo.writeDate,11,19) : fn:substring(iVo.writeDate,0,10)}</td>
+						<td>${iVo.date_diff == 0 ? fn:substring(iVo.writeDate,11,19) : fn:substring(iVo.writeDate,0,10)}</td>
 					</tr>
 				</c:forEach>
 				<c:set var="curScrStartNo" value="${pageVO.curScrStartNo}"/>
@@ -134,7 +138,12 @@
 							${vo.part=='events' ? '이벤트' : ''}
 							${vo.part=='notices' ? '일반공지' : ''}
 						</td>
-						<td class="text-left"><a href="noticeContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">${vo.title}</a></td>
+						<td class="text-left">
+							<a href="noticeContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">${vo.title}</a>
+							<c:if test="${!empty vo.endDate && today > fn:substring(vo.endDate,0,10)}">
+								<a href="#" class="badge delete ml-2">종료됨</a>
+							</c:if>
+						</td>
 						<td>관리자</td>
 						<td>${vo.date_diff == 0 ? fn:substring(vo.writeDate,11,19) : fn:substring(vo.writeDate,0,10)}</td>
 					</tr>

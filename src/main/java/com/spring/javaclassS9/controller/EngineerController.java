@@ -5,7 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.UUID;
 
@@ -28,9 +30,13 @@ import com.spring.javaclassS9.pagination.PageProcess;
 import com.spring.javaclassS9.service.CustomerService;
 import com.spring.javaclassS9.service.EngineerService;
 import com.spring.javaclassS9.service.MemberService;
+import com.spring.javaclassS9.service.ProductService;
+import com.spring.javaclassS9.vo.AsChargeVO;
 import com.spring.javaclassS9.vo.AsRequestVO;
+import com.spring.javaclassS9.vo.AsRequestVO.Machine;
 import com.spring.javaclassS9.vo.AsRequestVO.Progress;
 import com.spring.javaclassS9.vo.EngineerVO;
+import com.spring.javaclassS9.vo.ExpendableVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.PageVO;
 import com.spring.javaclassS9.vo.ScheduleVO;
@@ -56,6 +62,9 @@ public class EngineerController {
 	
 	@Autowired
 	CustomerService customerService;
+	
+	@Autowired
+	ProductService productService;
 	
 	// 엔지니어 개인 정보 모달(A/S신청 탭에서)
 	@ResponseBody
@@ -373,7 +382,17 @@ public class EngineerController {
 		) {
 		AsRequestVO vo = engineerService.getAsRequestContent(idx);
 		//if(vo.getDate_diff() == 0) vo.setProgress(Progress.PROGRESS);
+		ArrayList<ExpendableVO> exVos = productService.getExpendableListOne(vo.getMachine());
+		AsChargeVO chargeVO = customerService.getAsChargeContent(idx);
+		if(chargeVO != null) {
+			String[] expendables = chargeVO.getExpendableName().split(",");
+			String[] quantities = chargeVO.getQuantity().split(",");
+			model.addAttribute("quantities", quantities);
+			model.addAttribute("expendables", expendables);
+			model.addAttribute("chargeVO", chargeVO);
+		}
 		model.addAttribute("vo", vo);
+		model.addAttribute("exVos", exVos);
 		model.addAttribute("pag", pag);
 		model.addAttribute("pageSize", pageSize);
 		return "engineer/asRequestContent";
@@ -401,6 +420,41 @@ public class EngineerController {
 	public String asCommentInputPost(AsRequestVO vo) {
 		vo.setProgress(Progress.PAYMENT);
 		int res = customerService.setAsAppointmentComplete(vo);
+		return res+"";
+	}
+	
+	// A/S 진행시에 이용한 소모품 입력(이후 입금대기로 상태 변경)
+	@ResponseBody
+	@RequestMapping(value = "/expendableUseInput", method = RequestMethod.POST)
+	public String expendableUseInputPost(int asIdx, Machine categoryMain, 
+			String[] expendableNames, String[] quantities) {
+		AsChargeVO vo = new AsChargeVO();
+		vo.setAsIdx(asIdx);
+		vo.setCategoryMain(categoryMain);
+		int price = 0;
+		String expendableName = "";
+		String quantity = "";
+		if(expendableNames != null && expendableNames.length != 0) { // 소모품 사용한 게 있다면 계산
+			ExpendableVO exVO = null;
+			for(int i=0; i<expendableNames.length; i++) {
+				expendableName += expendableNames[i]+",";
+				quantity += quantities[i]+",";
+				exVO = productService.getExpendableNameCheck(expendableNames[i]);
+				price += exVO.getPrice() * Integer.parseInt(quantities[i]);
+			}
+			expendableName = expendableName.substring(0,expendableName.length()-1);
+			quantity = quantity.substring(0, quantity.length()-1);
+		}
+		// 엔지니어 idx
+		AsRequestVO asVO = customerService.getAsRequestContent(asIdx);
+		vo.setEngineerIdx(asVO.getEngineerIdx());
+		vo.setExpendableName(expendableName);
+		vo.setPrice(price);
+		vo.setQuantity(quantity);
+		int tot = price+100000; //인건비포함
+		int totPrice = tot+ ((tot * 10) / 100);
+		vo.setTotPrice(totPrice);
+		int res = customerService.setAsChargeInput(vo);
 		return res+"";
 	}
 }

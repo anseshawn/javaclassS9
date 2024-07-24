@@ -30,6 +30,7 @@ import com.spring.javaclassS9.service.BoardService;
 import com.spring.javaclassS9.service.CustomerService;
 import com.spring.javaclassS9.service.EngineerService;
 import com.spring.javaclassS9.service.MemberService;
+import com.spring.javaclassS9.vo.AsChargeVO;
 import com.spring.javaclassS9.vo.AsRequestVO;
 import com.spring.javaclassS9.vo.BoardLikeVO;
 import com.spring.javaclassS9.vo.EngineerVO;
@@ -259,7 +260,14 @@ public class CustomerController {
 		else if(vo.getProgress().toString().equals("COMPLETE")) progress = "진행완료";
 		
 		int sw = customerService.getReviewSearch(idx); // 해당 as에 리뷰 작성한 적 있는지 체크
-		
+		AsChargeVO chargeVO = customerService.getAsChargeContent(idx);
+		if(chargeVO != null) {
+			String[] expendables = chargeVO.getExpendableName().split(",");
+			String[] quantities = chargeVO.getQuantity().split(",");
+			model.addAttribute("quantities", quantities);
+			model.addAttribute("expendables", expendables);
+			model.addAttribute("chargeVO", chargeVO);
+		}
 		model.addAttribute("vo", vo);
 		model.addAttribute("progress", progress);
 		model.addAttribute("pag", pag);
@@ -454,11 +462,13 @@ public class CustomerController {
 		return res+"";
 	}
 	
-	// 게시판 글 삭제(댓글도 모두 삭제하기)
+	// 자유게시판 글 삭제(댓글도 모두 삭제하기)
 	@RequestMapping(value = "/board/freeBoardDelete", method = RequestMethod.GET)
 	public String freeBoardDeleteGet(
 			@RequestParam(name = "idx", defaultValue = "0", required = false) int idx
 			) {
+		FreeBoardVO vo = boardService.getFreeBoardContent(idx);
+		if(vo.getContent().indexOf("src=\"/") != -1) boardService.imgDelete(vo.getContent(), "freeBoard");
 		int res = boardService.setFreeBoardDelete(idx);
 		if(res != 0) return "redirect:/message/boardDeleteOk?pathFlag=freeBoard";
 		else return "redirect:/message/boardDeleteNo?pathFlag=freeBoard&idx="+idx;
@@ -592,10 +602,12 @@ public class CustomerController {
 			@RequestParam(name = "idx", defaultValue = "0", required = false) int idx
 			) {
 		int res = 0;
-		ReplyVO vo = boardService.getBoardParentReplyCheck("questionBoard", idx);
-		if(vo != null) res = 0;
+		ReplyVO rVo = boardService.getBoardParentReplyCheck("questionBoard", idx);
+		if(rVo != null) res = 0;
 		else {
-			res = boardService.setFreeBoardDelete(idx);
+			QuestionBoardVO vo = boardService.getQuestionBoardContent(idx);
+			if(vo.getContent().indexOf("src=\"/") != -1) boardService.imgDelete(vo.getContent(), "questionBoard");
+			res = boardService.setQuestionBoardDelete(idx);
 		}
 		if(res != 0) return "redirect:/message/boardDeleteOk?pathFlag=questionBoard";
 		else return "redirect:/message/boardDeleteNo?pathFlag=questionBoard&idx="+idx;

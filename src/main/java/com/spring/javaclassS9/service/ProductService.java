@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.javaclassS9.vo.AsRequestVO.Machine;
+import com.spring.javaclassS9.vo.ExpendableVO;
 import com.spring.javaclassS9.vo.ProductLikeVO;
 import com.spring.javaclassS9.vo.ProductSaleVO;
 import com.spring.javaclassS9.vo.ProductVO;
@@ -32,5 +34,17 @@ public interface ProductService {
 			String searchString);
 
 	public ProductSaleVO getProductSaleContent(int idx);
+
+	public ArrayList<ExpendableVO> getExpendableList();
+
+	public ExpendableVO getExpendableCode(ExpendableVO vo);
+
+	public int setExpendableInput(ExpendableVO vo);
+
+	public int setExpendableDelete(ExpendableVO vo);
+
+	public ArrayList<ExpendableVO> getExpendableListOne(Machine machine);
+
+	public ExpendableVO getExpendableNameCheck(String expendableName);
 
 }

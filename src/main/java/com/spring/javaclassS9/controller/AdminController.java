@@ -2,6 +2,7 @@ package com.spring.javaclassS9.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -32,10 +33,12 @@ import com.spring.javaclassS9.service.EngineerService;
 import com.spring.javaclassS9.service.MemberService;
 import com.spring.javaclassS9.service.ProductService;
 import com.spring.javaclassS9.vo.AsRequestVO;
+import com.spring.javaclassS9.vo.AsRequestVO.Machine;
 import com.spring.javaclassS9.vo.ChartVO;
 import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.EngineerVO;
+import com.spring.javaclassS9.vo.ExpendableVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.NoticeVO;
 import com.spring.javaclassS9.vo.PageVO;
@@ -276,6 +279,34 @@ public class AdminController {
 	public String productInputGet() {
 		return "admin/product/productInput";
 	}
+	
+	// 소모품 등록 창 출력
+	@RequestMapping(value = "/product/expendableInput", method = RequestMethod.GET)
+	public String expendableInputGet(Model model) {
+		Machine[] categoryMain = Machine.values();
+		ArrayList<ExpendableVO> vos = productService.getExpendableList();
+		model.addAttribute("vos", vos);
+		model.addAttribute("categoryMain", categoryMain);
+		return "admin/product/expendableInput";
+	}
+	
+	// 소모품 등록하기
+	@RequestMapping(value = "/product/expendableInput", method = RequestMethod.POST)
+	public String expendableInputPost(ExpendableVO vo) {
+		ExpendableVO exCodeVO = productService.getExpendableCode(vo);
+		if(exCodeVO != null) return "redirect:/message/expendableCodeNo";
+		int res = productService.setExpendableInput(vo);
+		if(res != 0) return "redirect:/message/expendableInputOk";
+		else return "redirect:/message/expendableInputNo";
+	}
+	
+	// 소모품 삭제하기
+	@RequestMapping(value = "/product/expendableDelete", method = RequestMethod.POST)
+	public String expendableDeletePost(ExpendableVO vo) {
+		int res = productService.setExpendableDelete(vo);
+		return res+"";
+	}
+	
 	// 기기 등록하기
 	@RequestMapping(value = "/product/productInput", method = RequestMethod.POST)
 	public String productInputPost(MultipartFile fName, ProductVO vo) {
@@ -772,6 +803,85 @@ public class AdminController {
   	if(res != 0) return "redirect:/message/noticeInputOk";
   	else return "redirect:/message/noticeInputNo";
   }
+  
+  // 공지사항 내용보기
+  @RequestMapping(value = "/notice/noticeContent", method = RequestMethod.GET)
+  public String noticeContentGet(Model model,
+  		@RequestParam(name = "idx", defaultValue = "0", required = false) int idx
+  		) {
+  	NoticeVO vo = adminService.getNoticeContent(idx);
+  	model.addAttribute("vo", vo);
+  	return "admin/notice/noticeContent";
+  }
+  
+  // 공지사항 삭제하기
+  @RequestMapping(value = "/notice/noticeDelete", method = RequestMethod.GET)
+  public String noticeDeleteGet(
+  		@RequestParam(name = "idx", defaultValue = "0", required = false) int idx
+  		) {
+  	NoticeVO vo = adminService.getNoticeContent(idx);
+  	if(vo.getContent().indexOf("src=\"/") != -1) boardService.imgDelete(vo.getContent(), "notice");
+  	int res = adminService.setNoticeDelete(idx);
+  	if(res != 0) return "redirect:/message/noticeDeleteOk";
+  	else return "redirect:/message/noticeDeleteNo";
+  }
+  
+  // 공지사항 수정창 띄우기
+  @RequestMapping(value = "/notice/noticeEdit", method = RequestMethod.GET)
+  public String noticeEditGet(Model model,
+  		@RequestParam(name = "idx", defaultValue = "0", required = false) int idx
+  		) {
+  	NoticeVO vo = adminService.getNoticeContent(idx);
+		LocalDate today = LocalDate.now();
+		model.addAttribute("today", today);
+  	model.addAttribute("vo", vo);
+  	return "admin/notice/noticeEdit";
+  }
+  
+  // 공지사항 수정하기
+  @RequestMapping(value = "/notice/noticeEdit", method = RequestMethod.POST)
+  public String noticeEditPost(NoticeVO vo) {
+  	if(vo.getPopup()==null) vo.setPopup("NO");
+  	if(vo.getImportant()==null) vo.setImportant("NO");
+  	if(vo.getPart().equals("notices")) vo.setEndDate(null);
+  	// 기존 데이터 삭제
+  	NoticeVO orignVO = adminService.getNoticeContent(vo.getIdx());
+  	if(orignVO.getContent().indexOf("src=\"/") != -1) boardService.imgDelete(orignVO.getContent(), "notice");
+  	// 수정한 글에 이미지 있으면 업데이트
+  	if(vo.getContent().indexOf("src=\"/") != -1) boardService.imgCheck(vo.getContent(),"notice");
+		vo.setContent(vo.getContent().replace("/data/ckeditor", "/data/notice/"));
+  	int res = adminService.setNoticeEdit(vo);
+  	if(res != 0) return "redirect:/message/noticeEditOk?idx="+vo.getIdx();
+  	else return "redirect:/message/noticeEditNo?idx="+vo.getIdx();
+  }
+  
+  // 공지사항 리스트 보기
+  @RequestMapping(value = "/notice/noticeList", method = RequestMethod.GET)
+	public String noticeListGet(Model model,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name = "part", defaultValue = "", required = false) String part,
+			@RequestParam(name = "searchString", defaultValue = "", required = false) String searchString
+		) {
+		ArrayList<NoticeVO> imVos = adminService.getImportantNoticeList();
+		
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "notice", part, searchString);
+		ArrayList<NoticeVO> vos = adminService.getNoticeListAll(pageVO.getStartIndexNo(),pageSize,part,searchString);
+		if(!part.equals(""))	{
+			if(part.equals("title")) part = "제목";
+			else if(part.equals("content")) part = "내용";
+			else if(part.equals("part")) part = "분류";
+			model.addAttribute("part", part);
+			model.addAttribute("searchString", searchString);
+			model.addAttribute("searchCount", vos.size());
+		}
+		LocalDate today = LocalDate.now();
+		model.addAttribute("today", today);
+		model.addAttribute("imVos", imVos);
+		model.addAttribute("vos", vos);
+		model.addAttribute("pageVO", pageVO);
+		return "admin/notice/noticeList";
+	}
   
   // 사이트 통계
   @RequestMapping(value = "/siteChart", method = RequestMethod.GET)

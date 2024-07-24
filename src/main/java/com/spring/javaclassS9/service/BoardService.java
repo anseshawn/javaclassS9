@@ -97,4 +97,6 @@ public interface BoardService {
 
 	public int setQuestionBoardEdit(QuestionBoardVO vo);
 
+	public int setQuestionBoardDelete(int idx);
+
 }

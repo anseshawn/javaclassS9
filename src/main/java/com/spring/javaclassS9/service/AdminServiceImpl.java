@@ -204,4 +204,14 @@ public class AdminServiceImpl implements AdminService {
 	public NoticeVO getNoticeContent(int idx) {
 		return adminDAO.getNoticeContent(idx);
 	}
+
+	@Override
+	public int setNoticeDelete(int idx) {
+		return adminDAO.setNoticeDelete(idx);
+	}
+
+	@Override
+	public int setNoticeEdit(NoticeVO vo) {
+		return adminDAO.setNoticeEdit(vo);
+	}
 }

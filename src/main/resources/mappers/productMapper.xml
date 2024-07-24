@@ -32,6 +32,22 @@
 		select * from productSales where idx=#{idx};
 	</select>
 	
+	<select id="getExpendableList" resultType="com.spring.javaclassS9.vo.ExpendableVO">
+		select * from expendableS order by categoryMain, idx desc;
+	</select>
+	<select id="getExpendableCode" resultType="com.spring.javaclassS9.vo.ExpendableVO">
+		select * from expendableS where categoryMain=#{vo.categoryMain} and expendableCode=#{vo.expendableCode};
+	</select>
+	<select id="getExpendableMaxIdx" resultType="com.spring.javaclassS9.vo.ExpendableVO">
+		select * from expendableS order by idx desc limit 1;
+	</select>
+	<select id="getExpendableListOne" resultType="com.spring.javaclassS9.vo.ExpendableVO">
+		select * from expendableS where categoryMain = #{categoryMain};
+	</select>
+	<select id="getExpendableNameCheck" resultType="com.spring.javaclassS9.vo.ExpendableVO">
+		select * from expendableS where expendableName = #{expendableName};
+	</select>
+	
 	
 	<insert id="setProductInputOk">
 		insert into productS values (default,#{vo.proType},#{vo.proName},#{vo.proMade},#{vo.proPrice},
@@ -44,6 +60,9 @@
 		insert into productSaleS values(default, #{vo.memberMid},#{vo.productIdx},default,#{vo.statement},
 			#{vo.co_name},#{vo.tel},#{vo.email},#{vo.etcDetail});
 	</insert>
+	<insert id="setExpendableInput">
+		insert into expendableS values(#{vo.idx}, #{vo.categoryMain}, #{vo.expendableCode}, #{vo.expendableName}, #{vo.price});
+	</insert>
 	
 	
 	<update id="setProductContentEdit">
@@ -54,6 +73,9 @@
 	
 	<delete id="setProductRemoveLike">
 		delete from productLikeS where productIdx=#{idx} and memberMid=#{mid};
+	</delete>
+	<delete id="setExpendableDelete">
+		delete from expendableS where categoryMain=#{vo.categoryMain} and expendableCode=#{vo.expendableCode};
 	</delete>
 	
 </mapper>

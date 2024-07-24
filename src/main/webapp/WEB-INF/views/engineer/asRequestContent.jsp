@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <% pageContext.setAttribute("newLine", "\n"); %>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/> 
 <!DOCTYPE html>
@@ -12,7 +13,7 @@
 	<link rel="stylesheet" href="${ctp}/css/bootstrap-datepicker.css">
 	<style>
 		.content th {
-			background-color: #0E2B5E; 
+			background-color: #003675; 
 			color: #fff;
 		}
 		.btn:disabled {
@@ -62,7 +63,6 @@
 				type: "post",
 				data: {mid:mid},
 				success: function(mVo) {
-					console.log(mVo);
 					str += '<table class="table table-borderless text-center">';
 					str += '<tr>';
 					str += '<td colspan="2"><b>${vo.asName}</b></td>';
@@ -176,8 +176,82 @@
 					comment: comment
 				},
 				success: function(res){
-					if(res != "0") message = "엔지니어 코멘트가 등록되었습니다.";
+					if(res != "0") {
+						expendableAdd();
+					}
 					else message = "코멘트 등록 실패";
+					Swal.fire({
+						html: message,
+						confirmButtonText: '확인',
+						customClass: {
+		        	confirmButton : 'swal2-confirm‎',
+		          popup : 'custom-swal-popup',
+		          htmlContainer : 'custom-swal-text'
+						}
+					});
+				},
+				error: function(){
+					alert("전송 오류");
+				}
+			});
+		}
+		
+  	// 파일박스 추가하기
+  	let cnt = 1;
+  	let num = 0;
+  	function addExpendable() {
+  		cnt++;
+  		num++;
+  		let selectBox = '';
+  		selectBox += '<tr id="selectBox'+cnt+'">';
+  		selectBox += '<td width="50%">';
+  		selectBox += '<select name="expendableName" class="form-control" >';
+  		selectBox += '<option value="">소모품 선택</option>';
+  		selectBox += '<c:forEach var="exVO" items="${exVos}">';
+  		selectBox += '<option value="${exVO.expendableName}">${exVO.expendableName}</option>';
+  		selectBox += '</c:forEach>';
+  		selectBox += '</select>';
+  		selectBox += '</td>';
+  		selectBox += '<td><input type="number" name="quantity" class="form-control" /></td>';
+  		selectBox += '<td><a href="javascript:deleteSelect('+cnt+')"><i class="fa-solid fa-square-minus ml-2 mt-2"></i></a></td>';
+  		selectBox += '</div></tr>';
+  		$("#expendableUse").append(selectBox);
+  	}
+  	// 파일박스 삭제
+  	function deleteSelect(cnt) {
+  		num--;
+  		$("#selectBox"+cnt).remove();
+  	}
+  	
+  	// 소모품 입력 계산
+  	function expendableAdd() {
+  		let expendableNames ="";
+  		let quantities = "";
+  		for(let i=0; i<=num; i++) {
+  			if(document.getElementsByName("expendableName")[i].value != "" && document.getElementsByName("quantity")[i].value != ""){
+  				expendableNames += document.getElementsByName("expendableName")[i].value+",";
+		  		quantities += document.getElementsByName("quantity")[i].value+",";
+  			}
+  		}
+  		expendableNames = expendableNames.substring(0,expendableNames.length-1);
+  		quantities = quantities.substring(0,quantities.length-1);
+  		console.log(quantities);
+  		console.log(expendableNames);
+  		alert(expendableNames);
+  		$.ajax({
+  			url: "${ctp}/engineer/expendableUseInput",
+  			type: "post",
+  			data: {
+  				asIdx : ${vo.idx},
+  				categoryMain : '${vo.machine}',
+  				expendableNames : expendableNames,
+  				quantities : quantities
+  			},
+  			success: function(res) {
+					if(res != "0") {
+						message = "엔지니어 코멘트가 등록되었습니다.";
+					}
+					else message = "소모품 사용 등록 실패";
 					Swal.fire({
 						html: message,
 						confirmButtonText: '확인',
@@ -189,13 +263,13 @@
 					}).then(function(){
 						location.reload();
 					});
-				},
-				error: function(){
-					alert("전송 오류");
-				}
-			});
-		}
-		
+  			},
+  			error: function(){
+  				alert("전송오류");
+  			}
+  		});
+  	}
+			
 	</script>
 </head>
 <body>
@@ -272,6 +346,64 @@
 				</tr>
 				<tr><td colspan="4" class="m-0 p-0"></td></tr>
 			</table>
+			<hr/>
+			<h3>사용한 부품</h3>
+			<c:if test="${vo.progress != 'PAYMENT' && vo.progress != 'COMPLETE'}">
+				<div class="mb-2" id="waiting">
+					<table class="table content table-hover text-center mb-2" id="expendableUse">
+						<tr>
+							<th>소모품</th>
+							<th>수량</th>
+							<th><a href="javascript:addExpendable()" style="color:#fff"><i class="fa-solid fa-plus"></i></a></th>
+						</tr>
+						<tr>
+							<td width="50%">
+								<select name="expendableName" class="form-control" >
+									<option value="">소모품 선택</option>
+									<c:forEach var="exVO" items="${exVos}">
+										<option value="${exVO.expendableName}">${exVO.expendableName}</option>
+									</c:forEach>
+								</select>
+							</td>
+							<td>
+								<input type="number" name="quantity" class="form-control" />
+							</td>
+							<td></td>
+						</tr>
+					</table>
+				</div>
+			</c:if>
+			<c:if test="${vo.progress == 'PAYMENT' || vo.progress == 'COMPLETE'}">
+				<div class="mb-2" id="waiting">
+					<table class="table content table-hover text-center mb-2" id="expendableUse">
+						<tr>
+							<th>소모품</th>
+							<th>수량</th>
+						</tr>
+						<c:forEach var="ex" items="${expendables}" varStatus="st">
+							<tr>
+								<td width="50%">${ex}</td>
+								<c:forEach var="qu" items="${quantities[st.index]}" varStatus="st2">
+									<td>${qu}</td>
+								</c:forEach>
+							</tr>
+						</c:forEach>
+						<tr>
+							<th>소모품 총액</th>
+							<td><fmt:formatNumber value="${chargeVO.price}" pattern="#,###"/> 원</td>
+						</tr>
+						<tr>
+							<th>출장비</th>
+							<td><fmt:formatNumber value="${chargeVO.laborCharge}" pattern="#,###"/> 원</td>
+						</tr>
+						<tr>
+							<th>총액(V.A.T.포함)</th>
+							<td><fmt:formatNumber value="${chargeVO.totPrice}" pattern="#,###"/> 원</td>
+						</tr>
+					</table>
+				</div>
+			</c:if>
+			<hr/>
 			<div class="text-right mt-2">
 				<input type="button" onclick="commentInput()" id="commentBtn" value="코멘트 작성" class="btn btn-main btn-icon-md btn-round" />
 				<a href="${ctp}/engineer/asRequestList?pag=${pag}&pageSize=${pageSize}" class="btn btn-main btn-icon-md btn-round">목록으로</a>

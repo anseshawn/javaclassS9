@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.spring.javaclassS9.vo.AsChargeVO;
 import com.spring.javaclassS9.vo.AsRequestVO;
 import com.spring.javaclassS9.vo.AsRequestVO.Progress;
 import com.spring.javaclassS9.vo.RecruitBoardVO;
@@ -26,5 +27,9 @@ public interface CustomerService {
 	public int setAsAppointmentComplete(AsRequestVO vo);
 
 	public ArrayList<ReviewVO> getReviewList(int engineerIdx);
+
+	public int setAsChargeInput(AsChargeVO vo);
+
+	public AsChargeVO getAsChargeContent(int idx);
 
 }

@@ -97,8 +97,8 @@
 	</select>
 	<select id="getNoticeListAll" resultType="com.spring.javaclassS9.vo.NoticeVO">
 		SELECT *, datediff(writeDate, now()) AS date_diff 
-			FROM noticeS 
-			<if test="search != ''"> WHERE ${search} LIKE CONCAT('%',#{searchString},'%') </if> 
+			FROM noticeS WHERE important='NO' 
+			<if test="search != ''"> AND ${search} LIKE CONCAT('%',#{searchString},'%') </if> 
 			ORDER BY idx desc limit #{startIndexNo},#{pageSize};
 	</select>
 	<select id="getNoticeContent" resultType="com.spring.javaclassS9.vo.NoticeVO">
@@ -134,6 +134,10 @@
 	<update id="setPopupNoticeDelete">
 		update noticeS set popup='NO' where popup='OK';
 	</update>
+	<update id="setNoticeEdit">
+		update noticeS set part=#{vo.part}, title=#{vo.title}, content=#{vo.content}, popup=#{vo.popup}, 
+			endDate=#{vo.endDate}, important=#{vo.important} where idx=#{vo.idx};
+	</update>
 	
 	
 	<delete id="setMemberDeleteAll">
@@ -159,5 +163,8 @@
 	</delete>
 	<delete id="setReportSameContentDelete">
 		delete r1 from reportS r1 join (select boardIdx from reportS where idx = #{idx}) r2 on r1.boardIdx=r2.boardIdx;
+	</delete>
+	<delete id="setNoticeDelete">
+		delete from noticeS where idx = #{idx};
 	</delete>
 </mapper>

@@ -44,3 +44,15 @@ create table productSaleS(
 );
 
 drop table productSaleS;
+
+create table expendableS(
+	idx int not null,
+	categoryMain enum('UV','AAs','ICP','GC','LC','etc'),
+	expendableCode varchar(3) not null,
+	expendableName varchar(50) not null,
+	price int not null,
+	primary key(idx)
+);
+
+desc expendableS;
+drop table expendableS;

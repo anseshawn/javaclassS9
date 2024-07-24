@@ -183,6 +183,9 @@
 	<delete id="setRecruitBoardDelete">
 		delete from recruitBoardS where idx=#{idx};
 	</delete>
+	<delete id="setQuestionBoardDelete">
+		delete from questionBoardS where idx=#{idx};
+	</delete>
 	<delete id="setBoardLikeDelete">
 		delete from boardLikeS where board=#{vo.board} and boardIdx=#{vo.boardIdx} and memberMid=#{vo.memberMid};
 	</delete>

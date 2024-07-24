@@ -94,4 +94,8 @@ public interface AdminDAO {
 
 	public NoticeVO getNoticeContent(@Param("idx") int idx);
 
+	public int setNoticeDelete(@Param("idx") int idx);
+
+	public int setNoticeEdit(@Param("vo") NoticeVO vo);
+
 }

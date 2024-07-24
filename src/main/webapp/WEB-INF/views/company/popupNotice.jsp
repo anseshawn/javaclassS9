@@ -10,8 +10,32 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${vo.title}</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
+	<style>
+		img {
+	    max-width: 100%;
+	    height: auto;
+		}
+	</style>
 	<script>
 		'use strict';
+		
+		$(function(){ // 우선은 내용 대신 이미지 먼저 출력...
+			let images = $("#content").find('img');
+			if(images.length > 0) {
+				$("#content").empty();
+				for(let i=0; i<images.length; i++) {
+					let img = $("<img>");
+					img.attr('src',images[i].src);
+					//img.css('max-width','100%');
+					$("#content").append(img);
+				}
+			}
+		});
+		
+		function showContent() {
+			opener.location.href="${ctp}/company/noticeContent?idx=${vo.idx}";
+			window.close();
+		}
 		
 		function wClose(){
 			let noPopup = $("#noPopup").val();
@@ -38,7 +62,7 @@
 <div class="container">
 <p><br/></p>
 	<div class="text-right">
-		<a href="${ctp}/company/noticeContent?idx=${vo.idx}" class="btn btn-main btn-icon-sm">자세히 보기</a>
+		<a href="javascript:showContent()" class="btn btn-main btn-icon-sm">자세히 보기</a>
 	</div>
 	<div id="content">${fn:replace(vo.content, newLine, '<br/>')}</div>
 	<div class="text-right">

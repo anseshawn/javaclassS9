@@ -47,7 +47,13 @@
 		</interceptor>
 	
 		<interceptor>
-			<mapping path="/engineer/**"/>
+			<mapping path="/engineer/asRequestContent"/>
+			<mapping path="/engineer/asRequestList"/>
+			<mapping path="/engineer/engineerUpdate"/>
+			<mapping path="/engineer/myPageMain"/>
+			<mapping path="/engineer/pwdChange"/>
+			<mapping path="/engineer/pwdSearch"/>
+			<mapping path="/engineer/schedule"/>
 			<exclude-mapping path="/engineer/engineerContent"/>
 			<beans:ref bean="level1Interceptor"/>
 		</interceptor>

@@ -7,10 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.spring.javaclassS9.dao.CustomerDAO;
 import com.spring.javaclassS9.dao.EngineerDAO;
+import com.spring.javaclassS9.vo.AsChargeVO;
 import com.spring.javaclassS9.vo.AsRequestVO;
 import com.spring.javaclassS9.vo.AsRequestVO.Machine;
 import com.spring.javaclassS9.vo.AsRequestVO.Progress;
 import com.spring.javaclassS9.vo.ReviewVO;
+import com.spring.javaclassS9.vo.AsChargeVO.Statement;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -78,6 +80,17 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public ArrayList<ReviewVO> getReviewList(int engineerIdx) {
 		return customerDAO.getReviewList(engineerIdx);
+	}
+
+	@Override
+	public int setAsChargeInput(AsChargeVO vo) {
+		vo.setStatement(Statement.WAITING);
+		return customerDAO.setAsChargeInput(vo);
+	}
+
+	@Override
+	public AsChargeVO getAsChargeContent(int asIdx) {
+		return customerDAO.getAsChargeContent(asIdx);
 	}
 
 }

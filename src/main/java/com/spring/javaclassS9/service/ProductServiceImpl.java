@@ -9,6 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS9.common.JavaclassProvide;
 import com.spring.javaclassS9.dao.ProductDAO;
+import com.spring.javaclassS9.vo.AsRequestVO.Machine;
+import com.spring.javaclassS9.vo.ExpendableVO;
 import com.spring.javaclassS9.vo.ProductLikeVO;
 import com.spring.javaclassS9.vo.ProductSaleVO;
 import com.spring.javaclassS9.vo.ProductSaleVO.Statement;
@@ -122,6 +124,40 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public ProductSaleVO getProductSaleContent(int idx) {
 		return productDAO.getProductSaleContent(idx);
+	}
+
+	@Override
+	public ArrayList<ExpendableVO> getExpendableList() {
+		return productDAO.getExpendableList();
+	}
+
+	@Override
+	public ExpendableVO getExpendableCode(ExpendableVO vo) {
+		return productDAO.getExpendableCode(vo);
+	}
+
+	@Override
+	public int setExpendableInput(ExpendableVO vo) {
+		int maxIdx = 1;
+		ExpendableVO maxVO = productDAO.getExpendableMaxIdx();
+		if(maxVO != null) maxIdx = maxVO.getIdx() + 1;
+		vo.setIdx(maxIdx);
+		return productDAO.setExpendableInput(vo);
+	}
+
+	@Override
+	public int setExpendableDelete(ExpendableVO vo) {
+		return productDAO.setExpendableDelete(vo);
+	}
+
+	@Override
+	public ArrayList<ExpendableVO> getExpendableListOne(Machine machine) {
+		return productDAO.getExpendableListOne(machine);
+	}
+
+	@Override
+	public ExpendableVO getExpendableNameCheck(String expendableName) {
+		return productDAO.getExpendableNameCheck(expendableName);
 	}
 
 	
