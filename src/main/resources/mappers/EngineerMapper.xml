@@ -17,7 +17,8 @@
 		select * from engineerS where ${part} like concat('%',#{searchString},'%') order by idx desc limit #{startIndexNo},#{pageSize};
 	</select>
 	<select id="getAllEngineerList" resultType="com.spring.javaclassS9.vo.EngineerVO">
-		select * from engineerS order by idx desc limit #{startIndexNo},#{pageSize};
+		select * from engineerS order by idx desc 
+			<if test="startIndexNo != -1"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	<select id="getEngineerIdxCheck" resultType="com.spring.javaclassS9.vo.EngineerVO">
 		select * from engineerS where idx = #{idx};

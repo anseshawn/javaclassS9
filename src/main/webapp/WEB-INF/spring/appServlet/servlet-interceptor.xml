@@ -17,32 +17,32 @@
 		<interceptor>
 			<mapping path="/customer/"/>
 			<mapping path="/member/"/>
-			<mapping path="/product/productEstimate"/>
-			<exclude-mapping path="/customer/cmain"/>
-			<exclude-mapping path="/customer/board/freeBoardContent"/>
-			<exclude-mapping path="/customer/board/freeBoardList"/>
-			<exclude-mapping path="/customer/board/questionBoardContent"/>
-			<exclude-mapping path="/customer/board/questionBoardList"/>
-			<exclude-mapping path="/customer/board/recruitBoardContent"/>
-			<exclude-mapping path="/customer/board/recruitBoardList"/>
-			<exclude-mapping path="/customer/board/replyInput"/>
-			<exclude-mapping path="/customer/board/replyInputRe"/>
-			<exclude-mapping path="/customer/board/replyDelete"/>
-			<exclude-mapping path="/member/memberJoin"/>
-			<exclude-mapping path="/member/memberIdCheck"/>
-			<exclude-mapping path="/member/memberNickCheck"/>
+			<mapping path="/engineer/engineerContent/"/>
+			<exclude-mapping path="/customer/cmain/**"/>
+			<exclude-mapping path="/customer/board/freeBoardContent/"/>
+			<exclude-mapping path="/customer/board/freeBoardList/"/>
+			<exclude-mapping path="/customer/board/questionBoardContent/"/>
+			<exclude-mapping path="/customer/board/questionBoardList/"/>
+			<exclude-mapping path="/customer/board/recruitBoardContent/"/>
+			<exclude-mapping path="/customer/board/recruitBoardList/"/>
+			<exclude-mapping path="/customer/board/replyInput/"/>
+			<exclude-mapping path="/customer/board/replyInputRe/"/>
+			<exclude-mapping path="/customer/board/replyDelete/"/>
+			<exclude-mapping path="/member/memberJoin/"/>
+			<exclude-mapping path="/member/memberIdCheck/"/>
+			<exclude-mapping path="/member/memberNickCheck/"/>
 			<exclude-mapping path="/member/memberLogin/**"/>
-			<exclude-mapping path="/member/memberLogout"/>
-			<exclude-mapping path="/member/midSearch"/>
-			<exclude-mapping path="/member/midSearchResult"/>
-			<exclude-mapping path="/member/pwdSearch"/>
-			<exclude-mapping path="/member/pwdSearchOk"/>
+			<exclude-mapping path="/member/memberLogout/"/>
+			<exclude-mapping path="/member/midSearch/"/>
+			<exclude-mapping path="/member/midSearchResult/"/>
+			<exclude-mapping path="/member/pwdSearch/"/>
+			<exclude-mapping path="/member/pwdSearchOk/"/>
 			<beans:ref bean="level3Interceptor"/>
 		</interceptor>
 	
 		<interceptor>
-			<mapping path="/customer/board/recruitBoardInput"/>
-			<mapping path="/customer/board/recruitBoardEdit"/>
+			<mapping path="/customer/board/recruitBoardInput/"/>
+			<mapping path="/customer/board/recruitBoardEdit/"/>
 			<beans:ref bean="level2Interceptor"/>
 		</interceptor>
 	
@@ -53,13 +53,21 @@
 			<mapping path="/engineer/myPageMain"/>
 			<mapping path="/engineer/pwdChange"/>
 			<mapping path="/engineer/pwdSearch"/>
+			<mapping path="/engineer/pwdSearchOk"/>
 			<mapping path="/engineer/schedule"/>
-			<exclude-mapping path="/engineer/engineerContent"/>
+			<mapping path="/engineer/scheduleListAll"/>
+			<mapping path="/engineer/scheduleDelete"/>
+			<mapping path="/engineer/scheduleInput"/>
+			<mapping path="/engineer/scheduleUpdate"/>
+			<mapping path="/engineer/asRequestDateFixed"/>
+			<mapping path="/engineer/asCommentInput"/>
+			<mapping path="/engineer/expendableUseInput"/>
 			<beans:ref bean="level1Interceptor"/>
 		</interceptor>
 	
 		<interceptor>
 			<mapping path="/admin/**"/>
+			<exclude-mapping path="/admin/engineer/engineerList"/>
 			<beans:ref bean="level0Interceptor"/>
 		</interceptor>
 	</interceptors>

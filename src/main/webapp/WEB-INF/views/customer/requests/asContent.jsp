@@ -177,7 +177,7 @@
 				<div class="mb-2" id="waiting">
 					<div class="mb-2 text-right">
 						<input type="button" value="결제하기" class="btn btn-main btn-icon-md"/>
-						<input type="button" value="명세서 출력" class="btn btn-main-3 btn-icon-md" />
+						<input type="button" onclick="location.href='${ctp}/customer/requests/printChargeHistory?idx=${vo.idx}';" value="명세서 출력" class="btn btn-main-3 btn-icon-md" />
 					</div>
 					<table class="table content table-hover text-center mb-2" id="expendableUse">
 						<tr>

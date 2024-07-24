@@ -347,6 +347,21 @@
 		    <artifactId>HikariCP-java7</artifactId>
 		    <version>2.4.13</version>
 		</dependency>
+		
+		<!-- PDF 생성 라이브러리 추가(2개) -->
+		<!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox -->
+		<dependency>
+		    <groupId>org.apache.pdfbox</groupId>
+		    <artifactId>pdfbox</artifactId>
+		    <version>2.0.24</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox-tools -->
+		<dependency>
+		    <groupId>org.apache.pdfbox</groupId>
+		    <artifactId>pdfbox-tools</artifactId>
+		    <version>2.0.24</version>
+		</dependency>
+		
 
 		
 	</dependencies>

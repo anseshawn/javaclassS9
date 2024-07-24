@@ -1,5 +1,7 @@
 package com.spring.javaclassS9.controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,12 +12,22 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.font.PDType0Font;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -172,7 +184,7 @@ public class CustomerController {
 	// A/S 신청
 	@RequestMapping(value = "requests/asRequest", method = RequestMethod.GET)
 	public String asRequestGet(Model model) {
-		ArrayList<EngineerVO> vos = engineerService.getAllEngineerList(0, 0);
+		ArrayList<EngineerVO> vos = engineerService.getAllEngineerList(-1, 0);
 		model.addAttribute("vos", vos);
 		return "customer/requests/asRequest";
 	}
@@ -762,5 +774,89 @@ public class CustomerController {
 		if(res != 0) return "redirect:/message/boardEditOk?pathFlag=recruitBoard";
 		else return "redirect:/message/boardEditNo?pathFlag=recruitBoard&idx="+vo.getIdx();
 	}
+	
+	// PDF 생성하기
+	@RequestMapping(value = "/requests/printChargeHistory", method = RequestMethod.GET)
+	public ResponseEntity<ByteArrayResource> printChargeHistoryGet(int idx, HttpServletRequest request) throws IOException {
+		String realPath = request.getSession().getServletContext().getRealPath("/resources/");
+		AsChargeVO chargeVO = customerService.getAsChargeContent(idx);
+		
+		PDDocument document = new PDDocument();
+		PDPage page = new PDPage(PDRectangle.A4);
+		document.addPage(page);
+		
+    // 유니코드 폰트 사용
+    File fontFile = new File(realPath+"fonts/NanumGothic-Bold.ttf");
+    PDType0Font font = PDType0Font.load(document, fontFile);
+		
+		PDPageContentStream contentStream = new PDPageContentStream(document, page);
+		contentStream.beginText();
+		contentStream.setFont(font, 14);
+		contentStream.newLineAtOffset(50, 750);
+		contentStream.showText("수리 명세서");
+		contentStream.newLineAtOffset(0, -20);
+		contentStream.showText("====================================================");
+		contentStream.newLineAtOffset(0, -50);
+		if(chargeVO.getExpendableName() != null && chargeVO.getExpendableName() != "") {
+			String[] expendables = chargeVO.getExpendableName().split(",");
+			String[] quantities = chargeVO.getQuantity().split(",");
+			// 테이블 헤더 추가
+			contentStream.showText("소모품");
+			contentStream.newLineAtOffset(300, 0);
+			contentStream.showText("수량");
+			contentStream.newLineAtOffset(-300, -20);
+			contentStream.showText("====================================================");
+			contentStream.newLineAtOffset(0, -20);
+			
+			// 테이블 데이터 추가
+			for (int i = 0; i < expendables.length; i++) {
+				contentStream.showText(expendables[i]);
+				contentStream.newLineAtOffset(300, 0);
+				contentStream.showText(quantities[i]);
+				contentStream.newLineAtOffset(-300, -30);
+			}
+			contentStream.showText("소모품 총액: ");
+			contentStream.newLineAtOffset(300, 0);
+			contentStream.showText(chargeVO.getPrice() + " 원");
+			contentStream.newLineAtOffset(-300, -30);
+			contentStream.showText("====================================================");
+			contentStream.newLineAtOffset(0, -50);
+		}
+
+    // 추가 정보
+    contentStream.showText("출장비: ");
+    contentStream.newLineAtOffset(300, 0);
+    contentStream.showText(chargeVO.getLaborCharge() + " 원");
+    contentStream.newLineAtOffset(-300, -20);
+    contentStream.showText("vat: ");
+    contentStream.newLineAtOffset(300, 0);
+    contentStream.showText((chargeVO.getTotPrice()/11) + " 원");
+    contentStream.newLineAtOffset(-300, -20);
+    contentStream.showText("총액(V.A.T.포함): ");
+    contentStream.newLineAtOffset(300, 0);
+    contentStream.showText(chargeVO.getTotPrice() + " 원");
+    contentStream.newLineAtOffset(-300, -20);
+
+    contentStream.endText();
+    contentStream.close();
+
+    // PDF를 ByteArrayOutputStream에 저장
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    document.save(baos);
+    document.close();
+
+    // ByteArrayResource로 변환
+    byte[] bytes = baos.toByteArray();
+    ByteArrayResource resource = new ByteArrayResource(bytes);
+
+    // HTTP 응답 설정
+    return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=as_charge_history.pdf")
+            .contentType(MediaType.APPLICATION_PDF)
+            .contentLength(bytes.length)
+            .body(resource);
+	}
+	
+	
 	
 }

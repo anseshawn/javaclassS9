@@ -106,7 +106,7 @@ public class ProductController {
 		}
 		String mid = (String) session.getAttribute("sMid");
 		MemberVO mVo = memberService.getMemberIdCheck(mid);
-		ArrayList<ProductVO> vos = productService.getAllProductList(0, 0);
+		ArrayList<ProductVO> vos = productService.getAllProductList(-1, 0);
 		model.addAttribute("vos", vos);
 		model.addAttribute("mVo", mVo);
 		return "product/productEstimate";
