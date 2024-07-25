@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS9.vo.AsRequestVO.Machine;
 import com.spring.javaclassS9.vo.ExpendableVO;
+import com.spring.javaclassS9.vo.ProductEstimateVO;
 import com.spring.javaclassS9.vo.ProductLikeVO;
 import com.spring.javaclassS9.vo.ProductSaleVO;
 import com.spring.javaclassS9.vo.ProductVO;
@@ -46,5 +47,9 @@ public interface ProductService {
 	public ArrayList<ExpendableVO> getExpendableListOne(Machine machine);
 
 	public ExpendableVO getExpendableNameCheck(String expendableName);
+
+	public int setProductEstimateInput(ProductEstimateVO vo);
+
+	public void setProductSaleStatementChange(int saleIdx);
 
 }

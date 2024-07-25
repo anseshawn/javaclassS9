@@ -371,4 +371,53 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.setQuestionBoardDelete(idx);
 	}
 
+	@Override
+	public ArrayList<ReplyVO> getBoardReplyMidCheck(int startIndexNo, int pageSize, String part, String searchString) {
+		String mid = "";
+		if(searchString.contains(",")) {
+			String[] keyWord = searchString.split(",");
+			searchString = keyWord[0];
+			mid = keyWord[1];
+		}
+		else mid = searchString;
+		// 아닌 경우 searchString에는 mid 가 넘어오고 있음
+		return boardDAO.getBoardReplyMidCheck(startIndexNo, pageSize, part, searchString, mid);
+	}
+
+	@Override
+	public ArrayList<FreeBoardVO> getFreeBoardMidCheck(int startIndexNo, int pageSize, String part, String searchString) {
+		String mid = "";
+		if(searchString.contains(",")) {
+			String[] keyWord = searchString.split(",");
+			searchString = keyWord[0];
+			mid = keyWord[1];
+		}
+		else mid = searchString;
+		return boardDAO.getFreeBoardMidCheck(startIndexNo, pageSize, part, searchString, mid);
+	}
+
+	@Override
+	public ArrayList<QuestionBoardVO> getQuestionBoardMidCheck(int startIndexNo, int pageSize, String part, String searchString) {
+		String mid = "";
+		if(searchString.contains(",")) {
+			String[] keyWord = searchString.split(",");
+			searchString = keyWord[0];
+			mid = keyWord[1];
+		}
+		else mid = searchString;
+		return boardDAO.getQuestionBoardMidCheck(startIndexNo, pageSize, part, searchString, mid);
+	}
+
+	@Override
+	public ArrayList<RecruitBoardVO> getRecruitBoardMidCheck(int startIndexNo, int pageSize, String part, String searchString) {
+		String mid = "";
+		if(searchString.contains(",")) {
+			String[] keyWord = searchString.split(",");
+			searchString = keyWord[0];
+			mid = keyWord[1];
+		}
+		else mid = searchString;
+		return boardDAO.getRecruitBoardMidCheck(startIndexNo, pageSize, part, searchString, mid);
+	}
+
 }

@@ -48,4 +48,11 @@
 	<update id="setAsAppointmentProgress">
 		update asRequest set progress=#{vo.progress} where idx=#{vo.idx};
 	</update>
+	<update id="setAsChargePaymentOk">
+		update asCharge set statement='COMPLETE', payDate=now() where asIdx=#{asIdx};
+	</update>
+	<update id="setAsCompleteStatement">
+		update asRequest set progress='COMPLETE', endDate=now() where idx=#{idx};
+	</update>
+	
 </mapper>

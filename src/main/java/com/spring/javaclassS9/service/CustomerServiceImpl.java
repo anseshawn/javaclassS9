@@ -93,4 +93,14 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerDAO.getAsChargeContent(asIdx);
 	}
 
+	@Override
+	public int setAsChargePaymentOk(int asIdx) {
+		return customerDAO.setAsChargePaymentOk(asIdx);
+	}
+
+	@Override
+	public int setAsCompleteStatement(int idx) {
+		return customerDAO.setAsCompleteStatement(idx);
+	}
+
 }

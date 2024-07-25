@@ -16,6 +16,9 @@
 			background-color: #2A5C96;
 			color: #fff; 
 		}
+		.btn:disabled {
+			pointer-events: none;
+		}
 		/* 별점 스타일 적용하기 */
   	#starForm fieldset {
   		direction : rtl;
@@ -43,6 +46,7 @@
 		
 		$(function(){
 			if(${sw} != 0) $("#starFinish").show();
+			if('${chargeVO.statement}' == 'COMPLETE') $("#paymentBtn").prop("disabled",true);
 		});
 		
 		function modalView(idx) {
@@ -111,6 +115,19 @@
 				}
 			});
 		}
+		
+		function makePayment() {
+			let url = "${ctp}/customer/requests/paymentWindow?idx=${vo.idx}";
+			let widthSize= 400;
+			let heightSize = 300;
+			let leftCenter = Math.ceil((window.screen.width - widthSize)/2);
+			let topCenter = Math.ceil((window.screen.height - heightSize)/2);
+			window.open(
+				url, // url
+				'결제하기', // title
+				'width='+widthSize+', height='+heightSize+', top='+topCenter+', left='+leftCenter // 설정
+			);
+		}
 	</script>
 </head>
 <body>
@@ -176,7 +193,7 @@
 			<hr/>
 				<div class="mb-2" id="waiting">
 					<div class="mb-2 text-right">
-						<input type="button" value="결제하기" class="btn btn-main btn-icon-md"/>
+						<input type="button" onclick="makePayment()" id="paymentBtn" value="결제하기" class="btn btn-main btn-icon-md"/>
 						<input type="button" onclick="location.href='${ctp}/customer/requests/printChargeHistory?idx=${vo.idx}';" value="명세서 출력" class="btn btn-main-3 btn-icon-md" />
 					</div>
 					<table class="table content table-hover text-center mb-2" id="expendableUse">

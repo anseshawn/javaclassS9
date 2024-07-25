@@ -29,9 +29,11 @@ import com.spring.javaclassS9.common.JavaclassProvide;
 import com.spring.javaclassS9.pagination.PageProcess;
 import com.spring.javaclassS9.service.AdminService;
 import com.spring.javaclassS9.service.BoardService;
+import com.spring.javaclassS9.service.CustomerService;
 import com.spring.javaclassS9.service.EngineerService;
 import com.spring.javaclassS9.service.MemberService;
 import com.spring.javaclassS9.service.ProductService;
+import com.spring.javaclassS9.vo.AsChargeVO;
 import com.spring.javaclassS9.vo.AsRequestVO;
 import com.spring.javaclassS9.vo.AsRequestVO.Machine;
 import com.spring.javaclassS9.vo.ChartVO;
@@ -42,9 +44,9 @@ import com.spring.javaclassS9.vo.ExpendableVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.NoticeVO;
 import com.spring.javaclassS9.vo.PageVO;
+import com.spring.javaclassS9.vo.ProductEstimateVO;
 import com.spring.javaclassS9.vo.ProductSaleVO;
 import com.spring.javaclassS9.vo.ProductVO;
-import com.spring.javaclassS9.vo.ReplyVO;
 import com.spring.javaclassS9.vo.ReportVO;
 import com.spring.javaclassS9.vo.ScheduleVO;
 
@@ -76,15 +78,20 @@ public class AdminController {
 	@Autowired
 	BoardService boardService;
 	
+	@Autowired
+	CustomerService customerService;
+	
 	
 	@RequestMapping(value = "/adminMain", method = RequestMethod.GET)
 	public String adminMainGet(Model model) {
 		int joinCount = adminService.getJoinMemberCount();
 		int estimateCount = adminService.getProductEstimateCount();
 		int consultingCount = adminService.getNewConsultingCount();
+		int newPaymentCount = adminService.getNewPaymentCount();
 		model.addAttribute("joinCount", joinCount);
 		model.addAttribute("estimateCount", estimateCount);
 		model.addAttribute("consultingCount", consultingCount);
+		model.addAttribute("newPaymentCount", newPaymentCount);
 		return "admin/adminMain";
 	}
 	
@@ -395,6 +402,33 @@ public class AdminController {
 		return "admin/product/productEstimateDetail";
 	}
 	
+	// 견적서 작성하기
+	@RequestMapping(value = "/product/estimateInput", method = RequestMethod.GET)
+	public String estimateInputGet(Model model,
+			@RequestParam(name="idx",defaultValue = "0", required = false) int idx
+			) {
+		ProductSaleVO saleVO = productService.getProductSaleContent(idx);
+		ProductVO vo = productService.getProductContent(saleVO.getProductIdx());
+		MemberVO mVo = memberService.getMemberIdCheck(saleVO.getMemberMid());
+		model.addAttribute("saleVO", saleVO);
+		model.addAttribute("vo", vo);
+		model.addAttribute("name", mVo.getName());
+		return "admin/product/estimateInput";
+	}
+	
+	// 견적서 작성하기
+	@Transactional
+	@RequestMapping(value = "/product/estimateInput", method = RequestMethod.POST)
+	public String estimateInputPost(ProductEstimateVO vo) {
+		vo.setUnitPrice(vo.getProPrice() * vo.getQuantity());
+		vo.setVat((vo.getUnitPrice() * 10)/100);
+		vo.setTotPrice(vo.getUnitPrice() + vo.getVat());
+		productService.setProductSaleStatementChange(vo.getSaleIdx());
+		int res = productService.setProductEstimateInput(vo);
+		if(res != 0) return "redirect:/message/estimateInputOk";
+		else return "redirect:/message/estimateInputNo?idx="+vo.getSaleIdx();
+	}
+	
 	// ---------- 캘린더 관련 ------------
 	//전체 일정 불러오기
 	@ResponseBody
@@ -626,15 +660,23 @@ public class AdminController {
 				endDate = sdf.parse(vo.getEndDate());
 			}
 			startDate = sdf.parse(vo.getRequestDate());
+			
+			// 조건 없이 검색버튼 누르면 자동으로 한달전 부터
+			String monthBefore = LocalDate.now().minusMonths(1).toString();
+			if(startSearchDate.equals("")) startSearchDate = monthBefore;
+			
 			Date sSearchDate = sdf.parse(startSearchDate);
 			Date eSearchDate = sdf.parse(endSearchDate);
-			if(startDate.before(sSearchDate) || startDate.after(eSearchDate)) {
-				it.remove();
-				continue;
-			}
 			if(endDate != null) {
 				if(endDate.before(sSearchDate) || endDate.after(eSearchDate)) it.remove();
 			}
+			else if(startDate.before(sSearchDate) || startDate.after(eSearchDate)) {
+				it.remove();
+				//continue;
+			}
+			// 반복전에 다시 초기화
+			startDate = null;
+			endDate = null;
 		}
 		/*
 		for(int i=vos.size()-1; i>=0; i--) {
@@ -654,6 +696,47 @@ public class AdminController {
 		model.addAttribute("vos", vos);
 		
 		return "admin/engineer/asRequestList";
+	}
+	
+	// A/S 현황 내용 보기
+	@RequestMapping(value = "/engineer/asRequestContent", method = RequestMethod.GET)
+	public String asRequestContentGet(Model model, 
+			@RequestParam(name="idx",defaultValue = "1", required = false) int idx,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize
+			) throws ParseException {
+		AsRequestVO vo = customerService.getAsRequestContent(idx);
+		String progress = "";
+		if(vo.getProgress().toString().equals("REGIST")) progress = "신청완료";
+		else if(vo.getProgress().toString().equals("ACCEPT")) progress = "접수완료";
+		else if(vo.getProgress().toString().equals("PROGRESS")) progress = "진행중";
+		else if(vo.getProgress().toString().equals("PAYMENT")) progress = "입금대기";
+		else if(vo.getProgress().toString().equals("COMPLETE")) progress = "진행완료";
+		
+		AsChargeVO chargeVO = customerService.getAsChargeContent(idx);
+		if(chargeVO != null) {
+			String[] expendables = chargeVO.getExpendableName().split(",");
+			String[] quantities = chargeVO.getQuantity().split(",");
+			model.addAttribute("quantities", quantities);
+			model.addAttribute("expendables", expendables);
+			model.addAttribute("chargeVO", chargeVO);
+		}
+		model.addAttribute("vo", vo);
+		model.addAttribute("progress", progress);
+		model.addAttribute("pag", pag);
+		model.addAttribute("pageSize", pageSize);
+		
+		return "admin/engineer/asRequestContent";
+	}
+	
+	// A/S 결제 내용 확인하기
+	@ResponseBody
+	@RequestMapping(value = "/engineer/asPaymentCheck", method = RequestMethod.POST)
+	public String asPaymentCheckPost(
+			@RequestParam(name="idx",defaultValue = "1", required = false) int idx
+			) throws ParseException {
+		int res = customerService.setAsCompleteStatement(idx);
+		return res+"";
 	}
   
   // 신고 게시글 리스트 보기

@@ -37,6 +37,7 @@ import com.spring.javaclassS9.vo.ProductLikeVO;
 import com.spring.javaclassS9.vo.ProductVO;
 import com.spring.javaclassS9.vo.QuestionBoardVO;
 import com.spring.javaclassS9.vo.RecruitBoardVO;
+import com.spring.javaclassS9.vo.ReplyVO;
 
 @Controller
 @RequestMapping("/member")
@@ -467,5 +468,66 @@ public class MemberController {
 	public String messageDeleteDBPost(int idx) {
 		int res =	memberService.setMessageDeleteDB(idx);
 		return res + "";
+	}
+	
+	// 마이페이지 게시글 확인
+	@RequestMapping(value = "/writeBoard", method = RequestMethod.GET)
+	public String writeBoardGet(Model model, HttpSession session,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name = "part", defaultValue = "", required = false) String part,
+			@RequestParam(name = "searchString", defaultValue = "", required = false) String searchString
+			) {
+		String mid = (String) session.getAttribute("sMid");
+		int sLevel = (int) session.getAttribute("sLevel");
+		if(part.equals("")) searchString = mid;
+		else searchString = searchString + ","+mid;
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "writeBoard", part, searchString);
+		ArrayList<FreeBoardVO> freeVOS = boardService.getFreeBoardMidCheck(pageVO.getStartIndexNo(),pageSize,part,searchString);
+		ArrayList<QuestionBoardVO> questionVOS = boardService.getQuestionBoardMidCheck(pageVO.getStartIndexNo(),pageSize,part,searchString);
+		if(sLevel == 3) {
+			ArrayList<RecruitBoardVO> recruitVOS = boardService.getRecruitBoardMidCheck(pageVO.getStartIndexNo(),pageSize,part,searchString);
+			model.addAttribute("recruitVOS", recruitVOS);
+		}
+		model.addAttribute("freeVOS", freeVOS);
+		model.addAttribute("questionVOS", questionVOS);
+		model.addAttribute("pageVO", pageVO);
+		return "member/writeBoard";
+	}
+	
+	// 마이페이지 댓글 확인
+	@RequestMapping(value = "/writeReply", method = RequestMethod.GET)
+	public String writeReplyGet(Model model, HttpSession session,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name = "part", defaultValue = "", required = false) String part,
+			@RequestParam(name = "searchString", defaultValue = "", required = false) String searchString
+			) {
+		String mid = (String) session.getAttribute("sMid");
+		if(part.equals("")) searchString = mid;
+		else searchString = searchString + ","+mid;
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "writeReply", part, searchString);
+		ArrayList<ReplyVO> replyVOS = boardService.getBoardReplyMidCheck(pageVO.getStartIndexNo(),pageSize,part,searchString);
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("replyVOS", replyVOS);
+		return "member/writeReply";
+	}
+	
+	// 마이페이지 견적서 확인
+	@RequestMapping(value = "/estimateList", method = RequestMethod.GET)
+	public String estimateListGet(Model model, HttpSession session,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name = "part", defaultValue = "", required = false) String part,
+			@RequestParam(name = "searchString", defaultValue = "", required = false) String searchString
+			) {
+		String mid = (String) session.getAttribute("sMid");
+		if(part.equals("")) searchString = mid;
+		else searchString = searchString + ","+mid;
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "writeReply", part, searchString);
+		ArrayList<ReplyVO> replyVOS = boardService.getBoardReplyMidCheck(pageVO.getStartIndexNo(),pageSize,part,searchString);
+		model.addAttribute("pageVO", pageVO);
+		model.addAttribute("replyVOS", replyVOS);
+		return "member/estimateList";
 	}
 }

@@ -60,3 +60,5 @@ create table asCharge(
 );
 desc asCharge;
 drop table asCharge;
+
+select count(*) from asRequest r, asCharge c where c.asIdx=r.idx and c.statement='COMPLETE' and r.progress='PAYMENT';

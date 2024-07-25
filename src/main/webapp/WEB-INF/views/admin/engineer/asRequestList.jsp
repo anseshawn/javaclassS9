@@ -158,9 +158,9 @@
 					<td>
 						<c:if test="${vo.progress == 'REGIST'}">신청완료</c:if>
 						<c:if test="${vo.progress == 'ACCEPT'}">접수완료</c:if>
-						<c:if test="${vo.progress == 'PROGRESS'}">진행중</c:if>
+						<c:if test="${vo.progress == 'PROGRESS'}"><font color="#2A5C96">진행중</font></c:if>
 						<c:if test="${vo.progress == 'PAYMENT'}"><font color="#E71825">입금대기</font></c:if>
-						<c:if test="${vo.progress == 'COMPLETE'}">진행완료</c:if>
+						<c:if test="${vo.progress == 'COMPLETE'}"><font color="#717171">진행완료</font></c:if>
 					</td>
 					<td><a href="${ctp}/admin/engineer/asRequestContent?idx=${vo.idx}&search=${pageVo.search}&searchString=${pageVo.searchString}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}" class="btn btn-main btn-icon-sm btn-round">GO<i class="fa-solid fa-chevron-right ml-2"></i></a></td>
 				</tr>

@@ -245,6 +245,14 @@ public class MessageController {
 			model.addAttribute("msg", "소모품 등록 실패. 다시 시도하세요.");
 			model.addAttribute("url", "/admin/product/expendableInput");
 		}
+		else if(msgFlag.equals("estimateInputOk")) {
+			model.addAttribute("msg", "견적서를 발송했습니다.");
+			model.addAttribute("url", "/admin/product/productEstimate");
+		}
+		else if(msgFlag.equals("estimateInputNo")) {
+			model.addAttribute("msg", "견적서 발송 실패. 다시 시도하세요.");
+			model.addAttribute("url", "/admin/product/productEstimateDetail?idx="+idx);
+		}
 		
 		return "include/message";
 	}

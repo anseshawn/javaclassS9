@@ -99,4 +99,12 @@ public interface BoardService {
 
 	public int setQuestionBoardDelete(int idx);
 
+	public ArrayList<ReplyVO> getBoardReplyMidCheck(int startIndexNo, int pageSize, String part, String searchString);
+
+	public ArrayList<FreeBoardVO> getFreeBoardMidCheck(int startIndexNo, int pageSize, String part, String searchString);
+
+	public ArrayList<QuestionBoardVO> getQuestionBoardMidCheck(int startIndexNo, int pageSize, String part, String searchString);
+
+	public ArrayList<RecruitBoardVO> getRecruitBoardMidCheck(int startIndexNo, int pageSize, String part, String searchString);
+
 }

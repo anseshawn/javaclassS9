@@ -214,4 +214,9 @@ public class AdminServiceImpl implements AdminService {
 	public int setNoticeEdit(NoticeVO vo) {
 		return adminDAO.setNoticeEdit(vo);
 	}
+
+	@Override
+	public int getNewPaymentCount() {
+		return adminDAO.getNewPaymentCount();
+	}
 }

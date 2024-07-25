@@ -63,11 +63,18 @@
 	<insert id="setExpendableInput">
 		insert into expendableS values(#{vo.idx}, #{vo.categoryMain}, #{vo.expendableCode}, #{vo.expendableName}, #{vo.price});
 	</insert>
+	<insert id="setProductEstimateInput">
+		insert into productEstimateS values(default, #{vo.saleIdx}, #{vo.productIdx}, default, #{vo.statement}, 
+			#{vo.proPrice}, #{vo.quantity}, #{vo.unitPrice}, #{vo.vat}, #{vo.totPrice}, null);
+	</insert>
 	
 	
 	<update id="setProductContentEdit">
 		update productS set proType=#{vo.proType}, proName=#{vo.proName}, proMade=#{vo.proMade}, proPrice=#{vo.proPrice},
 			proYear=#{vo.proYear}, proPhoto=#{vo.proPhoto}, etcDetail=#{vo.etcDetail} where idx=#{vo.idx};
+	</update>
+	<update id="setProductSaleStatementChange">
+		update ProductSaleS set statement=#{vo.statement} where idx=#{vo.idx};
 	</update>
 	
 	

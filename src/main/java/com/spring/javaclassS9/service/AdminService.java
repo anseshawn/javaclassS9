@@ -68,4 +68,6 @@ public interface AdminService {
 
 	public int setNoticeEdit(NoticeVO vo);
 
+	public int getNewPaymentCount();
+
 }

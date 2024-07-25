@@ -11,6 +11,7 @@ import com.spring.javaclassS9.common.JavaclassProvide;
 import com.spring.javaclassS9.dao.ProductDAO;
 import com.spring.javaclassS9.vo.AsRequestVO.Machine;
 import com.spring.javaclassS9.vo.ExpendableVO;
+import com.spring.javaclassS9.vo.ProductEstimateVO;
 import com.spring.javaclassS9.vo.ProductLikeVO;
 import com.spring.javaclassS9.vo.ProductSaleVO;
 import com.spring.javaclassS9.vo.ProductSaleVO.Statement;
@@ -158,6 +159,19 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public ExpendableVO getExpendableNameCheck(String expendableName) {
 		return productDAO.getExpendableNameCheck(expendableName);
+	}
+
+	@Override
+	public int setProductEstimateInput(ProductEstimateVO vo) {
+		vo.setStatement(Statement.CHECK);
+		return productDAO.setProductEstimateInput(vo);
+	}
+
+	@Override
+	public void setProductSaleStatementChange(int saleIdx) {
+		ProductSaleVO vo = productDAO.getProductSaleContent(saleIdx);
+		vo.setStatement(Statement.CHECK);
+		productDAO.setProductSaleStatementChange(vo);
 	}
 
 	

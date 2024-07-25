@@ -116,6 +116,24 @@ public class PageProcess {
 				totRecCnt = adminDAO.noticeTotRecCntSearch(search,searchString);
 			}
 		}
+		else if(section.equals("writeBoard")) {
+			if(part.equals("")) totRecCnt = boardDAO.writeBoardTotRecCnt(searchString);
+			else {
+				String[] keyWord = searchString.split(",");
+				search = part;
+				searchString = keyWord[0];
+				totRecCnt = boardDAO.writeBoardTotRecCntSearch(search,searchString, keyWord[1]);
+			}
+		}
+		else if(section.equals("writeReply")) {
+			if(part.equals("")) totRecCnt = boardDAO.writeReplyTotRecCnt(searchString);
+			else {
+				String[] keyWord = searchString.split(",");
+				search = part;
+				searchString = keyWord[0];
+				totRecCnt = boardDAO.writeReplyTotRecCntSearch(search,searchString, keyWord[1]);
+			}
+		}
 		//else if(section.equals("pds"))	totRecCnt = pdsDAO.totRecCnt(part);
 		
 		int totPage = (totRecCnt % pageSize)==0 ? (totRecCnt / pageSize) : (totRecCnt / pageSize) + 1;

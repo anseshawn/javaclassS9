@@ -89,6 +89,44 @@
 		SELECT *,(SELECT count(*) FROM replyS WHERE board='recruitBoard' and boardIdx = b.idx) as replyCnt 
 			FROM recruitBoardS b WHERE idx = #{idx};
 	</select>
+	<select id="getBoardReplyMidCheck" resultType="com.spring.javaclassS9.vo.ReplyVO">
+		select * from replyS where mid = #{mid};
+	</select>
+	<select id="getFreeBoardMidCheck" resultType="com.spring.javaclassS9.vo.FreeBoardVO">
+		select * from freeBoardS where mid = #{mid} 
+			<if test="search != ''"> and ${search} like concat('%',#{searchString},'%') </if> 
+			order by idx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="getQuestionBoardMidCheck" resultType="com.spring.javaclassS9.vo.QuestionBoardVO">
+		select * from questionBoardS where mid = #{mid} 
+			<if test="search != ''"> and ${search} like concat('%',#{searchString},'%') </if> 
+			order by idx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="getRecruitBoardMidCheck" resultType="com.spring.javaclassS9.vo.RecruitBoardVO">
+		select * from recruitBoardS where mid = #{mid} 
+			<if test="search != ''"> and ${search} like concat('%',#{searchString},'%') </if> 
+			order by idx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="writeBoardTotRecCnt" resultType="int">
+		select 
+			(select count(*) from freeBoardS where mid = #{mid}) + 
+			(select count(*) from questionBoardS where mid = #{mid}) + 
+			(select count(*) from recruitBoardS where mid = #{mid})
+			as totRecCnt;
+	</select>
+	<select id="writeReplyTotRecCnt" resultType="int">
+		select count(*) from replyS where mid = #{mid};
+	</select>
+	<select id="writeBoardTotRecCntSearch" resultType="int">
+		select 
+			(select count(*) from freeBoardS where mid = #{mid} and ${search} like concat('%',#{searchString},'%')) + 
+			(select count(*) from questionBoardS where mid = #{mid} and ${search} like concat('%',#{searchString},'%')) + 
+			(select count(*) from recruitBoardS where mid = #{mid} and ${search} like concat('%',#{searchString},'%'))
+			as totRecCnt;
+	</select>
+	<select id="writeReplyTotRecCntSearch" resultType="int">
+		select count(*) from replyS where mid = #{mid} and ${search} like concat('%',#{searchString},'%');
+	</select>
 	
 	
 	<insert id="setFreeBoardInput">

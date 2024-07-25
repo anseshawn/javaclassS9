@@ -118,16 +118,15 @@
   <div class="row">
     <div class="col-lg-3">
       <div class="card monthly">
-        <div class="card-body d-flex justify-content-between">
-          <div>
-            <p class="card-text mb-2">Earnings (Monthly)</p>
-            <h4>$400,000</h4>
-          </div>
-          <i
-            class="fas fa-calendar"
-            style="font-size: 30px; margin-top: 20px; color: #6c757d"
-          ></i>
-        </div>
+      	<a href="${ctp}/admin/engineer/asRequestList">
+	        <div class="card-body d-flex justify-content-between">
+	          <div>
+	            <p class="card-text mb-2">입금 확인 요청</p>
+	            <h4>${newPaymentCount} 건</h4>
+	          </div>
+	          <i class="fas fa-calendar" style="font-size: 30px; margin-top: 20px; color: #6c757d"></i>
+	        </div>
+        </a>
       </div>
     </div>
     <div class="col-lg-3">

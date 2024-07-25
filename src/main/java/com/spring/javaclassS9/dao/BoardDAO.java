@@ -116,4 +116,24 @@ public interface BoardDAO {
 
 	public int setQuestionBoardDelete(@Param("idx") int idx);
 
+	public ArrayList<ReplyVO> getBoardReplyMidCheck(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, 
+			@Param("search") String search, @Param("searchString") String searchString, @Param("mid") String mid);
+
+	public ArrayList<FreeBoardVO> getFreeBoardMidCheck(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, 
+			@Param("search") String search, @Param("searchString") String searchString, @Param("mid") String mid);
+
+	public ArrayList<QuestionBoardVO> getQuestionBoardMidCheck(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, 
+			@Param("search") String search, @Param("searchString") String searchString, @Param("mid") String mid);
+
+	public ArrayList<RecruitBoardVO> getRecruitBoardMidCheck(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, 
+			@Param("search") String search, @Param("searchString") String searchString, @Param("mid") String mid);
+
+	public int writeBoardTotRecCnt(@Param("mid") String mid);
+
+	public int writeBoardTotRecCntSearch(@Param("search") String search, @Param("searchString") String searchString, @Param("mid") String mid);
+
+	public int writeReplyTotRecCnt(@Param("mid") String mid);
+
+	public int writeReplyTotRecCntSearch(@Param("search") String search, @Param("searchString") String searchString, @Param("mid") String mid);
+
 }

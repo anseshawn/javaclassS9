@@ -27,9 +27,13 @@
 	<script>
 		'use strict';
 		
+		let popupChecked = false;
 		$(function() {	
 			if('${vo.important}'=='OK') $("#important").prop("checked",true);
-			if('${vo.popup}'=='OK') $("#popup").prop("checked",true);
+			if('${vo.popup}'=='OK') {
+				$("#popup").prop("checked",true);
+				popupChecked = $("#popup").is(':checked');
+			}
 			
 			$('#endDate').datepicker({
 			    format: "yyyy-mm-dd",	//데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
@@ -80,8 +84,7 @@
 		
 		// 팝업 띄운 다른 창이 있나 체크
 		function popupCheck() {
-			let checked = $("#popup").is(':checked');
-			if(checked){
+			if(popupChecked){
 				let ans = confirm("해당 공지를 팝업에서 제거하시겠습니까?");
 				if(!ans) return false;
 				else popupChange();

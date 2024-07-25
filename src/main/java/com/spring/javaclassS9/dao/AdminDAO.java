@@ -98,4 +98,6 @@ public interface AdminDAO {
 
 	public int setNoticeEdit(@Param("vo") NoticeVO vo);
 
+	public int getNewPaymentCount();
+
 }

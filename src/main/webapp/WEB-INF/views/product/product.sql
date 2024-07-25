@@ -43,7 +43,22 @@ create table productSaleS(
 	foreign key(productIdx) references productS(idx)
 );
 
-drop table productSaleS;
+create table productEstimateS(
+	idx int not null auto_increment,
+	saleIdx int not null,
+	productIdx int not null,
+	sendDate datetime default now(),
+	statement enum('QUOTE','CANCEL','CHECK','ORDERING','DELIVER','PAYMENT','COMPLETE'),
+	proPrice int not null,			/* 단가 */
+	quantity int not null,			/* 수량 */
+	unitPrice int not null,			/* 단가 x 수량 */
+	vat int not null,						/* 부가세 */
+	totPrice int not null,			/* 총합계 */
+	payDate datetime,
+	primary key(idx),
+	foreign key(saleIdx) references productSaleS(idx) on delete cascade,
+	foreign key(productIdx) references productS(idx) on delete cascade
+);
 
 create table expendableS(
 	idx int not null,

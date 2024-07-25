@@ -775,6 +775,24 @@ public class CustomerController {
 		else return "redirect:/message/boardEditNo?pathFlag=recruitBoard&idx="+vo.getIdx();
 	}
 	
+	// A/S 완료 후 결제 창 열기
+	@RequestMapping(value = "/requests/paymentWindow", method = RequestMethod.GET)
+	public String paymentWindowGet(int idx, Model model) {
+		AsChargeVO chargeVO = customerService.getAsChargeContent(idx);
+		model.addAttribute("chargeVO", chargeVO);
+		return "customer/requests/paymentWindow";
+	}
+	
+	// 결제하기 누르면 asCharge 상태 변경하기(이후 관리자가 확인 버튼 누르면 asRequest 상태 변경...)
+	@ResponseBody
+	@RequestMapping(value = "/requests/makePayment", method = RequestMethod.POST)
+	public String makePaymentGet(
+			@RequestParam(name = "asIdx", defaultValue = "0", required = false) int asIdx
+			) {
+		int res = customerService.setAsChargePaymentOk(asIdx);
+		return res+"";
+	}
+	
 	// PDF 생성하기
 	@RequestMapping(value = "/requests/printChargeHistory", method = RequestMethod.GET)
 	public ResponseEntity<ByteArrayResource> printChargeHistoryGet(int idx, HttpServletRequest request) throws IOException {

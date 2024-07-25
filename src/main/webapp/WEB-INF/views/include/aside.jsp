@@ -7,6 +7,50 @@
 	<meta charset="UTF-8">
 	<title></title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
+	<style>
+	  .accordion {
+	  	background-color: #fff;
+	    cursor: pointer;
+	    padding: 18px;
+	    width: 100%;
+	    border: none;
+	    outline: none;
+	  }
+	  
+	  .panel {
+	    padding: 0 18px;
+	    display: none;
+	    overflow: hidden;
+	  }
+	  
+	  .panel a {
+	    display: block;
+	    padding: 12px 16px;
+	    text-decoration: none;
+	    color: #333;
+	  }
+	  
+	  .panel a:hover {
+	    background-color: #ddd;
+	  }
+	</style>
+	<script>
+	document.addEventListener("DOMContentLoaded", function() {
+	  var acc = document.querySelectorAll(".accordion");
+	  
+	  acc.forEach(function(el) {
+	    el.addEventListener("click", function() {
+	      this.classList.toggle("active");
+	      var panel = this.nextElementSibling;
+	      if (panel.style.display === "block") {
+	        panel.style.display = "none";
+	      } else {
+	        panel.style.display = "block";
+	      }
+	    });
+	  });
+	});
+	</script>
 </head>
 <body>
 <div class="row">
@@ -43,7 +87,16 @@
 				</div>
 				<div class="divider2 mx-auto my-2"></div>
 				<div class="row">
-					<div class="col"><a href="#">게시글 확인</a></div>
+					<div class="col">
+						<div class="dropdown">
+							<button class="accordion">게시글 확인<i class="fa-solid fa-caret-down ml-2"></i></button>
+							<div class="panel">
+							 <a href="${ctp}/member/writeBoard" class="dropdown-item">작성게시글</a>
+							 <a href="${ctp}/member/writeReply" class="dropdown-item">작성댓글</a>
+							 <a href="${ctp}/member/estimateList" class="dropdown-item">견적내역</a>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="row">
 					<div class="col"><a href="${ctp}/member/messageList">받은 메세지</a></div>

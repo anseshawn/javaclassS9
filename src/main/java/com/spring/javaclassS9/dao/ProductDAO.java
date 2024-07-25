@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.spring.javaclassS9.vo.AsRequestVO.Machine;
 import com.spring.javaclassS9.vo.ExpendableVO;
+import com.spring.javaclassS9.vo.ProductEstimateVO;
 import com.spring.javaclassS9.vo.ProductLikeVO;
 import com.spring.javaclassS9.vo.ProductSaleVO;
 import com.spring.javaclassS9.vo.ProductVO;
@@ -54,5 +55,9 @@ public interface ProductDAO {
 	public ArrayList<ExpendableVO> getExpendableListOne(@Param("categoryMain") Machine machine);
 
 	public ExpendableVO getExpendableNameCheck(@Param("expendableName") String expendableName);
+
+	public void setProductSaleStatementChange(@Param("vo") ProductSaleVO vo);
+
+	public int setProductEstimateInput(@Param("vo") ProductEstimateVO vo);
 
 }

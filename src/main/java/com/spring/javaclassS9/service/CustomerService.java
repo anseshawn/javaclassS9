@@ -32,4 +32,8 @@ public interface CustomerService {
 
 	public AsChargeVO getAsChargeContent(int idx);
 
+	public int setAsChargePaymentOk(int asIdx);
+
+	public int setAsCompleteStatement(int idx);
+
 }

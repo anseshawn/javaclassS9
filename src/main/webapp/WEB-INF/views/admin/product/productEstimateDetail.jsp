@@ -156,8 +156,8 @@
 								<td>${vo.proYear} 년도</td>
 							</tr>
 							<tr>
-								<th>비고</th>
-								<td>${fn:replace(vo.etcDetail,newLine,'<br/>') }</td>
+								<th>가격</th>
+								<td>${vo.proPrice}</td>
 							</tr>
 							<tr>
 								<th>현재 상태</th>
@@ -169,9 +169,10 @@
 						</table>
 						<div class="text-right">
 							<c:if test="${saleVO.statement == 'QUOTE'}">
-								<a href="#" class="btn btn-main-2 btn-icon-md mr-2 mb-2">견적서 송부</a>
+								<a href="${ctp}/admin/product/estimateInput?idx=${saleVO.idx}" class="btn btn-main btn-icon-md mr-2 mb-2">견적서 송부</a>
 							</c:if>
-							<a href="javascript:#" class="btn btn-main-2 btn-icon-md mb-2">발주 진행</a>
+							<a href="javascript:#" class="btn btn-main btn-icon-md mr-2 mb-2">발주 진행</a>
+							<a href="productEstimate" class="btn btn-main-3 btn-icon-md mb-2">목록으로</a>
 						</div>
 					</div>
 				</div>

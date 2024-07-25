@@ -39,4 +39,8 @@ public interface CustomerDAO {
 
 	public AsChargeVO getAsChargeContent(@Param("asIdx") int asIdx);
 
+	public int setAsChargePaymentOk(@Param("asIdx") int asIdx);
+
+	public int setAsCompleteStatement(@Param("idx") int idx);
+
 }
