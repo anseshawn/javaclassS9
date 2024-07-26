@@ -15,8 +15,8 @@
 		select * from productLikeS where memberMid = #{mid};
 	</select>
 	
-	<select id="getAllProductEstimateList" resultType="com.spring.javaclassS9.vo.ProductSaleVO">
-		select * from productSaleS order by idx desc limit #{startIndexNo},#{pageSize};
+	<select id="getAllProductSaleList" resultType="com.spring.javaclassS9.vo.ProductSaleVO">
+		select * from productSaleS order by statement <if test="startIndexNo != -1"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	<select id="estimateTotRecCnt" resultType="int">
 		select count(*) from productSaleS;
@@ -25,7 +25,7 @@
 		select count(*) from productSaleS where ${search} like concat('%',#{searchString},'%');
 	</select>
 	<select id="getSearchProductEstimateList" resultType="com.spring.javaclassS9.vo.ProductSaleVO">
-		select * from productSaleS where ${search} like concat('%',#{searchString},'%')
+		select * from productSaleS where ${search} like concat('%',#{searchString},'%') order by statement 
 			limit #{startIndexNo},#{pageSize};
 	</select>
 	<select id="getProductSaleContent" resultType="com.spring.javaclassS9.vo.ProductSaleVO">
@@ -48,6 +48,10 @@
 		select * from expendableS where expendableName = #{expendableName};
 	</select>
 	
+	<select id="getProductEstimateContent" resultType="com.spring.javaclassS9.vo.ProductEstimateVO">
+		select e.*, p.proName from productEstimateS e, productS p where e.saleIdx = #{saleIdx} and e.productIdx = p.idx;
+	</select>
+	
 	
 	<insert id="setProductInputOk">
 		insert into productS values (default,#{vo.proType},#{vo.proName},#{vo.proMade},#{vo.proPrice},
@@ -64,7 +68,7 @@
 		insert into expendableS values(#{vo.idx}, #{vo.categoryMain}, #{vo.expendableCode}, #{vo.expendableName}, #{vo.price});
 	</insert>
 	<insert id="setProductEstimateInput">
-		insert into productEstimateS values(default, #{vo.saleIdx}, #{vo.productIdx}, default, #{vo.statement}, 
+		insert into productEstimateS values(default, #{vo.saleIdx}, #{vo.productIdx}, #{vo.co_name}, #{vo.name}, #{vo.email}, default, #{vo.statement}, 
 			#{vo.proPrice}, #{vo.quantity}, #{vo.unitPrice}, #{vo.vat}, #{vo.totPrice}, null);
 	</insert>
 	
@@ -76,6 +80,21 @@
 	<update id="setProductSaleStatementChange">
 		update ProductSaleS set statement=#{vo.statement} where idx=#{vo.idx};
 	</update>
+	<update id="setProductEstimateCancel">
+		update productEstimateS set statement='CANCEL' where idx=#{idx};
+	</update>
+	<update id="setProductEstimateOrder">
+		update productEstimateS set statement='ORDERING' where idx=#{idx};
+	</update>
+	<update id="setProductEstimateChange">
+		update productEstimateS set statement=#{statement} where idx=#{idx};
+	</update>
+	<update id="setProductSaleChange">
+		update productSaleS set statement=#{statement} where idx=#{idx};
+	</update>
+	<update id="setProductEstimatePayDate">
+		update productEstimateS set payDate=now() where idx=#{idx};
+	</update>
 	
 	
 	<delete id="setProductRemoveLike">
@@ -83,6 +102,12 @@
 	</delete>
 	<delete id="setExpendableDelete">
 		delete from expendableS where categoryMain=#{vo.categoryMain} and expendableCode=#{vo.expendableCode};
+	</delete>
+	<delete id="setProductEstimateDelete">
+		delete from productEstimateS where idx=#{idx};
+	</delete>
+	<delete id="setProductSaleDelete">
+		delete from productSaleS where idx=#{idx};
 	</delete>
 	
 </mapper>

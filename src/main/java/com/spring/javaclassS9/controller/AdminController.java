@@ -12,6 +12,7 @@ import java.util.TimeZone;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -36,12 +37,14 @@ import com.spring.javaclassS9.service.ProductService;
 import com.spring.javaclassS9.vo.AsChargeVO;
 import com.spring.javaclassS9.vo.AsRequestVO;
 import com.spring.javaclassS9.vo.AsRequestVO.Machine;
+import com.spring.javaclassS9.vo.AsRequestVO.Progress;
 import com.spring.javaclassS9.vo.ChartVO;
 import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.ExpendableVO;
 import com.spring.javaclassS9.vo.MemberVO;
+import com.spring.javaclassS9.vo.MessageVO;
 import com.spring.javaclassS9.vo.NoticeVO;
 import com.spring.javaclassS9.vo.PageVO;
 import com.spring.javaclassS9.vo.ProductEstimateVO;
@@ -93,6 +96,24 @@ public class AdminController {
 		model.addAttribute("consultingCount", consultingCount);
 		model.addAttribute("newPaymentCount", newPaymentCount);
 		return "admin/adminMain";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/adminHeader", method = RequestMethod.POST)
+	public String adminHeaderPost() {
+		int joinCount = adminService.getJoinMemberCount();
+		int estimateCount = adminService.getProductEstimateCount();
+		int consultingCount = adminService.getNewConsultingCount();
+		int newPaymentCount = adminService.getNewPaymentCount();
+		
+		int res = joinCount+estimateCount+consultingCount+newPaymentCount;
+		return res+"";
+	}
+	@ResponseBody
+	@RequestMapping(value = "/adminMessage", method = RequestMethod.POST)
+	public String adminMessagePost() {
+		int msgCount = adminService.getNewMessageCount();
+		return msgCount+"";
 	}
 	
 	// 회원리스트(검색어 포함)
@@ -247,14 +268,30 @@ public class AdminController {
 		return mVo; 
 	}
 	
-	// 개별사원 DB에서 영구삭제처리
+	// 개별사원 DB에서 삭제처리
 	@ResponseBody
-	@RequestMapping(value = "/engineer/engineerDeleteAll", method = RequestMethod.POST)
-	public String engineerDeleteAllPost(@RequestParam(name = "mid", defaultValue = "", required = false) String mid) {
+	@RequestMapping(value = "/engineer/engineerDelete", method = RequestMethod.POST)
+	public String engineerDeletePost(@RequestParam(name = "mid", defaultValue = "", required = false) String mid) {
 		EngineerVO vo = engineerService.getEngineerIdCheck(mid);
 		ArrayList<AsRequestVO> vos = engineerService.getAsRequestList(vo.getIdx(), -1, 0);
+		vo.setMid("del_"+vo.getMid());
+		vo.setPwd(passwordEncoder.encode("0000"));
+		vo.setName(vo.getName()+"(퇴사)");
+		vo.setTel("");
+		vo.setEmail("");
 		int res = 0;
-		if(vos == null) res = adminService.setEngineerDeleteAll(vo.getIdx());
+		if(vos != null) {
+			AsRequestVO asVo = null;
+			for(int i=0; i<vos.size(); i++) {
+				asVo = engineerService.getAsRequestContent(vos.get(i).getIdx());
+				if(asVo.getProgress().equals(Progress.COMPLETE)) {
+					res = adminService.setEngineerDelete(vo);
+				}
+			}
+		}
+		else {
+			res = adminService.setEngineerDelete(vo);
+		}
 		return res+"";
 	}
 	
@@ -371,7 +408,7 @@ public class AdminController {
 		) {
 		ArrayList<ProductSaleVO> vos = null;
 		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "productEstimate", part, searchString);
-		if(part.equals("")) vos = productService.getAllProductEstimateList(pageVO.getStartIndexNo(),pageSize);
+		if(part.equals("")) vos = productService.getAllProductSaleList(pageVO.getStartIndexNo(),pageSize);
 		else vos = productService.getSearchProductEstimateList(pageVO.getStartIndexNo(),pageSize,part,searchString);
 		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("vos", vos);
@@ -379,9 +416,11 @@ public class AdminController {
 	}
 	// 견적 건 상태 변경하기
 	@ResponseBody
-	@RequestMapping(value = "/product/productEstimateChange", method = RequestMethod.POST)
-	public String productEstimateChangePost(int idx, String statement) {
-		return adminService.setProductEstimateChange(idx,statement)+"";
+	@RequestMapping(value = "/product/productSaleChange", method = RequestMethod.POST)
+	public String productSaleChangePost(int saleIdx, String statement) {
+		ProductEstimateVO vo = productService.getProductEstimateContent(saleIdx);
+		if(vo != null) productService.setProductEstimateChange(vo.getIdx(),statement);
+		return adminService.setProductSaleChange(saleIdx,statement)+"";
 	}
 	
 	// 견적 상세 건
@@ -423,7 +462,7 @@ public class AdminController {
 		vo.setUnitPrice(vo.getProPrice() * vo.getQuantity());
 		vo.setVat((vo.getUnitPrice() * 10)/100);
 		vo.setTotPrice(vo.getUnitPrice() + vo.getVat());
-		productService.setProductSaleStatementChange(vo.getSaleIdx());
+		productService.setProductSaleStatementChange(vo.getSaleIdx(),"check");
 		int res = productService.setProductEstimateInput(vo);
 		if(res != 0) return "redirect:/message/estimateInputOk";
 		else return "redirect:/message/estimateInputNo?idx="+vo.getSaleIdx();
@@ -1005,7 +1044,84 @@ public class AdminController {
   	model.addAttribute("joinDates", joinDates);
   	model.addAttribute("joinCnts", joinCnts);
   	model.addAttribute("size", mVosLength);
+  	
+  	// 회원 가입 사유 bar chart
+  	String[] joinReason = new String[5];
+  	int[] joinReasonCnts = new int[5];
+  	for(int i=0; i<mVosLength; i++) {
+  		String purpose = memberVOS.get(i).getPurpose();
+  		String[] pur = purpose.split(",");
+  	}
   	return "admin/siteChart";
   }
+  
+  // 관리자 비밀번호 변경
+  @RequestMapping(value = "/changeAdminPwd", method = RequestMethod.GET)
+  public String changeAdminPwdGet() {
+  	return "admin/changeAdminPwd";
+  }
+  // 관리자 비밀번호 변경
+	@RequestMapping(value = "/changeAdminPwd", method = RequestMethod.POST)
+	public String changeAdminPwdPost(String mid, String pwdNew, HttpSession session) {
+		int res = 0;
+		res = memberService.setMemberPwdUpdate(mid, passwordEncoder.encode(pwdNew));
+		if(res != 0) {
+			session.invalidate();
+			return "redirect:/message/pwdChangeOk";
+		}
+		else return "redirect:/message/pwdChangeNo";
+	}
 	
+	
+	// 관리자 쪽지 확인
+	@RequestMapping(value = "/messageList", method = RequestMethod.GET)
+	public String messageListGet(HttpSession session, Model model) {
+		String mid = (String) session.getAttribute("sMid");
+		ArrayList<MessageVO> receiveVOS = memberService.getAllReceiveMessageList(mid);
+		ArrayList<MessageVO> sendVOS = memberService.getAllSendMessageList(mid);
+		for(int i=0; i<receiveVOS.size(); i++) {
+			if(receiveVOS.get(i).getReceiveSw().equals("n")) model.addAttribute("newMsg", "OK");
+		}
+		ArrayList<MemberVO> mVos = adminService.getAllMemberList(-1, 0);
+		model.addAttribute("mVos", mVos);
+		model.addAttribute("receiveVOS", receiveVOS);
+		model.addAttribute("sendVOS", sendVOS);
+		return "admin/messageList";
+	}
+	// 쪽지 수신확인 상태로 만들기
+	@ResponseBody
+	@RequestMapping(value = "/messageCheck", method = RequestMethod.POST)
+	public void messageCheckPost(int idx) {
+		memberService.setMessageCheck(idx);
+	}
+	// 받은 메세지 / 보낸 메세지 삭제하기
+	@ResponseBody
+	@RequestMapping(value = "/messageDelete", method = RequestMethod.POST)
+	public String messageDeletePost(int idx, String sw) {
+		int res =	memberService.setMessageDelete(idx, sw);
+		return res + "";
+	}
+	
+	// 쪽지 보내기 창
+	@RequestMapping(value = "/sendMessage", method = RequestMethod.GET)
+	public String sendMessageGet(Model model,
+			@RequestParam(name = "receiveMid", defaultValue = "", required = false) String receiveMid
+			) {
+		model.addAttribute("receiveMid", receiveMid);
+		return "member/sendMessage";
+	}
+	// 쪽지 보내기
+	@ResponseBody
+	@RequestMapping(value = "/sendMessage", method = RequestMethod.POST)
+	public String sendMessagePost(MessageVO vo) {
+		MemberVO mVo = memberService.getMemberIdCheck(vo.getReceiveMid());
+		int res = 0;
+		if(mVo==null) return res+"";
+		else {
+			vo.setSendSw("s");
+			vo.setReceiveSw("n");
+			res = memberService.setMessageInputOk(vo);
+		}
+		return res + "";
+	}
 }

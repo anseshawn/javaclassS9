@@ -24,6 +24,10 @@
   		margin-bottom: 0.5rem;
   		margin-top: 0.5rem;
   	}
+  	.btn:disabled {
+  		cursor: none;
+  		pointer-events: none;
+  	}
   </style>
 	<script>
  		'use strict';
@@ -231,6 +235,7 @@
 				$("#nickNameBtn").removeAttr("disabled");
 			});
 		}
+		
 	</script>
 </head>
 <body id="top">

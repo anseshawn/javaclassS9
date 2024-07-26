@@ -196,7 +196,7 @@
 			});
 		}
 		
-  	// 파일박스 추가하기
+  	// 입력 박스 추가하기
   	let cnt = 1;
   	let num = 0;
   	function addExpendable() {
@@ -217,7 +217,7 @@
   		selectBox += '</div></tr>';
   		$("#expendableUse").append(selectBox);
   	}
-  	// 파일박스 삭제
+  	// 입력 박스 삭제
   	function deleteSelect(cnt) {
   		num--;
   		$("#selectBox"+cnt).remove();
@@ -235,9 +235,9 @@
   		}
   		expendableNames = expendableNames.substring(0,expendableNames.length-1);
   		quantities = quantities.substring(0,quantities.length-1);
-  		console.log(quantities);
-  		console.log(expendableNames);
-  		alert(expendableNames);
+  		//console.log(quantities);
+  		//console.log(expendableNames);
+  		//alert(expendableNames);
   		$.ajax({
   			url: "${ctp}/engineer/expendableUseInput",
   			type: "post",

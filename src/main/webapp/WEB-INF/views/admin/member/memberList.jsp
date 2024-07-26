@@ -42,7 +42,7 @@
 				success: function(mVo) {
 					let birthday = mVo.birthday.substring(0,10);
 					let lastDate = mVo.lastDate.substring(0,10);
-					str += "<tr><th>이름</th><td>"+mVo.name+"</td><th>고유번호</th><td>"+mVo.idx+"</td></tr>";
+					str += "<tr><th>이름</th><td>"+mVo.name+"<input type='button' value='쪽지보내기' onclick='sendMessage()' class='btn btn-main btn-icon-sm ml-2'></td><th>고유번호</th><td>"+mVo.idx+"</td></tr>";
 					str += "<tr><th>최종접속일</th><td>"+lastDate+"</td><th>등급</th><td>"+mVo.level+"</td></tr>";
 					str += "<tr><th>아이디</th><td><span id='selectMid'>"+mVo.mid+"</span></td><th>닉네임</th><td>"+mVo.nickName+"</td></tr>";
 					str += "<tr>";
@@ -71,6 +71,21 @@
 					alert("전송 오류");
 				}
 			});
+		}
+		
+		// 쪽지전송
+		function sendMessage(){
+			let receiveMid = document.getElementById("selectMid").innerText;
+			let url = "${ctp}/member/sendMessage?receiveMid="+receiveMid;
+			let widthSize= 450;
+			let heightSize = 500;
+			let leftCenter = Math.ceil((window.screen.width - widthSize)/2);
+			let topCenter = Math.ceil((window.screen.height - heightSize)/2);
+			window.open(
+				url, // url
+				'쪽지 보내기', // title
+				'width='+widthSize+', height='+heightSize+', top='+topCenter+', left='+leftCenter // 설정
+			);
 		}
 		
 		// 등급 변경

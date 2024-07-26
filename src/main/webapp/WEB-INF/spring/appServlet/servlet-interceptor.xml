@@ -15,34 +15,46 @@
 	
 	<interceptors>
 		<interceptor>
-			<mapping path="/customer/"/>
-			<mapping path="/member/"/>
-			<mapping path="/engineer/engineerContent/"/>
+			<mapping path="/customer/requests/**"/>
+			<mapping path="/customer/board/freeBoardInput"/>
+			<mapping path="/customer/board/questionBoardInput"/>
+			<mapping path="/customer/board/freeBoardEdit"/>
+			<mapping path="/customer/board/questionBoardEdit"/>
+			<mapping path="/customer/board/replyUpdate"/>
+			<mapping path="/customer/board/freeBoardDelete"/>
+			<mapping path="/customer/board/questionBoardDelete"/>
+			<mapping path="/customer/board/addBoardLike"/>
+			<mapping path="/customer/board/removeBoardLike"/>
+			<mapping path="/customer/board/boardReport"/>
+			<mapping path="/member/**"/>
+			<mapping path="/member/myPage/**"/>
+			<mapping path="/engineer/engineerContent"/>
 			<exclude-mapping path="/customer/cmain/**"/>
-			<exclude-mapping path="/customer/board/freeBoardContent/"/>
-			<exclude-mapping path="/customer/board/freeBoardList/"/>
-			<exclude-mapping path="/customer/board/questionBoardContent/"/>
-			<exclude-mapping path="/customer/board/questionBoardList/"/>
-			<exclude-mapping path="/customer/board/recruitBoardContent/"/>
-			<exclude-mapping path="/customer/board/recruitBoardList/"/>
-			<exclude-mapping path="/customer/board/replyInput/"/>
-			<exclude-mapping path="/customer/board/replyInputRe/"/>
-			<exclude-mapping path="/customer/board/replyDelete/"/>
-			<exclude-mapping path="/member/memberJoin/"/>
-			<exclude-mapping path="/member/memberIdCheck/"/>
-			<exclude-mapping path="/member/memberNickCheck/"/>
+			<exclude-mapping path="/customer/board/freeBoardContent"/>
+			<exclude-mapping path="/customer/board/freeBoardList"/>
+			<exclude-mapping path="/customer/board/questionBoardContent"/>
+			<exclude-mapping path="/customer/board/questionBoardList"/>
+			<exclude-mapping path="/customer/board/recruitBoardContent"/>
+			<exclude-mapping path="/customer/board/recruitBoardList"/>
+			<exclude-mapping path="/customer/board/replyInput"/>
+			<exclude-mapping path="/customer/board/replyInputRe"/>
+			<exclude-mapping path="/customer/board/replyDelete"/>
+			<exclude-mapping path="/member/memberJoin"/>
+			<exclude-mapping path="/member/memberIdCheck"/>
+			<exclude-mapping path="/member/memberNickCheck"/>
 			<exclude-mapping path="/member/memberLogin/**"/>
-			<exclude-mapping path="/member/memberLogout/"/>
-			<exclude-mapping path="/member/midSearch/"/>
-			<exclude-mapping path="/member/midSearchResult/"/>
-			<exclude-mapping path="/member/pwdSearch/"/>
-			<exclude-mapping path="/member/pwdSearchOk/"/>
+			<exclude-mapping path="/member/memberLogout"/>
+			<exclude-mapping path="/member/midSearch"/>
+			<exclude-mapping path="/member/midSearchResult"/>
+			<exclude-mapping path="/member/pwdSearch"/>
+			<exclude-mapping path="/member/pwdSearchOk"/>
 			<beans:ref bean="level3Interceptor"/>
 		</interceptor>
 	
 		<interceptor>
-			<mapping path="/customer/board/recruitBoardInput/"/>
-			<mapping path="/customer/board/recruitBoardEdit/"/>
+			<mapping path="/customer/board/recruitBoardInput"/>
+			<mapping path="/customer/board/recruitBoardEdit"/>
+			<mapping path="/customer/board/recruitBoardDelete"/>
 			<beans:ref bean="level2Interceptor"/>
 		</interceptor>
 	

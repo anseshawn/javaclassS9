@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
+import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.NoticeVO;
 import com.spring.javaclassS9.vo.ReportVO;
@@ -20,11 +21,11 @@ public interface AdminService {
 
 	public ArrayList<MemberVO> getMemberSearchList(int startIndexNo, int pageSize, String part, String searchString);
 
-	public int setEngineerDeleteAll(int idx);
+	public int setEngineerDelete(EngineerVO vo);
 
 	public int setProductDeleteOk(int idx);
 
-	public int setProductEstimateChange(int idx, String statement);
+	public int setProductSaleChange(int idx, String statement);
 
 	public int getJoinMemberCount();
 
@@ -69,5 +70,7 @@ public interface AdminService {
 	public int setNoticeEdit(NoticeVO vo);
 
 	public int getNewPaymentCount();
+
+	public int getNewMessageCount();
 
 }

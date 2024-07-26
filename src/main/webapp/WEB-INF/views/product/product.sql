@@ -71,3 +71,5 @@ create table expendableS(
 
 desc expendableS;
 drop table expendableS;
+
+select * from productSaleS order by statement;

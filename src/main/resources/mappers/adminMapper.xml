@@ -87,7 +87,7 @@
 		select * from noticeS where popup = 'OK';
 	</select>
 	<select id="getImportantNoticeList" resultType="com.spring.javaclassS9.vo.NoticeVO">
-		select * from noticeS where important = 'OK';
+		select *, datediff(writeDate, now()) AS date_diff from noticeS where important = 'OK';
 	</select>
 	<select id="noticeTotRecCnt" resultType="int">
 		select count(*) from noticeS where important = 'NO';
@@ -105,7 +105,13 @@
 		select *, datediff(writeDate,now()) as date_diff from noticeS where idx=#{idx};
 	</select>
 	<select id="getNewPaymentCount" resultType="int">
-		select count(*) from asRequest r, asCharge c where c.asIdx=r.idx and c.statement='COMPLETE' and r.progress='PAYMENT';
+		select 
+			(select count(*) from asRequest r, asCharge c where c.asIdx=r.idx and c.statement='COMPLETE' and r.progress='PAYMENT')
+			+
+			(select count(*) from ProductEstimateS where statement='PAYMENT' and payDate is not null) as newPaymentCount;
+	</select>
+	<select id="getNewMessageCount" resultType="int">
+		select count(*) from messageS where receiveMid='admin' and receiveSw='n';
 	</select>
 	
 	
@@ -128,7 +134,7 @@
 	<update id="setMemberLevelUpdateOk">
 		update memberS set level=2 where mid = #{mid};
 	</update>
-	<update id="setProductEstimateChange">
+	<update id="setProductSaleChange">
 		update productSaleS set statement=#{statement} where idx = #{idx};
 	</update>
 	<update id="setConsultingAnswer">
@@ -141,13 +147,14 @@
 		update noticeS set part=#{vo.part}, title=#{vo.title}, content=#{vo.content}, popup=#{vo.popup}, 
 			endDate=#{vo.endDate}, important=#{vo.important} where idx=#{vo.idx};
 	</update>
+	<update id="setEngineerDelete">
+		update engineerS set name=#{vo.name}, mid=#{vo.mid}, pwd=#{vo.pwd}, level=99, tel=#{vo.tel}, 
+			email=#{vo.email}, photo=#{vo.photo} where idx = #{vo.idx};
+	</update>
 	
 	
 	<delete id="setMemberDeleteAll">
 		delete from memberS where mid = #{mid};
-	</delete>
-	<delete id="setEngineerDeleteAll">
-		delete from engineerS where idx = #{idx};
 	</delete>
 	<delete id="setProductDeleteOk">
 		delete from productS where idx = #{idx};

@@ -94,6 +94,9 @@
 		</div>
 		<input type="hidden" name="saleIdx" value="${saleVO.idx}" />
 		<input type="hidden" name="productIdx" value="${vo.idx}" />
+		<input type="hidden" name="name" value="${name}" />
+		<input type="hidden" name="email" value="${saleVO.email}" />
+		<input type="hidden" name="co_name" value="${saleVO.co_name}" />
 	</form>
 	<hr/>
 	<div class="row justify-content-center mb-3">
@@ -140,6 +143,7 @@
 		    <td class="total-section" colspan="3">합계</td>
 		    <td class="total-section" id="totPrice"></td>
 		  </tr>
+		  <tr><td colspan="4" class="m-0 p-0"></td></tr>
 		</table>
 		</div>
 	</div>

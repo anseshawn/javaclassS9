@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS9.vo.AsRequestVO.Machine;
+import com.spring.javaclassS9.vo.ProductSaleVO.Statement;
 import com.spring.javaclassS9.vo.ExpendableVO;
 import com.spring.javaclassS9.vo.ProductEstimateVO;
 import com.spring.javaclassS9.vo.ProductLikeVO;
@@ -29,7 +30,7 @@ public interface ProductService {
 
 	public int setProductContentEdit(MultipartFile fName, ProductVO vo);
 
-	public ArrayList<ProductSaleVO> getAllProductEstimateList(int startIndexNo, int pageSize);
+	public ArrayList<ProductSaleVO> getAllProductSaleList(int startIndexNo, int pageSize);
 
 	public ArrayList<ProductSaleVO> getSearchProductEstimateList(int startIndexNo, int pageSize, String part,
 			String searchString);
@@ -50,6 +51,18 @@ public interface ProductService {
 
 	public int setProductEstimateInput(ProductEstimateVO vo);
 
-	public void setProductSaleStatementChange(int saleIdx);
+	public void setProductSaleStatementChange(int saleIdx, String statement);
+
+	public ProductEstimateVO getProductEstimateContent(int saleIdx);
+
+	public int setProductEstimateCancel(int idx);
+
+	public int setProductEstimateOrder(int idx);
+
+	public void setProductEstimateChange(int idx, String statement);
+
+	public int setProductSaleChange(int saleIdx, String statement);
+
+	public void setProductEstimatePayDate(int idx);
 
 }

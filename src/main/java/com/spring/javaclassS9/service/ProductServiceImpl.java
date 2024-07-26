@@ -112,8 +112,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ArrayList<ProductSaleVO> getAllProductEstimateList(int startIndexNo, int pageSize) {
-		return productDAO.getAllProductEstimateList(startIndexNo,pageSize);
+	public ArrayList<ProductSaleVO> getAllProductSaleList(int startIndexNo, int pageSize) {
+		return productDAO.getAllProductSaleList(startIndexNo,pageSize);
 	}
 
 	@Override
@@ -168,10 +168,42 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void setProductSaleStatementChange(int saleIdx) {
+	public void setProductSaleStatementChange(int saleIdx, String statement) {
 		ProductSaleVO vo = productDAO.getProductSaleContent(saleIdx);
-		vo.setStatement(Statement.CHECK);
+		if(statement.equals("check"))vo.setStatement(Statement.CHECK);
+		else if(statement.equals("order"))vo.setStatement(Statement.ORDERING);
+		else if(statement.equals("cancel"))vo.setStatement(Statement.CANCEL);
 		productDAO.setProductSaleStatementChange(vo);
+	}
+
+	@Override
+	public ProductEstimateVO getProductEstimateContent(int saleIdx) {
+		return productDAO.getProductEstimateContent(saleIdx);
+	}
+
+	@Override
+	public int setProductEstimateCancel(int idx) {
+		return productDAO.setProductEstimateCancel(idx);
+	}
+
+	@Override
+	public int setProductEstimateOrder(int idx) {
+		return productDAO.setProductEstimateOrder(idx);
+	}
+
+	@Override
+	public void setProductEstimateChange(int idx, String statement) {
+		productDAO.setProductEstimateChange(idx, statement);
+	}
+
+	@Override
+	public int setProductSaleChange(int saleIdx, String statement) {
+		return productDAO.setProductSaleChange(saleIdx, statement);
+	}
+
+	@Override
+	public void setProductEstimatePayDate(int idx) {
+		productDAO.setProductEstimatePayDate(idx);
 	}
 
 	

@@ -274,4 +274,16 @@
 	  <i class="fa-solid fa-chart-pie"></i>
 	  <a href="${ctp}/admin/siteChart">사이트 통계</a>
 	</div>
+	<ul>
+		<li class="dropdown">
+			<div class="ani-navbar-menu ani-navbar-menu__icon">
+			 <i class="fa-solid fa-gear"></i><a href="javascript:void(0)">계정설정</a>
+			  <ul class="dropdown-content">
+			  	<li><div class="divider2"></div></li>
+				  <li><a href="${ctp}/admin/changeAdminPwd">비밀번호 변경</a></li>
+				  <li><a href="${ctp}/admin/messageList">받은 메세지</a></li>
+			  </ul>
+			</div>
+		</li>
+	</ul>
 </nav>

@@ -68,6 +68,29 @@
 	    var joinChart = new google.charts.Line(document.getElementById('line_top_x'));
 	    joinChart.draw(joinData, google.charts.Line.convertOptions(options));
 	  }
+	  
+    google.charts.load('current', {'packages':['bar']});
+    google.charts.setOnLoadCallback(drawChart3);
+
+    function drawChart3() {
+      var data = google.visualization.arrayToDataTable([
+        ['${}', '${}'],
+        <c:forEach var="i" begin="0" end="5" varStatus="st">
+        	['${}',${}],
+        </c:forEach>
+      ]);
+
+      var options = {
+        chart: {
+          title: '${}',
+          subtitle: '${}',
+        }
+      };
+
+      var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+      chart.draw(data, google.charts.Bar.convertOptions(options));
+    }
   </script>
 </head>
 <body>
@@ -79,6 +102,12 @@
 	<div class="row justify-content-center mb-3">
 		<div class="col-md-10 col-md-offset-2">
 			<div id="line_top_x"></div>
+		</div>
+	</div>
+	<hr/>
+	<div class="row justify-content-center mb-3">
+		<div class="col-md-10 col-md-offset-2">
+			<div id="columnchart_material" style="width: 800px; height: 500px;"></div>
 		</div>
 	</div>
 	<hr/>

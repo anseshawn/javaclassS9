@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.spring.javaclassS9.common.JavaclassProvide;
 import com.spring.javaclassS9.dao.AdminDAO;
 import com.spring.javaclassS9.dao.BoardDAO;
 import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
+import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.FreeBoardVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.NoticeVO;
@@ -26,6 +28,9 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Autowired
 	BoardDAO boardDAO;
+	
+	@Autowired
+	JavaclassProvide javaclassProvide;
 	
 	@Override
 	public ArrayList<MemberVO> getAllMemberList(int startIndexNo, int pageSize) {
@@ -52,9 +57,14 @@ public class AdminServiceImpl implements AdminService {
 		return adminDAO.getMemberSearchList(startIndexNo,pageSize,part,searchString);
 	}
 
+	@Transactional
 	@Override
-	public int setEngineerDeleteAll(int idx) {
-		return adminDAO.setEngineerDeleteAll(idx);
+	public int setEngineerDelete(EngineerVO vo) {
+		if(!vo.getPhoto().equals("noimage.jpg")) {
+			javaclassProvide.deleteFile(vo.getPhoto(), "engineer");
+			vo.setPhoto("noimage.jpg");
+		}
+		return adminDAO.setEngineerDelete(vo);
 	}
 
 	@Override
@@ -63,8 +73,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public int setProductEstimateChange(int idx, String statement) {
-		return adminDAO.setProductEstimateChange(idx, statement);
+	public int setProductSaleChange(int idx, String statement) {
+		return adminDAO.setProductSaleChange(idx, statement);
 	}
 
 	@Override
@@ -218,5 +228,10 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int getNewPaymentCount() {
 		return adminDAO.getNewPaymentCount();
+	}
+
+	@Override
+	public int getNewMessageCount() {
+		return adminDAO.getNewMessageCount();
 	}
 }

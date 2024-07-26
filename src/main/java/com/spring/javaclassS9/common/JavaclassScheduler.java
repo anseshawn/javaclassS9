@@ -1,13 +1,22 @@
 package com.spring.javaclassS9.common;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.spring.javaclassS9.dao.CustomerDAO;
+import com.spring.javaclassS9.dao.ProductDAO;
 import com.spring.javaclassS9.vo.AsRequestVO;
+import com.spring.javaclassS9.vo.ProductEstimateVO;
+import com.spring.javaclassS9.vo.ProductSaleVO;
+import com.spring.javaclassS9.vo.ProductSaleVO.Statement;
 import com.spring.javaclassS9.vo.AsRequestVO.Progress;
 
 @Service
@@ -15,6 +24,9 @@ public class JavaclassScheduler {
 
 	@Autowired
 	CustomerDAO customerDAO;
+	
+	@Autowired
+	ProductDAO productDAO;
 	
 	//@Scheduled(cron = "0/10 * * * * *")
 	@Scheduled(cron = "0 0 9 * * *")
@@ -35,6 +47,31 @@ public class JavaclassScheduler {
 				}
 			}
 		}
+	}
+	
+	@Scheduled(cron = "0 0 17 28-31 * ?")
+	public void productEstimateChangeStatement() throws ParseException {
+		ArrayList<ProductSaleVO> vos = productDAO.getAllProductSaleList(-1,0);
+		int[] idxs = new int[vos.size()];
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String monthBefore = LocalDate.now().minusMonths(1).toString();
+		Date searchDate = sdf.parse(monthBefore);
+		for(int i=0; i<vos.size(); i++) {
+			ProductSaleVO saleVO = productDAO.getProductSaleContent(vos.get(i).getIdx());
+			Date requestDate = sdf.parse(saleVO.getRequestDate());
+			if(saleVO.getStatement().equals(Statement.CANCEL) && requestDate.before(searchDate)) {
+				productDAO.setProductSaleDelete(saleVO.getIdx());	// 견적요청 건 취소 & 한달 전이면 삭제
+			}
+			idxs[i] = vos.get(i).getIdx();
+			ProductEstimateVO vo = productDAO.getProductEstimateContent(vos.get(i).getIdx());
+			if(vo != null) {
+				Date sendDate = sdf.parse(vo.getSendDate());
+				if(vo.getStatement().equals(Statement.CANCEL) && sendDate.before(searchDate)) {
+					productDAO.setProductEstimateDelete(vo.getIdx()); // 견적서 발송 후 취소 & 한달 전이면 삭제
+				}
+			}
+		}
+		
 	}
 	
 }

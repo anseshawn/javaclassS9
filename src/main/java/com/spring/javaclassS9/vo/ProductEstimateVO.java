@@ -9,6 +9,9 @@ public class ProductEstimateVO {
 	private int idx;
 	private int saleIdx;
 	private int productIdx;
+	private String co_name;
+	private String name;
+	private String email;
 	private String sendDate;
 	private Statement statement;
 	private int proPrice;
@@ -17,6 +20,8 @@ public class ProductEstimateVO {
 	private int vat;
 	private int totPrice;
 	private String payDate;
+	
+	private String proName;
 	
 }
 

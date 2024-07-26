@@ -84,7 +84,7 @@
 			let icon = "";
 			
 			Swal.fire({
-        html : "<h3>선택한 사원을 사내 DB에서 영구 삭제하시겠습니까?</h3>",
+        html : "<h3>선택한 사원을 삭제하시겠습니까?</h3>",
         confirmButtonText : '삭제',
         showCancelButton: true,
       	confirmButtonColor : '#003675',
@@ -95,12 +95,12 @@
 			}).then((result)=>{
 				if(result.isConfirmed) {
 					$.ajax({
-						url: "${ctp}/admin/engineer/engineerDeleteAll",
+						url: "${ctp}/admin/engineer/engineerDelete",
 						type: "post",
 						data: {mid:mid},
 						success: function(res){
 							if(res != "0") {
-								message = "회원 정보를 영구 삭제했습니다.";
+								message = "사원 정보를 삭제했습니다.";
 								icon = "success";
 							}
 							else {

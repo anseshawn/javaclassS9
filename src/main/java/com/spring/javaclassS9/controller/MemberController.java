@@ -33,7 +33,9 @@ import com.spring.javaclassS9.vo.FreeBoardVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.MessageVO;
 import com.spring.javaclassS9.vo.PageVO;
+import com.spring.javaclassS9.vo.ProductEstimateVO;
 import com.spring.javaclassS9.vo.ProductLikeVO;
+import com.spring.javaclassS9.vo.ProductSaleVO;
 import com.spring.javaclassS9.vo.ProductVO;
 import com.spring.javaclassS9.vo.QuestionBoardVO;
 import com.spring.javaclassS9.vo.RecruitBoardVO;
@@ -517,17 +519,34 @@ public class MemberController {
 	@RequestMapping(value = "/estimateList", method = RequestMethod.GET)
 	public String estimateListGet(Model model, HttpSession session,
 			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
-			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
-			@RequestParam(name = "part", defaultValue = "", required = false) String part,
-			@RequestParam(name = "searchString", defaultValue = "", required = false) String searchString
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize
 			) {
 		String mid = (String) session.getAttribute("sMid");
-		if(part.equals("")) searchString = mid;
-		else searchString = searchString + ","+mid;
-		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "writeReply", part, searchString);
-		ArrayList<ReplyVO> replyVOS = boardService.getBoardReplyMidCheck(pageVO.getStartIndexNo(),pageSize,part,searchString);
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "productEstimate", "memberMid", mid);
+		ArrayList<ProductSaleVO> saleVOS = productService.getSearchProductEstimateList(pageVO.getStartIndexNo(), pageSize, "memberMid", mid);
+		
+		ArrayList<ProductEstimateVO> vos = new ArrayList<ProductEstimateVO>();
+		ProductEstimateVO vo = null;
+		if(saleVOS != null && saleVOS.size() != 0) {
+			for(int i=0; i<saleVOS.size(); i++) {
+				vo = productService.getProductEstimateContent(saleVOS.get(i).getIdx());
+				if(vo != null) vos.add(vo);
+			}
+		}
+		model.addAttribute("vos", vos);
 		model.addAttribute("pageVO", pageVO);
-		model.addAttribute("replyVOS", replyVOS);
 		return "member/estimateList";
+	}
+	
+	// 마이페이지 견적서 상세 확인
+	@RequestMapping(value = "/estimateContent", method = RequestMethod.GET)
+	public String estimateContentGet(Model model,
+			@RequestParam(name="saleIdx",defaultValue = "1", required = false) int saleIdx,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize
+			) {
+		ProductEstimateVO vo = productService.getProductEstimateContent(saleIdx);
+		model.addAttribute("vo", vo);
+		return "member/estimateContent";
 	}
 }

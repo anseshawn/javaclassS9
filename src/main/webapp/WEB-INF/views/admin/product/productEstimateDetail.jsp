@@ -15,9 +15,23 @@
     th {
     	text-align: center;
     }
+    
+    .btn:disabled {
+    	pointer-events: none;
+      cursor: none;
+    }
 	</style>
 	<script>
 		'use strict';
+		
+		let message = "";
+		let icon = "";
+		
+		$(function(){
+			if('${saleVO.statement}' != 'ORDERING') {
+				$("#makeOrderBtn").prop("disabled",true);
+			}
+		});
 		
 		function changeThisStatement(idx) {
 			let statement = $("#changeStatement"+idx).val();
@@ -34,7 +48,7 @@
 			}).then((result)=>{
 				if(result.isConfirmed) {
 					$.ajax({
-						url: "${ctp}/admin/product/productEstimateChange",
+						url: "${ctp}/admin/product/productSaleChange",
 						type: "post",
 						data: {
 							idx : idx,
@@ -70,6 +84,103 @@
 				else location.reload();
 			});
 		}
+		
+		function makeOrder(idx) {
+			Swal.fire({
+        html : "<h3>해당 건의 발주를 진행하시겠습니까?</h3>",
+        confirmButtonText : '확인',
+        showCancelButton: true,
+        confirmButtonColor : '#003675',
+        customClass: {
+          popup : 'custom-swal-popup',
+          htmlContainer : 'custom-swal-text'
+        }
+			}).then((result)=>{
+				if(result.isConfirmed) {
+					$.ajax({
+						url: "${ctp}/admin/product/productSaleChange",
+						type: "post",
+						data: {
+							saleIdx : idx,
+							statement : 'DELIVER'
+						},
+						success: function(res){
+							if(res != "0") {
+								message = "발주가 진행되었습니다.";
+								icon = "success";
+							}
+							else {
+								message = "발주 진행에 실패했습니다.";
+								icon = "warning";
+							}
+							Swal.fire({
+								html: message,
+								icon: icon,
+								confirmButtonText: '확인',
+								customClass: {
+				        	confirmButton : 'swal2-confirm‎',
+				          popup : 'custom-swal-popup',
+				          htmlContainer : 'custom-swal-text'
+								}
+							}).then(function(){
+								location.reload();
+							});
+						},
+						error: function(){
+							alert("전송오류");
+						}
+					});
+				}
+			});
+		}
+		function paymentCheck(idx) {
+			Swal.fire({
+        html : "<h3>해당 건의 결제를 확인하시겠습니까?</h3>",
+        confirmButtonText : '확인',
+        showCancelButton: true,
+        confirmButtonColor : '#003675',
+        customClass: {
+          popup : 'custom-swal-popup',
+          htmlContainer : 'custom-swal-text'
+        }
+			}).then((result)=>{
+				if(result.isConfirmed) {
+					$.ajax({
+						url: "${ctp}/admin/product/productSaleChange",
+						type: "post",
+						data: {
+							saleIdx : idx,
+							statement : 'COMPLETE'
+						},
+						success: function(res){
+							if(res != "0") {
+								message = "결제가 확인되었습니다.";
+								icon = "success";
+							}
+							else {
+								message = "결제 확인에 실패했습니다.";
+								icon = "warning";
+							}
+							Swal.fire({
+								html: message,
+								icon: icon,
+								confirmButtonText: '확인',
+								customClass: {
+				        	confirmButton : 'swal2-confirm‎',
+				          popup : 'custom-swal-popup',
+				          htmlContainer : 'custom-swal-text'
+								}
+							}).then(function(){
+								location.reload();
+							});
+						},
+						error: function(){
+							alert("전송오류");
+						}
+					});
+				}
+			});
+		}
 
 	</script>
 </head>
@@ -103,7 +214,7 @@
 								</div>
 							</div>
 							<div class="col input-group" style="float:right;">
-								<select name="changeStatement" id="changeStatement${vo.idx}" class="custom-select" onchange="changeThisStatement(${vo.idx})">
+								<select name="changeStatement" id="changeStatement${saleVO.idx}" class="custom-select" onchange="changeThisStatement(${saleVO.idx})">
 									<option value="QUOTE" ${saleVO.statement=="QUOTE" ? "selected" : ""}>견적요청</option>
 									<option value="CANCEL" ${saleVO.statement=="CANCEL" ? "selected" : ""}>취소</option>
 									<option value="CHECK" ${saleVO.statement=="CHECK" ? "selected" : ""}>견적발송</option>
@@ -139,6 +250,10 @@
 								<th>내용</th>
 								<td>${fn:replace(saleVO.etcDetail,newLine,'<br/>')}</td>
 							</tr>
+							<tr>
+								<th>견적 요청일자</th>
+								<td>${fn:substring(saleVO.requestDate,0,10)}</td>
+							</tr>
 						</table>
 						<table class="table table-bordered">
 							<tr>
@@ -171,7 +286,10 @@
 							<c:if test="${saleVO.statement == 'QUOTE'}">
 								<a href="${ctp}/admin/product/estimateInput?idx=${saleVO.idx}" class="btn btn-main btn-icon-md mr-2 mb-2">견적서 송부</a>
 							</c:if>
-							<a href="javascript:#" class="btn btn-main btn-icon-md mr-2 mb-2">발주 진행</a>
+							<input type="button" onclick="makeOrder(${saleVO.idx})" value="발주 진행" id="makeOrderBtn" class="btn btn-main btn-icon-md mr-2 mb-2">
+							<c:if test="${saleVO.statement == 'DELIVER' || saleVO.statement == 'PAYMENT'}">
+								<a href="javascript:paymentCheck(${saleVO.idx})" class="btn btn-main btn-icon-md mr-2 mb-2">결제 확인</a>
+							</c:if>
 							<a href="productEstimate" class="btn btn-main-3 btn-icon-md mb-2">목록으로</a>
 						</div>
 					</div>

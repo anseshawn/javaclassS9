@@ -23,11 +23,11 @@ public interface AdminDAO {
 
 	public ArrayList<MemberVO> getMemberSearchList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("part") String part, @Param("searchString") String searchString);
 
-	public int setEngineerDeleteAll(@Param("idx") int idx);
+	public int setEngineerDelete(@Param("vo") EngineerVO vo);
 
 	public int setProductDeleteOk(@Param("idx") int idx);
 
-	public int setProductEstimateChange(@Param("idx") int idx, @Param("statement") String statement);
+	public int setProductSaleChange(@Param("idx") int idx, @Param("statement") String statement);
 
 	public int getJoinMemberCount();
 
@@ -99,5 +99,7 @@ public interface AdminDAO {
 	public int setNoticeEdit(@Param("vo") NoticeVO vo);
 
 	public int getNewPaymentCount();
+
+	public int getNewMessageCount();
 
 }

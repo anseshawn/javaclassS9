@@ -106,3 +106,4 @@ create table reportS(
 desc reportS;
 
 select * from reportS where boardIdx = (select boardIdx from reportS where idx = 19);
+

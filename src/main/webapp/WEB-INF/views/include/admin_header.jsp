@@ -72,6 +72,35 @@
 	 color: grey;
 	}
 </style>
+<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
+<script>
+	'use strict'
+	$(function(){
+		if('${sMid}'){
+			$.ajax({
+				url: "${ctp}/admin/adminHeader",
+				type: "post",
+				success: function(res) {
+					$("#alarm").text(res);
+				},
+				error: function() {
+					alert("헤더 알림 전송 오류");
+				}
+			});
+			$.ajax({
+				url: "${ctp}/admin/adminMessage",
+				type: "post",
+				success: function(res) {
+					$("#message").text(res);
+				},
+				error: function() {
+					alert("메세지 알림 전송 오류");
+				}
+			});
+		}
+		
+	});
+</script>
 <nav class="nav-container">
 
   <div class="search-box">
@@ -83,14 +112,18 @@
 
   <div class="notification">
     <div class="notification-icon">
-      <span class="notification-badge">5</span>
-      <i class="fa-solid fa-bell"></i>
+	    <a href="${ctp}/admin/adminMain">
+	      <span class="notification-badge" id="alarm"></span>
+	      <i class="fa-solid fa-bell"></i>
+      </a>
     </div>
     <div class="notification-icon">
-      <span class="notification-badge">9</span>
-      <i class="fa-solid fa-envelope"></i>
+    	<a href="${ctp}/admin/messageList">
+	      <span class="notification-badge" id="message"></span>
+	      <i class="fa-solid fa-envelope"></i>
+      </a>
     </div>
-    <span id="notification-name">관리자</span>
+    <span id="notification-name"><a href="${ctp}/admin/changeAdminPwd">관리자</a></span>
     <span id="notification-name"><a href="${ctp}/"><i class="fa-solid fa-door-open"></i>나가기</a></span>
   </div>
 </nav>

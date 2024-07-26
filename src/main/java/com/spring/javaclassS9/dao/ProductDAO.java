@@ -9,6 +9,7 @@ import com.spring.javaclassS9.vo.ExpendableVO;
 import com.spring.javaclassS9.vo.ProductEstimateVO;
 import com.spring.javaclassS9.vo.ProductLikeVO;
 import com.spring.javaclassS9.vo.ProductSaleVO;
+import com.spring.javaclassS9.vo.ProductSaleVO.Statement;
 import com.spring.javaclassS9.vo.ProductVO;
 
 public interface ProductDAO {
@@ -31,7 +32,7 @@ public interface ProductDAO {
 
 	public int setProductContentEdit(@Param("vo") ProductVO vo);
 
-	public ArrayList<ProductSaleVO> getAllProductEstimateList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize);
+	public ArrayList<ProductSaleVO> getAllProductSaleList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize);
 
 	public int estimateTotRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
 
@@ -59,5 +60,21 @@ public interface ProductDAO {
 	public void setProductSaleStatementChange(@Param("vo") ProductSaleVO vo);
 
 	public int setProductEstimateInput(@Param("vo") ProductEstimateVO vo);
+
+	public ProductEstimateVO getProductEstimateContent(@Param("saleIdx") int saleIdx);
+
+	public int setProductEstimateCancel(@Param("idx") int idx);
+
+	public int setProductEstimateOrder(@Param("idx") int idx);
+
+	public void setProductEstimateDelete(@Param("idx") int idx);
+
+	public void setProductSaleDelete(@Param("idx") int idx);
+
+	public void setProductEstimateChange(@Param("idx") int idx, @Param("statement") String statement);
+
+	public int setProductSaleChange(@Param("idx") int saleIdx, @Param("statement") String statement);
+
+	public void setProductEstimatePayDate(@Param("idx") int idx);
 
 }

@@ -11,45 +11,44 @@
 	  .accordion {
 	  	background-color: #fff;
 	    cursor: pointer;
-	    padding: 18px;
+	    /*padding: 18px;*/
 	    width: 100%;
 	    border: none;
 	    outline: none;
 	  }
 	  
 	  .panel {
-	    padding: 0 18px;
+	    /* padding: 0 18px; */
 	    display: none;
 	    overflow: hidden;
 	  }
 	  
 	  .panel a {
 	    display: block;
-	    padding: 12px 16px;
+	    /* padding: 12px 16px; */
 	    text-decoration: none;
-	    color: #333;
 	  }
 	  
 	  .panel a:hover {
-	    background-color: #ddd;
+	    background-color: #eee;
 	  }
 	</style>
 	<script>
-	document.addEventListener("DOMContentLoaded", function() {
-	  var acc = document.querySelectorAll(".accordion");
-	  
-	  acc.forEach(function(el) {
-	    el.addEventListener("click", function() {
-	      this.classList.toggle("active");
-	      var panel = this.nextElementSibling;
-	      if (panel.style.display === "block") {
-	        panel.style.display = "none";
-	      } else {
-	        panel.style.display = "block";
-	      }
-	    });
-	  });
-	});
+		document.addEventListener("DOMContentLoaded", function() {
+		  var acc = document.querySelectorAll(".accordion");
+		  
+		  acc.forEach(function(el) {
+		    el.addEventListener("click", function() {
+		      this.classList.toggle("active");
+		      var panel = this.nextElementSibling;
+		      if (panel.style.display === "block") {
+		        panel.style.display = "none";
+		      } else {
+		        panel.style.display = "block";
+		      }
+		    });
+		  });
+		});
 	</script>
 </head>
 <body>

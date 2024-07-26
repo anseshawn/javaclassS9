@@ -2,22 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.javaclassS9.dao.EngineerDAO">
 	<select id="getEngineerIdCheck" resultType="com.spring.javaclassS9.vo.EngineerVO">
-		select * from engineerS where mid = #{mid};
+		select * from engineerS where mid = #{mid} <![CDATA[and level < 99]]>;
 	</select>
 	<select id="getEngineerNameCheck" resultType="com.spring.javaclassS9.vo.EngineerVO">
-		select * from engineerS where name = #{name};
+		select * from engineerS where name = #{name} <![CDATA[and level < 99]]>;
 	</select>
 	<select id="totRecCnt" resultType="int">
-		select count(*) from engineerS;
+		select count(*) from engineerS where <![CDATA[level < 99]]>;
 	</select>
 	<select id="totRecCntSearch" resultType="int">
-		select count(*) from engineerS where ${search} like concat('%',#{searchString},'%');
+		select count(*) from engineerS where ${search} like concat('%',#{searchString},'%') <![CDATA[and level < 99]]>;
 	</select>
 	<select id="getEngineerSearchList" resultType="com.spring.javaclassS9.vo.EngineerVO">
-		select * from engineerS where ${part} like concat('%',#{searchString},'%') order by idx desc limit #{startIndexNo},#{pageSize};
+		select * from engineerS where ${part} like concat('%',#{searchString},'%') <![CDATA[and level < 99]]> 
+			order by idx desc limit #{startIndexNo},#{pageSize};
 	</select>
 	<select id="getAllEngineerList" resultType="com.spring.javaclassS9.vo.EngineerVO">
-		select * from engineerS order by idx desc 
+		select * from engineerS where <![CDATA[level < 99]]> order by starPoint desc, idx desc 
 			<if test="startIndexNo != -1"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	<select id="getEngineerIdxCheck" resultType="com.spring.javaclassS9.vo.EngineerVO">
@@ -33,7 +34,7 @@
 	
 	<select id="getAsRequestList" resultType="com.spring.javaclassS9.vo.AsRequestVO">
 		select *, datediff(asDate, now()) as date_diff from asRequest where engineerIdx=#{idx} 
-			order by idx desc limit #{startIndexNo},#{pageSize};
+			order by idx desc <if test="startIndexNo != -1"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	<select id="totAsRequestRecCnt" resultType="int">
 		select count(*) from asRequest where engineerIdx=#{searchString};

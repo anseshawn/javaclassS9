@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,9 +19,12 @@ import com.spring.javaclassS9.service.MemberService;
 import com.spring.javaclassS9.service.ProductService;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.PageVO;
+import com.spring.javaclassS9.vo.PaymentVO;
+import com.spring.javaclassS9.vo.ProductEstimateVO;
 import com.spring.javaclassS9.vo.ProductLikeVO;
 import com.spring.javaclassS9.vo.ProductSaleVO;
 import com.spring.javaclassS9.vo.ProductVO;
+import com.spring.javaclassS9.vo.ProductSaleVO.Statement;
 
 @Controller
 @RequestMapping("/product")
@@ -127,4 +131,55 @@ public class ProductController {
 		else return "redirect:/message/productSaleCustomerInputNo";
 	}
 	
+	// 받은 견적서 삭제(+ 견적 요청 건 취소로 상태 변경)
+	@Transactional
+	@ResponseBody
+	@RequestMapping(value = "/productEstimateDelete", method = RequestMethod.POST)
+	public String productEstimateDeletePost(
+			@RequestParam(name = "idx", defaultValue = "0", required = false) int idx,
+			@RequestParam(name = "saleIdx", defaultValue = "0", required = false) int saleIdx
+			) {
+		int res = productService.setProductEstimateCancel(idx);
+		productService.setProductSaleStatementChange(saleIdx,"cancel");
+		return res + "";
+	}
+	
+	// 받은 견적 발주 요청(ordering)
+	@Transactional
+	@ResponseBody
+	@RequestMapping(value = "/orderRequest", method = RequestMethod.POST)
+	public String orderRequestPost(
+			@RequestParam(name = "idx", defaultValue = "0", required = false) int idx,
+			@RequestParam(name = "saleIdx", defaultValue = "0", required = false) int saleIdx
+			) {
+		int res = productService.setProductEstimateOrder(idx);
+		productService.setProductSaleStatementChange(saleIdx,"order");
+		return res + "";
+	}
+	
+	// 결제 창 열기
+	@RequestMapping(value = "/paymentWindow", method = RequestMethod.GET)
+	public String paymentWindowGet(Model model,
+			@RequestParam(name = "saleIdx", defaultValue = "0", required = false) int saleIdx
+			) {
+		ProductEstimateVO vo = productService.getProductEstimateContent(saleIdx);
+		model.addAttribute("vo", vo);
+		return "product/paymentWindow";
+	}
+	// 결제 하기
+	@RequestMapping(value = "/paymentWindow", method = RequestMethod.POST)
+	public String paymentWindowPost(PaymentVO vo, int saleIdx, Model model) {
+		ProductEstimateVO eVo = productService.getProductEstimateContent(saleIdx);
+		model.addAttribute("vo", vo);
+		model.addAttribute("eVo", eVo);
+		return "product/paymentProgress";
+	}
+	// 결제 후 견적 건 상태 변경하기
+	@ResponseBody
+	@RequestMapping(value = "/productEstimateChange", method = RequestMethod.POST)
+	public String productSaleChangePost(int idx, String statement, int saleIdx) {
+		productService.setProductEstimatePayDate(idx);
+		productService.setProductEstimateChange(idx,statement);
+		return productService.setProductSaleChange(saleIdx,statement)+"";
+	}
 }

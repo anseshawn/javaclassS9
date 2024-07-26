@@ -225,6 +225,7 @@
 		
 		// 게시글 하나만(모달에서) 지우기
 		function deleteBoardOne(idx) {
+			let board = "";
 			if(idx==='modal') {
 				idx = document.getElementById("selectIdx").innerText;
 				board = document.getElementById("selectBoard").innerText;

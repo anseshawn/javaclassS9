@@ -30,6 +30,7 @@
 				success: function(res) {
 					if(res != "0") {
 						alert("해당 사용자에게 쪽지를 전송했습니다.");
+						opener.location.reload();
 						window.close();
 					}
 					else alert("쪽지 전송 실패.\n아이디를 확인해주세요.");
