@@ -15,6 +15,8 @@ public class PdsVO {
 	private String writeDate;
 	
 	private int date_diff;
-	
+	private String originFile;
+	private String originSFile;
+	private int originSize;
 }
 

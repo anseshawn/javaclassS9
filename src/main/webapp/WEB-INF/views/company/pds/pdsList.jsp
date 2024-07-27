@@ -28,22 +28,11 @@
 		
 		function pageSizeCheck(){
 			let pageSize = $("#pageSize").val();
-			location.href = "${ctp}/company/noticeList?pageSize="+pageSize;
-		}
-		
-		function searchValue(){
-			if($("#search").val()=='part') {
-				$("#partSelect").show();
-				$("#searchString").hide();
-			}
-			else {
-				$("#partSelect").hide();
-				$("#searchString").show();				
-			}
+			location.href = "${ctp}/company/pds/pdsList?pageSize="+pageSize;
 		}
 		
 		// 게시판 검색
-		function noticeSearch() {
+		function pdsSearch() {
 			let part = $("#search").val();
 			let searchString = $("#searchString").val();
 			if(part.trim()=="") {
@@ -54,8 +43,7 @@
 				alert("검색어를 입력하세요.");
 				return false;
 			}
-			if(part=='part') searchString = $("#partSelect").val();
-			location.href="${ctp}/company/noticeList?pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&part="+part+"&searchString="+searchString;
+			location.href="${ctp}/company/pds/pdsList?pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&part="+part+"&searchString="+searchString;
 		}
 		
 	</script>
@@ -73,7 +61,7 @@
       <div class="col-md-12">
         <div class="block text-center">
           <span class="text-white">자료실</span>
-          <h1 class="text-capitalize mb-5 text-lg"><a href="${ctp}/company/noticeList" style="color: #fff;">PDS</a></h1>
+          <h1 class="text-capitalize mb-5 text-lg"><a href="${ctp}/company/pds/pdsList" style="color: #fff;">PDS</a></h1>
         </div>
       </div>
     </div>
@@ -90,7 +78,7 @@
 			</div>
 			<div class="row mb-2">
 				<div class="col-lg-9 text-right">
-					<a href="noticeList" class="btn btn-main btn-icon-sm btn-round">전체목록으로</a>
+					<a href="pdsList" class="btn btn-main btn-icon-sm btn-round">전체목록으로</a>
 				</div>
 			</div>
 		</c:if>
@@ -108,26 +96,26 @@
  			<table class="table table-hover text-center">
 				<tr style="pointer-events: none; background:#223a66; color:#fff;">
 					<th width="10%">번호</th>
-					<th width="15%">구분</th>
-					<th width="40%">제목</th>
-					<th width="10%">첨부파일</th>
-					<th width="25%">작성일</th>
+					<th width="50%">제목</th>
+					<th>첨부파일</th>
+					<th>작성자</th>
+					<th>작성일</th>
 				</tr>
 				<c:set var="curScrStartNo" value="${pageVO.curScrStartNo}"/>
 				<c:forEach var="vo" items="${vos}" varStatus="st">
 					<tr>
 						<td>${curScrStartNo}</td>
-						<td>
-							${vo.part}
-							${vo.part=='events' ? '이벤트' : ''}
-							${vo.part=='notices' ? '일반공지' : ''}
-						</td>
 						<td class="text-left">
 							<a href="pdsContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">${vo.title}</a>
 						</td>
 						<td>
-							<c:if test=""></c:if>
+							<c:if test="${!empty vo.fileName}">
+								<a href="pdsContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}&fileLocation=on">
+									<font color="#5089EF"><i class="fa-solid fa-paperclip"></i></font>
+								</a>
+							</c:if>
 						</td>
+						<td>${vo.mid}</td>
 						<td>${vo.date_diff == 0 ? fn:substring(vo.writeDate,11,19) : fn:substring(vo.writeDate,0,10)}</td>
 					</tr>
 					<c:set var="curScrStartNo" value="${curScrStartNo-1}"/>
@@ -140,14 +128,14 @@
       <div class="col-lg-9">
         <nav class="pagination py-2 d-inline-block">
           <div class="nav-links">
-	          <c:if test="${pageVO.pag > 1}"><a class="page-numbers" href="noticeList?pag=1&pageSize=${pageVO.pageSize}"><i class="icofont-thin-double-left"></i></a></c:if>
-	          <c:if test="${pageVO.curBlock > 0}"><a class="page-numbers" href="noticeList?pag=${(pageVO.curBlock-1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-left"></i></a></c:if>
+	          <c:if test="${pageVO.pag > 1}"><a class="page-numbers" href="pdsList?pag=1&pageSize=${pageVO.pageSize}"><i class="icofont-thin-double-left"></i></a></c:if>
+	          <c:if test="${pageVO.curBlock > 0}"><a class="page-numbers" href="pdsList?pag=${(pageVO.curBlock-1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-left"></i></a></c:if>
 						<c:forEach var="i" begin="${(pageVO.curBlock*pageVO.blockSize+1)}" end="${(pageVO.curBlock)*pageVO.blockSize+pageVO.blockSize}" varStatus="st">
 							<c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><span aria-current="page" class="page-numbers current">${i}</span></c:if>
-							<c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><a class="page-numbers" href="noticeList?pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></c:if>
+							<c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><a class="page-numbers" href="pdsList?pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></c:if>
 						</c:forEach>
-						<c:if test="${pageVO.curBlock < pageVO.lastBlock}"><a class="page-numbers" href="noticeList?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-right"></i></a></c:if>
-						<c:if test="${pageVO.pag < pageVO.totPage}"><a class="page-numbers" href="noticeList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-double-right"></i></a></c:if>
+						<c:if test="${pageVO.curBlock < pageVO.lastBlock}"><a class="page-numbers" href="pdsList?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-right"></i></a></c:if>
+						<c:if test="${pageVO.pag < pageVO.totPage}"><a class="page-numbers" href="pdsList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-double-right"></i></a></c:if>
         	</div>
       	</nav>
 			</div>
@@ -159,24 +147,19 @@
 			<div class="sidebar-wrap pl-lg-4 mt-5 mt-lg-0">
 			<c:if test="${!empty sLevel && sLevel == 0}">
 				<div class="sidebar-widget write text-center mb-5 ">
-					<a href="${ctp}/admin/company/noticeInput" class="btn btn-main btn-icon btn-round" style="width:80%;">공지 작성</a>
+					<a href="${ctp}/company/pds/pdsInput" class="btn btn-main btn-icon btn-round" style="width:80%;">글쓰기</a>
 				</div>
 			</c:if>	
 			<!-- 검색창 -->
 			<div class="sidebar-widget search mb-3 ">
 				<h5>검색</h5>
-				<select name="search" id="search" class="form-control" onchange="searchValue()">
+				<select name="search" id="search" class="form-control">
 					<option value="title">제목</option>
 					<option value="content">내용</option>
-					<option value="part">분류</option>
-				</select>
-				<select name="partSelect" id="partSelect" class="form-control mt-2" style="display:none;">
-					<option>공지사항</option>
-					<option>이벤트</option>
 				</select>
 				<input type="text" name="searchString" id="searchString" class="form-control mt-2" placeholder="검색어를 입력하세요." required />
 				<i class="ti-search"></i>
-				<div class="text-right"><a href="javascript:noticeSearch()" class="btn btn-main btn-icon-sm btn-round mt-2"><i class="icofont-search-2"></i> 검색</a></div>
+				<div class="text-right"><a href="javascript:pdsSearch()" class="btn btn-main btn-icon-sm btn-round mt-2"><i class="icofont-search-2"></i> 검색</a></div>
 			</div>
 			<!-- 검색창 끝 -->
 			</div>

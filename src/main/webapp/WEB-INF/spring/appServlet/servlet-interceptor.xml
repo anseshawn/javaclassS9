@@ -79,6 +79,8 @@
 	
 		<interceptor>
 			<mapping path="/admin/**"/>
+			<mapping path="/company/pds/pdsInput"/>
+			<mapping path="/company/pds/pdsEdit"/>
 			<exclude-mapping path="/admin/engineer/engineerList"/>
 			<beans:ref bean="level0Interceptor"/>
 		</interceptor>

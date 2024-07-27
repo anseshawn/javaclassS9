@@ -6,7 +6,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>글쓰기 - 자료실</title>
+  <title>수정하기 - 자료실</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
 	<script>
 		'use strict';
@@ -31,7 +31,7 @@
   		
   		if(fName.trim() != "") {
   			if(fName.includes("/")){
-  				alert("이름에 슬래시(/)가 들어간 파일은 업로드할 수 없ㅅ브니다.\n파일명을 변경해주세요.");
+  				alert("이름에 슬래시(/)가 들어간 파일은 업로드할 수 없습니다.\n파일명을 변경해주세요.");
   				return false;
   			}
 	  		let ext = fName.substring(fName.lastIndexOf(".")+1).toLowerCase(); // 확장자 부분만 뽑아서 소문자로
@@ -75,12 +75,12 @@
 	<div class="divider2 mx-auto my-4"></div>
 	<div class="row justify-content-center mb-3">
 		<div class="col-md-8 col-md-offset-2"><h4>제목</h4>
-			<input type="text" name="title" id="title" class="form-control mt-2" placeholder="제목을 입력하세요" required/>
+			<input type="text" name="title" id="title" class="form-control mt-2" value="${vo.title}" placeholder="제목을 입력하세요" required/>
 		</div>
 	</div>
 	<div class="row justify-content-center mb-3">
 		<div class="col-md-8 col-md-offset-2"><h4>내용</h4>
-			<textarea name="content" id="content" rows="10" class="form-control"></textarea>
+			<textarea name="content" id="content" rows="10" class="form-control">${vo.content}</textarea>
 		</div>
 	</div>
 	<div class="row justify-content-center mb-3">
@@ -93,10 +93,14 @@
 	<div class="row justify-content-center mb-3">
 		<div class="col-md-8 col-md-offset-2 text-right">
 			<input type="button" value="등록하기" onclick="fCheck()" class="btn btn-main-2 btn-icon btn-round-full" />
-			<a href="${ctp}/company/pds/pdsList?pag=${pageVO.pag}&pageSize=${pageVO.pageSize}" class="btn btn-main btn-icon btn-round-full">취소</a>
+			<a href="${ctp}/company/pds/pdsList?pag=${pag}&pageSize=${pageSize}" class="btn btn-main btn-icon btn-round-full">취소</a>
 		</div>
 	</div>
+	<input type="hidden" name="idx" value="${vo.idx}"/>
 	<input type="hidden" name="mid" value="${sMid}"/>
+	<input type="hidden" name="originFile" value="${vo.fileName}"/>
+	<input type="hidden" name="originSFile" value="${vo.fileSName}"/>
+	<input type="hidden" name="originSize" value="${vo.fileSize}"/>
 </form>
 </div>
 <p><br/></p>

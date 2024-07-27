@@ -21,6 +21,7 @@ import com.spring.javaclassS9.common.JavaclassProvide;
 import com.spring.javaclassS9.dao.BoardDAO;
 import com.spring.javaclassS9.vo.BoardLikeVO;
 import com.spring.javaclassS9.vo.FreeBoardVO;
+import com.spring.javaclassS9.vo.PdsVO;
 import com.spring.javaclassS9.vo.QuestionBoardVO;
 import com.spring.javaclassS9.vo.RecruitBoardVO;
 import com.spring.javaclassS9.vo.ReplyVO;
@@ -418,6 +419,87 @@ public class BoardServiceImpl implements BoardService {
 		}
 		else mid = searchString;
 		return boardDAO.getRecruitBoardMidCheck(startIndexNo, pageSize, part, searchString, mid);
+	}
+
+	@Override
+	public int setPdsInputOk(MultipartHttpServletRequest mFile, PdsVO vo) {
+		try {
+			List<MultipartFile> fileList = mFile.getFiles("file");
+			String oFileNames = "";
+			String sFileNames = "";
+			int fileSizes = 0;
+			for(MultipartFile file : fileList) {
+				String oFileName = file.getOriginalFilename();
+				if(mFile != null && oFileName != "") {
+					String sFileName = javaclassProvide.saveFileName(oFileName);
+					javaclassProvide.writeFile(file, sFileName, "pds");
+					
+					oFileNames += oFileName + "/";
+					sFileNames += sFileName + "/";
+					fileSizes += file.getSize();
+				}
+			}
+			if(oFileNames != "") {
+				oFileNames = oFileNames.substring(0,oFileNames.length()-1);
+				sFileNames = sFileNames.substring(0,sFileNames.length()-1);
+			}
+			
+			vo.setFileName(oFileNames);
+			vo.setFileSName(sFileNames);
+			vo.setFileSize(fileSizes);
+		} catch (IOException e) {e.printStackTrace();}
+		return boardDAO.setPdsInputOk(vo);
+	}
+
+	@Override
+	public ArrayList<PdsVO> getPdsListAll(int startIndexNo, int pageSize, String part, String searchString) {
+		return boardDAO.getPdsListAll(startIndexNo,pageSize,part,searchString);
+	}
+
+	@Override
+	public PdsVO getPdsContent(int idx) {
+		return boardDAO.getPdsContent(idx);
+	}
+
+	@Override
+	public int setPdsEditOk(MultipartHttpServletRequest mFile, PdsVO vo) {
+		try {
+			List<MultipartFile> fileList = mFile.getFiles("file");
+			String oFileNames = "";
+			String sFileNames = "";
+			int fileSizes = 0;
+			for(MultipartFile file : fileList) {
+				String oFileName = file.getOriginalFilename();
+				if(mFile != null && oFileName != "") { // 우선 올라온 파일은 전부 업로드 처리 후
+					String sFileName = javaclassProvide.saveFileName(oFileName);
+					javaclassProvide.writeFile(file, sFileName, "pds");
+					oFileNames += oFileName + "/";
+					sFileNames += sFileName + "/";
+					fileSizes += file.getSize();
+				}
+			}
+			if(oFileNames != "") {
+				oFileNames = oFileNames.substring(0,oFileNames.length()-1);
+				sFileNames = sFileNames.substring(0,sFileNames.length()-1);
+			}
+			
+			// 기존에 있던 파일 목록과 다르다면 기존 파일을 삭제한다.
+			if(oFileNames != "" && !oFileNames.equals(vo.getOriginFile())) {
+				String[] fSNames = vo.getOriginSFile().split("/");
+				for(String fSName : fSNames) {
+					javaclassProvide.deleteFile(fSName, "pds");
+				}
+				vo.setFileName(oFileNames);
+				vo.setFileSName(sFileNames);
+				vo.setFileSize(fileSizes);
+			}
+			else {
+				vo.setFileName(vo.getOriginFile());
+				vo.setFileSName(vo.getOriginSFile());
+				vo.setFileSize(vo.getOriginSize());
+			}
+		} catch (IOException e) {e.printStackTrace();}
+		return boardDAO.setPdsEditOk(vo);
 	}
 
 }

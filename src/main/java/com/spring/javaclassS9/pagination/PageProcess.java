@@ -67,6 +67,13 @@ public class PageProcess {
 				totRecCnt = productDAO.estimateTotRecCntSearch(search,searchString);
 			}
 		}
+		else if(section.equals("pds")) {
+			if(part.equals("")) totRecCnt = boardDAO.pdsTotRecCnt();
+			else {
+				search = part;
+				totRecCnt = boardDAO.pdsTotRecCntSearch(search,searchString);
+			}
+		}
 		else if(section.equals("freeBoard")) {
 			if(part.equals("")) totRecCnt = boardDAO.freeTotRecCnt();
 			else {

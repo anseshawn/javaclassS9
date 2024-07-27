@@ -147,6 +147,7 @@ public class MessageController {
 			if(pathFlag.equals("freeBoard")) model.addAttribute("url", "/customer/board/freeBoardList");
 			else if(pathFlag.equals("questionBoard")) model.addAttribute("url", "/customer/board/questionBoardList");
 			else if(pathFlag.equals("recruitBoard")) model.addAttribute("url", "/customer/board/recruitBoardList");
+			else if(pathFlag.equals("pds")) model.addAttribute("url", "/company/pds/pdsList");
 			else model.addAttribute("url", "/customer/cmain");
 		}
 		else if(msgFlag.equals("boardInputNo")) {
@@ -154,6 +155,7 @@ public class MessageController {
 			if(pathFlag.equals("freeBoard")) model.addAttribute("url", "/customer/board/freeBoardInput");
 			else if(pathFlag.equals("questionBoard")) model.addAttribute("url", "/customer/board/questionBoardInput");
 			else if(pathFlag.equals("recruitBoard")) model.addAttribute("url", "/customer/board/recruitBoardInput");
+			else if(pathFlag.equals("pds")) model.addAttribute("url", "/company/pds/pdsInput");
 			else model.addAttribute("url", "/customer/cmain");
 		}
 		else if(msgFlag.equals("boardEditOk")) {
@@ -161,6 +163,7 @@ public class MessageController {
 			if(pathFlag.equals("freeBoard")) model.addAttribute("url", "/customer/board/freeBoardList");
 			else if(pathFlag.equals("questionBoard")) model.addAttribute("url", "/customer/board/questionBoardList");
 			else if(pathFlag.equals("recruitBoard")) model.addAttribute("url", "/customer/board/recruitBoardList");
+			else if(pathFlag.equals("pds")) model.addAttribute("url", "/company/pds/pdsList");
 			else model.addAttribute("url", "/customer/cmain");
 		}
 		else if(msgFlag.equals("boardEditNo")) {
@@ -168,6 +171,7 @@ public class MessageController {
 			if(pathFlag.equals("freeBoard")) model.addAttribute("url", "/customer/board/freeBoardEdit?idx="+idx);
 			else if(pathFlag.equals("questionBoard")) model.addAttribute("url", "/customer/board/questionBoardEdit?idx="+idx);
 			else if(pathFlag.equals("recruitBoard")) model.addAttribute("url", "/customer/board/recruitBoardEdit?idx="+idx);
+			else if(pathFlag.equals("pds")) model.addAttribute("url", "/company/pds/pdsEdit?idx="+idx);
 			else model.addAttribute("url", "/customer/cmain");
 		}
 		else if(msgFlag.equals("boardDeleteOk")) {
@@ -175,6 +179,7 @@ public class MessageController {
 			if(pathFlag.equals("freeBoard")) model.addAttribute("url", "/customer/board/freeBoardList");
 			else if(pathFlag.equals("questionBoard")) model.addAttribute("url", "/customer/board/questionBoardList");
 			else if(pathFlag.equals("recruitBoard")) model.addAttribute("url", "/customer/board/recruitBoardList");
+			else if(pathFlag.equals("pds")) model.addAttribute("url", "/company/pds/pdsList");
 			else model.addAttribute("url", "/customer/cmain");
 		}
 		else if(msgFlag.equals("boardDeleteNo")) {
@@ -182,6 +187,7 @@ public class MessageController {
 			if(pathFlag.equals("freeBoard")) model.addAttribute("url", "/customer/board/freeBoardContent?idx="+idx);
 			else if(pathFlag.equals("questionBoard")) model.addAttribute("url", "/customer/board/questionBoardContent?idx="+idx);
 			else if(pathFlag.equals("recruitBoard")) model.addAttribute("url", "/customer/board/recruitBoardContent?idx="+idx);
+			else if(pathFlag.equals("pds")) model.addAttribute("url", "/company/pds/pdsContent?idx="+idx);
 			else model.addAttribute("url", "/customer/cmain");
 		}
 		else if(msgFlag.equals("boardContentNo")) {
@@ -189,6 +195,7 @@ public class MessageController {
 			if(pathFlag.equals("freeBoard")) model.addAttribute("url", "/customer/board/freeBoardList");
 			else if(pathFlag.equals("questionBoard")) model.addAttribute("url", "/customer/board/questionBoardList");
 			else if(pathFlag.equals("recruitBoard")) model.addAttribute("url", "/customer/board/recruitBoardList");
+			else if(pathFlag.equals("pds")) model.addAttribute("url", "/company/pds/pdsList");
 			else model.addAttribute("url", "/customer/cmain");
 		}
 		else if(msgFlag.equals("consultingInputOk")) {

@@ -127,6 +127,20 @@
 	<select id="writeReplyTotRecCntSearch" resultType="int">
 		select count(*) from replyS where mid = #{mid} and ${search} like concat('%',#{searchString},'%');
 	</select>
+	<select id="pdsTotRecCnt" resultType="int">
+		select count(*) from pdsS;
+	</select>
+	<select id="pdsTotRecCntSearch" resultType="int">
+		select count(*) from pdsS where ${search} like concat('%',#{searchString},'%');
+	</select>
+	<select id="getPdsListAll" resultType="com.spring.javaclassS9.vo.PdsVO">
+		SELECT *, datediff(writeDate, now()) AS date_diff FROM pdsS 
+			<if test="search != ''"> WHERE ${search} LIKE CONCAT('%',#{searchString},'%') </if> 
+			ORDER BY idx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="getPdsContent" resultType="com.spring.javaclassS9.vo.PdsVO">
+		select *, datediff(writeDate, now()) as date_diff from pdsS where idx = #{idx};
+	</select>
 	
 	
 	<insert id="setFreeBoardInput">
@@ -152,6 +166,10 @@
 		insert into recruitBoardS values(default, #{vo.mid}, #{vo.nickName}, #{vo.title}, #{vo.content}, #{vo.hostIp}, 
 			default, default, #{vo.part}, #{vo.location}, default, #{vo.endDate}, #{vo.etcContent}, #{vo.rcfName}, 
 			#{vo.rcfSName}, default, default);
+	</insert>
+	<insert id="setPdsInputOk">
+		insert into pdsS values(default, #{vo.mid}, #{vo.title}, #{vo.content}, default, #{vo.fileName}, #{vo.fileSName}, 
+			#{vo.fileSize}, default);
 	</insert>
 	
 	
@@ -209,6 +227,10 @@
 	<update id="setQuestionBoardEdit">
 		update questionBoardS set mid=#{vo.mid}, nickName=#{vo.nickName}, title=#{vo.title}, content=#{vo.content}, 
 			hostIp=#{vo.hostIp}, part=#{vo.part} where idx = #{vo.idx};
+	</update>
+	<update id="setPdsEditOk">
+		update pdsS set mid=#{vo.mid}, title=#{vo.title}, content=#{vo.content}, fileName=#{vo.fileName}, fileSName=#{vo.fileSName}, 
+			fileSize=#{vo.fileSize} where idx = #{vo.idx};
 	</update>
 
 	

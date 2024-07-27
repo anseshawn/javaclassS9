@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.javaclassS9.vo.BoardLikeVO;
 import com.spring.javaclassS9.vo.FreeBoardVO;
+import com.spring.javaclassS9.vo.PdsVO;
 import com.spring.javaclassS9.vo.QuestionBoardVO;
 import com.spring.javaclassS9.vo.RecruitBoardVO;
 import com.spring.javaclassS9.vo.ReplyVO;
@@ -106,5 +107,13 @@ public interface BoardService {
 	public ArrayList<QuestionBoardVO> getQuestionBoardMidCheck(int startIndexNo, int pageSize, String part, String searchString);
 
 	public ArrayList<RecruitBoardVO> getRecruitBoardMidCheck(int startIndexNo, int pageSize, String part, String searchString);
+
+	public int setPdsInputOk(MultipartHttpServletRequest mFile, PdsVO vo);
+
+	public ArrayList<PdsVO> getPdsListAll(int startIndexNo, int pageSize, String part, String searchString);
+
+	public PdsVO getPdsContent(int idx);
+
+	public int setPdsEditOk(MultipartHttpServletRequest mFile, PdsVO vo);
 
 }

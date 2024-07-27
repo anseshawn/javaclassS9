@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.spring.javaclassS9.vo.BoardLikeVO;
 import com.spring.javaclassS9.vo.FreeBoardVO;
+import com.spring.javaclassS9.vo.PdsVO;
 import com.spring.javaclassS9.vo.QuestionBoardVO;
 import com.spring.javaclassS9.vo.RecruitBoardVO;
 import com.spring.javaclassS9.vo.ReplyVO;
@@ -135,5 +136,18 @@ public interface BoardDAO {
 	public int writeReplyTotRecCnt(@Param("mid") String mid);
 
 	public int writeReplyTotRecCntSearch(@Param("search") String search, @Param("searchString") String searchString, @Param("mid") String mid);
+
+	public int setPdsInputOk(@Param("vo") PdsVO vo);
+
+	public int pdsTotRecCnt();
+
+	public int pdsTotRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
+
+	public ArrayList<PdsVO> getPdsListAll(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize,
+			@Param("search") String search, @Param("searchString") String searchString);
+
+	public PdsVO getPdsContent(@Param("idx") int idx);
+
+	public int setPdsEditOk(@Param("vo") PdsVO vo);
 
 }
