@@ -184,6 +184,13 @@ public class MessageController {
 			else if(pathFlag.equals("recruitBoard")) model.addAttribute("url", "/customer/board/recruitBoardContent?idx="+idx);
 			else model.addAttribute("url", "/customer/cmain");
 		}
+		else if(msgFlag.equals("boardContentNo")) {
+			model.addAttribute("msg", "존재하지 않는 게시물입니다.");
+			if(pathFlag.equals("freeBoard")) model.addAttribute("url", "/customer/board/freeBoardList");
+			else if(pathFlag.equals("questionBoard")) model.addAttribute("url", "/customer/board/questionBoardList");
+			else if(pathFlag.equals("recruitBoard")) model.addAttribute("url", "/customer/board/recruitBoardList");
+			else model.addAttribute("url", "/customer/cmain");
+		}
 		else if(msgFlag.equals("consultingInputOk")) {
 			model.addAttribute("msg", "문의가 전송되었습니다.\\n답변에 2~3일 소요됩니다.");
 			model.addAttribute("url", "/customer/cmain");

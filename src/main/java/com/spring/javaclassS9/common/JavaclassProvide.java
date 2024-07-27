@@ -43,22 +43,22 @@ public class JavaclassProvide {
 		}
 		else if(mailFlag.equals("adminSendEmail")) {
 			content += "<h3>그린 엔지니어링에서 전해드립니다.</h3><br>";
-			content += imsiContent+"<br><hr><br>";
+			content += imsiContent+"<br><br><hr><br>";
 		}
 		else if(mailFlag.equals("consultingAnswer")) {
 			content += "<h3>답변 내용 : </h3><br>";
-			content += imsiContent+"<br><hr><br>";
+			content += imsiContent+"<br><br><hr><br>";
 			content += "마이페이지 문의 내역에서도 답변을 확인할 수 있습니다. <br>";
 		}
 		
-		content += "<p><img src='cid:logo.jpg'></p>";
+		content += "<p><img src='cid:emaillogo.png'></p>";
 		content += "<p>사이트 방문하기 : <a href='http://localhost:9090/javaclassS9/main'>javaclass</a>";
 		// content += "<hr>";
 		content = content.replace("\n", "<br>");
 		messageHelper.setText(content, true);
 		
-		FileSystemResource file = new FileSystemResource(request.getSession().getServletContext().getRealPath("/resources/images/logo.jpg"));
-		messageHelper.addInline("logo.jpg", file);
+		FileSystemResource file = new FileSystemResource(request.getSession().getServletContext().getRealPath("/resources/images/emaillogo.png"));
+		messageHelper.addInline("emaillogo.png", file);
 		
 		mailSender.send(message);
 		

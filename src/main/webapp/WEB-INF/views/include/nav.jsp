@@ -4,24 +4,24 @@
 
 <nav class="navbar navbar-expand-lg navigation" id="navbar">
 	<div class="container">
-		<a class="navbar-brand mr-auto" href="${ctp}/"><img src="${ctp}/images/logo.jpg" alt="" class="img-fluid"></a> &nbsp;&nbsp;
+		<a class="navbar-brand mr-auto" href="${ctp}/"><img src="${ctp}/images/logo.png" alt="" class="img-fluid"></a> &nbsp;&nbsp;
 		<a class="navbar-brand mr-auto btn btn-icon-sm btn-main" href="${ctp}/customer/cmain" title="고객전용 홈페이지 바로가기" target="_blank">고객전용 홈페이지<i class="icofont-location-arrow ml-2"></i></a>
 
-		<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarmain" aria-controls="navbarmain" aria-expanded="false" aria-label="Toggle navigation">
+		<button class="navbar-toggler collapsed ml-2" type="button" data-toggle="collapse" data-target="#navbarmain" aria-controls="navbarmain" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="icofont-navigation-menu"></span>
 	  </button>
   
 	  <div class="collapse navbar-collapse" id="navbarmain">
 		<ul class="navbar-nav ml-auto">
 		  <li class="nav-item active">
-			<a class="nav-link" href="${ctp}/">Home</a>
+				<a class="nav-link" href="${ctp}/">Home</a>
 		  </li>
 			<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">소개말<i class="icofont-thin-down"></i></a>
 			<ul class="dropdown-menu" aria-labelledby="dropdown01">
 				<li><a class="dropdown-item" href="${ctp}/company/noticeList">공지사항</a></li>
 				<li><a class="dropdown-item" href="${ctp}/company/aboutUs">기업소개</a></li>
-				<li><a class="dropdown-item" href="#">자료실</a></li>
+				<li><a class="dropdown-item" href="${ctp}/company/pds/pdsList">자료실</a></li>
 			</ul>
 			</li>
 			<li class="nav-item"><a class="nav-link" href="${ctp}/product/productSale">장비소개</a></li>

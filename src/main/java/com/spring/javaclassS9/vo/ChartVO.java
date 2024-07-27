@@ -11,17 +11,5 @@ public class ChartVO {
 	private String xtitle; // x축 이름
 	private String legend1; // x축 범례
 	
-	private String x1;
-	private String x2;
-	private String x3;
-	private String x4;
-	private String x5;
-	
-	private int value1;
-	private int value2;
-	private int value3;
-	private int value4;
-	private int value5;
-	
 }
 

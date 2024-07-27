@@ -29,6 +29,17 @@
 				);
 			}
 		}
+		
+		function sendContent() {
+			let name = myform.name.value;
+			let email = myform.email.value;
+			
+			if(name.trim()=="" || email.trim()=="") {
+				alert("이름과 이메일은 필수 입력입니다.");
+				return false;
+			}
+			myform.submit();
+		}
 	</script>
 </head>
 <body>
@@ -66,7 +77,7 @@
 						<span>실험실 기초장비</span>
 						<h4 class="mb-3">중고기기 확인하기</h4>
 						<p class="mb-4">분석에 도움이 되어드리겠습니다. 실험에 필요한 장비들을 합리적인 가격에 제공합니다.</p>
-						<a href="Product.do" class="btn btn-main btn-round-full">장비리스트 보기</a>
+						<a href="${ctp}/product/productSale" class="btn btn-main btn-round-full">장비리스트 보기</a>
 					</div>
 				
 					<div class="feature-item mb-5 mb-lg-0">
@@ -76,7 +87,7 @@
 						<span>실험에 필요한 정보</span>
 						<h4 class="mb-3">다른 연구원과 소통하기</h4>
 						<p class="mb-4">실험에 어려움이 있습니까? 다른 연구원들에게 도움을 요청해보세요.</p>
-						<a href="QuestionBoard.do" class="btn btn-main btn-round-full">Q&A 게시판</a>
+						<a href="${ctp}/customer/board/questionBoardList" class="btn btn-main btn-round-full">Q&A 게시판</a>
 					</div>
 				
 					<div class="feature-item mb-5 mb-lg-0">
@@ -86,80 +97,13 @@
 						<span>온라인 상담</span>
 						<h4 class="mb-3">support@email.com</h4>
 						<p class="mb-4">제품 관련 문의, A/S 신청, 사이트 이용 중 발생하는 불편사항이 있다면 문의를 남겨주세요.</p>
-						<a href="${ctp}/customer/cmain" class="btn btn-main btn-round-full">상담내용 보내기</a>
+						<a href="${ctp}/service/serviceMain" class="btn btn-main btn-round-full">상담내용 보내기</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
-
-<!-- 
-<section class="section about">
-	<div class="container">
-		<div class="row align-items-center">
-			<div class="col-lg-4 col-sm-6">
-				<div class="about-img">
-					<img src="images/about/img-1.jpg" alt="" class="img-fluid">
-					<img src="images/about/img-2.jpg" alt="" class="img-fluid mt-4">
-				</div>
-			</div>
-			<div class="col-lg-4 col-sm-6">
-				<div class="about-img mt-4 mt-lg-0">
-					<img src="images/about/img-3.jpg" alt="" class="img-fluid">
-				</div>
-			</div>
-			<div class="col-lg-4">
-				<div class="about-content pl-4 mt-4 mt-lg-0">
-					<h2 class="title-color">Personal care <br>& healthy living</h2>
-					<p class="mt-4 mb-5">We provide best leading medicle service Nulla perferendis veniam deleniti ipsum officia dolores repellat laudantium obcaecati neque.</p>
-
-					<a href="service.html" class="btn btn-main-2 btn-round-full btn-icon">Services<i class="icofont-simple-right ml-3"></i></a>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
- -->
-<!-- 
-<section class="cta-section mt-5">
-	<div class="container">
-		<div class="cta position-relative">
-			<div class="row">
-				<div class="col-lg-3 col-md-6 col-sm-6">
-					<div class="counter-stat">
-						<i class="icofont-doctor"></i>
-						<span class="h3">58</span>개
-						<p>납품 업체 현황</p>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6 col-sm-6">
-					<div class="counter-stat">
-						<i class="icofont-flag"></i>
-						<span class="h3">12</span>대
-						<p>올해 판매 기기</p>
-					</div>
-				</div>
-				
-				<div class="col-lg-3 col-md-6 col-sm-6">
-					<div class="counter-stat">
-						<i class="icofont-badge"></i>
-						<span class="h3">10</span>+
-						<p>임직원수</p>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6 col-sm-6">
-					<div class="counter-stat">
-						<i class="icofont-globe"></i>
-						<span class="h3">20</span>
-						<p>Worldwide Branch</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
- -->
  
 <section class="section service gray-bg">
 	<div class="container">
@@ -267,12 +211,12 @@
 				<div class="appoinment-wrap mt-5 mt-lg-0">
 					<h2 class="mb-2 title-color">문의 메일 보내기</h2>
 					<p class="mb-4">문의 사항이 있다면 메일을 보내주세요. 혹은 하단에서 뉴스레터 구독이 가능합니다.</p>
-				    <form id="#" class="appoinment-form" method="post" action="#">
+				    <form name="myform" class="appoinment-form" method="post" action="${ctp}/service/serviceMain">
 	            <div class="row">
-	             	<div class="col-lg-6">
+	             	<div class="col-lg-12">
 	              	<div class="form-group">
-	                	<select class="form-control" id="exampleFormControlSelect1">
-	                    <option>카테고리</option>
+	                	<select class="form-control" name="title" id="title">
+	                    <option>상담 카테고리</option>
 	                    <option>제품 문의</option>
 	                    <option>견적 문의</option>
 	                    <option>A/S 신청</option>
@@ -281,38 +225,24 @@
 	                  </select>
 	                </div>
 	              </div>
-	            	<div class="col-lg-6">
-	              	<div class="form-group">
-	                	<select class="form-control" id="exampleFormControlSelect2">
-	                    <option>상세 카테고리</option>
-	                    <option>Software Design</option>
-	                    <option>Development cycle</option>
-	                    <option>Software Development</option>
-	                    <option>Maintenance</option>
-	                    <option>Process Query</option>
-	                    <option>Cost and Duration</option>
-	                    <option>Modal Delivery</option>
-	                  </select>
-	                </div>
-								</div>
-	
 								<div class="col-lg-6">
 									<div class="form-group">
-										<input name="name" id="name" type="text" class="form-control" placeholder="이름을 입력하세요">
+										<input name="name" id="name" type="text" class="form-control" placeholder="이름을 입력하세요" required />
 									</div>
 								</div>
 	
 								<div class="col-lg-6">
 									<div class="form-group">
-										<input name="email" id="email" type="text" class="form-control" placeholder="이메일을 입력하세요">
+										<input name="email" id="email" type="text" class="form-control" placeholder="이메일을 입력하세요" required />
 									</div>
 								</div>
 							</div>
 							<div class="form-group-2 mb-4">
-								<textarea name="message" id="message" class="form-control" rows="6" placeholder="상세 내용"></textarea>
+								<textarea name="content" id="content" class="form-control" rows="6" placeholder="상세 내용"></textarea>
 							</div>
 			
-			    	<a class="btn btn-main btn-round-full" href="#" >문의하기 <i class="icofont-simple-right ml-2  "></i></a>
+			    	<a href="javascript:sendContent()" class="btn btn-main btn-round-full" >문의하기 <i class="icofont-simple-right ml-2  "></i></a>
+			  		<input type="hidden" name="part" value="SERVICE"/>
 			  	</form>
 				</div>
 			</div>

@@ -384,6 +384,7 @@ public class CustomerController {
 			) {
 		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "freeBoard", part, searchString);
 		FreeBoardVO vo = boardService.getFreeBoardContent(idx);
+		if(vo==null) return "redirect:/message/boardContentNo?pathFlag=freeBoard";
 		ArrayList<FreeBoardVO> gVos = boardService.getFreeBoardBestList();
 		ArrayList<ReplyVO> replyVos = boardService.getBoardReply("freeBoard",idx);
 		
@@ -578,6 +579,7 @@ public class CustomerController {
 			) {
 		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "questionBoard", part, searchString);
 		QuestionBoardVO vo = boardService.getQuestionBoardContent(idx);
+		if(vo==null) return "redirect:/message/boardContentNo?pathFlag=questionBoard";
 		ArrayList<QuestionBoardVO> recentVOS = boardService.getRecentReplyQuestionBoard();
 		ArrayList<ReplyVO> replyVos = boardService.getBoardReply("questionBoard",idx);
 		
@@ -710,6 +712,7 @@ public class CustomerController {
 			) {
 		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "recruitBoard", part, searchString);
 		RecruitBoardVO vo = boardService.getRecruitBoardContent(idx);
+		if(vo==null) return "redirect:/message/boardContentNo?pathFlag=recruitBoard";
 		ArrayList<RecruitBoardVO> rcVos = boardService.getRecruitPartCount();
 		ArrayList<ReplyVO> replyVos = boardService.getBoardReply("recruitBoard",idx);
 		

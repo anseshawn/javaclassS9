@@ -57,7 +57,9 @@
 		       <hr/>
 		       <div class="button text-center">
 		         <input type="submit" class="btn btn-main-2 mr-2" value="로그인" />
-		         <a class="btn btn-main mr-2" href="${ctp}/member/memberJoin">회원가입</a>
+		         <a class="btn btn-main mr-2" href="${ctp}/member/memberJoin">
+		         	<img src="${ctp}/images/logo/imageLogo.png" width="10px"/> 회원가입
+		         </a>
 		         <a href="">카카오 로그인</a>
 		       </div>
 		      </div>

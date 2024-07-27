@@ -36,7 +36,7 @@
 					</div>
 					<span class="text-black text-muted mr-3"><i class="icofont-calendar mr-2"></i> ${vo.date_diff == 0 ? fn:substring(vo.writeDate,11,19) : fn:substring(vo.writeDate,0,10) }</span>
 					<c:if test="${!empty vo.endDate}">
-						<span class="text-black text-muted mr-3"><i class="fa-solid fa-stopwatch"></i> ${fn:substring(vo.endDate,0,10)}</span>
+						<span class="text-black text-muted mr-3"><i class="fa-solid fa-stopwatch"></i> 마감일 ${fn:substring(vo.endDate,0,10)}</span>
 					</c:if>
 				</div>
 								

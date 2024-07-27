@@ -74,16 +74,16 @@
 
     function drawChart3() {
       var data = google.visualization.arrayToDataTable([
-        ['${}', '${}'],
-        <c:forEach var="i" begin="0" end="5" varStatus="st">
-        	['${}',${}],
+        ['${barVO.xtitle}', '${barVO.legend1}'],
+        <c:forEach var="i" begin="0" end="4" varStatus="st">
+        	['${joinReason[i]}',${joinReasonCnts[i]}],
         </c:forEach>
       ]);
 
       var options = {
         chart: {
-          title: '${}',
-          subtitle: '${}',
+          title: '${barVO.title}',
+          subtitle: '${barVO.subTitle}',
         }
       };
 

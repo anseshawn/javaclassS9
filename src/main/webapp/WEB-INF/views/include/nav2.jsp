@@ -4,7 +4,7 @@
 
 <nav class="navbar navbar-expand-lg navigation" id="navbar">
 	<div class="container">
-		<a class="navbar-brand mr-auto" href="${ctp}/customer/cmain"><img src="${ctp}/images/logo.jpg" alt="" class="img-fluid"></a> &nbsp;&nbsp;
+		<a class="navbar-brand mr-auto" href="${ctp}/customer/cmain"><img src="${ctp}/images/logo.png" alt="" class="img-fluid"></a> &nbsp;&nbsp;
 		<a class="navbar-brand mr-auto btn btn-icon-sm btn-main" href="${ctp}/" title="메인 홈페이지 돌아가기" target="_blank">메인 홈페이지<i class="icofont-location-arrow ml-2"></i></a>
 
 		<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarmain" aria-controls="navbarmain" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,7 +22,7 @@
 				<a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">온라인신청<i class="icofont-thin-down"></i></a>
 				<ul class="dropdown-menu" aria-labelledby="dropdown02">
 					<li><a class="dropdown-item" href="${ctp}/product/productEstimate">장비 견적요청</a></li>
-					<li><a class="dropdown-item" href="#">교정 견적요청</a></li>
+					<!-- <li><a class="dropdown-item" href="#">교정 견적요청</a></li> -->
 					<li><a class="dropdown-item" href="${ctp}/customer/requests/asRequest">A/S 신청</a></li>
 				</ul>
 				</li>

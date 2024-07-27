@@ -247,58 +247,83 @@
 	</div>
 	<hr/>
 	<div class="row">
-		<table class="table table-hover text-center">
-			<tr style="background:#003675; color:#fff;">
-				<th><input type="checkbox" name="allSelect" id="allSelect" onclick="allSelect()" class="custom-conrol-input"/></th>
-				<th>번호</th>
-				<th>이름</th>
-				<th>아이디</th>
-				<th>이메일</th>
-				<th>담당 지역</th>
-				<th>담당 기기</th>
-				<th>비고</th>
-			</tr>
-			<c:set var="curScrStartNo" value="${pageVO.curScrStartNo}"/>
-			<c:forEach var="vo" items="${vos}" varStatus="st">
-				<tr>
-					<td>
-						<form name="selectForm">
-							<input type="checkbox" name="selectUser" id="selectUser${st}" value="${vo.mid}" />
-						</form>
-					</td>
-					<td>${curScrStartNo}</td>
-					<td>${vo.name}</td>
-					<td>
-						<a href="#" onclick="modalView('${vo.mid}')" data-toggle="modal" data-target="#engineerInfoModal">${vo.mid}</a>
-					</td>
-					<td><a href="${ctp}/admin/emailInput/${vo.mid}">${vo.email}</a></td>
-					<td>${vo.place}</td>
-					<td>${vo.machine}</td>
-					<td>
-						<a href="${ctp}/admin/engineer/engineerUpdate?idx=${vo.idx}" class="badge edit">수정</a>
-						<a href="javascript:engineerDelete('${vo.mid}')" class="badge delete">삭제</a>
-					</td>
+		<div class="col-lg-9">
+			<table class="table table-hover text-center">
+				<tr style="background:#003675; color:#fff;">
+					<th><input type="checkbox" name="allSelect" id="allSelect" onclick="allSelect()" class="custom-conrol-input"/></th>
+					<th>번호</th>
+					<th>이름</th>
+					<th>아이디</th>
+					<th>이메일</th>
+					<th>담당 지역</th>
+					<th>담당 기기</th>
+					<th>비고</th>
 				</tr>
-				<c:set var="curScrStartNo" value="${curScrStartNo - 1}"/>
-			</c:forEach>
-			<tr><td colspan="8" class="m-0 p-0"></td></tr>
-		</table>
+				<c:set var="curScrStartNo" value="${pageVO.curScrStartNo}"/>
+				<c:forEach var="vo" items="${vos}" varStatus="st">
+					<tr>
+						<td>
+							<form name="selectForm">
+								<input type="checkbox" name="selectUser" id="selectUser${st}" value="${vo.mid}" />
+							</form>
+						</td>
+						<td>${curScrStartNo}</td>
+						<td>${vo.name}</td>
+						<td>
+							<a href="#" onclick="modalView('${vo.mid}')" data-toggle="modal" data-target="#engineerInfoModal">${vo.mid}</a>
+						</td>
+						<td><a href="${ctp}/admin/emailInput/${vo.mid}">${vo.email}</a></td>
+						<td>${vo.place}</td>
+						<td>${vo.machine}</td>
+						<td>
+							<a href="${ctp}/admin/engineer/engineerUpdate?idx=${vo.idx}" class="badge edit">수정</a>
+							<a href="javascript:engineerDelete('${vo.mid}')" class="badge delete">삭제</a>
+						</td>
+					</tr>
+					<c:set var="curScrStartNo" value="${curScrStartNo - 1}"/>
+				</c:forEach>
+				<tr><td colspan="8" class="m-0 p-0"></td></tr>
+			</table>
+		</div>
+		<div class="col-lg-3 text-center align-items-center">
+			<table class="table table-bordered text-center">
+				<tr>
+					<th>번호</th>
+					<th>이름</th>
+					<th>별점</th>
+				</tr>
+				<c:forEach var="vo" items="${vos}" varStatus="st">
+					<tr>
+						<td>${st.count}</td>
+						<td>${vo.name}</td>
+						<td>
+							<c:forEach var="i" begin="1" end="${vo.starPoint}" varStatus="st1"><font color="gold">
+								<i class="fa-solid fa-star"></i></font>
+							</c:forEach>
+							<c:forEach var="i" begin="1" end="${5 - vo.starPoint}" varStatus="st2">
+								<font color="#ddd"><i class="fa-solid fa-star"></i></font>
+							</c:forEach>
+						</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
 	</div>
+	<!-- 블록페이지 시작 -->	
+	<div class="text-center">
+		<ul class="pagination justify-content-center" style="margin:20px 0">
+			<c:if test="${pageVO.pag > 1}"><li class="page-item"><a class="page-link" href="engineerList?search=${pageVo.search}&searchString=${pageVo.searchString}&pag=1&pageSize=${pageVO.pageSize}">처음</a></li></c:if>
+			<c:if test="${pageVO.curBlock > 0}"><li class="page-item"><a class="page-link" href="engineerList?search=${pageVo.search}&searchString=${pageVo.searchString}&pag=${(pageVO.curBlock-1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}">이전블록</a></li></c:if>
+			<c:forEach var="i" begin="${(pageVO.curBlock*pageVO.blockSize+1)}" end="${(pageVO.curBlock)*pageVO.blockSize+pageVO.blockSize}" varStatus="st">
+				<c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><li class="page-item active"><a class="page-link" href="engineerList?search=${pageVo.search}&searchString=${pageVo.searchString}&pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></li></c:if>
+				<c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><li class="page-item"><a class="page-link" href="engineerList?search=${pageVo.search}&searchString=${pageVo.searchString}&pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></li></c:if>
+			</c:forEach>
+			<c:if test="${pageVO.curBlock < pageVO.lastBlock}"><li class="page-item"><a class="page-link" href="engineerList?search=${pageVo.search}&searchString=${pageVo.searchString}&pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}">다음블록</a></li></c:if>
+			<c:if test="${pageVO.pag < pageVO.totPage}"><li class="page-item"><a class="page-link" href="engineerList?search=${pageVo.search}&searchString=${pageVo.searchString}&pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}">끝</a></li></c:if>
+		</ul>
+	</div>
+	<!-- 블록페이지 끝 -->
 </div>
-<!-- 블록페이지 시작 -->	
-<div class="text-center">
-	<ul class="pagination justify-content-center" style="margin:20px 0">
-		<c:if test="${pageVO.pag > 1}"><li class="page-item"><a class="page-link" href="engineerList?search=${pageVo.search}&searchString=${pageVo.searchString}&pag=1&pageSize=${pageVO.pageSize}">처음</a></li></c:if>
-		<c:if test="${pageVO.curBlock > 0}"><li class="page-item"><a class="page-link" href="engineerList?search=${pageVo.search}&searchString=${pageVo.searchString}&pag=${(pageVO.curBlock-1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}">이전블록</a></li></c:if>
-		<c:forEach var="i" begin="${(pageVO.curBlock*pageVO.blockSize+1)}" end="${(pageVO.curBlock)*pageVO.blockSize+pageVO.blockSize}" varStatus="st">
-			<c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><li class="page-item active"><a class="page-link" href="engineerList?search=${pageVo.search}&searchString=${pageVo.searchString}&pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></li></c:if>
-			<c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><li class="page-item"><a class="page-link" href="engineerList?search=${pageVo.search}&searchString=${pageVo.searchString}&pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></li></c:if>
-		</c:forEach>
-		<c:if test="${pageVO.curBlock < pageVO.lastBlock}"><li class="page-item"><a class="page-link" href="engineerList?search=${pageVo.search}&searchString=${pageVo.searchString}&pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}">다음블록</a></li></c:if>
-		<c:if test="${pageVO.pag < pageVO.totPage}"><li class="page-item"><a class="page-link" href="engineerList?search=${pageVo.search}&searchString=${pageVo.searchString}&pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}">끝</a></li></c:if>
-	</ul>
-</div>
-<!-- 블록페이지 끝 -->
 <!-- 멤버 정보 모달에 출력하기 -->
 <div class="modal fade" id="engineerInfoModal">
   <div class="modal-dialog modal-lg modal-dialog-centered">

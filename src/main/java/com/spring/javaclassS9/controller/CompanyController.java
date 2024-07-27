@@ -84,4 +84,10 @@ public class CompanyController {
 		return "company/noticeContent";
 	}
 	
+	// 자료실 내용 입력
+	@RequestMapping(value = "/pds/pdsInput", method = RequestMethod.GET)
+	public String pdsInputGet() {
+		return "company/pds/pdsInput";
+	}
+	
 }

@@ -1046,12 +1046,29 @@ public class AdminController {
   	model.addAttribute("size", mVosLength);
   	
   	// 회원 가입 사유 bar chart
-  	String[] joinReason = new String[5];
-  	int[] joinReasonCnts = new int[5];
-  	for(int i=0; i<mVosLength; i++) {
+  	memberVOS = adminService.getAllMemberList(-1, 0);
+  	String[] joinReason = {"실험정보","기기구매","AS신청","채용공고","기타"};
+  	int[] joinReasonCnts = {0,0,0,0,0};
+  	for(int i=0; i<memberVOS.size(); i++) {
   		String purpose = memberVOS.get(i).getPurpose();
+  		purpose = purpose+",";
   		String[] pur = purpose.split(",");
+  		for(int j=0; j<pur.length; j++) {
+  			if(pur[j].equals("실험정보")) joinReasonCnts[0] += 1;
+  			else if(pur[j].equals("기기구매")) joinReasonCnts[1] += 1;
+  			else if(pur[j].equals("AS신청")) joinReasonCnts[2] += 1;
+  			else if(pur[j].equals("채용공고")) joinReasonCnts[3] += 1;
+  			else joinReasonCnts[4] += 1;
+  		}
   	}
+  	ChartVO barVO = new ChartVO();
+  	barVO.setTitle("가입 목적");
+  	barVO.setSubTitle("가입 목적 현황 그래프");
+  	barVO.setXtitle("목적");
+  	barVO.setLegend1("명");
+  	model.addAttribute("barVO", barVO);
+  	model.addAttribute("joinReason", joinReason);
+  	model.addAttribute("joinReasonCnts", joinReasonCnts);
   	return "admin/siteChart";
   }
   

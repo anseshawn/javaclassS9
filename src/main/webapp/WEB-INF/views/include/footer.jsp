@@ -8,7 +8,7 @@
 			<div class="col-lg-4 mr-auto col-sm-6">
 				<div class="widget mb-5 mb-lg-0">
 					<div class="logo mb-4">
-						<img src="${ctp}/images/logo.jpg" alt="" class="img-fluid">
+						<img src="${ctp}/images/logo/footerLogo.png" alt="" class="img-fluid">
 					</div>
 					<p>다가올 미래시대가 요구하는 진보된 분석시스템의 개발과 보급에 지속적으로 매진할 것을 약속드립니다.</p>
 
@@ -26,11 +26,10 @@
 					<div class="divider mb-4"></div>
 
 					<ul class="list-unstyled footer-menu lh-35">
+						<li><a href="${ctp}/company/noticeList">공지사항</a></li>
 						<li><a href="${ctp}/product/productSale">분석장비</a></li>
-						<li><a href="#">소모품</a></li>
-						<li><a href="${ctp}/customer/requests/asRequest">A/S신청</a></li>
+						<li><a href="${ctp}/customer/requests/asRequest">A/S 신청</a></li>
 						<li><a href="${ctp}/customer/board/questionBoardList">Q/A게시판</a></li>
-						<li><a href="FreeBoard.do">자유게시판</a></li>
 					</ul>
 				</div>
 			</div>

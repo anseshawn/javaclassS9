@@ -60,9 +60,10 @@
 </head>
 <body id="top">
 <div class="container">
-<p><br/></p>
 	<div class="text-right">
-		<a href="javascript:showContent()" class="btn btn-main btn-icon-sm mb-2">자세히 보기</a>
+		<a href="javascript:showContent()" class="btn btn-main btn-icon-sm mb-2 mt-2">
+			<img src="${ctp}/images/logo/imageLogo.png" width="10px"/> 자세히 보기
+		</a>
 	</div>
 	<div id="content">${fn:replace(vo.content, newLine, '<br/>')}</div>
 	<div class="text-right">

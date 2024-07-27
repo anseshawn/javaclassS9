@@ -16,6 +16,10 @@
 		  top: 50%;
 		  z-index: 1;
 		}
+		.badge.edit {
+			background-color: #5089EF;
+			color: #fff;
+		}
 	</style>
 	<script>
 		'use strict';
@@ -307,6 +311,7 @@
 						<c:if test="${vo.level==2}">기업회원</c:if>
 						<c:if test="${vo.level==1}">엔지니어</c:if>
 						<c:if test="${vo.level==0}">관리자</c:if>
+						<c:if test="${vo.level==3 && vo.m_group=='재직자'}"><div class="badge edit">인증 필요</div></c:if>
 					</td>
 					<td>
 						<c:if test="${vo.deleteDiff < 30}">

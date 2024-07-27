@@ -411,7 +411,7 @@
 		    <div class="form-group">
 		      <div class="form-check-inline">
 		        <span class="input-group-text">가입 목적</span> &nbsp;
-		        <c:set var="varPurposes" value="${fn:split(('실험정보/기기구매/소모품구매/채용공고/기타'),'/') }"/>
+		        <c:set var="varPurposes" value="${fn:split(('실험정보/기기구매/AS신청/채용공고/기타'),'/') }"/>
 		        <c:forEach var="tempPurpose" items="${varPurposes}" varStatus="st">
 		        	<label class="form-check-label">
 		        		<input type="checkbox" class="form-check-input" name="purpose" value="${tempPurpose}" ${fn:contains(vo.purpose,tempPurpose)?'checked':''}/>${tempPurpose}&nbsp;

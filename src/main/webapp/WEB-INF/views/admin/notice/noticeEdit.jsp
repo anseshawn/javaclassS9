@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
@@ -34,6 +35,7 @@
 				$("#popup").prop("checked",true);
 				popupChecked = $("#popup").is(':checked');
 			}
+			if('${vo.part}'=='events') $("#datePick").show();
 			
 			$('#endDate').datepicker({
 			    format: "yyyy-mm-dd",	//데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
@@ -152,7 +154,7 @@
 	</div>
 	<div class="row justify-content-center mb-3" id="datePick" style="display:none;">
 		<div class="col-md-8 col-md-offset-2"><h4>이벤트 마감일</h4>
-			<input type="text" id="endDate" name="endDate" class="form-control" value="${!empty vo.endDate ? 'vo.endDate' : today}">
+			<input type="text" id="endDate" name="endDate" class="form-control" value="${!empty vo.endDate ? fn:substring(vo.endDate,0,10) : today}">
 		</div>
 	</div>
 	<div class="row justify-content-center mb-3">

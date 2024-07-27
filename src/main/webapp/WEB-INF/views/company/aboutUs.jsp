@@ -39,91 +39,11 @@
 				<p>당사는 20년 이상의 축적된 기술력을 바탕으로 다양한 분야에서 일하시는 고객 여러분의 특성에 맞는 설계 및 디자인을 통해
         최적화된 제품을 생산 공급하고 있습니다. 앞으로도 그린 엔지니어링의 모든 임직원들은 다가올 미래시대가 요구하는
         진보된 분석시스템의 개발과 보급에 지속적으로 매진할 것을 약속드립니다.</p>
-				<img src="images/about/sign.png" alt="" class="img-fluid">
+				<img src="${ctp}/images/logo/about.png" alt="" class="img-fluid">
 			</div>
 		</div>
 	</div>
 </section>
-<!-- 
-<section class="fetaure-page ">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-3 col-md-6">
-				<div class="about-block-item mb-5 mb-lg-0">
-					<img src="images/about/about-1.jpg" alt="" class="img-fluid w-100">
-					<h4 class="mt-3">Healthcare for Kids</h4>
-					<p>Voluptate aperiam esse possimus maxime repellendus, nihil quod accusantium .</p>
-				</div>
-			</div>
-			<div class="col-lg-3 col-md-6">
-				<div class="about-block-item mb-5 mb-lg-0">
-					<img src="images/about/about-2.jpg" alt="" class="img-fluid w-100">
-					<h4 class="mt-3">Medical Counseling</h4>
-					<p>Voluptate aperiam esse possimus maxime repellendus, nihil quod accusantium .</p>
-				</div>
-			</div>
-			<div class="col-lg-3 col-md-6">
-				<div class="about-block-item mb-5 mb-lg-0">
-					<img src="images/about/about-3.jpg" alt="" class="img-fluid w-100">
-					<h4 class="mt-3">Modern Equipments</h4>
-					<p>Voluptate aperiam esse possimus maxime repellendus, nihil quod accusantium .</p>
-				</div>
-			</div>
-			<div class="col-lg-3 col-md-6">
-				<div class="about-block-item">
-					<img src="images/about/about-4.jpg" alt="" class="img-fluid w-100">
-					<h4 class="mt-3">Qualified Doctors</h4>
-					<p>Voluptate aperiam esse possimus maxime repellendus, nihil quod accusantium .</p>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-<section class="section awards">
-	<div class="container">
-		<div class="row align-items-center">
-			<div class="col-lg-4">
-				<h2 class="title-color">Our Doctors achievements </h2>
-				<div class="divider mt-4 mb-5 mb-lg-0"></div>
-			</div>
-			<div class="col-lg-8">
-				<div class="row">
-					<div class="col-lg-4 col-md-6 col-sm-6">
-						<div class="award-img">
-							<img src="images/about/3.png" alt="" class="img-fluid">
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-6 col-sm-6">
-						<div class="award-img">
-							<img src="images/about/4.png" alt="" class="img-fluid">
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-6 col-sm-6">
-						<div class="award-img">
-							<img src="images/about/1.png" alt="" class="img-fluid">
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-6 col-sm-6">
-						<div class="award-img">
-							<img src="images/about/2.png" alt="" class="img-fluid">
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-6 col-sm-6">
-						<div class="award-img">
-							<img src="images/about/5.png" alt="" class="img-fluid">
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-6 col-sm-6">
-						<div class="award-img">
-							<img src="images/about/6.png" alt="" class="img-fluid">
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
- -->
 <section class="section testimonial">
 	<div class="container">
 		<div class="row">

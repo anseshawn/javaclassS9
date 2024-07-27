@@ -39,7 +39,7 @@
 </head>
 <body id="top">
 <jsp:include page="/WEB-INF/views/include/header.jsp" />
-<jsp:include page="/WEB-INF/views/include/nav2.jsp" />
+<jsp:include page="/WEB-INF/views/include/nav.jsp" />
 <p><br/></p>
 <div class="container">
 <section class="page-title bg-2">
@@ -70,6 +70,9 @@
 											${vo.part=='notices' ? '일반공지' : ''}</a>
 									</div>
 									<span class="text-black text-capitalize mr-3"><i class="icofont-calendar mr-2"></i> ${vo.date_diff == 0 ? fn:substring(vo.writeDate,11,19) : fn:substring(vo.writeDate,0,10) }</span>
+									<c:if test="${!empty vo.endDate}">
+										<span class="text-black text-muted mr-3"><i class="fa-solid fa-stopwatch"></i> 마감일 ${fn:substring(vo.endDate,0,10)}</span>
+									</c:if>
 								</div>
 												
 								<h2 class="mb-2 text-md"><a href="#">${vo.title}</a></h2>
@@ -90,6 +93,9 @@
 						        <li class="list-inline-item"><a href="#" target="_blank"><i class="icofont-twitter" aria-hidden="true"></i></a></li>
 						        <li class="list-inline-item"><a href="#" target="_blank"><i class="icofont-linkedin" aria-hidden="true"></i></a></li>
 							  	</ul>
+							  </div>
+							  <div class="mt-5">
+							  	
 							  </div>
 							</div>
 						</div>

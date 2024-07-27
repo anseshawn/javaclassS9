@@ -440,7 +440,7 @@
       </div>
       <div class="form-check-inline">
         <label class="form-check-label">
-          <input type="checkbox" class="form-check-input" value="소모품구매" name="purpose"/>소모품구매
+          <input type="checkbox" class="form-check-input" value="AS신청" name="purpose"/>AS신청
         </label>
       </div>
       <div class="form-check-inline">
