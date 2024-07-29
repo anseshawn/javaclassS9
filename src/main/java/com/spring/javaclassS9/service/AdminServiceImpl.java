@@ -12,6 +12,7 @@ import com.spring.javaclassS9.dao.BoardDAO;
 import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.EngineerVO;
+import com.spring.javaclassS9.vo.FaqVO;
 import com.spring.javaclassS9.vo.FreeBoardVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.NoticeVO;
@@ -233,5 +234,35 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int getNewMessageCount() {
 		return adminDAO.getNewMessageCount();
+	}
+
+	@Override
+	public int faqInputOk(FaqVO vo) {
+		return adminDAO.faqInputOk(vo);
+	}
+
+	@Override
+	public ArrayList<FaqVO> getFaqList(int startIndexNo, int pageSize, String part, String searchString) {
+		return adminDAO.getFaqList(startIndexNo,pageSize,part,searchString);
+	}
+
+	@Override
+	public FaqVO getFaqContent(int idx) {
+		return adminDAO.getFaqContent(idx);
+	}
+
+	@Override
+	public String[] getFaqParts() {
+		return adminDAO.getFaqParts();
+	}
+
+	@Override
+	public int faqEditOk(FaqVO vo) {
+		return adminDAO.faqEditOk(vo);
+	}
+
+	@Override
+	public int faqDeleteOk(int idx) {
+		return adminDAO.faqDeleteOk(idx);
 	}
 }

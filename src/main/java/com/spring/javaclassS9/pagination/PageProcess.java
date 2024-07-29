@@ -123,6 +123,13 @@ public class PageProcess {
 				totRecCnt = adminDAO.noticeTotRecCntSearch(search,searchString);
 			}
 		}
+		else if(section.equals("faq")) {
+			if(part.equals("")) {
+				totRecCnt = adminDAO.faqTotRecCnt();
+			}
+			else if(searchString.equals("")) totRecCnt = adminDAO.faqTotRecCntPart(part);
+			else totRecCnt = adminDAO.faqTotRecCntSearch(searchString);
+		}
 		else if(section.equals("writeBoard")) {
 			if(part.equals("")) totRecCnt = boardDAO.writeBoardTotRecCnt(searchString);
 			else {

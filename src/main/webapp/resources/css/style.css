@@ -1715,6 +1715,9 @@ main_quick_menu_wrap .title{display:block;margin-bottom:30px;font-size:25px;text
     .quick_slide .slick-dots li.slick-active button{width:35px;height:15px;border-radius: 50px;background: #43fffd;}
 }
 @media screen and (max-width:767px){
+    .quick_menu .quick_list .item {
+        max-width: 48%;
+    }
     .quick_menu{padding:20px 15px;}
     .main_quick_menu_wrap .title{font-size: 2.9rem;}
     .quick_menu .quick_list .item .txt{margin-top:10px;font-size:1.6rem;}

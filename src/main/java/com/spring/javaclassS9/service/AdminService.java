@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.EngineerVO;
+import com.spring.javaclassS9.vo.FaqVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.NoticeVO;
 import com.spring.javaclassS9.vo.ReportVO;
@@ -72,5 +73,17 @@ public interface AdminService {
 	public int getNewPaymentCount();
 
 	public int getNewMessageCount();
+
+	public int faqInputOk(FaqVO vo);
+
+	public ArrayList<FaqVO> getFaqList(int startIndexNo, int pageSize, String part, String searchString);
+
+	public FaqVO getFaqContent(int idx);
+
+	public String[] getFaqParts();
+
+	public int faqEditOk(FaqVO vo);
+
+	public int faqDeleteOk(int idx);
 
 }

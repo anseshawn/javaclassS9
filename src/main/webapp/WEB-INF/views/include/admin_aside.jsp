@@ -28,16 +28,18 @@
   }
 	
 	.ani-navbar {
-		background-color: #2A5C96;
-		color: white;
+		position: fixed;
+		top: 0;
+		left: 0;
 		width: 200px;
 		height: 100%;
 		padding: 25px;
-		position: fixed;
+		background-color: #2A5C96;
+		color: white;
 		z-index: 5;
-		transition: all 1s;
 		text-align: center;
 		transform: translateX(-150px);
+		transition: all 1s;
 	}
 	
 	.ani-navbar:hover {
@@ -95,126 +97,21 @@
 	.divider2 {
 	  width: 100%;
 	}
-	
-  /* Responsive styles */
-  @media (max-width: 768px) {
-      .ani-navbar {
-          width: 100%;
-          height: auto;
-          padding: 10px;
-          transform: translateX(0);
-          text-align: left;
-          overflow: hidden;
-      }
-
-      .navbar-toggle {
-          display: block;
-          position: absolute;
-          top: 15px;
-          right: 15px;
-          color: white;
-          font-size: 20px;
-      }
-
-      .ani-navbar ul {
-          display: none;
-          flex-direction: column;
-          width: 100%;
-          background-color: #2A5C96;
-          position: absolute;
-          top: 50px;
-          left: 0;
-          padding: 10px;
-          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-      }
-
-      .ani-navbar.open ul {
-          display: flex;
-      }
-
-      .ani-navbar-menu {
-          flex-direction: column;
-          align-items: flex-start;
-          padding: 10px;
-      }
-
-      .ani-navbar-menu a, .ani-navbar-menu p {
-          font-size: 16px;
-          color: white;
-          text-decoration: none;
-          display: block;
-          padding: 8px 0;
-          cursor: pointer;
-      }
-
-      .ani-navbar-menu a:hover {
-          background-color: rgba(255, 255, 255, 0.1);
-      }
-
-      .dropdown-content {
-          display: none;
-          flex-direction: column;
-          position: relative;
-          left: 100%;
-          top: -50px;
-          background-color: #2A5C96;
-          padding: 10px;
-      }
-
-      .dropdown-content a {
-          font-size: 14px;
-          color: white;
-          padding: 8px 0;
-          cursor: pointer;
-      }
-
-      .dropdown:hover .dropdown-content {
-          display: flex;
-      }
-  }
-
-  @media (max-width: 480px) {
-      .ani-navbar {
-          padding: 5px;
-      }
-
-      .ani-navbar ul {
-          padding: 8px;
-      }
-
-      .ani-navbar-menu a, .ani-navbar-menu p {
-          font-size: 14px;
-      }
-
-      .dropdown-content a {
-          padding: 6px;
-          font-size: 14px;
-      }
-  }
-
 </style>
-<script>
-	function toggleNavbar() {
-	    const navbar = document.querySelector('.ani-navbar');
-	    navbar.classList.toggle('open');
-	}
-</script>
 <nav class="ani-navbar">
-	<!-- 
-  <div class="navbar-toggle" onclick="toggleNavbar()">
-      <i class="fas fa-bars"></i>
-  </div>
-   -->
-	<div class="ani-navbar-menu">
-	  <i class="fa-solid fa-house ani-navbar-menu__icon"></i>
-		<a href="${ctp}/admin/adminMain">Home</a>
-	</div>
-	<div class="ani-navbar-menu ani-navbar-menu__icon">
-	  <i class="fa-solid fa-headphones"></i>
-	  <a href="${ctp}/admin/consultingList">문의 내역</a>
-	</div>
-	
 	<ul>
+	  <li class="dropdown">
+			<div class="ani-navbar-menu ani-navbar-menu__icon">
+			  <i class="fa-solid fa-house"></i>
+				<a href="${ctp}/admin/adminMain">Home</a>
+			</div>
+		</li>
+		<li class="dropdown">
+			<div class="ani-navbar-menu ani-navbar-menu__icon">
+			  <i class="fa-solid fa-headphones"></i>
+			  <a href="${ctp}/admin/consultingList">문의 내역</a>
+			</div>
+		</li>
 		<li class="dropdown">
 		<div class="ani-navbar-menu ani-navbar-menu__icon">
 		  <i class="fa-solid fa-list"></i><a href="#">공지사항</a>
@@ -222,6 +119,7 @@
 		  	<li><div class="divider2"></div></li>
 			  <li><a href="${ctp}/admin/notice/noticeInput">공지사항 등록하기</a></li>
 			  <li><a href="${ctp}/admin/notice/noticeList">목록보기</a></li>
+			  <li><a href="${ctp}/admin/notice/faqList">FAQ 관리</a></li>
 		  </ul>
 		</div>
 		</li>
@@ -269,12 +167,12 @@
 			  </ul>
 			</div>
 		</li>
-	</ul>
-	<div class="ani-navbar-menu ani-navbar-menu__icon">
-	  <i class="fa-solid fa-chart-pie"></i>
-	  <a href="${ctp}/admin/siteChart">사이트 통계</a>
-	</div>
-	<ul>
+		<li class="dropdown">
+			<div class="ani-navbar-menu ani-navbar-menu__icon">
+			  <i class="fa-solid fa-chart-pie"></i>
+			  <a href="${ctp}/admin/siteChart">사이트 통계</a>
+			</div>
+		</li>
 		<li class="dropdown">
 			<div class="ani-navbar-menu ani-navbar-menu__icon">
 			 <i class="fa-solid fa-gear"></i><a href="javascript:void(0)">계정설정</a>

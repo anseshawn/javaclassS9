@@ -90,25 +90,26 @@
 		  
 	  </div>
 	</section>
-</div>
-<!-- 블록페이지 시작 -->	
-<div class="row mt-5">
-  <div class="col-lg-9">
-    <nav class="pagination py-2 d-inline-block">
-      <div class="nav-links">
-        <c:if test="${pageVO.pag > 1}"><a class="page-numbers" href="productSale?pag=1&pageSize=${pageVO.pageSize}"><i class="icofont-thin-double-left"></i></a></c:if>
-        <c:if test="${pageVO.curBlock > 0}"><a class="page-numbers" href="productSale?pag=${(pageVO.curBlock-1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-left"></i></a></c:if>
-				<c:forEach var="i" begin="${(pageVO.curBlock*pageVO.blockSize+1)}" end="${(pageVO.curBlock)*pageVO.blockSize+pageVO.blockSize}" varStatus="st">
-					<c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><span aria-current="page" class="page-numbers current">${i}</span></c:if>
-					<c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><a class="page-numbers" href="productSale?pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></c:if>
-				</c:forEach>
-				<c:if test="${pageVO.curBlock < pageVO.lastBlock}"><a class="page-numbers" href="productSale?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-right"></i></a></c:if>
-				<c:if test="${pageVO.pag < pageVO.totPage}"><a class="page-numbers" href="productSale?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-double-right"></i></a></c:if>
-    	</div>
-  	</nav>
+	<!-- 블록페이지 시작 -->	
+	<div class="row mt-5">
+	  <div class="col-lg-9">
+	    <nav class="pagination py-2 d-inline-block">
+	      <div class="nav-links">
+	        <c:if test="${pageVO.pag > 1}"><a class="page-numbers" href="productSale?pag=1&pageSize=${pageVO.pageSize}"><i class="icofont-thin-double-left"></i></a></c:if>
+	        <c:if test="${pageVO.curBlock > 0}"><a class="page-numbers" href="productSale?pag=${(pageVO.curBlock-1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-left"></i></a></c:if>
+					<c:forEach var="i" begin="${(pageVO.curBlock*pageVO.blockSize+1)}" end="${(pageVO.curBlock)*pageVO.blockSize+pageVO.blockSize}" varStatus="st">
+						<c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><span aria-current="page" class="page-numbers current">${i}</span></c:if>
+						<c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><a class="page-numbers" href="productSale?pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></c:if>
+					</c:forEach>
+					<c:if test="${pageVO.curBlock < pageVO.lastBlock}"><a class="page-numbers" href="productSale?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-right"></i></a></c:if>
+					<c:if test="${pageVO.pag < pageVO.totPage}"><a class="page-numbers" href="productSale?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-double-right"></i></a></c:if>
+	    	</div>
+	  	</nav>
+		</div>
 	</div>
+	<!-- 블록페이지 끝 -->
 </div>
-<!-- 블록페이지 끝 -->
+<p><br/></p>
 <script>
 	var Shuffle = window.Shuffle;
 	var shuffleInstances = [];

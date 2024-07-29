@@ -15,10 +15,6 @@
 	ul {
 		list-style-type: none;
 	}
-	.quick_list .item {
-    flex: 0 0 auto; /* 기본 크기로 설정 */
-    margin: 10px;   /* 아이템 간격 */
-	}
 </style>
 <script>
 	$(document).ready(function () {
@@ -98,6 +94,10 @@
 			}
 		});
 	}
+	
+	function readyMenu() {
+		alert("준비 중입니다.");
+	}
 
 </script>
 </head>
@@ -114,21 +114,20 @@
 			<div class="quick_slide align-items-center">
 				<div class="quick_list" style="text-align: center;">
 					<div class="item" style="align-items: center; justify-content: center;">
-						<a href="#">
+						<a href="${ctp}/service/serviceMain">
 							<img class="ico_off" src="${ctp}/images/cmain/quick_ico00.png" alt="상담원안내 이미지 아이콘">
 							<img class="ico_on" src="${ctp}/images/cmain/quick_ico_on00.png" alt="상담원안내 모바일 이미지 아이콘">
 							<p class="txt">상담원안내</p>
 						</a>
 					</div>
-					<!-- 
+					
 					<div class="item">
-						<a href="/web/contents/K203000000.do">
+						<a href="${ctp}/company/pds/pdsList">
 						<img class="ico_off" src="${ctp}/images/cmain/quick_ico01.png" alt="신청양식 이미지 아이콘">
 						<img class="ico_on" src="${ctp}/images/cmain/quick_ico_on01.png" alt="신청양식 모바일 이미지 아이콘">
-							<p class="txt">신청양식 <br class="v_mobile">내려받기</p>
+							<p class="txt">자료실</p>
 						</a>
 					</div>
-					 -->
 					<div class="item" style="align-items: center; justify-content: center;">
 						<a href="${ctp}/customer/requests/asRequest">
 							<img class="ico_off" src="${ctp}/images/cmain/quick_ico02.png" alt="접수안내 이미지 아이콘">
@@ -143,13 +142,6 @@
 							<p class="txt">진행현황 조회</p>
 						</a>
 					</div>
-					<div class="item" style="display: inline-flex; align-items: center; justify-content: center;">
-						<a href="#">
-							<img class="ico_off" src="${ctp}/images/cmain/quick_ico03.png" alt="Q&A 이미지 아이콘">
-							<img class="ico_on" src="${ctp}/images/cmain/quick_ico_on03.png" alt="Q&A 모바일 이미지 아이콘">
-							<p class="txt">Q&A<br class="v_mobile">(온라인상담)</p>
-						</a>
-					</div>
 					<div class="item" style="align-items: center; justify-content: center;">
 						<a href="${ctp}/product/productSale">
 							<img class="ico_off" src="${ctp}/images/cmain/quick_ico04.png" alt="견적요청 이미지 아이콘">
@@ -158,17 +150,24 @@
 						</a>
 					</div>
 					<div class="item" style="align-items: center; justify-content: center;">
-						<a href="#">
+						<a href="javascript:readyMenu()">
 							<img class="ico_off" src="${ctp}/images/cmain/quick_ico06.png" alt="성적서/인증서 발급 이미지 아이콘">
 							<img class="ico_on" src="${ctp}/images/cmain/quick_ico_on06.png" alt="성적서/인증서 발급 모바일 이미지 아이콘">
 							<p class="txt">성적서/인증서 발급</p>
 						</a>
 					</div>
 					<div class="item" style="align-items: center; justify-content: center;">
-						<a href="#">
+						<a href="${ctp}/member/estimateList">
 							<img class="ico_off" src="${ctp}/images/cmain/quick_ico07.png" alt="수수료 납부 이미지 아이콘">
 							<img class="ico_on" src="${ctp}/images/cmain/quick_ico_on07.png" alt="수수료 납부 이미지 아이콘">
-							<p class="txt">수수료납부</p>
+							<p class="txt">견적내역</p>
+						</a>
+					</div>
+					<div class="item" style="display: inline-flex; align-items: center; justify-content: center;">
+						<a href="${ctp}/service/serviceMain">
+							<img class="ico_off" src="${ctp}/images/cmain/quick_ico03.png" alt="Q&A 이미지 아이콘">
+							<img class="ico_on" src="${ctp}/images/cmain/quick_ico_on03.png" alt="Q&A 모바일 이미지 아이콘">
+							<p class="txt">FAQ<br class="v_mobile">(자주찾는질문)</p>
 						</a>
 					</div>
 				</div>

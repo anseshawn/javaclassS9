@@ -502,4 +502,15 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.setPdsEditOk(vo);
 	}
 
+	@Override
+	public int setPdsDeleteOk(int idx, String fileSName) {
+		if(!fileSName.equals("")) {
+			String[] fileSNames = fileSName.split("/");
+			for(String fSName : fileSNames) {
+				javaclassProvide.deleteFile(fSName, "pds");
+			}
+		}
+		return boardDAO.setPdsDeleteOk(idx);
+	}
+
 }

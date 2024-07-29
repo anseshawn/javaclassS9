@@ -150,4 +150,6 @@ public interface BoardDAO {
 
 	public int setPdsEditOk(@Param("vo") PdsVO vo);
 
+	public int setPdsDeleteOk(@Param("idx") int idx);
+
 }

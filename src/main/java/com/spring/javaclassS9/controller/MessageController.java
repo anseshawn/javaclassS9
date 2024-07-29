@@ -267,6 +267,30 @@ public class MessageController {
 			model.addAttribute("msg", "견적서 발송 실패. 다시 시도하세요.");
 			model.addAttribute("url", "/admin/product/productEstimateDetail?idx="+idx);
 		}
+		else if(msgFlag.equals("faqInputOk")) {
+			model.addAttribute("msg", "FAQ 항목이 등록되었습니다.");
+			model.addAttribute("url", "/admin/notice/faqList");
+		}
+		else if(msgFlag.equals("faqInputNo")) {
+			model.addAttribute("msg", "FAQ 항목 등록 실패");
+			model.addAttribute("url", "/admin/notice/faqInput");
+		}
+		else if(msgFlag.equals("faqEditOk")) {
+			model.addAttribute("msg", "FAQ 항목을 수정했습니다.");
+			model.addAttribute("url", "/admin/notice/faqList");
+		}
+		else if(msgFlag.equals("faqEditNo")) {
+			model.addAttribute("msg", "FAQ 수정 실패.");
+			model.addAttribute("url", "/admin/notice/faqEdit?idx="+idx);
+		}
+		else if(msgFlag.equals("faqDeleteOk")) {
+			model.addAttribute("msg", "FAQ 항목을 삭제했습니다.");
+			model.addAttribute("url", "/admin/notice/faqList");
+		}
+		else if(msgFlag.equals("faqDeleteNo")) {
+			model.addAttribute("msg", "FAQ 항목 삭제 실패");
+			model.addAttribute("url", "/admin/notice/faqList");
+		}
 		
 		return "include/message";
 	}

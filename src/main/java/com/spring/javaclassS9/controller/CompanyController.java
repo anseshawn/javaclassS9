@@ -184,4 +184,14 @@ public class CompanyController {
 		else return "redirect:/message/boardEditNo?pathFlag=pds?idx="+vo.getIdx();
 	}
 	
+	// 자료실 내용 수정하기
+	@RequestMapping(value = "/pds/pdsDelete", method = RequestMethod.POST)
+	public String pdsDeletePost(
+			@RequestParam(name = "idx", defaultValue = "0", required = false) int idx,
+			@RequestParam(name = "fileSName", defaultValue = "", required = false) String fileSName
+			) {
+		int res = boardService.setPdsDeleteOk(idx, fileSName);
+		return res+"";
+	}
+	
 }

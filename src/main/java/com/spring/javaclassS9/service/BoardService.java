@@ -116,4 +116,6 @@ public interface BoardService {
 
 	public int setPdsEditOk(MultipartHttpServletRequest mFile, PdsVO vo);
 
+	public int setPdsDeleteOk(int idx, String fileSName);
+
 }

@@ -113,6 +113,27 @@
 	<select id="getNewMessageCount" resultType="int">
 		select count(*) from messageS where receiveMid='admin' and receiveSw='n';
 	</select>
+	<select id="faqTotRecCnt" resultType="int">
+		select count(*) from faqS;
+	</select>
+	<select id="faqTotRecCntPart" resultType="int">
+		select count(*) from faqS where part=#{part};
+	</select>
+	<select id="faqTotRecCntSearch" resultType="int">
+		select count(*) from faqS where title like concat('%',#{searchString},'%');
+	</select>
+	<select id="getFaqList" resultType="com.spring.javaclassS9.vo.FaqVO">
+		select * from faqS 
+			<if test="part != '' "> where part=#{part} </if> 
+			<if test="searchString != '' "> where title like concat('%',#{searchString},'%') </if>			
+			order by idx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="getFaqContent" resultType="com.spring.javaclassS9.vo.FaqVO">
+		select * from faqS where idx=#{idx};
+	</select>
+	<select id="getFaqParts" resultType="String">
+		select part from faqS group by part;
+	</select>
 	
 	
 	<insert id="setMemberDeleteReason">
@@ -128,6 +149,9 @@
 	<insert id="setNoticeInputOk">
 		insert into noticeS values(default, #{vo.part}, #{vo.title}, #{vo.content}, #{vo.popup}, 
 			default, #{vo.endDate}, #{vo.important});
+	</insert>
+	<insert id="faqInputOk">
+		insert into faqS values(default, #{vo.part}, #{vo.title}, #{vo.content});
 	</insert>
 	
 	
@@ -150,6 +174,9 @@
 	<update id="setEngineerDelete">
 		update engineerS set name=#{vo.name}, mid=#{vo.mid}, pwd=#{vo.pwd}, level=99, tel=#{vo.tel}, 
 			email=#{vo.email}, photo=#{vo.photo} where idx = #{vo.idx};
+	</update>
+	<update id="faqEditOk">
+		update faqS set part=#{vo.part}, title=#{vo.title}, content=#{vo.content} where idx=#{vo.idx};
 	</update>
 	
 	
@@ -176,5 +203,8 @@
 	</delete>
 	<delete id="setNoticeDelete">
 		delete from noticeS where idx = #{idx};
+	</delete>
+	<delete id="faqDeleteOk">
+		delete from faqS where idx=#{idx};
 	</delete>
 </mapper>

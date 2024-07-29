@@ -43,6 +43,7 @@ import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.ExpendableVO;
+import com.spring.javaclassS9.vo.FaqVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.MessageVO;
 import com.spring.javaclassS9.vo.NoticeVO;
@@ -1141,4 +1142,64 @@ public class AdminController {
 		}
 		return res + "";
 	}
+  
+  // faq 등록 된 리스트
+  @RequestMapping(value = "/notice/faqList", method = RequestMethod.GET)
+  public String faqListGet(Model model,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name = "part", defaultValue = "", required = false) String part,
+			@RequestParam(name = "searchString", defaultValue = "", required = false) String searchString
+		) {
+  	PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "faq", part, "");
+  	//if(part.equals("all")) part = "";
+  	ArrayList<FaqVO> vos = adminService.getFaqList(pageVO.getStartIndexNo(),pageSize,part,searchString);
+  	String[] parts = adminService.getFaqParts();
+  	model.addAttribute("pageVO", pageVO);
+  	model.addAttribute("parts", parts);
+  	model.addAttribute("vos", vos);
+  	return "admin/notice/faqList";
+  }
+  
+  // faq 입력 폼 띄우기
+  @RequestMapping(value = "/notice/faqInput", method = RequestMethod.GET)
+  public String faqInputGet() {
+  	return "admin/notice/faqInput";
+  }
+  
+  // faq 입력하기
+  @RequestMapping(value = "/notice/faqInput", method = RequestMethod.POST)
+  public String faqInputPost(FaqVO vo) {
+  	if(vo.getPart().equals("add")) vo.setPart(vo.getNewPart());
+  	int res = adminService.faqInputOk(vo);
+  	if(res != 0) return "redirect:/message/faqInputOk";
+  	else return "redirect:/message/faqInputNo";
+  }
+  
+  // faq 수정 폼 띄우기
+  @RequestMapping(value = "/notice/faqEdit", method = RequestMethod.GET)
+  public String faqEditGet(Model model,
+  		@RequestParam(name="idx",defaultValue = "1", required = false) int idx
+  		) {
+  	FaqVO vo = adminService.getFaqContent(idx);
+  	model.addAttribute("vo", vo);
+  	return "admin/notice/faqEdit";
+  }
+  
+  // faq 수정하기
+  @RequestMapping(value = "/notice/faqEdit", method = RequestMethod.POST)
+  public String faqEditPost(FaqVO vo) {
+  	if(vo.getPart().equals("add")) vo.setPart(vo.getNewPart());
+  	int res = adminService.faqEditOk(vo);
+  	if(res != 0) return "redirect:/message/faqEditOk";
+  	else return "redirect:/message/faqEditNo?idx="+vo.getIdx();
+  }
+  
+  // faq 삭제하기
+  @RequestMapping(value = "/notice/faqDelete", method = RequestMethod.GET)
+  public String faqDeleteGet(int idx) {
+  	int res = adminService.faqDeleteOk(idx);
+  	if(res != 0) return "redirect:/message/faqDeleteOk";
+  	else return "redirect:/message/faqDeleteNo";
+  }
 }

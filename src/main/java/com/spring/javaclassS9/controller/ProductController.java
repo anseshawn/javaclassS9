@@ -46,7 +46,7 @@ public class ProductController {
 	@RequestMapping(value = "/productSale", method = RequestMethod.GET)
 	public String productSaleGet(Model model,
 			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
-			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name="pageSize",defaultValue = "8", required = false) int pageSize,
 			@RequestParam(name = "part", defaultValue = "", required = false) String part,
 			@RequestParam(name = "searchString", defaultValue = "", required = false) String searchString
 			) {
@@ -62,7 +62,7 @@ public class ProductController {
 	public String productContentGet(Model model, HttpSession session,
 			@RequestParam(name="idx",defaultValue = "0", required = false) int idx,
 			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
-			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
+			@RequestParam(name="pageSize",defaultValue = "8", required = false) int pageSize,
 			@RequestParam(name = "part", defaultValue = "", required = false) String part,
 			@RequestParam(name = "searchString", defaultValue = "", required = false) String searchString
 			) {

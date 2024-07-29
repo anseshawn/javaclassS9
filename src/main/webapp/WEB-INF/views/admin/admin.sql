@@ -55,3 +55,13 @@ create table noticeS(
 	primary key(idx)
 );
 desc noticeS;
+
+create table faqS(
+	idx int not null auto_increment,
+	part varchar(10) not null,
+	title varchar(100) not null,
+	content text not null,
+	primary key(idx)
+);
+
+select part from faqS group by part;

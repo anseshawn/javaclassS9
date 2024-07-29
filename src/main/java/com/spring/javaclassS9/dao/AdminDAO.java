@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.EngineerVO;
+import com.spring.javaclassS9.vo.FaqVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.NoticeVO;
 import com.spring.javaclassS9.vo.ReportVO;
@@ -101,5 +102,24 @@ public interface AdminDAO {
 	public int getNewPaymentCount();
 
 	public int getNewMessageCount();
+
+	public int faqTotRecCnt();
+
+	public int faqTotRecCntSearch(@Param("searchString") String searchString);
+
+	public int faqInputOk(@Param("vo") FaqVO vo);
+
+	public ArrayList<FaqVO> getFaqList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, 
+			@Param("part") String part, @Param("searchString") String searchString);
+
+	public int faqTotRecCntPart(@Param("part") String part);
+
+	public FaqVO getFaqContent(@Param("idx") int idx);
+
+	public String[] getFaqParts();
+
+	public int faqEditOk(@Param("vo") FaqVO vo);
+
+	public int faqDeleteOk(@Param("idx") int idx);
 
 }

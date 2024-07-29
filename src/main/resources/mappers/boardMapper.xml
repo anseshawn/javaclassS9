@@ -249,5 +249,8 @@
 	<delete id="setBoardLikeDelete">
 		delete from boardLikeS where board=#{vo.board} and boardIdx=#{vo.boardIdx} and memberMid=#{vo.memberMid};
 	</delete>
+	<delete id="setPdsDeleteOk">
+		delete from pdsS where idx=#{idx};
+	</delete>
 
 </mapper>
