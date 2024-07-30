@@ -1,6 +1,7 @@
 package com.spring.javaclassS9.service;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -45,5 +46,7 @@ public interface EngineerService {
 	public EngineerVO getEngineerNameCheck(String engineerName);
 
 	public ArrayList<AsRequestVO> getAllAsRequestList(int startIndexNo, int pageSize, String search, String searchString);
+
+	public ArrayList<ScheduleVO> getEngineerSchedule(int idx);
 
 }

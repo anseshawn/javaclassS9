@@ -33,7 +33,7 @@
 						<a href="${ctp}/customer/requests/asProgress"><p class="txt txt_case1">A/S 진행현황<i class="icofont-simple-right ml-2  "></i></p></a>
 					</li>
 					<li class="item item_type2">
-						<a href="#"><p class="txt txt_case2">견적조회<i class="icofont-simple-right ml-2  "></i></p></a>
+						<a href="{ctp}/member/estimateList"><p class="txt txt_case2">견적조회<i class="icofont-simple-right ml-2  "></i></p></a>
 					</li>
 				</ul>
 			</div>

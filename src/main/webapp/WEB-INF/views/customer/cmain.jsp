@@ -164,7 +164,7 @@
 						</a>
 					</div>
 					<div class="item" style="display: inline-flex; align-items: center; justify-content: center;">
-						<a href="${ctp}/service/serviceMain">
+						<a href="${ctp}/service/faqLists">
 							<img class="ico_off" src="${ctp}/images/cmain/quick_ico03.png" alt="Q&A 이미지 아이콘">
 							<img class="ico_on" src="${ctp}/images/cmain/quick_ico_on03.png" alt="Q&A 모바일 이미지 아이콘">
 							<p class="txt">FAQ<br class="v_mobile">(자주찾는질문)</p>

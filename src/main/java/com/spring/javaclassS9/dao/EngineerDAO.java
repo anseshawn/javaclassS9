@@ -1,6 +1,7 @@
 package com.spring.javaclassS9.dao;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -57,5 +58,7 @@ public interface EngineerDAO {
 
 	public ArrayList<AsRequestVO> getAllAsRequestList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, 
 			@Param("search") String search, @Param("searchString") String searchString);
+
+	public ArrayList<ScheduleVO> getEngineerSchedule(@Param("engineerIdx") int idx);
 
 }

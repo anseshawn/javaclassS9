@@ -31,6 +31,9 @@
 	<select id="getScheduleListOne" resultType="com.spring.javaclassS9.vo.ScheduleVO">
 		select * from scheduleS where engineerIdx=#{engineerIdx};
 	</select>
+	<select id="getEngineerSchedule" resultType="com.spring.javaclassS9.vo.ScheduleVO">
+		select date_format(startTime, '%Y-%m-%d') as startDate, date_format(endTime, '%Y-%m-%d') as endDate from scheduleS where engineerIdx=#{engineerIdx};
+	</select>
 	
 	<select id="getAsRequestList" resultType="com.spring.javaclassS9.vo.AsRequestVO">
 		select *, datediff(asDate, now()) as date_diff from asRequest where engineerIdx=#{idx} 

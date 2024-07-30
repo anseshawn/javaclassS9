@@ -13,5 +13,8 @@ public class ScheduleVO {
 	private String engineerMid;
 	private int engineerIdx;
 	private String engineerName;
+	
+	private String startDate;
+	private String endDate;
 }
 

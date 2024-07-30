@@ -12,7 +12,7 @@
 	<script src="${ctp}/js/shuffle.js"></script>
 	<script>
 		var element = document.querySelector('.shuffle-container');
-		
+
 		function modalView(engineerIdx) {
 			let str = "<table class='table text-left'>";
 			$.ajax({
@@ -34,6 +34,43 @@
 				}
 			});
 		}
+		
+  	let lastScroll = 0;
+  	let curPage = 1;
+    function loadMoreItems(page) {
+      $.ajax({
+        url: '${ctp}/customer/requests/asRequest/more',
+        method: 'GET',
+        data: {
+            page: page,
+            size: 3
+        },
+        success: function(data) {
+            $('#items-container').append(data);
+            page++;
+        },
+        error: function() {
+            alert('Could not load more items');
+        }
+      });
+    }
+
+    $(window).scroll(function() {
+  		let currentScroll = $(this).scrollTop();		// 스크롤바 위쪽 시작 위치, 처음은 0이다.
+  		let documentHeight = $(document).height();	// 본문의 크기(화면에 표시되는 문서의 전체 높이)
+  		let nowHeight = $(this).scrollTop() + $(window).height();	// 현재 화면 상단 + 현재 화면높이
+  		
+  		//스크롤이 아래로 내려갔을 때 이벤트 처리...
+  		if(currentScroll > lastScroll) {
+  			if(documentHeight < (nowHeight+(documentHeight*0.1))){ // 현재위치가 문서의 크기를 벗어났는지
+  				// 다음페이지 가져오기...
+  				console.log("다음페이지 가져오기");
+  				curPage++;
+  				loadMoreItems(curPage);
+  			}
+  		}
+  		lastScroll = currentScroll;
+    });
 	</script>
 </head>
 <body>
@@ -68,7 +105,7 @@
     	<div class="col-12 text-center mb-5">
         <div class="btn-group btn-group-toggle " data-toggle="buttons">
           <label class="btn active ">
-            <input type="radio" name="shuffle-filter" value="all" checked="checked" />전체
+            <input type="radio" name="shuffle-filter" value="all" checked="checked" />전체상품
           </label>
           <label class="btn">
             <input type="radio" name="shuffle-filter" value="UV" />UV
@@ -92,7 +129,7 @@
     </div>
     
     <div class="shuffle-container">
-    <div class="col-12 text-center mb-5">
+    <div class="col-12 text-center mb-5" id="items-container">
 	    <c:forEach var="vo" items="${vos}" varStatus="st">
 	    	<c:set var="mach" value="${fn:split(vo.machine,',')}"/>
 	    	<c:set var="catGroup">

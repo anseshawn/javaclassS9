@@ -8,6 +8,10 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,7 +21,6 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDType0Font;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -54,6 +57,7 @@ import com.spring.javaclassS9.vo.RecruitBoardVO;
 import com.spring.javaclassS9.vo.ReplyVO;
 import com.spring.javaclassS9.vo.ReportVO;
 import com.spring.javaclassS9.vo.ReviewVO;
+import com.spring.javaclassS9.vo.ScheduleVO;
 
 @Controller
 @RequestMapping("/customer")
@@ -189,9 +193,35 @@ public class CustomerController {
 		return "customer/requests/asRequest";
 	}
 	
+	// A/S 신청 스크롤
+	/*
+	@RequestMapping(value = "requests/asRequest/more", method = RequestMethod.GET)
+	public String asRequestMoreGet(Model model,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "3", required = false) int pageSize
+		) {
+		ArrayList<EngineerVO> vos = engineerService.getAllEngineerList(pag, pageSize);
+		model.addAttribute("vos", vos);
+		return "customer/requests/asRequestMore";
+	}
+	*/
+	
 	@RequestMapping(value = "requests/asAppointment", method = RequestMethod.GET)
 	public String asAppointmentGet(int idx, Model model) {
 		EngineerVO eVo = engineerService.getEngineerIdxCheck(idx);
+		// 엔지니어가 일정이 있으면 제외처리(datePicker로 가져가기...)
+		ArrayList<ScheduleVO> dateVOS = engineerService.getEngineerSchedule(eVo.getIdx());
+		HashSet<String> dateSet = new HashSet<String>();
+		for(int i=0; i<dateVOS.size(); i++) {
+			dateSet.add(dateVOS.get(i).getStartDate());
+			dateSet.add(dateVOS.get(i).getEndDate());
+		}
+		String[] dates = dateSet.toArray(new String[0]);
+		model.addAttribute("dates", dates);
+		model.addAttribute("datesSize", dates.length);
+		//for(int i=0; i<dates.length; i++) {
+		//	System.out.println(i+". "+dates[i]);
+		//}
 		model.addAttribute("eVo", eVo);
 		return "customer/requests/asAppointment";
 	}

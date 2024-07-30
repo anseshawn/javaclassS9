@@ -62,3 +62,5 @@ desc asCharge;
 drop table asCharge;
 
 select count(*) from asRequest r, asCharge c where c.asIdx=r.idx and c.statement='COMPLETE' and r.progress='PAYMENT';
+
+select date_format(startTime, '%Y-%m-%d'), date_format(endTime, '%Y-%m-%d') from scheduleS where engineerIdx=4;

@@ -1,6 +1,7 @@
 package com.spring.javaclassS9.service;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -140,5 +141,10 @@ public class EngineerServiceImpl implements EngineerService {
 	@Override
 	public ArrayList<AsRequestVO> getAllAsRequestList(int startIndexNo, int pageSize, String search, String searchString) {
 		return engineerDAO.getAllAsRequestList(startIndexNo, pageSize, search, searchString);
+	}
+
+	@Override
+	public ArrayList<ScheduleVO> getEngineerSchedule(int idx) {
+		return engineerDAO.getEngineerSchedule(idx);
 	}
 }
