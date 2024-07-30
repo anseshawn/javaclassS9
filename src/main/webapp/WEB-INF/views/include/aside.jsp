@@ -100,8 +100,11 @@
 				<div class="row">
 					<div class="col"><a href="${ctp}/member/messageList">받은 메세지</a></div>
 				</div>
+				<div class="row">
+					<div class="col"><a href="${ctp}/member/chating">유저채팅방</a></div>
+				</div>
 			</div>
-			</div>
+		</div>
 	</div>
 
 </div>

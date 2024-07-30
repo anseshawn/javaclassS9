@@ -1,5 +1,6 @@
 package com.spring.javaclassS9.controller;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -7,14 +8,23 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +34,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS9.common.JavaclassProvide;
@@ -1163,7 +1175,9 @@ public class AdminController {
   
   // faq 입력 폼 띄우기
   @RequestMapping(value = "/notice/faqInput", method = RequestMethod.GET)
-  public String faqInputGet() {
+  public String faqInputGet(Model model) {
+  	String[] parts = adminService.getFaqParts();
+  	model.addAttribute("parts", parts);
   	return "admin/notice/faqInput";
   }
   
@@ -1182,6 +1196,8 @@ public class AdminController {
   		@RequestParam(name="idx",defaultValue = "1", required = false) int idx
   		) {
   	FaqVO vo = adminService.getFaqContent(idx);
+  	String[] parts = adminService.getFaqParts();
+  	model.addAttribute("parts", parts);
   	model.addAttribute("vo", vo);
   	return "admin/notice/faqEdit";
   }
@@ -1201,5 +1217,51 @@ public class AdminController {
   	int res = adminService.faqDeleteOk(idx);
   	if(res != 0) return "redirect:/message/faqDeleteOk";
   	else return "redirect:/message/faqDeleteNo";
+  }
+  
+  // 유저채팅창
+  @RequestMapping(value = "/member/chating", method = RequestMethod.GET)
+  public String chatingGet() {
+  	return "admin/member/chating";
+  }
+  
+  // 임시파일 삭제하기 창 연결
+  @RequestMapping(value = "/fileDelete", method = RequestMethod.GET)
+  public String fileDeleteGet(HttpServletRequest request, Model model) {
+  	String realPath = request.getSession().getServletContext().getRealPath("/resources/data/ckeditor");
+  	String[] files = new File(realPath).list();
+  	System.out.println(files[0]);
+  	System.out.println(files[1]);
+  	model.addAttribute("files", files);
+  	model.addAttribute("fileCount", files.length);
+  	return "admin/fileDelete";
+  }
+  // 개별파일 삭제하기
+  @ResponseBody
+  @RequestMapping(value = "/fileDelete", method = RequestMethod.POST)
+  public String fileDeletePost(HttpServletRequest request, String file) {
+  	String realPath = request.getSession().getServletContext().getRealPath("/resources/data/ckeditor/");
+  	String res = "0";
+  	File fName = new File(realPath+file);
+  	if(fName.exists()) {
+  		fName.delete();
+  		res = "1";
+  	}
+  	return res;
+  }
+  // 선택파일 삭제하기
+  @ResponseBody
+  @RequestMapping(value = "/fileDeleteAll", method = RequestMethod.POST)
+  public String fileDeleteAllPost(HttpServletRequest request, String fileName) {
+  	String realPath = request.getSession().getServletContext().getRealPath("/resources/data/ckeditor/");
+  	String res = "0";
+  	for(String file : fileName.split(",")) {
+  		File fName = new File(realPath+file);
+  		if(fName.exists()) {
+  			fName.delete();
+  			res = "1";
+  		}
+  	}
+  	return res;
   }
 }

@@ -1,7 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/> 
-
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script>
+	// 카카오 로그아웃
+	window.Kakao.init("72ddec57bb46287e893efd27beb4a21e");
+	function kakaoLogout() {
+	  const accessToken = Kakao.Auth.getAccessToken();
+	  if(accessToken) {
+		  Kakao.Auth.logout(function() {
+			  window.location.href = "https://kauth.kakao.com/oauth/logout?client_id=72ddec57bb46287e893efd27beb4a21e&logout_redirect_uri=http://localhost:9090/javaclassS9/member/memberLogout/customer";
+		  });
+	  }
+	}
+</script>
 <nav class="navbar navbar-expand-lg navigation" id="navbar">
 	<div class="container">
 		<a class="navbar-brand mr-auto" href="${ctp}/customer/cmain"><img src="${ctp}/images/logo.png" alt="" class="img-fluid"></a> &nbsp;&nbsp;
@@ -42,7 +54,12 @@
 				<li class="nav-item"><a class="nav-link" href="${ctp}/member/memberJoin">회원가입</a></li>
 			</c:if>
 			<c:if test="${!empty sLevel}">
-				<li class="nav-item"><a class="nav-link" href="${ctp}/member/memberLogout">로그아웃</a></li>
+				<c:if test="${!empty kakaoLogin}">
+					<li class="nav-item"><a class="nav-link" href="javascript:kakaoLogout()">로그아웃</a></li>
+				</c:if>
+				<c:if test="${empty kakaoLogin}">
+					<li class="nav-item"><a class="nav-link" href="${ctp}/member/memberLogout/customer">로그아웃</a></li>
+				</c:if>
 				<c:if test="${sLevel > 1 && sLevel <=3}">
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">마이페이지<i class="icofont-thin-down"></i></a>

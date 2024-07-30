@@ -38,4 +38,6 @@ public interface MemberService {
 
 	public ConsultingVO getConsultingContent(int idx);
 
+	public void setKakaoMemberInput(String mid, String pwd, String nickName, String email);
+
 }

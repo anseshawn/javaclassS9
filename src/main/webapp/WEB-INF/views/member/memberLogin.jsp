@@ -19,6 +19,28 @@
     		$("#idSave").removeAttr('checked');
     	}
   }
+	
+	// 카카오 로그인(자바스크립트 앱키 등록)
+	
+	window.Kakao.init("72ddec57bb46287e893efd27beb4a21e");
+	
+	function kakaoLogin() {
+		// 항상 명령은 window.Kakao. 이렇게 들어가야 카카오에 들어가서 불러옴
+		window.Kakao.Auth.login({
+			scope: 'profile_nickname, account_email', //변수의 생명주기
+			success: function(autoObj) {
+				console.log(Kakao.Auth.getAccessToken(), "정상 토큰 발급됨...")
+				window.Kakao.API.request({
+					url: '/v2/user/me',
+					success: function(res) {
+						const kakao_account = res.kakao_account;
+						console.log(kakao_account);
+						location.href = "${ctp}/member/kakaoLogin/${pathFlag}?nickName="+kakao_account.profile.nickname+"&email="+kakao_account.email+"&accessToken="+Kakao.Auth.getAccessToken();
+					}
+				});
+			}
+		});
+	}
 </script>
 </head>
 <body>
@@ -60,7 +82,7 @@
 		         <a class="btn btn-main mr-2" href="${ctp}/member/memberJoin">
 		         	<img src="${ctp}/images/logo/imageLogo.png" width="10px"/> 회원가입
 		         </a>
-		         <a href="">카카오 로그인</a>
+		         <a href="javascript:kakaoLogin()"><img src="${ctp}/images/kakao_login_large.png" class="kakao" height="51.25px"/></a>
 		       </div>
 		      </div>
 		    </form>

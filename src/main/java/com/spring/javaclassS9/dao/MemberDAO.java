@@ -46,5 +46,7 @@ public interface MemberDAO {
 			@Param("name") String name, @Param("email") String email);
 
 	public ConsultingVO getConsultingContent(@Param("idx") int idx);
+
+	public void setKakaoMemberInput(@Param("mid") String mid, @Param("pwd") String pwd, @Param("nickName") String nickName, @Param("email") String email);
 	
 }

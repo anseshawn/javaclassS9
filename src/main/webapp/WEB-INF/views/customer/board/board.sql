@@ -107,3 +107,5 @@ desc reportS;
 
 select * from reportS where boardIdx = (select boardIdx from reportS where idx = 19);
 
+SELECT * FROM boardLikeS WHERE board='freeBoard' and memberMid='hkd1234' 
+	and (select report from freeBoardS where boardLikeS.boardIdx = freeBoardS.idx) < 5;

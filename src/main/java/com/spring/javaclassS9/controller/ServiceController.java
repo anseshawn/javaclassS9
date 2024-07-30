@@ -83,6 +83,7 @@ public class ServiceController {
   	model.addAttribute("pageVO", pageVO);
   	model.addAttribute("parts", parts);
   	model.addAttribute("vos", vos);
+  	model.addAttribute("count", vos.size());
 		return "service/faqList";
 	}
 }

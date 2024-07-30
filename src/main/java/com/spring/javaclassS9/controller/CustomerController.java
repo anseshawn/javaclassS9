@@ -708,7 +708,8 @@ public class CustomerController {
 			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
 			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
 			@RequestParam(name = "part", defaultValue = "", required = false) String part,
-			@RequestParam(name = "searchString", defaultValue = "", required = false) String searchString
+			@RequestParam(name = "searchString", defaultValue = "", required = false) String searchString,
+			@RequestParam(name = "end", defaultValue = "", required = false) String end
 			) {
 		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "recruitBoard", part, searchString);
 		RecruitBoardVO vo = boardService.getRecruitBoardContent(idx);
@@ -736,6 +737,7 @@ public class CustomerController {
 		}
 		session.setAttribute("sContentIdx", contentReadNum);
 		
+		model.addAttribute("end", end);
 		model.addAttribute("vo", vo);
 		model.addAttribute("rcVos", rcVos);
 		model.addAttribute("replyVos", replyVos);

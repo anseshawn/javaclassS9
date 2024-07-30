@@ -81,9 +81,9 @@
 			<div class="form-group">
 				<select class="form-control" name="part" id="part" style="height:45px;" onchange="addPart()">
 					<option>분류</option>
-					<option value="신청 및 진행">신청 및 진행</option>
-					<option value="수수료">수수료</option>
-					<option value="구매방식">구매방식</option>
+					<c:forEach var="part" items="${parts}" varStatus="st">
+						<option value="${part}">${part}</option>
+					</c:forEach>
 					<option value="add">새 분류 추가</option>
 				</select>
 			</div>
@@ -103,14 +103,14 @@
 	</div>
 	<div class="row justify-content-center mb-3">
 		<div class="col-md-8 col-md-offset-2"><h4>내용</h4>
-			<textarea name="content" id="content" rows="3" class="form-control"></textarea>
+			<textarea name="content" id="content" rows="5" class="form-control"></textarea>
 		</div>
 	</div>
 	<div class="divider2 mx-auto my-4" style="width:70%;"></div>
 	<div class="row justify-content-center mb-3">
 		<div class="col-md-8 col-md-offset-2 text-right">
 			<input type="button" value="등록하기" onclick="fCheck()" class="btn btn-main-2 btn-icon btn-round-full" />
-			<a href="${ctp}/admin/notice/noticeList?pag=${pageVO.pag}&pageSize=${pageVO.pageSize}" class="btn btn-main btn-icon btn-round-full">취소</a>
+			<a href="${ctp}/admin/notice/faqList?pag=${pageVO.pag}&pageSize=${pageVO.pageSize}" class="btn btn-main btn-icon btn-round-full">취소</a>
 		</div>
 	</div>
 	<input type="hidden" name="newPart" id="newPart" />

@@ -210,7 +210,7 @@
 			<div class="col-lg-6 col-md-10 ">
 				<div class="appoinment-wrap mt-5 mt-lg-0">
 					<h2 class="mb-2 title-color">문의 메일 보내기</h2>
-					<p class="mb-4">문의 사항이 있다면 메일을 보내주세요. 혹은 하단에서 뉴스레터 구독이 가능합니다.</p>
+					<p class="mb-4">문의 사항이 있다면 메일을 보내주세요.</p>
 				    <form name="myform" class="appoinment-form" method="post" action="${ctp}/service/serviceMain">
 	            <div class="row">
 	             	<div class="col-lg-12">

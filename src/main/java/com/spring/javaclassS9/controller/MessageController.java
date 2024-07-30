@@ -38,9 +38,15 @@ public class MessageController {
 			model.addAttribute("msg", "회원가입에 실패했습니다. 입력 정보를 다시 한번 확인해주세요.");
 			model.addAttribute("url", "/member/memberJoin");
 		}
+		else if(msgFlag.equals("memberLoginNewOk")) {
+			model.addAttribute("msg", mid+"님, 환영합니다.\\n신규 비밀번호가 발급되었습니다. 이메일 확인 후 회원정보를 변경해주세요.");
+			if(pathFlag.equals("main")) model.addAttribute("url", "/");
+			else if(pathFlag.equals("customer"))	model.addAttribute("url", "/customer/cmain");
+		}
 		else if(msgFlag.equals("memberLoginOk")) {
 			model.addAttribute("msg", mid+"님, 환영합니다.");
-			if(pathFlag.equals("main"))	model.addAttribute("url", "/");
+			if(mid.equals("admin")) model.addAttribute("url", "/admin/adminMain");
+			else if(pathFlag.equals("main")) model.addAttribute("url", "/");
 			else if(pathFlag.equals("customer"))	model.addAttribute("url", "/customer/cmain");
 		}
 		else if(msgFlag.equals("memberLoginNo")) {
@@ -49,7 +55,8 @@ public class MessageController {
 		}
 		else if(msgFlag.equals("memberLogout")) {
 			model.addAttribute("msg", mid+"님, 로그아웃 되었습니다.");
-			model.addAttribute("url", "/");
+			if(pathFlag.equals("main")) model.addAttribute("url", "/");
+			else if(pathFlag.equals("customer"))	model.addAttribute("url", "/customer/cmain");
 		}
 		else if(msgFlag.equals("pwdChangeOk")) {
 			model.addAttribute("msg", "비밀번호가 변경되었습니다.\\n새로운 비밀번호로 다시 로그인하세요.");

@@ -179,7 +179,7 @@
 									</c:if>
 									<c:if test="${today > fn:substring(vo.endDate,0,10)}">
 										<div class="title mt-3 mb-3">
-											<div>${vo.title}(종료)</div>
+											<div><a href="${ctp}/customer/board/recruitBoardContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}&end=end">${vo.title}(종료)</a></div>
 										</div>
 									</c:if>
 								</div>

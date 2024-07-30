@@ -198,41 +198,43 @@
 		</div>
 	</div>
 	<div class="row mb-3">
-		<table class="table table-hover text-center">
-			<tr style="background:#003675; color:#fff;">
-				<th>신청번호</th>
-				<th>분류</th>
-				<th>주제</th>
-				<th>이름</th>
-				<th>문의일자</th>
-				<th>진행현황</th>
-				<th>자세히보기</th>
-			</tr>
-			<c:forEach var="vo" items="${vos}">
-				<tr>
-					<td>${vo.idx}</td>
-					<td>
-						${vo.part=='SERVICE' ? '온라인 상담' : '불편사항'}
-					</td>
-					<td>${vo.title}</td>
-					<td>${vo.name}</td>
-					<td>
-						${vo.date_diff==0 ? fn:substring(vo.writeDate,11,19) : fn:substring(vo.writeDate,0,10)}
-					</td>
-					<td>
-						<c:if test="${empty vo.completeDate}"><font color="#E71825">답변미등록</font></c:if>
-						<c:if test="${!empty vo.completeDate}">
-							<font color="#717171">답변등록</font>
-						</c:if>
-					</td>
-					<td>
-						<a href="#" onclick="modalView('${vo.idx}')" data-toggle="modal" data-target="#myModal" class="btn btn-main btn-icon-sm">
-							답변하기<i class="fa-solid fa-chevron-right ml-2"></i>
-						</a>
-					</td>
+		<div class="col-md-12">
+			<table class="table table-hover text-center">
+				<tr style="background:#003675; color:#fff;">
+					<th>신청번호</th>
+					<th>분류</th>
+					<th>주제</th>
+					<th>이름</th>
+					<th>문의일자</th>
+					<th>진행현황</th>
+					<th>자세히보기</th>
 				</tr>
-			</c:forEach>
-		</table>
+				<c:forEach var="vo" items="${vos}">
+					<tr>
+						<td>${vo.idx}</td>
+						<td>
+							${vo.part=='SERVICE' ? '온라인 상담' : '불편사항'}
+						</td>
+						<td>${vo.title}</td>
+						<td>${vo.name}</td>
+						<td>
+							${vo.date_diff==0 ? fn:substring(vo.writeDate,11,19) : fn:substring(vo.writeDate,0,10)}
+						</td>
+						<td>
+							<c:if test="${empty vo.completeDate}"><font color="#E71825">답변미등록</font></c:if>
+							<c:if test="${!empty vo.completeDate}">
+								<font color="#717171">답변등록</font>
+							</c:if>
+						</td>
+						<td>
+							<a href="#" onclick="modalView('${vo.idx}')" data-toggle="modal" data-target="#myModal" class="btn btn-main btn-icon-sm">
+								답변하기<i class="fa-solid fa-chevron-right ml-2"></i>
+							</a>
+						</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
 	</div>
 	<!-- 블록페이지 시작 -->	
   <div class="row mt-5">

@@ -1,5 +1,7 @@
 package com.spring.javaclassS9.controller;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -115,7 +117,8 @@ public class MemberController {
 	
 	// 일반 로그인창 연결
 	@RequestMapping(value = "/memberLogin/{pathFlag}", method = RequestMethod.GET)
-	public String memberLoginGet(@PathVariable String pathFlag, HttpServletRequest request) {
+	public String memberLoginGet(@PathVariable String pathFlag, HttpServletRequest request,
+			Model model) {
 		Cookie[] cookies = request.getCookies();
 		if(cookies != null) {
 			for(int i=0; i<cookies.length; i++) {
@@ -125,10 +128,49 @@ public class MemberController {
 				}
 			}
 		}
+		model.addAttribute("pathFlag", pathFlag);
 		return "member/memberLogin";
 	}
 	
 	// 카카오 로그인 하기
+	@RequestMapping(value = "/kakaoLogin/{pathFlag}", method = RequestMethod.GET)
+	public String kakaoLoginGet(String nickName, String email, String accessToken,
+			@PathVariable String pathFlag,
+			HttpServletRequest request, HttpSession session) throws MessagingException {
+		session.setAttribute("sAccessToken", accessToken);
+		MemberVO vo = memberService.getMemberNickCheck(nickName);
+		
+		String newMember = "NO";
+		if(vo==null) {
+			String mid = email.substring(0,email.indexOf("@"));
+			MemberVO vo2 = memberService.getMemberIdCheck(mid);
+			if(vo2 != null) return "redirect:/message/existMemberNo";
+			
+			UUID uid = UUID.randomUUID();
+			String pwd = uid.toString().substring(0,8);
+			session.setAttribute("sLogin", "OK");
+			memberService.setKakaoMemberInput(mid,passwordEncoder.encode(pwd),nickName,email);
+			String title = "임시 비밀번호 발급";
+			String imsiContent = "임시 비밀번호 : <b>"+pwd+"</b>";
+			String mailFlag = "pwdSearch";
+			String res = javaclassProvide.mailSend(email, title, imsiContent, mailFlag, request);
+			if(res != "0") vo = memberService.getMemberIdCheck(mid);
+			newMember = "OK";
+		}
+		String strLevel = "";
+		if(vo.getLevel()==0) strLevel="관리자";
+		else if(vo.getLevel()==1) strLevel="엔지니어";
+		else if(vo.getLevel()==2) strLevel="기업회원";
+		else if(vo.getLevel()==3) strLevel="일반회원";
+		session.setAttribute("sNickName", vo.getNickName());
+		session.setAttribute("sLevel", vo.getLevel());
+		session.setAttribute("strLevel", strLevel);
+		session.setAttribute("sMid", vo.getMid());
+		session.setAttribute("kakaoLogin", "OK");
+		
+		if(newMember.equals("NO")) return "redirect:/message/memberLoginOk?mid="+vo.getMid()+"&pathFlag="+pathFlag;
+		else return "redirect:/message/memberLoginNewOk?mid="+vo.getMid();
+	}
 	
 	
 	// 일반 로그인 성공 / 실패 처리
@@ -194,11 +236,31 @@ public class MemberController {
 	}
 	
 	// 일반 로그아웃
-	@RequestMapping(value = "/memberLogout", method = RequestMethod.GET)
-	public String memberLogoutGet(HttpSession session) {
+	@RequestMapping(value = "/memberLogout/{pathFlag}", method = RequestMethod.GET)
+	public String memberLogoutGet(@PathVariable String pathFlag, HttpSession session) {
 		String mid = (String) session.getAttribute("sMid");
+		// 카카오 로그인시 세션 연결해서 세션 여부 따져서 카카오로그아웃으로...
+		String kakao = (String) session.getAttribute("kakaoLogin");
+		if(kakao != null) {
+			String accessToken = (String) session.getAttribute("sAccessToken");
+			String reqURL = "https://kapi.kakao.com/v1/user/unlink";
+			try {
+				URL url = new URL(reqURL);
+				HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+				conn.setRequestMethod("POST");
+				conn.setRequestProperty("Authorization", " "+accessToken);
+				
+				// 카카오에서 정상적으로 처리되었다면 200번이 돌아온다.
+				int responseCode = conn.getResponseCode();
+				String responseBody = conn.getResponseMessage();
+				System.out.println("responseCode : "+responseCode);
+				System.out.println("responseBody : "+responseBody);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		session.invalidate();
-		return "redirect:/message/memberLogout?mid="+mid;
+		return "redirect:/message/memberLogout?mid="+mid+"&pathFlag="+pathFlag;
 	}
 	
 	// 아이디 찾기창 연결
@@ -548,5 +610,11 @@ public class MemberController {
 		ProductEstimateVO vo = productService.getProductEstimateContent(saleIdx);
 		model.addAttribute("vo", vo);
 		return "member/estimateContent";
+	}
+	
+	// 마이페이지 1:1 내역
+	@RequestMapping(value = "/chating", method = RequestMethod.GET)
+	public String chatingGet() {
+		return "member/chating";
 	}
 }

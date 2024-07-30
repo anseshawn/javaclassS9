@@ -486,7 +486,9 @@
 				        </div>
 								<c:if test="${sLevel==0 || sMid==vo.mid}">
 									<div class="text-right">
-										<input type="button" value="수정하기" onclick="location.href='${ctp}/customer/board/recruitBoardEdit?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}';" class="btn btn-main-2 btn-icon-sm btn-round-full mr-2" >
+										<c:if test="${empty end}">
+											<input type="button" value="수정하기" onclick="location.href='${ctp}/customer/board/recruitBoardEdit?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}';" class="btn btn-main-2 btn-icon-sm btn-round-full mr-2" >
+										</c:if>
 										<input type="button" value="삭제하기" onclick="deleteCheck()" class="btn btn-main btn-icon-sm btn-round-full" >
 									</div>
 								</c:if>
@@ -494,6 +496,9 @@
 								
 								<br/>
 								<div class="mb-3">
+									<c:if test="${!empty end}">
+										<div class="text-center"><font color="#E71825">종료 된 공고입니다.</font></div>
+									</c:if>
 									<ul class="w-hours list-unstyled ">
 									  <li class="text-black d-flex justify-content-between mb-2">채용일정 : <span>${fn:substring(vo.startDate,0,10)} - ${fn:substring(vo.endDate,0,10)}</span></li>
 									  <li class="text-black d-flex justify-content-between mb-2">근무지역 : <span>${vo.location}</span></li>
@@ -551,6 +556,11 @@
 									</c:forEach>
 								</ul>
 							</div>
+							<!-- 
+							<div class="mt-2 text-center">
+								<input type="button" value="입사지원하기" class="btn btn-main" />
+							</div>
+							 -->
 						</div>
 					</div>
 

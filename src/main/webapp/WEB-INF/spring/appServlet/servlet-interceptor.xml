@@ -43,7 +43,8 @@
 			<exclude-mapping path="/member/memberIdCheck"/>
 			<exclude-mapping path="/member/memberNickCheck"/>
 			<exclude-mapping path="/member/memberLogin/**"/>
-			<exclude-mapping path="/member/memberLogout"/>
+			<exclude-mapping path="/member/kakaoLogin/**"/>
+			<exclude-mapping path="/member/memberLogout/**"/>
 			<exclude-mapping path="/member/midSearch"/>
 			<exclude-mapping path="/member/midSearchResult"/>
 			<exclude-mapping path="/member/pwdSearch"/>

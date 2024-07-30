@@ -43,6 +43,10 @@
 			#{vo.co_name}, #{vo.co_category}, #{vo.co_address}, #{vo.co_tel}, #{vo.purpose},
 			default, default, default, default, default);
 	</insert>
+	<insert id="setKakaoMemberInput">
+		insert into memberS (name, mid, pwd, nickName, email, tel) values (#{nickName}, #{mid}, #{pwd}, 
+			#{nickName}, #{email}, '010- - ');
+	</insert>
 	<insert id="setMessageInputOk">
 		insert into messageS values(default,#{vo.sendMid}, #{vo.receiveMid}, #{vo.content}, 
 			#{vo.sendSw}, default, #{vo.receiveSw}, default);

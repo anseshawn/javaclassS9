@@ -108,8 +108,7 @@
 		</li>
 		<li class="dropdown">
 			<div class="ani-navbar-menu ani-navbar-menu__icon">
-			  <i class="fa-solid fa-headphones"></i>
-			  <a href="${ctp}/admin/consultingList">문의 내역</a>
+			 	<i class="fa-solid fa-headphones"></i><a href="${ctp}/admin/consultingList">문의 내역</a>
 			</div>
 		</li>
 		<li class="dropdown">
@@ -140,6 +139,7 @@
 			  	<li><div class="divider2"></div></li>
 				  <li><a href="${ctp}/admin/member/memberList">회원 리스트</a></li>
 				  <li><a href="${ctp}/admin/emailInput/all">메일 전송</a></li>
+				  <li><a href="${ctp}/admin/member/chating">유저채팅방</a></li>
 			  </ul>
 			</div>
 		</li>
@@ -180,6 +180,7 @@
 			  	<li><div class="divider2"></div></li>
 				  <li><a href="${ctp}/admin/changeAdminPwd">비밀번호 변경</a></li>
 				  <li><a href="${ctp}/admin/messageList">받은 메세지</a></li>
+				  <li><a href="${ctp}/admin/fileDelete">파일관리</a></li>
 			  </ul>
 			</div>
 		</li>

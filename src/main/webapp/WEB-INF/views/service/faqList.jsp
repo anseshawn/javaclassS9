@@ -142,6 +142,7 @@
 			</div>
 			<!-- 검색창 끝 -->
 		</div>
+		<div class="mb-2">총 <font color="#246BEB">${count}</font> 건</div>
 		<c:forEach var="vo" items="${vos}" varStatus="st">
 			<div class="row mb-2">
 				<div class="col-md-12">

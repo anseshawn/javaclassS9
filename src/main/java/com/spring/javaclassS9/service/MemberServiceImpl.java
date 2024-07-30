@@ -90,4 +90,9 @@ public class MemberServiceImpl implements MemberService {
 	public ConsultingVO getConsultingContent(int idx) {
 		return memberDAO.getConsultingContent(idx);
 	}
+
+	@Override
+	public void setKakaoMemberInput(String mid, String pwd, String nickName, String email) {
+		memberDAO.setKakaoMemberInput(mid,pwd,nickName,email);
+	}
 }
