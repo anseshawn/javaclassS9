@@ -5,9 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.TimeZone;
 import java.util.UUID;
 
@@ -38,6 +36,8 @@ import com.spring.javaclassS9.vo.AsRequestVO.Progress;
 import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.ExpendableVO;
 import com.spring.javaclassS9.vo.MemberVO;
+import com.spring.javaclassS9.vo.Message2VO;
+import com.spring.javaclassS9.vo.MessageVO;
 import com.spring.javaclassS9.vo.PageVO;
 import com.spring.javaclassS9.vo.ScheduleVO;
 
@@ -456,5 +456,72 @@ public class EngineerController {
 		vo.setTotPrice(totPrice);
 		int res = customerService.setAsChargeInput(vo);
 		return res+"";
+	}
+	
+	// 받은 메세지/보낸 메세지 리스트
+	@RequestMapping(value = "/messageList", method = RequestMethod.GET)
+	public String messageListGet(HttpSession session, Model model) {
+		String mid = (String) session.getAttribute("sMid");
+		ArrayList<Message2VO> receiveVOS = engineerService.getAllReceiveMessageList(mid);
+		ArrayList<Message2VO> sendVOS = engineerService.getAllSendMessageList(mid);
+		for(int i=0; i<receiveVOS.size(); i++) {
+			if(receiveVOS.get(i).getReceiveSw().equals("n")) model.addAttribute("newMsg", "OK");
+		}
+		ArrayList<EngineerVO> eVos = engineerService.getAllEngineerList(-1, 0);
+		model.addAttribute("receiveVOS", receiveVOS);
+		model.addAttribute("sendVOS", sendVOS);
+		model.addAttribute("eVos", eVos);
+		return "engineer/messageList";
+	}
+	// 아이디로 사원 검색
+	@ResponseBody
+	@RequestMapping(value = "/midSearch", method = RequestMethod.POST)
+	public ArrayList<EngineerVO> midSearchPost(Model model, String mid) {
+		ArrayList<EngineerVO> eVos = engineerService.getEngineerSearchList(-1, 0, "mid", mid);
+		return eVos;
+	}
+	// 쪽지 수신확인 상태로 만들기
+	@ResponseBody
+	@RequestMapping(value = "/messageCheck", method = RequestMethod.POST)
+	public void messageCheckPost(int idx) {
+		engineerService.setMessageCheck(idx);
+	}
+	// 받은 메세지 / 보낸 메세지 삭제하기
+	@ResponseBody
+	@RequestMapping(value = "/messageDelete", method = RequestMethod.POST)
+	public String messageDeletePost(int idx, String sw) {
+		int res =	engineerService.setMessageDelete(idx, sw);
+		return res + "";
+	}
+	
+	// 쪽지 보내기 창
+	@RequestMapping(value = "/sendMessage", method = RequestMethod.GET)
+	public String sendMessageGet(Model model,
+			@RequestParam(name = "receiveMid", defaultValue = "", required = false) String receiveMid
+			) {
+		model.addAttribute("receiveMid", receiveMid);
+		return "engineer/sendMessage";
+	}
+	// 쪽지 보내기
+	@ResponseBody
+	@RequestMapping(value = "/sendMessage", method = RequestMethod.POST)
+	public String sendMessagePost(Message2VO vo, HttpSession session) {
+		EngineerVO eVo = engineerService.getEngineerIdCheck(vo.getReceiveMid());
+		int level = (int) session.getAttribute("sLevel");
+		int res = 0;
+		if(eVo==null || level>1) return res+"";
+		else {
+			vo.setSendSw("s");
+			vo.setReceiveSw("n");
+			res = engineerService.setMessageInputOk(vo);
+		}
+		return res + "";
+	}
+	// 쪽지 완전 삭제하기 (DB삭제)
+	@ResponseBody
+	@RequestMapping(value = "/messageDeleteDB", method = RequestMethod.POST)
+	public String messageDeleteDBPost(int idx) {
+		int res =	engineerService.setMessageDeleteDB(idx);
+		return res + "";
 	}
 }

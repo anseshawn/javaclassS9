@@ -1,13 +1,12 @@
 package com.spring.javaclassS9.dao;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.spring.javaclassS9.vo.AsRequestVO;
 import com.spring.javaclassS9.vo.EngineerVO;
-import com.spring.javaclassS9.vo.ReviewVO;
+import com.spring.javaclassS9.vo.Message2VO;
 import com.spring.javaclassS9.vo.ScheduleVO;
 
 public interface EngineerDAO {
@@ -60,5 +59,17 @@ public interface EngineerDAO {
 			@Param("search") String search, @Param("searchString") String searchString);
 
 	public ArrayList<ScheduleVO> getEngineerSchedule(@Param("engineerIdx") int idx);
+
+	public int setMessageInputOk(@Param("vo") Message2VO vo);
+
+	public ArrayList<Message2VO> getAllReceiveMessageList(@Param("mid") String mid);
+
+	public ArrayList<Message2VO> getAllSendMessageList(@Param("mid") String mid);
+
+	public void setMessageCheck(@Param("idx") int idx);
+
+	public int setMessageDelete(@Param("idx") int idx, @Param("sw") String sw);
+
+	public int setMessageDeleteDB(@Param("idx") int idx);
 
 }

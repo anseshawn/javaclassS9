@@ -40,3 +40,17 @@ select r.*, datediff(r.asDate, now()) as date_diff,
 	from asRequest r
 	left join engineerS e on e.idx = r.engineerIdx where e.name like '%철%'
 	order by r.idx desc;
+	
+create table messageS2(
+	idx int not null auto_increment,
+	sendMid varchar(20) not null,
+	receiveMid varchar(20) not null,
+	content text not null,
+	sendSw varchar(1) not null,		/* 보낸메세지(s), 휴지통(d), 휴지통삭제(x) 표시 */
+	sendDate datetime default now(),
+	receiveSw varchar(1) not null,	/* 받은메세지(n), 읽은메세지(r), 휴지통(d), 휴지통삭제(x) 표시 */
+	receiveDate datetime default now(),
+	primary key(idx),
+	foreign key(sendMid) references engineerS(mid) on update cascade,
+	foreign key(receiveMid) references engineerS(mid) on update cascade
+);

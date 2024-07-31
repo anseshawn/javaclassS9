@@ -89,16 +89,16 @@
                 type: "POST",
                 dataType: "json",
                 success: function(data) {
-                  data.forEach(function(vo) {
-                    calendar.addEvent({
-                      idx: vo.idx, // 이벤트의 고유 ID
+                  var events = data.map(function(vo) {
+                    return {
+                      id: vo.idx, // 이벤트의 고유 ID
                       title: vo.engineerName+"-"+vo.title,
                       start: vo.startTime,
                       end: vo.endTime,
                       allDay: vo.allDay
-                    });
+                    };
                   });
-                  successCallback([]);
+                  successCallback(events);
                 },
                 error: function() {
                   failureCallback("연결 오류~");

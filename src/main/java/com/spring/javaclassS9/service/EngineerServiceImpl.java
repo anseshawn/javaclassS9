@@ -1,7 +1,6 @@
 package com.spring.javaclassS9.service;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +10,7 @@ import com.spring.javaclassS9.common.JavaclassProvide;
 import com.spring.javaclassS9.dao.EngineerDAO;
 import com.spring.javaclassS9.vo.AsRequestVO;
 import com.spring.javaclassS9.vo.EngineerVO;
+import com.spring.javaclassS9.vo.Message2VO;
 import com.spring.javaclassS9.vo.ScheduleVO;
 
 @Service
@@ -146,5 +146,35 @@ public class EngineerServiceImpl implements EngineerService {
 	@Override
 	public ArrayList<ScheduleVO> getEngineerSchedule(int idx) {
 		return engineerDAO.getEngineerSchedule(idx);
+	}
+
+	@Override
+	public int setMessageInputOk(Message2VO vo) {
+		return engineerDAO.setMessageInputOk(vo);
+	}
+
+	@Override
+	public ArrayList<Message2VO> getAllReceiveMessageList(String mid) {
+		return engineerDAO.getAllReceiveMessageList(mid);
+	}
+
+	@Override
+	public ArrayList<Message2VO> getAllSendMessageList(String mid) {
+		return engineerDAO.getAllSendMessageList(mid);
+	}
+
+	@Override
+	public void setMessageCheck(int idx) {
+		engineerDAO.setMessageCheck(idx);
+	}
+
+	@Override
+	public int setMessageDelete(int idx, String sw) {
+		return engineerDAO.setMessageDelete(idx, sw);
+	}
+
+	@Override
+	public int setMessageDeleteDB(int idx) {
+		return engineerDAO.setMessageDeleteDB(idx);
 	}
 }

@@ -15,7 +15,7 @@
 	</select>
 	<select id="getEngineerSearchList" resultType="com.spring.javaclassS9.vo.EngineerVO">
 		select * from engineerS where ${part} like concat('%',#{searchString},'%') <![CDATA[and level < 99]]> 
-			order by idx desc limit #{startIndexNo},#{pageSize};
+			order by idx desc <if test="startIndexNo != -1"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	<select id="getAllEngineerList" resultType="com.spring.javaclassS9.vo.EngineerVO">
 		select * from engineerS where <![CDATA[level < 99]]> order by starPoint desc, idx desc 
@@ -52,6 +52,12 @@
 			<if test="search != ''"> where ${search} like concat('%',#{searchString},'%') </if>
 			order by r.idx desc limit #{startIndexNo},#{pageSize};
 	</select>
+	<select id="getAllReceiveMessageList" resultType="com.spring.javaclassS9.vo.Message2VO">
+		select * from messageS2 where receiveMid = #{mid} and receiveSw != 'd' order by sendDate desc;
+	</select>
+	<select id="getAllSendMessageList" resultType="com.spring.javaclassS9.vo.Message2VO">
+		select * from messageS2 where sendMid = #{mid} and sendSw != 'd' order by sendDate desc;
+	</select>
 	
 	
 	<insert id="setEngineerJoinOk">
@@ -61,6 +67,11 @@
 	
 	<insert id="setScheduleInput">
 		insert into scheduleS values(default, #{vo.engineerIdx}, #{vo.title}, #{vo.startTime}, #{vo.endTime}, #{vo.allDay});
+	</insert>
+	
+	<insert id="setMessageInputOk">
+		insert into messageS2 values(default,#{vo.sendMid}, #{vo.receiveMid}, #{vo.content}, 
+			#{vo.sendSw}, default, #{vo.receiveSw}, default);
 	</insert>
 	
 	
@@ -83,6 +94,15 @@
 			endTime=#{vo.endTime}, allDay=#{vo.allDay} where idx=#{vo.idx};
 	</update>
 	
+	<update id="setMessageCheck">
+		update messageS2 set receiveSw = 'r' where idx=#{idx};
+	</update>
+	<update id="setMessageDelete">
+		update messageS2 set 
+			<if test="sw == 'receiveSw'"> receiveSw = 'd' </if>
+			<if test="sw == 'sendSw'"> sendSw = 'd' </if> where idx=#{idx};
+	</update>
+	
 	
   <delete id="setScheduleDeleteTrue">
   	delete from scheduleS where title = #{title} and startTime = #{startTime} and engineerIdx=#{engineerIdx};
@@ -91,6 +111,10 @@
   	delete from scheduleS where title=#{title} and startTime=#{startTime}
   		and endTime=#{endTime} and allDay=#{allDay} and engineerIdx=#{engineerIdx};
   </delete>
+  
+  <delete id="setMessageDeleteDB">
+		delete from messageS2 where idx = #{idx};
+	</delete>
   
   
 </mapper>

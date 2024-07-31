@@ -23,17 +23,17 @@
 					receiveMid : receiveMid,
 					content : content
 			}
-			if(${sLevel}==1) {
+			if(${sLevel}>1) {
 				alert("사원 - 회원 간의 쪽지 전송은 불가능합니다.");
 				return false;
 			}
 			$.ajax({
-				url: "${ctp}/member/sendMessage",
+				url: "${ctp}/engineer/sendMessage",
 				type: "post",
 				data: query,
 				success: function(res) {
 					if(res != "0") {
-						alert("해당 사용자에게 쪽지를 전송했습니다.");
+						alert("해당 사원에게 쪽지를 전송했습니다.");
 						opener.location.reload();
 						window.close();
 					}

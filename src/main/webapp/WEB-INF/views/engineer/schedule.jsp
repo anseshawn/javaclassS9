@@ -14,6 +14,7 @@
 	<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
 	<script>
     'use strict';
+    let calendarLoading = null;
     /* full calender */
     (function(){
        $(function(){
@@ -114,26 +115,29 @@
            },
            // 이벤트 
            events: function(fetchInfo, successCallback, failureCallback) {
-              $.ajax({
-                url: "${ctp}/engineer/scheduleListAll?engineerIdx=${mVo.idx}",
-                type: "POST",
-                dataType: "json",
-                success: function(data) {
-                  data.forEach(function(vo) {
-                    calendar.addEvent({
-                      idx: vo.idx, // 이벤트의 고유 ID
-                      title: vo.title,
-                      start: vo.startTime,
-                      end: vo.endTime,
-                      allDay: vo.allDay
-                    });
-                  });
-                  successCallback([]);
-                },
-                error: function() {
-                  failureCallback("연결 오류~");
-                }
-              });
+        	   if(calendarLoading==null) {
+	              $.ajax({
+	                url: "${ctp}/engineer/scheduleListAll?engineerIdx=${mVo.idx}",
+	                type: "POST",
+	                dataType: "json",
+	                success: function(data) {
+	                  data.forEach(function(vo) {
+	                    calendar.addEvent({
+	                      idx: vo.idx, // 이벤트의 고유 ID
+	                      title: vo.title,
+	                      start: vo.startTime,
+	                      end: vo.endTime,
+	                      allDay: vo.allDay
+	                    });
+	                  });
+	                  successCallback([]);
+	                  calendarLoading = 1;
+	                },
+	                error: function() {
+	                  failureCallback("연결 오류~");
+	                }
+	              });
+        	   	}
             },
            eventClick: function(info) {
         	   let ans = confirm("정말로 이 일정을 삭제하시겠습니까?");

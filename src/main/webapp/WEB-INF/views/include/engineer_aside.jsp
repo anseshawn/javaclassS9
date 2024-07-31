@@ -42,7 +42,7 @@
 					<div class="col"><a href="${ctp}/engineer/engineerUpdate">내 정보수정</a></div>
 				</div>
 				<div class="row">
-					<div class="col"><a href="#">문의내역</a></div>
+					<!-- <div class="col"><a href="#">문의내역</a></div> -->
 				</div>
 				<div class="row mt-3">
 					<div class="col">
@@ -57,7 +57,7 @@
 					<div class="col"><a href="${ctp}/engineer/schedule">일정관리</a></div>
 				</div>
 				<div class="row">
-					<div class="col"><a href="#">받은 메세지</a></div>
+					<div class="col"><a href="${ctp}/engineer/messageList">받은 메세지</a></div>
 				</div>
 			</div>
 			</div>

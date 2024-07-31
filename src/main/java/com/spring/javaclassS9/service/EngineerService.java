@@ -1,12 +1,13 @@
 package com.spring.javaclassS9.service;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS9.vo.AsRequestVO;
 import com.spring.javaclassS9.vo.EngineerVO;
+import com.spring.javaclassS9.vo.Message2VO;
+import com.spring.javaclassS9.vo.MessageVO;
 import com.spring.javaclassS9.vo.ScheduleVO;
 
 public interface EngineerService {
@@ -48,5 +49,17 @@ public interface EngineerService {
 	public ArrayList<AsRequestVO> getAllAsRequestList(int startIndexNo, int pageSize, String search, String searchString);
 
 	public ArrayList<ScheduleVO> getEngineerSchedule(int idx);
+	
+	public int setMessageInputOk(Message2VO vo);
+
+	public ArrayList<Message2VO> getAllReceiveMessageList(String mid);
+
+	public ArrayList<Message2VO> getAllSendMessageList(String mid);
+
+	public void setMessageCheck(int idx);
+
+	public int setMessageDelete(int idx, String sw);
+
+	public int setMessageDeleteDB(int idx);
 
 }

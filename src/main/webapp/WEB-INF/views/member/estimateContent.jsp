@@ -251,6 +251,7 @@
 					</table>
 					</div>
 				</div>
+				<hr/>
 				<div class="row justify-content-center mb-3">
 					<div class="col-md-8 text-right">
 						<input type="button" value="발주요청" id="orderBtn" onclick="orderRequest()" class="btn btn-main btn-icon-md mr-2"/>

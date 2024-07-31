@@ -516,10 +516,11 @@ public class MemberController {
 	// 쪽지 보내기
 	@ResponseBody
 	@RequestMapping(value = "/sendMessage", method = RequestMethod.POST)
-	public String sendMessagePost(MessageVO vo) {
+	public String sendMessagePost(MessageVO vo, HttpSession session) {
 		MemberVO mVo = memberService.getMemberIdCheck(vo.getReceiveMid());
+		int level = (int) session.getAttribute("sLevel");
 		int res = 0;
-		if(mVo==null) return res+"";
+		if(mVo==null || level==1) return res+"";
 		else {
 			vo.setSendSw("s");
 			vo.setReceiveSw("n");
