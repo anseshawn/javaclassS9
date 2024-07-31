@@ -18,6 +18,9 @@
 	<select id="getJoinMemberCount" resultType="int">
 		select count(*) from memberS where <![CDATA[datediff(startDate,now()) > -7]]>;
 	</select>
+	<select id="getLevelChangeMemberCount" resultType="int">
+		select count(*) from memberS where m_group='재직자' and level=3;
+	</select>
 	<select id="getProductEstimateCount" resultType="int">
 		select count(*) from productSaleS where statement='QUOTE';
 	</select>
@@ -134,6 +137,15 @@
 	<select id="getFaqParts" resultType="String">
 		select part from faqS group by part;
 	</select>
+	<select id="getBlockIp" resultType="com.spring.javaclassS9.vo.BlockIpVO">
+		select * from blockIp where hostIp=#{hostIp};
+	</select>
+	<select id="getBlockIpList" resultType="com.spring.javaclassS9.vo.BlockIpVO">
+		select hostIp, date_format(date_add(blockDate, interval 1 day), '%Y-%m-%d') as blockEndDate from blockIp;
+	</select>
+	<select id="getNewChatCount" resultType="int">
+		select count(*) as chatCount from adminAlarm;
+	</select>
 	
 	
 	<insert id="setMemberDeleteReason">
@@ -152,6 +164,12 @@
 	</insert>
 	<insert id="faqInputOk">
 		insert into faqS values(default, #{vo.part}, #{vo.title}, #{vo.content});
+	</insert>
+	<insert id="setBlockIpInput">
+		insert into blockIp values(#{hostIp}, default);
+	</insert>
+	<insert id="setNewChatCount">
+		insert into adminAlarm values(1);
 	</insert>
 	
 	
@@ -206,5 +224,11 @@
 	</delete>
 	<delete id="faqDeleteOk">
 		delete from faqS where idx=#{idx};
+	</delete>
+	<delete id="setBlockIpDelete">
+		delete from blockIp where hostIp=#{hostIp};
+	</delete>
+	<delete id="setNewChatCountDelete">
+		delete from adminAlarm;
 	</delete>
 </mapper>

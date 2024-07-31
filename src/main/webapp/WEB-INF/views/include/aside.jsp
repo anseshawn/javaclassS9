@@ -101,7 +101,15 @@
 					<div class="col"><a href="${ctp}/member/messageList">받은 메세지</a></div>
 				</div>
 				<div class="row">
-					<div class="col"><a href="${ctp}/member/chating">유저채팅방</a></div>
+					<div class="col">
+						<div class="dropdown">
+							<button class="accordion">채팅<i class="fa-solid fa-caret-down ml-2"></i></button>
+							<div class="panel">
+							 <a href="${ctp}/member/chating" class="dropdown-item">유저채팅방</a>
+							 <a href="${ctp}/member/realTimeChat" class="dropdown-item">1:1문의</a>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

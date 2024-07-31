@@ -8,23 +8,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,8 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS9.common.JavaclassProvide;
@@ -50,6 +40,7 @@ import com.spring.javaclassS9.vo.AsChargeVO;
 import com.spring.javaclassS9.vo.AsRequestVO;
 import com.spring.javaclassS9.vo.AsRequestVO.Machine;
 import com.spring.javaclassS9.vo.AsRequestVO.Progress;
+import com.spring.javaclassS9.vo.BlockIpVO;
 import com.spring.javaclassS9.vo.ChartVO;
 import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
@@ -63,6 +54,7 @@ import com.spring.javaclassS9.vo.PageVO;
 import com.spring.javaclassS9.vo.ProductEstimateVO;
 import com.spring.javaclassS9.vo.ProductSaleVO;
 import com.spring.javaclassS9.vo.ProductVO;
+import com.spring.javaclassS9.vo.ReportMemberVO;
 import com.spring.javaclassS9.vo.ReportVO;
 import com.spring.javaclassS9.vo.ScheduleVO;
 
@@ -112,21 +104,33 @@ public class AdminController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/adminHeader", method = RequestMethod.POST)
-	public String adminHeaderPost() {
-		int joinCount = adminService.getJoinMemberCount();
+	@RequestMapping(value = "/adminHeaderAlarm", method = RequestMethod.POST)
+	public int[] adminHeaderPost() {
+		int levelCount = adminService.getLevelChangeMemberCount();
 		int estimateCount = adminService.getProductEstimateCount();
-		int consultingCount = adminService.getNewConsultingCount();
 		int newPaymentCount = adminService.getNewPaymentCount();
+		int consultingCount = adminService.getNewConsultingCount();
 		
-		int res = joinCount+estimateCount+consultingCount+newPaymentCount;
-		return res+"";
+		int[] res = {levelCount,estimateCount,newPaymentCount,consultingCount};
+		return res;
 	}
 	@ResponseBody
 	@RequestMapping(value = "/adminMessage", method = RequestMethod.POST)
-	public String adminMessagePost() {
+	public int adminMessagePost() {
 		int msgCount = adminService.getNewMessageCount();
-		return msgCount+"";
+		return msgCount;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/adminNewChat", method = RequestMethod.POST)
+	public int adminChatPost() {
+		int chatCount = adminService.getNewChatCount();
+		return chatCount;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/chatAlarmCheck", method = RequestMethod.POST)
+	public String chatAlarmCheckPost() {
+		int res = adminService.setNewChatCountDelete();
+		return res+"";
 	}
 	
 	// 회원리스트(검색어 포함)
@@ -843,8 +847,70 @@ public class AdminController {
   	return vo;
   }
   
+  // 신고 유저 리스트 보기
+  @RequestMapping(value = "/report/reportMemberList", method = RequestMethod.GET)
+  public String reportMemberListGet(Model model, HttpServletRequest request,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize
+  		) {
+  	PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "reportMemberList", "", "");
+  	ArrayList<ReportMemberVO> vos = memberService.getReportMemberList(pageVO.getStartIndexNo(), pageSize);
+  	model.addAttribute("pageVO", pageVO);
+  	model.addAttribute("vos", vos);
+  	return "admin/report/reportMemberList";
+  }
+  
+  // 유저 차단하기
+  @ResponseBody
+  @RequestMapping(value = "/report/blockIp", method = RequestMethod.POST)
+  public String blockIpPost(
+  		@RequestParam(name="hostIp",defaultValue = "", required = false) String hostIp
+  		) {
+		int res = 0;
+		BlockIpVO vo = adminService.getBlockIp(hostIp);
+		if(vo != null) res = 1;
+		else {
+			res = adminService.setBlockIpInput(hostIp);
+			memberService.setReportMemberUpdate(hostIp);
+		}
+		return res+"";
+  }
+  
+  // 유저 일괄 차단하기
+  @ResponseBody
+  @RequestMapping(value = "/report/blockIpAll", method = RequestMethod.POST)
+  public String blockIpAllPost(
+  		@RequestParam(name="hostIp",defaultValue = "", required = false) String hostIp
+  		) {
+  	int res = 0;
+  	for(String ip : hostIp.split("|")) {
+  		BlockIpVO vo = adminService.getBlockIp(ip);
+  		if(vo != null) res = 1;
+  		else {
+  			res = adminService.setBlockIpInput(ip);
+  			memberService.setReportMemberUpdate(ip);
+  		}
+  	}
+  	return res+"";
+  }
+  
+  // 유저 차단 해제하기
+  @ResponseBody
+  @RequestMapping(value = "/report/deleteBlockIp", method = RequestMethod.POST)
+  public String deleteBlockIpPost(
+  		@RequestParam(name="hostIp",defaultValue = "", required = false) String hostIp
+  		) {
+  	int res = 0;
+		BlockIpVO vo = adminService.getBlockIp(hostIp);
+		if(vo != null) {
+			res = adminService.setBlockIpDelete(hostIp);
+			memberService.setReportMemberUpdateBlock(hostIp);
+		}
+  	return res+"";
+  }
+  
   // 문의 내역 리스트 보기
-  @RequestMapping(value = "/consultingList", method = RequestMethod.GET)
+  @RequestMapping(value = "/consulting/consultingList", method = RequestMethod.GET)
   public String consultingListGet(Model model,
 			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
 			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
@@ -855,10 +921,10 @@ public class AdminController {
   	ArrayList<ConsultingVO> vos = adminService.getConsultingList(pageVO.getStartIndexNo(),pageSize,part,searchString);
   	model.addAttribute("pageVO", pageVO);
   	model.addAttribute("vos", vos);
-  	return "admin/consultingList";
+  	return "admin/consulting/consultingList";
   }
   // 문의 내역 리스트 보기(기간 검색)
-  @RequestMapping(value = "/consultingList", method = RequestMethod.POST)
+  @RequestMapping(value = "/consulting/consultingList", method = RequestMethod.POST)
   public String consultingListPost(Model model, String startSearchDate, String endSearchDate,
   		@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
   		@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize,
@@ -878,11 +944,11 @@ public class AdminController {
 		}
 		model.addAttribute("pageVO", pageVO);
   	model.addAttribute("vos", vos);
-  	return "admin/consultingList";
+  	return "admin/consulting/consultingList";
   }
   // 문의 내역 내용 보기
   @ResponseBody
-  @RequestMapping(value = "/consultingContent", method = RequestMethod.POST)
+  @RequestMapping(value = "/consulting/consultingContent", method = RequestMethod.POST)
   public ConsultingVO consultingContentPost(
   		@RequestParam(name="idx",defaultValue = "0", required = false) int idx
   		) {
@@ -892,7 +958,7 @@ public class AdminController {
   // 문의 답변하기
   @Transactional
   @ResponseBody
-  @RequestMapping(value = "/consultingAnswer", method = RequestMethod.POST)
+  @RequestMapping(value = "/consulting/consultingAnswer", method = RequestMethod.POST)
   public String consultingAnswerPost(HttpServletRequest request,
   		@RequestParam(name="idx",defaultValue = "0", required = false) int idx,
   		@RequestParam(name="answer",defaultValue = "", required = false) String answer,
@@ -902,6 +968,14 @@ public class AdminController {
   	javaclassProvide.mailSend(email, "문의에 대한 답변이 등록되었습니다.", answer, "consultingAnswer", request);
   	return res + "";
   }
+  
+  
+  // 1:1문의 채팅
+  @RequestMapping(value = "/consulting/realTimeChat", method = RequestMethod.GET)
+  public String realTimeChatGet() {
+  	return "admin/consulting/realTimeChat";
+  }
+  
   
   // 공지사항 입력 폼 띄우기
   @RequestMapping(value = "/notice/noticeInput", method = RequestMethod.GET)
@@ -1086,12 +1160,12 @@ public class AdminController {
   }
   
   // 관리자 비밀번호 변경
-  @RequestMapping(value = "/changeAdminPwd", method = RequestMethod.GET)
+  @RequestMapping(value = "/setting/changeAdminPwd", method = RequestMethod.GET)
   public String changeAdminPwdGet() {
-  	return "admin/changeAdminPwd";
+  	return "admin/setting/changeAdminPwd";
   }
   // 관리자 비밀번호 변경
-	@RequestMapping(value = "/changeAdminPwd", method = RequestMethod.POST)
+	@RequestMapping(value = "/setting/changeAdminPwd", method = RequestMethod.POST)
 	public String changeAdminPwdPost(String mid, String pwdNew, HttpSession session) {
 		int res = 0;
 		res = memberService.setMemberPwdUpdate(mid, passwordEncoder.encode(pwdNew));
@@ -1104,7 +1178,7 @@ public class AdminController {
 	
 	
 	// 관리자 쪽지 확인
-	@RequestMapping(value = "/messageList", method = RequestMethod.GET)
+	@RequestMapping(value = "/setting/messageList", method = RequestMethod.GET)
 	public String messageListGet(HttpSession session, Model model) {
 		String mid = (String) session.getAttribute("sMid");
 		ArrayList<MessageVO> receiveVOS = memberService.getAllReceiveMessageList(mid);
@@ -1116,24 +1190,24 @@ public class AdminController {
 		model.addAttribute("mVos", mVos);
 		model.addAttribute("receiveVOS", receiveVOS);
 		model.addAttribute("sendVOS", sendVOS);
-		return "admin/messageList";
+		return "admin/setting/messageList";
 	}
 	// 쪽지 수신확인 상태로 만들기
 	@ResponseBody
-	@RequestMapping(value = "/messageCheck", method = RequestMethod.POST)
+	@RequestMapping(value = "/setting/messageCheck", method = RequestMethod.POST)
 	public void messageCheckPost(int idx) {
 		memberService.setMessageCheck(idx);
 	}
 	// 받은 메세지 / 보낸 메세지 삭제하기
 	@ResponseBody
-	@RequestMapping(value = "/messageDelete", method = RequestMethod.POST)
+	@RequestMapping(value = "/setting/messageDelete", method = RequestMethod.POST)
 	public String messageDeletePost(int idx, String sw) {
 		int res =	memberService.setMessageDelete(idx, sw);
 		return res + "";
 	}
 	
 	// 쪽지 보내기 창
-	@RequestMapping(value = "/sendMessage", method = RequestMethod.GET)
+	@RequestMapping(value = "/setting/sendMessage", method = RequestMethod.GET)
 	public String sendMessageGet(Model model,
 			@RequestParam(name = "receiveMid", defaultValue = "", required = false) String receiveMid
 			) {
@@ -1142,7 +1216,7 @@ public class AdminController {
 	}
 	// 쪽지 보내기
 	@ResponseBody
-	@RequestMapping(value = "/sendMessage", method = RequestMethod.POST)
+	@RequestMapping(value = "/setting/sendMessage", method = RequestMethod.POST)
 	public String sendMessagePost(MessageVO vo) {
 		MemberVO mVo = memberService.getMemberIdCheck(vo.getReceiveMid());
 		int res = 0;
@@ -1226,7 +1300,7 @@ public class AdminController {
   }
   
   // 임시파일 삭제하기 창 연결
-  @RequestMapping(value = "/fileDelete", method = RequestMethod.GET)
+  @RequestMapping(value = "/setting/fileDelete", method = RequestMethod.GET)
   public String fileDeleteGet(HttpServletRequest request, Model model) {
   	String realPath = request.getSession().getServletContext().getRealPath("/resources/data/ckeditor");
   	String[] files = new File(realPath).list();
@@ -1234,11 +1308,11 @@ public class AdminController {
   	System.out.println(files[1]);
   	model.addAttribute("files", files);
   	model.addAttribute("fileCount", files.length);
-  	return "admin/fileDelete";
+  	return "admin/setting/fileDelete";
   }
   // 개별파일 삭제하기
   @ResponseBody
-  @RequestMapping(value = "/fileDelete", method = RequestMethod.POST)
+  @RequestMapping(value = "/setting/fileDelete", method = RequestMethod.POST)
   public String fileDeletePost(HttpServletRequest request, String file) {
   	String realPath = request.getSession().getServletContext().getRealPath("/resources/data/ckeditor/");
   	String res = "0";
@@ -1251,7 +1325,7 @@ public class AdminController {
   }
   // 선택파일 삭제하기
   @ResponseBody
-  @RequestMapping(value = "/fileDeleteAll", method = RequestMethod.POST)
+  @RequestMapping(value = "/setting/fileDeleteAll", method = RequestMethod.POST)
   public String fileDeleteAllPost(HttpServletRequest request, String fileName) {
   	String realPath = request.getSession().getServletContext().getRealPath("/resources/data/ckeditor/");
   	String res = "0";

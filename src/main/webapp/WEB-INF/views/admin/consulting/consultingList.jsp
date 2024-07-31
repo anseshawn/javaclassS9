@@ -7,7 +7,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>관리자 - A/S 현황 조회</title>
+	<title>관리자 - 문의내역 조회</title>
 	<jsp:include page="/WEB-INF/views/include/admin_header.jsp" />
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
 	<jsp:include page="/WEB-INF/views/include/scripts.jsp" />
@@ -81,13 +81,13 @@
 				return false;
 			}
 			if(part=='part') searchString = $("#partSelect").val();
-			location.href="${ctp}/admin/consultingList?part="+part+"&searchString="+searchString;
+			location.href="${ctp}/admin/consulting/consultingList?part="+part+"&searchString="+searchString;
 		}
 		
 		function modalView(idx) {
 			let str = "<table class='table text-center'>";
 			$.ajax({
-				url: "${ctp}/admin/consultingContent",
+				url: "${ctp}/admin/consulting/consultingContent",
 				type: "post",
 				data: {idx : idx},
 				success: function(cVo) {
@@ -126,7 +126,7 @@
 					idx : idx
 			}
 			$.ajax({
-				url: "${ctp}/admin/consultingAnswer",
+				url: "${ctp}/admin/consulting/consultingAnswer",
 				type: "post",
 				data: query,
 				success: function(res) {
@@ -178,7 +178,7 @@
 			</div>
 		</div>
 		<div class="col-md-3">
-			<input type="button" onclick="location.href='${ctp}/admin/consultingList';" value="전체보기" class="btn btn-main-2 btn-icon-md btn-round-full" style="padding:0.3rem 0.5rem;"/>
+			<input type="button" onclick="location.href='${ctp}/admin/consulting/consultingList';" value="전체보기" class="btn btn-main-2 btn-icon-md btn-round-full" style="padding:0.3rem 0.5rem;"/>
 		</div>
 		<div class="col-md-4 offset-md-2 text-right">
 			<form name="dateForm" method="post">

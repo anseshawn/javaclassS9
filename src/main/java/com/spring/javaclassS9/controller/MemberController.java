@@ -42,6 +42,7 @@ import com.spring.javaclassS9.vo.ProductVO;
 import com.spring.javaclassS9.vo.QuestionBoardVO;
 import com.spring.javaclassS9.vo.RecruitBoardVO;
 import com.spring.javaclassS9.vo.ReplyVO;
+import com.spring.javaclassS9.vo.ReportMemberVO;
 
 @Controller
 @RequestMapping("/member")
@@ -82,7 +83,7 @@ public class MemberController {
 	public String memberIdCheckGet(String mid) {
 		MemberVO vo = memberService.getMemberIdCheck(mid);
 		EngineerVO eVo = engineerService.getEngineerIdCheck(mid);
-		if(vo != null || eVo != null) return "1";
+		if(vo != null || eVo != null || mid.indexOf("admin")!=-1) return "1";
 		else return "0";
 	}
 	// 닉네임 중복체크
@@ -612,9 +613,37 @@ public class MemberController {
 		return "member/estimateContent";
 	}
 	
-	// 마이페이지 1:1 내역
+	// 마이페이지 유저 채팅방
 	@RequestMapping(value = "/chating", method = RequestMethod.GET)
 	public String chatingGet() {
 		return "member/chating";
+	}
+	
+	// 마이페이지 1:1 문의 채팅방
+	@RequestMapping(value = "/realTimeChat", method = RequestMethod.GET)
+	public String realTimeChatGet() {
+		return "member/realTimeChat";
+	}
+	// 1:1 문의 알림전송
+	@ResponseBody
+	@RequestMapping(value = "/addChatAlarm", method = RequestMethod.POST)
+	public String addChatAlarmGet() {
+		int res = 0;
+		System.out.println("알림전송");
+		res = adminService.setNewChatCount();
+		return res+"";
+	}
+	
+	// 유저 신고하기(회원, 비회원 모두)
+	@ResponseBody
+	@RequestMapping(value = "/reportMember", method = RequestMethod.POST)
+	public String reportMemberPost(
+			@RequestParam(name="hostIp",defaultValue = "", required = false) String hostIp,
+			@RequestParam(name="mid",defaultValue = "", required = false) String mid
+		) {
+		int res = 0;
+		ReportMemberVO vo = memberService.getReportMember(mid, hostIp);
+		if(vo==null) res = memberService.setReportMemberInput(mid,hostIp);
+		return res+"";
 	}
 }

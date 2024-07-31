@@ -65,3 +65,25 @@ create table faqS(
 );
 
 select part from faqS group by part;
+
+create table reportMember(
+	idx int not null auto_increment,
+	hostIp varchar(40) not null,
+	rpMid varchar(20) not null,
+	rpDate datetime default now(),
+	block varchar(2) default 'NO',
+	blockNum int default 0,
+	primary key(idx),
+	foreign key(rpMid) references memberS(mid);
+);
+
+create table blockIp(
+	hostIp varchar(40) not null,
+	blockDate datetime default now()
+);
+
+select hostIp, date_format(date_add(blockDate, interval 1 day), '%Y-%m-%d') as blockEndDate from blockIp;
+
+create table adminAlarm(
+	alarm int not null
+);

@@ -43,7 +43,7 @@
 		}
 		
 		.menu li {
-			display: inline-block;
+			display: block;
 			margin-right: 10px;
 	    margin-bottom: 5px;
 		}
@@ -112,7 +112,52 @@
 				'width='+widthSize+', height='+heightSize+', top='+topCenter+', left='+leftCenter // 설정
 			);
 		}
-
+		
+		function reportMember(hostIp) {
+			let message = "";
+			
+			Swal.fire({
+        html : "<h3>해당 유저를 신고하겠습니까?</h3>",
+        confirmButtonText : '확인',
+        showCancelButton: true,
+        confirmButtonColor : '#003675',
+        customClass: {
+          popup : 'custom-swal-popup',
+          htmlContainer : 'custom-swal-text'
+        }
+			}).then((result)=>{
+				if(result.isConfirmed) {
+					$.ajax({
+						url: "${ctp}/member/reportMember",
+						type: "post",
+						data: {
+							hostIp : hostIp,
+							mid : "${sMid}"
+						},
+						success: function(res){
+							if(res != "0") {
+								message = "신고가 완료되었습니다.";
+							}
+							else {
+								message = "이미 신고한 유저입니다.";
+							}
+							Swal.fire({
+								html: message,
+								confirmButtonText: '확인',
+								customClass: {
+				        	confirmButton : 'swal2-confirm‎',
+				          popup : 'custom-swal-popup',
+				          htmlContainer : 'custom-swal-text'
+								}
+							});
+						},
+						error: function(){
+							alert("전송오류");
+						}
+					});
+				}
+			});
+		}
 	</script>
 </head>
 <body id="top">
@@ -164,9 +209,12 @@
 											<span class="text-muted text-capitalize mr-3">
 												<i class="icofont-user mr-2"></i><span class="writeNickName">${vo.nickName}</span>
 											</span>
-					            <div class="menu hidden">
+											<div class="menu hidden">
 				                <ul>
+													<c:if test="${vo.mid != 'guest'}">
 			                    <li><a href="javascript:sendMessage('${vo.mid}')">쪽지 보내기</a></li>
+							            </c:if>
+			                    <li><a href="javascript:reportMember('${vo.hostIp}')">유저신고</a></li>
 				                </ul>
 					            </div>
 						        </div>

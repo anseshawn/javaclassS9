@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.javaclassS9.vo.BlockIpVO;
 import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.EngineerVO;
@@ -121,5 +122,21 @@ public interface AdminDAO {
 	public int faqEditOk(@Param("vo") FaqVO vo);
 
 	public int faqDeleteOk(@Param("idx") int idx);
+
+	public BlockIpVO getBlockIp(@Param("hostIp") String hostIp);
+
+	public int setBlockIpInput(@Param("hostIp") String hostIp);
+
+	public ArrayList<BlockIpVO> getBlockIpList();
+
+	public int setBlockIpDelete(@Param("hostIp") String hostIp);
+
+	public int setNewChatCount();
+
+	public int getNewChatCount();
+
+	public int setNewChatCountDelete();
+
+	public int getLevelChangeMemberCount();
 
 }

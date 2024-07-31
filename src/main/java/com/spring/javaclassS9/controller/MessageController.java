@@ -298,6 +298,10 @@ public class MessageController {
 			model.addAttribute("msg", "FAQ 항목 삭제 실패");
 			model.addAttribute("url", "/admin/notice/faqList");
 		}
+		else if(msgFlag.equals("blockIpNo")) {
+			model.addAttribute("msg", "신고된 아이피로 하루 동안 회원서비스를 이용할 수 없습니다.");
+			model.addAttribute("url", "/");
+		}
 		
 		return "include/message";
 	}

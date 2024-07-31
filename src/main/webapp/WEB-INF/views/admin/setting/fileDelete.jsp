@@ -43,7 +43,7 @@
 			let ans = confirm("선택한 파일을 모두 삭제하시겠습니까?");
 			if(!ans) return false;
 			$.ajax({
-				url: "${ctp}/admin/fileDeleteAll",
+				url: "${ctp}/admin/setting/fileDeleteAll",
 				type: "post",
 				data: {fileName : fileName},
 				success: function(res) {
@@ -63,7 +63,7 @@
 			let ans = confirm("해당 파일을 삭제하겠습니까?");
 			if(!ans) return false;
 			$.ajax({
-				url: "${ctp}/admin/fileDelete",
+				url: "${ctp}/admin/setting/fileDelete",
 				type: "post",
 				data: {file : file},
 				success: function(res) {

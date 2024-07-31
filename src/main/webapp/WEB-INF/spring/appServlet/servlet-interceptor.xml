@@ -12,8 +12,25 @@
 	<beans:bean id="level1Interceptor" class="com.spring.javaclassS9.interceptor.Level1Interceptor" />
 	<beans:bean id="level2Interceptor" class="com.spring.javaclassS9.interceptor.Level2Interceptor" />
 	<beans:bean id="level3Interceptor" class="com.spring.javaclassS9.interceptor.Level3Interceptor" />
+	<beans:bean id="hostIpInterceptor" class="com.spring.javaclassS9.interceptor.HostIpInterceptor" />
 	
 	<interceptors>
+		<interceptor>
+			<mapping path="/member/**"/>
+			<mapping path="/customer/requests/**"/>
+			<mapping path="/customer/board/**"/>
+			<exclude-mapping path="/member/memberJoin"/>
+			<exclude-mapping path="/member/memberIdCheck"/>
+			<exclude-mapping path="/member/memberNickCheck"/>
+			<exclude-mapping path="/member/memberLogin/**"/>
+			<exclude-mapping path="/member/kakaoLogin/**"/>
+			<exclude-mapping path="/member/memberLogout/**"/>
+			<exclude-mapping path="/member/midSearch"/>
+			<exclude-mapping path="/member/midSearchResult"/>
+			<exclude-mapping path="/member/pwdSearch"/>
+			<exclude-mapping path="/member/pwdSearchOk"/>
+			<beans:ref bean="hostIpInterceptor"/>
+		</interceptor>
 		<interceptor>
 			<mapping path="/customer/requests/**"/>
 			<mapping path="/customer/board/freeBoardInput"/>

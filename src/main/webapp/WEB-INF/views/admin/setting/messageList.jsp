@@ -96,7 +96,7 @@
 	    	let idx = $(this).data("index");
         $(this).find('.message-full-content').slideToggle(function(){
         	$.ajax({
-        		url: "${ctp}/admin/messageCheck",
+        		url: "${ctp}/admin/setting/messageCheck",
         		type: "post",
         		data: {idx : idx}
         	});
@@ -110,7 +110,7 @@
   	});
   	
 		function sendMessage(mid){
-			let url = "${ctp}/admin/sendMessage?receiveMid="+mid;
+			let url = "${ctp}/admin/setting/sendMessage?receiveMid="+mid;
 			let widthSize= 450;
 			let heightSize = 500;
 			let leftCenter = Math.ceil((window.screen.width - widthSize)/2);
@@ -127,7 +127,7 @@
 			if(!ans) return false;
 			
 			$.ajax({
-				url: "${ctp}/admin/messageDelete",
+				url: "${ctp}/admin/setting/messageDelete",
 				type: "post",
 				data: {
 					idx : idx,
@@ -151,7 +151,7 @@
 			if(!ans) return false;
 			
 			$.ajax({
-				url: "${ctp}/admin/messageDeleteDB",
+				url: "${ctp}/admin/setting/messageDeleteDB",
 				type: "post",
 				data: {idx : idx},
 				success: function(res) {

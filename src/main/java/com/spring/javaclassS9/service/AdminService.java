@@ -2,12 +2,14 @@ package com.spring.javaclassS9.service;
 
 import java.util.ArrayList;
 
+import com.spring.javaclassS9.vo.BlockIpVO;
 import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.FaqVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.NoticeVO;
+import com.spring.javaclassS9.vo.ReportMemberVO;
 import com.spring.javaclassS9.vo.ReportVO;
 
 public interface AdminService {
@@ -85,5 +87,19 @@ public interface AdminService {
 	public int faqEditOk(FaqVO vo);
 
 	public int faqDeleteOk(int idx);
+
+	public BlockIpVO getBlockIp(String hostIp);
+
+	public int setBlockIpInput(String hostIp);
+
+	public int setBlockIpDelete(String hostIp);
+
+	public int setNewChatCount();
+
+	public int getNewChatCount();
+
+	public int setNewChatCountDelete();
+
+	public int getLevelChangeMemberCount();
 
 }

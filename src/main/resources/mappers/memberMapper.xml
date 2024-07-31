@@ -35,6 +35,16 @@
 		select *, datediff(writeDate,now()) as date_diff, datediff(completeDate,now()) as date_diffC 
 			from consultingS where idx = #{idx};
 	</select>
+	<select id="getReportMember" resultType="com.spring.javaclassS9.vo.ReportMemberVO">
+		select * from reportMember where hostIp=#{hostIp} and rpMid=#{rpMid};
+	</select>
+	<select id="reportMemberTotRecCnt" resultType="int">
+		select count(*) from reportMember;
+	</select>
+	<select id="getReportMemberList" resultType="com.spring.javaclassS9.vo.ReportMemberVO">
+		select *, count(*) as rpNum from reportMember group by hostIp 
+			order by rpDate, idx desc limit #{startIndexNo},#{pageSize};
+	</select>
 	
 	
 	<insert id="setMemberJoinOk">
@@ -50,6 +60,9 @@
 	<insert id="setMessageInputOk">
 		insert into messageS values(default,#{vo.sendMid}, #{vo.receiveMid}, #{vo.content}, 
 			#{vo.sendSw}, default, #{vo.receiveSw}, default);
+	</insert>
+	<insert id="setReportMemberInput">
+		insert into reportMember values(default, #{hostIp}, #{rpMid}, default, default, default);
 	</insert>
 	
 	
@@ -73,6 +86,13 @@
 		update messageS set 
 			<if test="sw == 'receiveSw'"> receiveSw = 'd' </if>
 			<if test="sw == 'sendSw'"> sendSw = 'd' </if> where idx=#{idx};
+	</update>
+	
+	<update id="setReportMemberUpdate">
+		update reportMember set blockNum = blockNum + 1 and block='OK' where hostIp=#{hostIp};
+	</update>
+	<update id="setReportMemberUpdateBlock">
+		update reportMember set block='NO' where hostIp=#{hostIp};
 	</update>
 	
 	

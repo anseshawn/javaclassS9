@@ -9,6 +9,7 @@ import com.spring.javaclassS9.dao.MemberDAO;
 import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.MessageVO;
+import com.spring.javaclassS9.vo.ReportMemberVO;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -94,5 +95,30 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void setKakaoMemberInput(String mid, String pwd, String nickName, String email) {
 		memberDAO.setKakaoMemberInput(mid,pwd,nickName,email);
+	}
+
+	@Override
+	public ReportMemberVO getReportMember(String mid, String hostIp) {
+		return memberDAO.getReportMember(mid, hostIp);
+	}
+
+	@Override
+	public int setReportMemberInput(String mid, String hostIp) {
+		return memberDAO.setReportMemberInput(mid, hostIp);
+	}
+
+	@Override
+	public ArrayList<ReportMemberVO> getReportMemberList(int startIndexNo, int pageSize) {
+		return memberDAO.getReportMemberList(startIndexNo,pageSize);
+	}
+
+	@Override
+	public void setReportMemberUpdate(String hostIp) {
+		memberDAO.setReportMemberUpdate(hostIp);
+	}
+
+	@Override
+	public void setReportMemberUpdateBlock(String hostIp) {
+		memberDAO.setReportMemberUpdateBlock(hostIp);
 	}
 }

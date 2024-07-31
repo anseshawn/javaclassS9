@@ -98,6 +98,9 @@ public class PageProcess {
 		else if(section.equals("reportBoardList")) {
 			totRecCnt = adminDAO.reportBoardTotRecCnt();
 		}
+		else if(section.equals("reportMemberList")) {
+			totRecCnt = memberDAO.reportMemberTotRecCnt();
+		}
 		else if(section.equals("adminAsRequestList")) {
 			if(part.equals("")) totRecCnt = adminDAO.adminAsRequestTotRecCnt();
 			else {

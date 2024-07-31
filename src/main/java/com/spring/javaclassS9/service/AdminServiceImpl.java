@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.spring.javaclassS9.common.JavaclassProvide;
 import com.spring.javaclassS9.dao.AdminDAO;
 import com.spring.javaclassS9.dao.BoardDAO;
+import com.spring.javaclassS9.vo.BlockIpVO;
 import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.DeleteMemberVO;
 import com.spring.javaclassS9.vo.EngineerVO;
@@ -264,5 +265,40 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int faqDeleteOk(int idx) {
 		return adminDAO.faqDeleteOk(idx);
+	}
+
+	@Override
+	public BlockIpVO getBlockIp(String hostIp) {
+		return adminDAO.getBlockIp(hostIp);
+	}
+
+	@Override
+	public int setBlockIpInput(String hostIp) {
+		return adminDAO.setBlockIpInput(hostIp);
+	}
+
+	@Override
+	public int setBlockIpDelete(String hostIp) {
+		return adminDAO.setBlockIpDelete(hostIp);
+	}
+
+	@Override
+	public int setNewChatCount() {
+		return adminDAO.setNewChatCount();
+	}
+
+	@Override
+	public int getNewChatCount() {
+		return adminDAO.getNewChatCount();
+	}
+
+	@Override
+	public int setNewChatCountDelete() {
+		return adminDAO.setNewChatCountDelete();
+	}
+
+	@Override
+	public int getLevelChangeMemberCount() {
+		return adminDAO.getLevelChangeMemberCount();
 	}
 }

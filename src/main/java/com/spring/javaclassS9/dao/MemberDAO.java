@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.MessageVO;
+import com.spring.javaclassS9.vo.ReportMemberVO;
 
 public interface MemberDAO {
 
@@ -48,5 +49,17 @@ public interface MemberDAO {
 	public ConsultingVO getConsultingContent(@Param("idx") int idx);
 
 	public void setKakaoMemberInput(@Param("mid") String mid, @Param("pwd") String pwd, @Param("nickName") String nickName, @Param("email") String email);
+
+	public ReportMemberVO getReportMember(@Param("rpMid") String mid, @Param("hostIp") String hostIp);
+
+	public int setReportMemberInput(@Param("rpMid") String mid, @Param("hostIp") String hostIp);
+
+	public int reportMemberTotRecCnt();
+
+	public ArrayList<ReportMemberVO> getReportMemberList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize);
+
+	public void setReportMemberUpdate(@Param("hostIp") String hostIp);
+
+	public void setReportMemberUpdateBlock(@Param("hostIp") String hostIp);
 	
 }

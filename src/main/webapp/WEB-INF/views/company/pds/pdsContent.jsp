@@ -41,7 +41,7 @@
 		}
 		
 		.menu li {
-			display: inline-block;
+			display: block;
 			margin-right: 10px;
 	    margin-bottom: 5px;
 		}

@@ -208,7 +208,7 @@
 			<p><br/></p>
 				<div class="row mb-3">
 					<div class="col text-right">
-						<h3>1:1 문의</h3>
+						<h3>유저채팅방</h3>
 						<div id="chatStatus"><font color="red">접속대기</font>상태</div>
 					</div>
 				</div>

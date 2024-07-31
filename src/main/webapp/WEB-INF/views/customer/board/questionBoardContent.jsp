@@ -46,7 +46,7 @@
 	  	white-space: nowrap;
 		}
 		.menu li {
-			display: inline-block;
+			display: block;
 			margin-right: 10px;
 	    margin-bottom: 5px;
 		}
@@ -407,6 +407,52 @@
 				'width='+widthSize+', height='+heightSize+', top='+topCenter+', left='+leftCenter // 설정
 			);
 		}
+		
+		function reportMember(hostIp) {
+			let message = "";
+			
+			Swal.fire({
+        html : "<h3>해당 유저를 신고하겠습니까?</h3>",
+        confirmButtonText : '확인',
+        showCancelButton: true,
+        confirmButtonColor : '#003675',
+        customClass: {
+          popup : 'custom-swal-popup',
+          htmlContainer : 'custom-swal-text'
+        }
+			}).then((result)=>{
+				if(result.isConfirmed) {
+					$.ajax({
+						url: "${ctp}/member/reportMember",
+						type: "post",
+						data: {
+							hostIp : hostIp,
+							mid : "${sMid}"
+						},
+						success: function(res){
+							if(res != "0") {
+								message = "신고가 완료되었습니다.";
+							}
+							else {
+								message = "이미 신고를 완료한 유저입니다.";
+							}
+							Swal.fire({
+								html: message,
+								confirmButtonText: '확인',
+								customClass: {
+				        	confirmButton : 'swal2-confirm‎',
+				          popup : 'custom-swal-popup',
+				          htmlContainer : 'custom-swal-text'
+								}
+							});
+						},
+						error: function(){
+							alert("전송오류");
+						}
+					});
+				}
+			});
+		}
 	</script>
 </head>
 <body id="top">
@@ -450,8 +496,9 @@
 									<div class="menu hidden">
 		                <ul>
 	                    <li><a href="javascript:sendMessage('${vo.mid}')">쪽지 보내기</a></li>
+	                    <li><a href="javascript:reportMember('${vo.hostIp}')">유저신고</a></li>
 		                </ul>
-		            	</div>
+			            </div>
 		            </div>
 								<c:if test="${sLevel==0 || sMid==vo.mid}">
 									<div class="text-right">
@@ -501,13 +548,14 @@
 												<c:if test="${rVo.nickName!='' || rVo.mid!=''}">
 													<div class="menu-container">
 														<h5 class="mb-1 writeNickName">${rVo.nickName}(${rVo.mid})</h5>
-														<c:if test="${rVo.mid != 'guest'}">
-															<div class="menu hidden">
-								                <ul>
-							                    <li><a href="javascript:sendMessage('${rVo.mid}')">쪽지 보내기</a></li>
-								                </ul>
-								            	</div>
-							            	</c:if>
+														<div class="menu hidden">
+							                <ul>
+																<c:if test="${rVo.mid != 'guest'}">
+						                    <li><a href="javascript:sendMessage('${rVo.mid}')">쪽지 보내기</a></li>
+										            </c:if>
+						                    <li><a href="javascript:reportMember('${rVo.hostIp}')">유저신고</a></li>
+							                </ul>
+								            </div>
 													</div>
 													<span>${rVo.hostIp}</span>
 													<span class="date-comm mr-2">| ${rVo.date_diff == 0 ? fn:substring(rVo.replyDate,11,19) : fn:substring(rVo.replyDate,0,10) }</span>
@@ -531,13 +579,14 @@
 											<div class="comment-info">
 												<div class="menu-container">
 													<h5 class="mb-1 writeNickName">${rVo.nickName}(${rVo.mid})</h5>
-													<c:if test="${rVo.mid != 'guest'}">
-														<div class="menu hidden">
-							                <ul>
-						                    <li><a href="javascript:sendMessage('${rVo.mid}')">쪽지 보내기</a></li>
-							                </ul>
-								            </div>
-							            </c:if>
+													<div class="menu hidden">
+						                <ul>
+															<c:if test="${rVo.mid != 'guest'}">
+					                    <li><a href="javascript:sendMessage('${rVo.mid}')">쪽지 보내기</a></li>
+									            </c:if>
+					                    <li><a href="javascript:reportMember('${rVo.hostIp}')">유저신고</a></li>
+						                </ul>
+							            </div>
 												</div>
 												<span>${rVo.hostIp}</span>
 												<span class="date-comm mr-2">| ${rVo.date_diff == 0 ? fn:substring(rVo.replyDate,11,19) : fn:substring(rVo.replyDate,0,10) }</span>

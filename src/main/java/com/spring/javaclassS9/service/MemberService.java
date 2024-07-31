@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.MessageVO;
+import com.spring.javaclassS9.vo.ReportMemberVO;
 
 public interface MemberService {
 
@@ -39,5 +40,15 @@ public interface MemberService {
 	public ConsultingVO getConsultingContent(int idx);
 
 	public void setKakaoMemberInput(String mid, String pwd, String nickName, String email);
+
+	public ReportMemberVO getReportMember(String mid, String hostIp);
+
+	public int setReportMemberInput(String mid, String hostIp);
+
+	public ArrayList<ReportMemberVO> getReportMemberList(int startIndexNo, int pageSize);
+
+	public void setReportMemberUpdate(String hostIp);
+
+	public void setReportMemberUpdateBlock(String hostIp);
 
 }

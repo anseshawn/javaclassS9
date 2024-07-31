@@ -157,7 +157,7 @@
     </div>
     <div class="col-lg-3">
       <div class="card requests">
-      	<a href="${ctp}/admin/consultingList">
+      	<a href="${ctp}/admin/consulting/consultingList">
 	        <div class="card-body d-flex justify-content-between">
 	          <div>
 	          <p class="card-text mb-2">새로운 문의 내용</p>
