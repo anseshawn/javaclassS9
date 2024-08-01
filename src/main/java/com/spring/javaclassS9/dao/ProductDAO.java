@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.spring.javaclassS9.vo.AsRequestVO.Machine;
 import com.spring.javaclassS9.vo.ExpendableVO;
+import com.spring.javaclassS9.vo.OrderAddressVO;
 import com.spring.javaclassS9.vo.ProductEstimateVO;
 import com.spring.javaclassS9.vo.ProductLikeVO;
 import com.spring.javaclassS9.vo.ProductSaleVO;
@@ -76,5 +77,11 @@ public interface ProductDAO {
 	public int setProductSaleChange(@Param("idx") int saleIdx, @Param("statement") String statement);
 
 	public void setProductEstimatePayDate(@Param("idx") int idx);
+
+	public int setEstimateAddAddress(@Param("vo") OrderAddressVO vo);
+
+	public OrderAddressVO getOrderAddress(@Param("saleIdx") int saleIdx);
+
+	public int setEstimateAddressUpdate(@Param("vo") OrderAddressVO vo);
 
 }

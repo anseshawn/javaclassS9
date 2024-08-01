@@ -11,6 +11,7 @@ import com.spring.javaclassS9.common.JavaclassProvide;
 import com.spring.javaclassS9.dao.ProductDAO;
 import com.spring.javaclassS9.vo.AsRequestVO.Machine;
 import com.spring.javaclassS9.vo.ExpendableVO;
+import com.spring.javaclassS9.vo.OrderAddressVO;
 import com.spring.javaclassS9.vo.ProductEstimateVO;
 import com.spring.javaclassS9.vo.ProductLikeVO;
 import com.spring.javaclassS9.vo.ProductSaleVO;
@@ -204,6 +205,21 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void setProductEstimatePayDate(int idx) {
 		productDAO.setProductEstimatePayDate(idx);
+	}
+
+	@Override
+	public int setEstimateAddAddress(OrderAddressVO vo) {
+		return productDAO.setEstimateAddAddress(vo);
+	}
+
+	@Override
+	public OrderAddressVO getOrderAddress(int saleIdx) {
+		return productDAO.getOrderAddress(saleIdx);
+	}
+
+	@Override
+	public int setEstimateAddressUpdate(OrderAddressVO vo) {
+		return productDAO.setEstimateAddressUpdate(vo);
 	}
 
 	

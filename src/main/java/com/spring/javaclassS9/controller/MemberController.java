@@ -34,6 +34,7 @@ import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.FreeBoardVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.MessageVO;
+import com.spring.javaclassS9.vo.OrderAddressVO;
 import com.spring.javaclassS9.vo.PageVO;
 import com.spring.javaclassS9.vo.ProductEstimateVO;
 import com.spring.javaclassS9.vo.ProductLikeVO;
@@ -610,8 +611,23 @@ public class MemberController {
 			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize
 			) {
 		ProductEstimateVO vo = productService.getProductEstimateContent(saleIdx);
+		OrderAddressVO oVo = productService.getOrderAddress(saleIdx);
+		if(oVo != null) model.addAttribute("oVo", oVo);
 		model.addAttribute("vo", vo);
 		return "member/estimateContent";
+	}
+	// 발주처 등록하기
+	@ResponseBody
+	@RequestMapping(value = "/estimateAddAddress", method = RequestMethod.POST)
+	public String estimateAddAddressGet(OrderAddressVO vo) {
+		OrderAddressVO oVo = productService.getOrderAddress(vo.getSaleIdx());
+		int res = 0;
+		if(oVo == null) res = productService.setEstimateAddAddress(vo);
+		else {
+			vo.setIdx(oVo.getIdx());
+			res = productService.setEstimateAddressUpdate(vo);
+		}
+		return res+"";
 	}
 	
 	// 마이페이지 유저 채팅방
@@ -630,8 +646,10 @@ public class MemberController {
 	@RequestMapping(value = "/addChatAlarm", method = RequestMethod.POST)
 	public String addChatAlarmGet() {
 		int res = 0;
-		System.out.println("알림전송");
-		res = adminService.setNewChatCount();
+		int chatCount = adminService.getNewChatCount();
+		System.out.println("카운트 : "+chatCount);
+		if(chatCount == 0)	res = adminService.setNewChatCount();
+		else res = adminService.setAddChatCount();
 		return res+"";
 	}
 	

@@ -186,10 +186,10 @@
 						<th>엔지니어 코멘트</th>
 						<td colspan="3">${fn:replace(vo.comment,newLine,'<br/>')}</td>
 					</tr>
-				<%-- </c:if> --%>
+				</c:if>
 				<tr><td colspan="4" class="m-0 p-0"></td></tr>
 			</table>
-			<%-- <c:if test="${vo.progress == 'PAYMENT' || vo.progress == 'COMPLETE'}"> --%>
+			<c:if test="${vo.progress == 'PAYMENT' || vo.progress == 'COMPLETE'}">
 			<hr/>
 				<div class="mb-2" id="waiting">
 					<div class="mb-2 text-right">
@@ -288,8 +288,8 @@
   </div>
 </div>
 
-<jsp:include page="/WEB-INF/views/include/scripts.jsp" />
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />
+<jsp:include page="/WEB-INF/views/include/scripts.jsp" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
 <script src="${ctp}/js/bootstrap-datepicker.ko.js"></script>
 </body>

@@ -332,6 +332,11 @@
 					</td>
 				</tr>
 				<tr>
+					<th>주소</th>
+					<c:set var="address" value="${fn:split(vo.address,'/')}"/>
+					<td colspan="3">(${address[0]}) ${address[1]} ${address[2]} ${address[3]}</td>
+				</tr>
+				<tr>
 					<th>증상</th>
 					<td colspan="3"><c:if test="${empty vo.detailNote}">-</c:if><c:if test="${!empty vo.detailNote}">${vo.detailNote}</c:if></td>
 				</tr>

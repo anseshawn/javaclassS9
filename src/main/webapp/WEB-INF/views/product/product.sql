@@ -73,3 +73,13 @@ desc expendableS;
 drop table expendableS;
 
 select * from productSaleS order by statement;
+
+create table orderAddress(
+	idx int not null auto_increment,
+	saleIdx int not null,
+	addressName varchar(50) not null,
+	longitude double not null,
+	latitude double not null,
+	primary key(idx),
+	foreign key(saleIdx) references productSaleS(idx) on delete cascade
+);

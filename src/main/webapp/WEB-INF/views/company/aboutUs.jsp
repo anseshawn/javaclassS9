@@ -9,6 +9,29 @@
   <title>About Us</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
 	<jsp:include page="/WEB-INF/views/include/scripts.jsp" />
+	<script>
+		/*
+		$(function(){
+	    var videoId = "BRDApYgvDqQ";
+	    var apiKey = 'AIzaSyAOR5j-ogxANaP1B0kPeK8U2UlfsJvt3i0'; // 여기에 발급받은 API 키를 입력하세요
+	    var url = "https://www.googleapis.com/youtube/v3/videos?id="+videoId+"&key="+apiKey+"&part=snippet";
+			
+	    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.items && data.items.length > 0) {
+                var video = data.items[0];
+                var title = video.snippet.title;
+                var videoUrl = "https://www.youtube.com/embed/"+videoId;
+                document.getElementById('videoContainer').innerHTML = '<h4>'+title+'</h4><iframe width="560" height="315" src="'+videoUrl+'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+            } else {
+                document.getElementById('videoContainer').innerHTML = 'Video not found.';
+            }
+        })
+        .catch(error => console.error('Error fetching video:', error));
+		});
+		*/
+	</script>
 </head>
 <body id="top">
 <jsp:include page="/WEB-INF/views/include/header.jsp" />
@@ -56,51 +79,8 @@
 		</div>
 		<div class="row align-items-center">
 			<div class="col-lg-6 testimonial-wrap offset-lg-6">
-				<div class="testimonial-block">
-					<div class="client-info ">
-						<h4>최고의 품질</h4>
-						<span>John Partho</span>
-					</div>
-					<p>
-						They provide great service facilty consectetur adipisicing elit. Itaque rem, praesentium, iure, ipsum magnam deleniti a vel eos adipisci suscipit fugit placeat. Quibusdam laboriosam eveniet nostrum nemo commodi numquam quod.
-					</p>
-					<i class="icofont-quote-right"></i>
-					
-				</div>
-
-				<div class="testimonial-block">
-					<div class="client-info">
-						<h4>경쟁력 있는 가격</h4>
-						<span>Mullar Sarth</span>
-					</div>
-					<p>
-						They provide great service facilty consectetur adipisicing elit. Itaque rem, praesentium, iure, ipsum magnam deleniti a vel eos adipisci suscipit fugit placeat. Quibusdam laboriosam eveniet nostrum nemo commodi numquam quod.
-					</p>
-					<i class="icofont-quote-right"></i>
-				</div>
-
-				<div class="testimonial-block">
-					<div class="client-info">
-						<h4>신속한 납기</h4>
-						<span>Kolis Mullar</span>
-					</div>
-					<p>
-						They provide great service facilty consectetur adipisicing elit. Itaque rem, praesentium, iure, ipsum magnam deleniti a vel eos adipisci suscipit fugit placeat. Quibusdam laboriosam eveniet nostrum nemo commodi numquam quod.
-					</p>
-					<i class="icofont-quote-right"></i>
-				</div>
-
-				<div class="testimonial-block">
-					<div class="client-info">
-						<h4>맞춤형 고객서비스</h4>
-						<span>Partho Sarothi</span>
-					</div>
-					<p>
-						They provide great service facilty consectetur adipisicing elit. Itaque rem, praesentium, iure, ipsum magnam deleniti a vel eos adipisci suscipit fugit placeat. Quibusdam laboriosam eveniet nostrum nemo commodi numquam quod.
-					</p>
-					<i class="icofont-quote-right"></i>
-				</div>
-
+  			<!-- <div id="videoContainer"></div> -->
+  			<iframe id="ytplayer" type="text/html" width="100%" height="315" src="https://www.youtube.com/embed/?autoplay=1&loop=1&playlist=AbYiNR9Qgm8,lgWjziyinKs,BRDApYgvDqQ" frameborder="0" allowfullscreen></iframe>
 			</div>
 		</div>
 	</div>

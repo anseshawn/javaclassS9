@@ -132,6 +132,8 @@ public interface AdminDAO {
 	public int setBlockIpDelete(@Param("hostIp") String hostIp);
 
 	public int setNewChatCount();
+	
+	public int setAddChatCount();
 
 	public int getNewChatCount();
 

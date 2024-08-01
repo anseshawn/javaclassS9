@@ -144,7 +144,7 @@
 		select hostIp, date_format(date_add(blockDate, interval 1 day), '%Y-%m-%d') as blockEndDate from blockIp;
 	</select>
 	<select id="getNewChatCount" resultType="int">
-		select count(*) as chatCount from adminAlarm;
+		select chat as chatCount from adminAlarm;
 	</select>
 	
 	
@@ -169,7 +169,7 @@
 		insert into blockIp values(#{hostIp}, default);
 	</insert>
 	<insert id="setNewChatCount">
-		insert into adminAlarm values(1);
+		insert into adminAlarm (chat) values(1);
 	</insert>
 	
 	
@@ -195,6 +195,12 @@
 	</update>
 	<update id="faqEditOk">
 		update faqS set part=#{vo.part}, title=#{vo.title}, content=#{vo.content} where idx=#{vo.idx};
+	</update>
+	<update id="setAddChatCount">
+		update adminAlarm set chat = chat+1;
+	</update>
+	<update id="setNewChatCountDelete">
+		update adminAlarm set chat = 0;
 	</update>
 	
 	
@@ -227,8 +233,5 @@
 	</delete>
 	<delete id="setBlockIpDelete">
 		delete from blockIp where hostIp=#{hostIp};
-	</delete>
-	<delete id="setNewChatCountDelete">
-		delete from adminAlarm;
 	</delete>
 </mapper>

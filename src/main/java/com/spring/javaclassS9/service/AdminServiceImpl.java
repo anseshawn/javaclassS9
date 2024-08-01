@@ -286,6 +286,11 @@ public class AdminServiceImpl implements AdminService {
 	public int setNewChatCount() {
 		return adminDAO.setNewChatCount();
 	}
+	
+	@Override
+	public int setAddChatCount() {
+		return adminDAO.setAddChatCount();
+	}
 
 	@Override
 	public int getNewChatCount() {

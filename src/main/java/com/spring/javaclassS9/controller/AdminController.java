@@ -50,6 +50,7 @@ import com.spring.javaclassS9.vo.FaqVO;
 import com.spring.javaclassS9.vo.MemberVO;
 import com.spring.javaclassS9.vo.MessageVO;
 import com.spring.javaclassS9.vo.NoticeVO;
+import com.spring.javaclassS9.vo.OrderAddressVO;
 import com.spring.javaclassS9.vo.PageVO;
 import com.spring.javaclassS9.vo.ProductEstimateVO;
 import com.spring.javaclassS9.vo.ProductSaleVO;
@@ -452,8 +453,10 @@ public class AdminController {
 		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "productEstimate", part, searchString);
 		ProductSaleVO saleVO = productService.getProductSaleContent(idx);
 		ProductVO vo = productService.getProductContent(saleVO.getProductIdx());
+		OrderAddressVO addressVO = productService.getOrderAddress(saleVO.getIdx());
 		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("saleVO", saleVO);
+		model.addAttribute("addressVO", addressVO);
 		model.addAttribute("vo", vo);
 		return "admin/product/productEstimateDetail";
 	}

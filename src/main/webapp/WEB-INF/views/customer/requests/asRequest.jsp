@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/> 
 <!DOCTYPE html>
 <html>
@@ -107,7 +108,8 @@
 				      	<td rowspan="3" style="width:20%;"><img src="${ctp}/engineer/${vo.photo}" width="150px"/></td>
 				      	<td colspan="2"><b>${vo.name}</b> 엔지니어</td>
 				      	<td>
-				      		<a href="#" onclick="modalView('${vo.idx}')" data-toggle="modal" data-target="#myModal"><i class="fa-solid fa-star mr-2" style="color:#FFB724"></i> ${vo.starPoint}
+				      		<a href="#" onclick="modalView('${vo.idx}')" data-toggle="modal" data-target="#myModal"><i class="fa-solid fa-star mr-2" style="color:#FFB724"></i>
+				      		<fmt:formatNumber value="${vo.starPoint}" pattern="0.0"/><%-- ${vo.starPoint} --%>
 				      		<span style="font-size:13px;"><br/>상세리뷰</span></a>
 				      	</td>
 				      </tr>

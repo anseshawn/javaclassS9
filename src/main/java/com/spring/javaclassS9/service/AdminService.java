@@ -96,6 +96,8 @@ public interface AdminService {
 
 	public int setNewChatCount();
 
+	public int setAddChatCount();
+	
 	public int getNewChatCount();
 
 	public int setNewChatCountDelete();

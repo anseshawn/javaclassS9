@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자 - 이메일 보내기</title>
+<title>관리자 - 사이트 통계</title>
 	<jsp:include page="/WEB-INF/views/include/admin_header.jsp" />
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
 	<jsp:include page="/WEB-INF/views/include/scripts.jsp" />

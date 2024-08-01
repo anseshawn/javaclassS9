@@ -34,17 +34,21 @@
   });
 
 	function accessToGeo (position) {
+		/*
     const positionObj = {
       latitude: position.coords.latitude,
       longitude: position.coords.longitude
     }
+		*/
     let str = "";
+		/*
     if(position.coords.latitude != ""){
     	str = 'https://api.openweathermap.org/data/2.5/weather?lat='+position.coords.latitude+'&lon='+position.coords.longitude+'&appid=237a07d045793d996f10943b24e831a2&units=metric';
     }
-    else {
+		*/
+    //else {
     	str = 'https://api.openweathermap.org/data/2.5/weather?q=Seoul,kr&appid=237a07d045793d996f10943b24e831a2&units=metric';
-    }
+    //}
     
     $.getJSON(str,
 	    function (WeatherResult) {
@@ -56,7 +60,7 @@
 	        '<img src= "http://openweathermap.org/img/wn/'
 	        + WeatherResult.weather[0].icon +
 	        '.png" alt="' + WeatherResult.weather[0].description + '"/>';
-	      $('.icon').html(weathericonUrl);
+	      $('#icon').html(weathericonUrl);
 	    
 	    }
     );
@@ -187,7 +191,7 @@
 			<div class="card m-2 dispForm" style="background-color:#CDD7E4; text-align:center;">
 				<div class="card-body">
 					<h4 class="card-title">현재 날씨</h4>
-					<div class="icon"></div>
+					<div id="icon"></div>
 					<p class="card-text date"></p>
 					<p class="card-text nowtemp"></p>
 					<p class="card-text lowtemp"></p>

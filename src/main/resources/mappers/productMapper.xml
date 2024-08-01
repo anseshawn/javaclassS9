@@ -52,6 +52,10 @@
 		select e.*, p.proName from productEstimateS e, productS p where e.saleIdx = #{saleIdx} and e.productIdx = p.idx;
 	</select>
 	
+	<select id="getOrderAddress" resultType="com.spring.javaclassS9.vo.OrderAddressVO">
+		select * from orderAddress where saleIdx=#{saleIdx};
+	</select>
+	
 	
 	<insert id="setProductInputOk">
 		insert into productS values (default,#{vo.proType},#{vo.proName},#{vo.proMade},#{vo.proPrice},
@@ -70,6 +74,9 @@
 	<insert id="setProductEstimateInput">
 		insert into productEstimateS values(default, #{vo.saleIdx}, #{vo.productIdx}, #{vo.co_name}, #{vo.name}, #{vo.email}, default, #{vo.statement}, 
 			#{vo.proPrice}, #{vo.quantity}, #{vo.unitPrice}, #{vo.vat}, #{vo.totPrice}, null);
+	</insert>
+	<insert id="setEstimateAddAddress">
+		insert into orderAddress values(default, #{vo.saleIdx}, #{vo.addressName}, #{vo.longitude}, #{vo.latitude});
 	</insert>
 	
 	
@@ -94,6 +101,9 @@
 	</update>
 	<update id="setProductEstimatePayDate">
 		update productEstimateS set payDate=now() where idx=#{idx};
+	</update>
+	<update id="setEstimateAddressUpdate">
+		update orderAddress set addressName=#{vo.addressName}, longitude=#{vo.longitude}, latitude=#{vo.latitude} where idx=#{vo.idx};
 	</update>
 	
 	

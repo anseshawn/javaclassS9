@@ -30,6 +30,12 @@
       background-color: #F8F8F8;
       overflow: auto;
     }
+    #targetUser {
+    	width: 28%;
+    	margin: 10px 0px 10px 10px;
+    	text-align: center;
+    	border: 1px solid #C7C3BB;
+    }
     .messageBox {
       clear: both;
       padding-top: 10px;
@@ -48,9 +54,9 @@
 		  $("#endChatBtn").show();
 		  const username = document.getElementById('username').value;
 		  if (username) {
-		    //socket = new WebSocket('ws://192.168.50.58:9090/javaclassS9/webSocket/endPoint/' + username);
+		    //socket = new WebSocket('ws://192.168.50.58:9090/javaclassS9/webSocket/realTimeChat/' + username);
+		    //socket = new WebSocket('ws://49.142.157.251:9090/javaclassS9/webSocket/realTimeChat/' + username);
 		    socket = new WebSocket('ws://localhost:9090/javaclassS9/webSocket/realTimeChat/' + username);
-		    //socket = new WebSocket('ws://172.30.1.24:9090/javaclassS9/webSocket/realTimeChat/' + username);
 		
 		    // 상대방 유저가 들어오거나 메세지를 날릴때 처리되는 곳
 		    socket.onmessage = (event) => {

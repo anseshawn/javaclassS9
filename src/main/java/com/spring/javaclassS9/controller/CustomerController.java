@@ -301,7 +301,6 @@ public class CustomerController {
 		else if(vo.getProgress().toString().equals("PAYMENT")) progress = "입금대기";
 		else if(vo.getProgress().toString().equals("COMPLETE")) progress = "진행완료";
 		
-		int sw = customerService.getReviewSearch(idx); // 해당 as에 리뷰 작성한 적 있는지 체크
 		AsChargeVO chargeVO = customerService.getAsChargeContent(idx);
 		if(chargeVO != null) {
 			String[] expendables = chargeVO.getExpendableName().split(",");
@@ -310,6 +309,7 @@ public class CustomerController {
 			model.addAttribute("expendables", expendables);
 			model.addAttribute("chargeVO", chargeVO);
 		}
+		int sw = customerService.getReviewSearch(idx); // 해당 as에 리뷰 작성한 적 있는지 체크
 		model.addAttribute("vo", vo);
 		model.addAttribute("progress", progress);
 		model.addAttribute("pag", pag);

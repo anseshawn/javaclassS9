@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.spring.javaclassS9.vo.AsRequestVO.Machine;
 import com.spring.javaclassS9.vo.ProductSaleVO.Statement;
 import com.spring.javaclassS9.vo.ExpendableVO;
+import com.spring.javaclassS9.vo.OrderAddressVO;
 import com.spring.javaclassS9.vo.ProductEstimateVO;
 import com.spring.javaclassS9.vo.ProductLikeVO;
 import com.spring.javaclassS9.vo.ProductSaleVO;
@@ -64,5 +65,11 @@ public interface ProductService {
 	public int setProductSaleChange(int saleIdx, String statement);
 
 	public void setProductEstimatePayDate(int idx);
+
+	public int setEstimateAddAddress(OrderAddressVO vo);
+
+	public OrderAddressVO getOrderAddress(int saleIdx);
+
+	public int setEstimateAddressUpdate(OrderAddressVO vo);
 
 }
