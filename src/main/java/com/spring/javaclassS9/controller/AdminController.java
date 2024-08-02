@@ -183,6 +183,7 @@ public class AdminController {
 	public String memberDeleteAllPost(@RequestParam(name = "mid", defaultValue = "", required = false) String mid) {
 		MemberVO vo = memberService.getMemberIdCheck(mid);
 		String newMid = javaclassProvide.randomMidCreate("del");
+		System.out.println("newMid: "+newMid);
 		String today = LocalDate.now().toString();
 		vo.setMid(newMid);
 		vo.setPwd(passwordEncoder.encode("0000"));

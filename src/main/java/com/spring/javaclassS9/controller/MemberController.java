@@ -190,8 +190,8 @@ public class MemberController {
 		EngineerVO eVo = engineerService.getEngineerIdCheck(mid);
 		String loginOk = "";
 		
-		// 유저 / 엔지니어 로그인
 		String strLevel = "";
+		// 유저 / 엔지니어 로그인
 		if(vo != null && vo.getUserDel().equals("NO") && passwordEncoder.matches(pwd, vo.getPwd())) {
 			loginOk = "OK";
 			if(vo.getLevel()==0) strLevel="관리자";
@@ -278,18 +278,20 @@ public class MemberController {
 	public String midSearchPost(String name, String email) {
 		MemberVO vo = memberService.getMemberNameCheck(name);
 		String mid = "";
-		if(email.equals(vo.getEmail())){
-			//int ran = (int)(Math.random()*4+1-2)+2;
-			int ran = 0;
-			if(vo.getMid().length()<=5) ran=2;
-			else if(vo.getMid().length()<=7) ran=3;
-			else ran=4;
-			for(int i=0; i<vo.getMid().length(); i++) {
-				if(i < ran) {
-					mid += vo.getMid().charAt(i);					
-				}
-				else {
-					mid += "*";
+		if(vo != null) {
+			if(email.equals(vo.getEmail())){
+				//int ran = (int)(Math.random()*4+1-2)+2;
+				int ran = 0;
+				if(vo.getMid().length()<=5) ran=2;
+				else if(vo.getMid().length()<=7) ran=3;
+				else ran=4;
+				for(int i=0; i<vo.getMid().length(); i++) {
+					if(i < ran) {
+						mid += vo.getMid().charAt(i);					
+					}
+					else {
+						mid += "*";
+					}
 				}
 			}
 		}
@@ -325,7 +327,7 @@ public class MemberController {
 			String mailFlag = "pwdSearch";
 			
 			String res = javaclassProvide.mailSend(email, title, imsiContent, mailFlag, request);
-			session.setAttribute("sLogin", "OK"); // 쿠키에 비밀번호 저장해서 만료기간...???
+			session.setAttribute("sLogin", "OK");
 			return res+pwdUpdate;
 		}
 		return "0";

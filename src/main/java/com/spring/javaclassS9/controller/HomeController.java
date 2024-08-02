@@ -31,7 +31,7 @@ public class HomeController {
 	@RequestMapping(value = {"/","/h","/main","/index"}, method = RequestMethod.GET)
 	public String home(Locale locale, Model model, HttpServletRequest request) {
 		logger.info("Welcome home! The client locale is {}.", locale);
-		
+
 		// 팝업 여부 쿠키 확인
 		Cookie[] cookies = request.getCookies();
 		if(cookies != null) {

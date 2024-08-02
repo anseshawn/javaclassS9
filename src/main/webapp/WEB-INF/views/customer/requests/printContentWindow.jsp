@@ -16,9 +16,15 @@
 		.container {
       width: 800px;
       margin: auto;
-      padding: 20px;
+      padding: 0px;
+    }
+    .element-to-print {
+    	margin: 0 0 0 0;
+    	padding: 0 0 0 0;
     }
     .table {
+    	margin: 0px;
+    	padding: 0px;
       width: 100%;
       border-collapse: collapse;
       page-break-inside: avoid;
@@ -26,14 +32,9 @@
 		th {
 			text-align: center;
 		}
-		/* 
-    .page-break {
-      page-break-before: always;
-    }
-     */
     @media print {
 	    .table {
-	        page-break-inside: avoid;
+	    	page-break-inside: avoid;
 	    }
     }
 	</style>
@@ -44,14 +45,16 @@
 			window.close();
 		}
 		function printContent() {
-			var element = document.getElementById('element-to-print');
-			var element_width = element.width;
+			var element = document.getElementById('top');
+			//console.log(element.getBoundingClientRect().width);
+			//console.log($("#element-to-print").width());
+			console.log(element.offsetHeight);
 			var opt = {
-					  margin:       [0, 0.5, 0, 0.5],
+					  margin:       [0,0,0,0],
 					  filename:     '${vo.asName}_수리내역.pdf',
 					  image:        { type: 'jpeg', quality: 0.98 },
-					  html2canvas:  { width: element_width, scale: 2 , useCORS: true},
-					  jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
+					  html2canvas:  { height: element.offsetHeight, scale: 2 , useCORS: true},
+					  jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
 					  pagebreak: {mode: ['avoid-all', 'css', 'legacy']}
 					};
 			html2pdf().set(opt).from(document.body).save();
@@ -59,8 +62,7 @@
 	</script>
 </head>
 <body id="top">
-<p><br/></p>
-<div class="container">
+<div class="container" id="container">
 	<div id="element-to-print">
     <table class="table">
       <tr>
@@ -81,14 +83,8 @@
         <td>${vo.asPlace}</td>
       </tr>
       <tr>
-        <th></th>
-        <td></td>
         <th>요청날짜</th>
         <td>${fn:substring(vo.requestDate,0,10)}</td>
-      </tr>
-      <tr>
-        <th></th>
-        <td></td>
         <th>완료날짜</th>
         <td>${fn:substring(vo.endDate,0,10)}</td>
       </tr>
@@ -102,33 +98,29 @@
           ${fn:replace(vo.comment,newLine,'<br/>')}
         </td>
       </tr>
-      <tr><td colspan="4" class="m-0 p-0"></td></tr>
   	</table>
- 		<div class="page-break"></div>
 	  <table class="table text-center">
-				<c:set var="expendable" value="${fn:split(chargeVO.expendableName, ',')}"/>
-				<c:set var="quantity" value="${fn:split(chargeVO.quantity, ',')}"/>
+			<c:set var="expendable" value="${fn:split(chargeVO.expendableName, ',')}"/>
+			<c:set var="quantity" value="${fn:split(chargeVO.quantity, ',')}"/>
+      <tr>
+        <th colspan="2">소모품명</th>
+        <th>수량</th>
+      </tr>
+      <c:forEach var="i" begin="0" end="${fn:length(expendable)-1}" varStatus="st">
 	      <tr>
-          <th colspan="2">소모품명</th>
-          <th>수량</th>
+          <td colspan="2">${expendable[i]}</td>
+          <td>${quantity[i]}</td>
 	      </tr>
-	      <c:forEach var="i" begin="0" end="${fn:length(expendable)}" varStatus="st">
-		      <tr>
-	          <td colspan="2">${expendable[i]}</td>
-	          <td>${quantity[i]}</td>
-		      </tr>
-	      </c:forEach>
-	      <tr>
-	      	<th colspan="2">소모품 총액</th>
-	      	<td colspan="2"><fmt:formatNumber value="${chargeVO.price}" pattern="#,###"/></td>
-	      </tr>
-	      <tr>
-	      	<th colspan="2">출장비</th>
-	      	<td colspan="2"><fmt:formatNumber value="${chargeVO.laborCharge}" pattern="#,###"/></td>
-	      </tr>
-	      <tr><td colspan="4" class="m-0 p-0"></td></tr>
+      </c:forEach>
+      <tr>
+      	<th colspan="2">소모품 총액</th>
+      	<td colspan="2"><fmt:formatNumber value="${chargeVO.price}" pattern="#,###"/></td>
+      </tr>
+      <tr>
+      	<th colspan="2">출장비</th>
+      	<td colspan="2"><fmt:formatNumber value="${chargeVO.laborCharge}" pattern="#,###"/></td>
+      </tr>
 	  </table>
-	  <div class="page-break"></div>
 	  <table class="table table-bordered">
 	    <tr>
 	    	<th>총액</th>

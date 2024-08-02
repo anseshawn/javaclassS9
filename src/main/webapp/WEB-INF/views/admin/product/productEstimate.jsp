@@ -31,6 +31,9 @@
 	<script>
 		'use strict';
 		
+		let message = "";
+		let icon = "";
+		
 		function allSelect(){
   		if(document.getElementById("allSelect").checked){
 	  		for(let i=0; i<${vos.size()}; i++) {

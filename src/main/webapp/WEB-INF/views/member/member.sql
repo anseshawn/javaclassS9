@@ -67,3 +67,5 @@ select r.*, datediff(r.rpDate, now()) as date_diff,
 	from reportS r 
 	left join freeBoardS b on b.idx = r.boardIdx and r.board='freeBoard' 
 	left join questionBoardS q on q.idx = r.boardIdx and r.board='questionBoard' ORDER BY r.rpDate desc limit 0,10;
+	
+select *, timestampdiff(day, lastDate, now()) as deleteDiff from memberS;

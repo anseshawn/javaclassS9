@@ -73,7 +73,7 @@
 	
 	
 	<update id="setMemberInfoUpdate">
-		update memberS set lastDate=now();
+		update memberS set lastDate=now() where mid = #{mid};
 	</update>
 	<update id="setMemberPwdUpdate">
 		update memberS set pwd = #{pwd} where mid = #{mid};

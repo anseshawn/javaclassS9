@@ -137,7 +137,7 @@ public class JavaclassProvide {
 	
 	// 탈퇴 회원 랜덤 아이디 생성
 	public String randomMidCreate(String str) {
-		String randomMid = str+"_"+ RandomStringUtils.randomNumeric(8);
+		String randomMid = str+"_"+ RandomStringUtils.randomNumeric(4);
 		return randomMid;
 	}
 	
