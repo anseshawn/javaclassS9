@@ -54,6 +54,7 @@ import com.spring.javaclassS9.vo.OrderAddressVO;
 import com.spring.javaclassS9.vo.PageVO;
 import com.spring.javaclassS9.vo.ProductEstimateVO;
 import com.spring.javaclassS9.vo.ProductSaleVO;
+import com.spring.javaclassS9.vo.ProductSaleVO.Statement;
 import com.spring.javaclassS9.vo.ProductVO;
 import com.spring.javaclassS9.vo.ReportMemberVO;
 import com.spring.javaclassS9.vo.ReportVO;
@@ -180,7 +181,17 @@ public class AdminController {
 	@ResponseBody
 	@RequestMapping(value = "/member/memberDeleteAll", method = RequestMethod.POST)
 	public String memberDeleteAllPost(@RequestParam(name = "mid", defaultValue = "", required = false) String mid) {
-		return adminService.setMemberDeleteAll(mid)+"";
+		MemberVO vo = memberService.getMemberIdCheck(mid);
+		String newMid = javaclassProvide.randomMidCreate("del");
+		String today = LocalDate.now().toString();
+		vo.setMid(newMid);
+		vo.setPwd(passwordEncoder.encode("0000"));
+		vo.setNickName(newMid);
+		vo.setBirthday(today);
+		vo.setEmail("");
+		vo.setTel("010- - ");
+		vo.setAddress(" / / / ");
+		return adminService.setMemberDeleteAll(vo)+"";
 	}
 	
 	// 메일 전송 창 연결
@@ -439,6 +450,20 @@ public class AdminController {
 		ProductEstimateVO vo = productService.getProductEstimateContent(saleIdx);
 		if(vo != null) productService.setProductEstimateChange(vo.getIdx(),statement);
 		return adminService.setProductSaleChange(saleIdx,statement)+"";
+	}
+	// 견적 건 삭제하기(탈퇴회원의 경우 수동으로 삭제해야함...)
+	@ResponseBody
+	@RequestMapping(value = "/product/productSaleDelete", method = RequestMethod.POST)
+	public String productEstimateDeletePost(String idxs) {
+		int res = 0;
+		for(String i : idxs.split(",")) {
+			int idx = Integer.parseInt(i);
+			ProductSaleVO vo = productService.getProductSaleContent(idx);
+			if(vo.getStatement().equals(Statement.CANCEL) || vo.getStatement().equals(Statement.QUOTE) || vo.getStatement().equals(Statement.CHECK)) {
+				res = productService.setProductSaleDelete(idx);
+			}
+		}
+		return res+"";
 	}
 	
 	// 견적 상세 건
@@ -795,6 +820,20 @@ public class AdminController {
 			@RequestParam(name="idx",defaultValue = "1", required = false) int idx
 			) throws ParseException {
 		int res = customerService.setAsCompleteStatement(idx);
+		return res+"";
+	}
+	
+	// A/S 내용 삭제하기
+	@ResponseBody
+	@RequestMapping(value = "/engineer/asDelete", method = RequestMethod.POST)
+	public String asDeletePost(
+			@RequestParam(name="idx",defaultValue = "1", required = false) int idx
+			) throws ParseException {
+		AsRequestVO vo = customerService.getAsRequestContent(idx);
+		MemberVO mVo = memberService.getMemberIdCheck(vo.getAsMid());
+		int res = 0;
+		if(mVo != null || mVo.getLevel() < 99) res = 0;
+		else res = customerService.setAsDeleteOk(idx);
 		return res+"";
 	}
   

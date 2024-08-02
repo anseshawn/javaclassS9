@@ -36,4 +36,6 @@ public interface CustomerService {
 
 	public int setAsCompleteStatement(int idx);
 
+	public int setAsDeleteOk(int idx);
+
 }

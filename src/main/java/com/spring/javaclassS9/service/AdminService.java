@@ -18,7 +18,7 @@ public interface AdminService {
 
 	public int setMemberLevelUpdateOk(String mid);
 
-	public int setMemberDeleteAll(String mid);
+	public int setMemberDeleteAll(MemberVO vo);
 
 	public ArrayList<MemberVO> getMemberLevelList(int startIndexNo, int pageSize, String m_group);
 

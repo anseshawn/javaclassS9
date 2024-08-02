@@ -317,6 +317,24 @@ public class CustomerController {
 		model.addAttribute("sw", sw);
 		return "customer/requests/asContent";
 	}
+	// A/S 내용 출력하기
+	@RequestMapping(value = "requests/printContentWindow", method = RequestMethod.GET)
+	public String printContentWindowGet(Model model,
+			@RequestParam(name="idx",defaultValue = "1", required = false) int idx
+			) {
+		AsRequestVO vo = customerService.getAsRequestContent(idx);
+		AsChargeVO chargeVO = customerService.getAsChargeContent(idx);
+		if(chargeVO.getExpendableName() != "") {
+			String[] expendables = chargeVO.getExpendableName().split(",");
+			String[] quantities = chargeVO.getQuantity().split(",");
+			model.addAttribute("quantities", quantities);
+			model.addAttribute("expendables", expendables);
+		}
+		
+		model.addAttribute("vo", vo);
+		model.addAttribute("chargeVO", chargeVO);
+		return "customer/requests/printContentWindow";
+	}
 	
 	// A/S 완료 시 별점 남기기
 	@ResponseBody

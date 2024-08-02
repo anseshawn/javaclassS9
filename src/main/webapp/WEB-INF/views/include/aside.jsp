@@ -57,7 +57,7 @@
 	<div class="col">
 		<div class="sidebar-wrap pl-lg-4 mt-5 mt-lg-0">
 			<div class="sidebar-widget search mb-3 ">
-					<h2 class="text-center">My Page</h2>
+					<h2 class="text-center"><a href="${ctp}/member/myPage">My Page</a></h2>
 					<div class="divider" style="width:100%;"></div>
 					<div class="text-right">아이디: ${sMid}</div>
 					<br/>

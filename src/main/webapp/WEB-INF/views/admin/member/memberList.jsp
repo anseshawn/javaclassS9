@@ -150,7 +150,7 @@
 			let icon = "";
 			
 			Swal.fire({
-        html : "<h3>선택한 회원을 DB에서 영구 삭제하시겠습니까?</h3>",
+        html : "<h3>선택한 회원을 탈퇴처리 하시겠습니까?</h3>",
         confirmButtonText : '삭제',
         showCancelButton: true,
       	confirmButtonColor : '#003675',
@@ -166,7 +166,7 @@
 						data: {mid:mid},
 						success: function(res){
 							if(res != "0") {
-								message = "회원 정보를 영구 삭제했습니다.";
+								message = "회원 정보를 삭제했습니다.";
 								icon = "success";
 							}
 							else {
@@ -314,11 +314,9 @@
 						<c:if test="${vo.level==3 && vo.m_group=='재직자'}"><div class="badge edit">인증 필요</div></c:if>
 					</td>
 					<td>
-						<c:if test="${vo.deleteDiff < 30}">
-							<c:if test="${vo.userDel=='OK'}"><font color="#EB003B">${vo.userDel}</font></c:if>
-							<c:if test="${vo.userDel!='OK'}">${vo.userDel}</c:if>
-						</c:if>
-						<c:if test="${vo.deleteDiff >= 30}">
+						<c:if test="${vo.userDel=='OK'}"><font color="#EB003B">${vo.userDel}</font></c:if>
+						<c:if test="${vo.userDel!='OK'}">${vo.userDel}</c:if>
+						<c:if test="${vo.deleteDiff >= 30 && vo.userDel=='OK'}">
 							<input type="button" onclick="memberDelete('${vo.mid}')" class="btn btn-icon-sm btn-danger" value="탈퇴처리"/>
 						</c:if>
 					</td>

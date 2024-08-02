@@ -43,4 +43,6 @@ public interface CustomerDAO {
 
 	public int setAsCompleteStatement(@Param("idx") int idx);
 
+	public int setAsDeleteOk(@Param("idx") int idx);
+
 }

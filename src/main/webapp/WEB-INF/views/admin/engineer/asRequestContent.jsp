@@ -29,13 +29,15 @@
 	</style>
 	<script>
 		'use strict';
+		
+		let message = "";
+		let icon = "";
+		
 		$(function() {
 			if('${vo.progress}'=='COMPLETE') $("#paymentBtn").prop("disabled",true);
 		});
 		
 		function paymentCheck(){
-			let message = "";
-			let icon = "";
 			$.ajax({
 				url: "${ctp}/admin/engineer/asPaymentCheck",
 				type: "post",
@@ -69,6 +71,54 @@
 				}
 			});
 		}
+		
+		function asDelete(idx) {
+			Swal.fire({
+        html : "<h3>신청 회원이 탈퇴한 경우에만 시도하세요. 정말 삭제하시겠습니까?</h3>",
+        confirmButtonText : '확인',
+        showCancelButton: true,
+        confirmButtonColor : '#003675',
+        customClass: {
+          popup : 'custom-swal-popup',
+          htmlContainer : 'custom-swal-text'
+        }
+			}).then((result)=>{
+				if(result.isConfirmed) {
+					$.ajax({
+						url: "${ctp}/admin/engineer/asDelete",
+						type: "post",
+						data: {
+							idx : idx
+						},
+						success: function(res){
+							if(res != "0") {
+								message = "해당 신청 내역을 삭제했습니다.";
+								icon = "success";
+							}
+							else {
+								message = "삭제에 실패했습니다.";
+								icon = "warning";
+							}
+							Swal.fire({
+								html: message,
+								icon: icon,
+								confirmButtonText: '확인',
+								customClass: {
+				        	confirmButton : 'swal2-confirm‎',
+				          popup : 'custom-swal-popup',
+				          htmlContainer : 'custom-swal-text'
+								}
+							}).then(function(){
+								location.href="${ctp}/admin/engineer/asRequestList";
+							});
+						},
+						error: function(){
+							alert("전송오류");
+						}
+					});
+				}
+			});
+		}
 	</script>
 </head>
 <body>
@@ -85,7 +135,10 @@
 		<table class="table content table-bordered text-center">
 			<tr>
 				<th>접수번호</th>
-				<td>${vo.idx}</td>
+				<td>
+					${vo.idx}
+					<input type="button" value="삭제하기" onclick="asDelete(${vo.idx})" class="btn btn-main-3 btn-icon-sm btn-round-full ml-2"/>
+				</td>
 				<th>담당자</th>
 				<td>${vo.engineerName}</td>
 			</tr>

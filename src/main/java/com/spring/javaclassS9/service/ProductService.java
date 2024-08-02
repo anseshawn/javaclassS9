@@ -72,4 +72,6 @@ public interface ProductService {
 
 	public int setEstimateAddressUpdate(OrderAddressVO vo);
 
+	public int setProductSaleDelete(int idx);
+
 }

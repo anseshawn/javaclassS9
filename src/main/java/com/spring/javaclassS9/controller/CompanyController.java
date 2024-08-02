@@ -118,7 +118,13 @@ public class CompanyController {
 		
 		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "pds", part, searchString);
 		ArrayList<PdsVO> vos = boardService.getPdsListAll(pageVO.getStartIndexNo(),pageSize,part,searchString);
-		
+		if(!part.equals(""))	{
+			if(part.equals("title")) part = "제목";
+			else if(part.equals("content")) part = "내용";
+			model.addAttribute("part", part);
+			model.addAttribute("searchString", searchString);
+			model.addAttribute("searchCount", vos.size());
+		}
 		model.addAttribute("vos", vos);
 		model.addAttribute("pageVO", pageVO);
 		

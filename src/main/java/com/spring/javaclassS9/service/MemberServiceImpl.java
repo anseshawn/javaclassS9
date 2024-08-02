@@ -121,4 +121,19 @@ public class MemberServiceImpl implements MemberService {
 	public void setReportMemberUpdateBlock(String hostIp) {
 		memberDAO.setReportMemberUpdateBlock(hostIp);
 	}
+
+	@Override
+	public int getNewMessageCount(String mid) {
+		return memberDAO.getNewMessageCount(mid);
+	}
+
+	@Override
+	public int getNewEstimateCount(String mid) {
+		return memberDAO.getNewEstimateCount(mid);
+	}
+
+	@Override
+	public void setMemberInfoUpdate(String mid) {
+		memberDAO.setMemberInfoUpdate(mid);
+	}
 }

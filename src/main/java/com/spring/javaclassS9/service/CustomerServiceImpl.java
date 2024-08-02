@@ -103,4 +103,9 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerDAO.setAsCompleteStatement(idx);
 	}
 
+	@Override
+	public int setAsDeleteOk(int idx) {
+		return customerDAO.setAsDeleteOk(idx);
+	}
+
 }

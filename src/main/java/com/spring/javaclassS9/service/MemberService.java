@@ -51,4 +51,10 @@ public interface MemberService {
 
 	public void setReportMemberUpdateBlock(String hostIp);
 
+	public int getNewMessageCount(String mid);
+
+	public int getNewEstimateCount(String mid);
+
+	public void setMemberInfoUpdate(String mid);
+
 }

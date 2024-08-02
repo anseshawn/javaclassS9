@@ -45,8 +45,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public int setMemberDeleteAll(String mid) {
-		return adminDAO.setMemberDeleteAll(mid);
+	public int setMemberDeleteAll(MemberVO vo) {
+		return adminDAO.setMemberDeleteAll(vo);
 	}
 
 	@Override

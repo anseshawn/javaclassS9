@@ -128,6 +128,19 @@
 				'width='+widthSize+', height='+heightSize+', top='+topCenter+', left='+leftCenter // 설정
 			);
 		}
+		
+		function printContent(idx) {
+			let url = "${ctp}/customer/requests/printContentWindow?idx="+idx;
+			let widthSize= 600;
+			let heightSize = 700;
+			let leftCenter = Math.ceil((window.screen.width - widthSize)/2);
+			let topCenter = Math.ceil((window.screen.height - heightSize)/2);
+			window.open(
+				url, // url
+				'A/S내역', // title
+				'width='+widthSize+', height='+heightSize+', top='+topCenter+', left='+leftCenter // 설정
+			);
+		}
 	</script>
 </head>
 <body>
@@ -195,6 +208,7 @@
 					<div class="mb-2 text-right">
 						<input type="button" onclick="makePayment()" id="paymentBtn" value="결제하기" class="btn btn-main btn-icon-md"/>
 						<input type="button" onclick="location.href='${ctp}/customer/requests/printChargeHistory?idx=${vo.idx}';" value="명세서 출력" class="btn btn-main-3 btn-icon-md" />
+						<input type="button" onclick="printContent(${vo.idx})" value="내역 출력" class="btn btn-main-3 btn-icon-md" />
 					</div>
 					<table class="table content table-hover text-center mb-2" id="expendableUse">
 						<tr>

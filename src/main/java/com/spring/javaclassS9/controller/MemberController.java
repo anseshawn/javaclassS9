@@ -143,8 +143,9 @@ public class MemberController {
 		MemberVO vo = memberService.getMemberNickCheck(nickName);
 		
 		String newMember = "NO";
+		String mid = "";
 		if(vo==null) {
-			String mid = email.substring(0,email.indexOf("@"));
+			mid = email.substring(0,email.indexOf("@"));
 			MemberVO vo2 = memberService.getMemberIdCheck(mid);
 			if(vo2 != null) return "redirect:/message/existMemberNo";
 			
@@ -159,6 +160,7 @@ public class MemberController {
 			if(res != "0") vo = memberService.getMemberIdCheck(mid);
 			newMember = "OK";
 		}
+		memberService.setMemberInfoUpdate(mid);
 		String strLevel = "";
 		if(vo.getLevel()==0) strLevel="관리자";
 		else if(vo.getLevel()==1) strLevel="엔지니어";
@@ -198,6 +200,7 @@ public class MemberController {
 			else if(vo.getLevel()==3) strLevel="일반회원";
 			session.setAttribute("sNickName", vo.getNickName());
 			session.setAttribute("sLevel", vo.getLevel());
+			memberService.setMemberInfoUpdate(mid);
 		}
 		else if(eVo != null && passwordEncoder.matches(pwd, eVo.getPwd())) {
 			loginOk = "OK";
@@ -348,7 +351,13 @@ public class MemberController {
 	@RequestMapping(value = "/myPage", method = RequestMethod.GET)
 	public String myPageGet(HttpSession session, Model model) {
 		String mid = (String) session.getAttribute("sMid");
+		MemberVO vo = memberService.getMemberIdCheck(mid);
+		int messageCount = memberService.getNewMessageCount(mid);
+		int estimateCount  = memberService.getNewEstimateCount(mid);
 		model.addAttribute("mid", mid);
+		model.addAttribute("vo", vo);
+		model.addAttribute("messageCount", messageCount);
+		model.addAttribute("estimateCount", estimateCount);
 		return "member/myPage";
 	}
 	// 회원정보수정창
@@ -615,6 +624,15 @@ public class MemberController {
 		if(oVo != null) model.addAttribute("oVo", oVo);
 		model.addAttribute("vo", vo);
 		return "member/estimateContent";
+	}
+	// 마이페이지 견적서 출력
+	@RequestMapping(value = "/printContentWindow", method = RequestMethod.GET)
+	public String printContentWindowGet(Model model,
+			@RequestParam(name="saleIdx",defaultValue = "1", required = false) int saleIdx
+			) {
+		ProductEstimateVO vo = productService.getProductEstimateContent(saleIdx);
+		model.addAttribute("vo", vo);
+		return "member/printContentWindow";
 	}
 	// 발주처 등록하기
 	@ResponseBody

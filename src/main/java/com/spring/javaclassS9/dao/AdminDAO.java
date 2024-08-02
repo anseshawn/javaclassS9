@@ -19,7 +19,7 @@ public interface AdminDAO {
 
 	public int setMemberLevelUpdateOk(@Param("mid") String mid);
 
-	public int setMemberDeleteAll(@Param("mid") String mid);
+	public int setMemberDeleteAll(@Param("vo") MemberVO vo);
 
 	public ArrayList<MemberVO> getMemberLevelList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("m_group") String m_group);
 
@@ -33,7 +33,7 @@ public interface AdminDAO {
 
 	public int getJoinMemberCount();
 
-	public void setMemberDeleteReason(DeleteMemberVO vo);
+	public void setMemberDeleteReason(@Param("vo") DeleteMemberVO vo);
 
 	public ArrayList<DeleteMemberVO> getMemberDeleteReason();
 

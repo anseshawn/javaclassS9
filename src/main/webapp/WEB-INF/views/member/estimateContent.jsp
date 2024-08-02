@@ -228,6 +228,19 @@
 				}
 			});
 		}
+		
+		function printContent(saleIdx) {
+			let url = "${ctp}/member/printContentWindow?saleIdx="+saleIdx;
+			let widthSize= 600;
+			let heightSize = 700;
+			let leftCenter = Math.ceil((window.screen.width - widthSize)/2);
+			let topCenter = Math.ceil((window.screen.height - heightSize)/2);
+			window.open(
+				url, // url
+				'견적서', // title
+				'width='+widthSize+', height='+heightSize+', top='+topCenter+', left='+leftCenter // 설정
+			);
+		}
 	</script>
 </head>
 <body>
@@ -248,6 +261,7 @@
 					<div class="col-md-8">
 						<c:if test="${vo.statement =='CANCEL'}"><div><font color="#E71825">취소 된 견적 건입니다.</font></div></c:if>
 						<c:if test="${vo.statement =='COMPLETE'}"><div><font color="#246BEB">진행 완료된 견적 건입니다.</font></div></c:if>
+						<div class="text-right"><input type="button" value="견적서출력" onclick="printContent(${vo.saleIdx})" class="btn btn-main btn-icon-md btn-round-full mb-2"/></div>
 						<table class="table">
 							<tr class="text-center"><td colspan="4"><h4> 견 적 서</h4></td></tr>
 						  <tr>

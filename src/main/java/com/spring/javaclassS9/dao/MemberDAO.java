@@ -61,5 +61,11 @@ public interface MemberDAO {
 	public void setReportMemberUpdate(@Param("hostIp") String hostIp);
 
 	public void setReportMemberUpdateBlock(@Param("hostIp") String hostIp);
+
+	public int getNewMessageCount(@Param("mid") String mid);
+
+	public int getNewEstimateCount(@Param("mid") String mid);
+
+	public void setMemberInfoUpdate(@Param("mid") String mid);
 	
 }

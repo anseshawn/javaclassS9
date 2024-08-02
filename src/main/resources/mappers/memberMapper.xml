@@ -45,6 +45,12 @@
 		select *, count(*) as rpNum from reportMember group by hostIp 
 			order by rpDate, idx desc limit #{startIndexNo},#{pageSize};
 	</select>
+	<select id="getNewMessageCount" resultType="int">
+		select count(*) from messageS where receiveMid=#{mid} and receiveSw='n';
+	</select>
+	<select id="getNewEstimateCount" resultType="int">
+		select count(*) from productSaleS where memberMid=#{mid} and statement='CHECK';
+	</select>
 	
 	
 	<insert id="setMemberJoinOk">
@@ -66,6 +72,9 @@
 	</insert>
 	
 	
+	<update id="setMemberInfoUpdate">
+		update memberS set lastDate=now();
+	</update>
 	<update id="setMemberPwdUpdate">
 		update memberS set pwd = #{pwd} where mid = #{mid};
 	</update>

@@ -222,5 +222,10 @@ public class ProductServiceImpl implements ProductService {
 		return productDAO.setEstimateAddressUpdate(vo);
 	}
 
+	@Override
+	public int setProductSaleDelete(int idx) {
+		return productDAO.setProductSaleDelete(idx);
+	}
+
 	
 }

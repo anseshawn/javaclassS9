@@ -37,9 +37,9 @@
 					</li>
 				</ul>
 			</div>
+			<!-- 
 			<div class="guide_box case3">
 				<strong class="title">
-					<%-- <img src="${ctp}/images/cmain/guide_box03_title.png" alt="수수료"> --%>
 					<h2>수수료</h2>
 				</strong>
 				<p class="sub-title">발생한 수수료를 확인하고<br> 온라인 납부를 할 수 있습니다.</p>
@@ -49,6 +49,7 @@
 					</li>
 				</ul>
 			</div>
+			-->
 		</div>
 	</div>
 </div>

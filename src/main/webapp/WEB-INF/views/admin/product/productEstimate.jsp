@@ -80,7 +80,7 @@
 			}).then((result)=>{
 				if(result.isConfirmed) {
 					$.ajax({
-						url: "${ctp}/admin/product/productEstimateChange",
+						url: "${ctp}/admin/product/productSaleChange",
 						type: "post",
 						data: {
 							idx : idx,
@@ -112,7 +112,65 @@
 					});
 				}
 			});
-			
+		}
+		
+		function deleteEstimate() {
+			let idxs = "";
+			let cnt = 0;
+			for(let i=0; i<document.getElementsByName("selectContent").length; i++) {
+				if(document.getElementsByName("selectContent")[i].checked) {
+					cnt++;
+					idxs += document.getElementsByName("selectContent")[i].value+",";
+				}
+			}
+			if(cnt==0) {
+				alert("삭제할 항목을 선택하세요.");
+				return false;
+			}
+			idxs = idxs.substring(0,idxs.length-1);
+			Swal.fire({
+        html : "<h3>선택한 견적 건을 삭제하시겠습니까?</h3>",
+        confirmButtonText : '확인',
+        showCancelButton: true,
+        confirmButtonColor : '#003675',
+        customClass: {
+          popup : 'custom-swal-popup',
+          htmlContainer : 'custom-swal-text'
+        }
+			}).then((result)=>{
+				if(result.isConfirmed) {
+					$.ajax({
+						url: "${ctp}/admin/product/productSaleDelete",
+						type: "post",
+						data: {
+							idxs : idxs
+						},
+						success: function(res){
+							if(res != "0") {
+								message = "선택한 견적 건이 삭제되었습니다.";
+								icon = "success";
+							}
+							else {
+								message = "삭제에 실패했습니다.";
+								icon = "warning";
+							}
+							Swal.fire({
+								html: message,
+								icon: icon,
+								confirmButtonText: '확인',
+								customClass: {
+				        	confirmButton : 'swal2-confirm‎',
+				          popup : 'custom-swal-popup',
+				          htmlContainer : 'custom-swal-text'
+								}
+							});
+						},
+						error: function(){
+							alert("전송오류");
+						}
+					});
+				}
+			});
 		}
 	</script>
 </head>
@@ -145,7 +203,7 @@
 		</div>
 		<div class="col-md-3">
 			<input type="button" onclick="location.href='${ctp}/admin/product/productEstimate';" value="전체보기" class="btn btn-main-2 btn-icon-md btn-round-full mb-2" style="padding:0.3rem 0.5rem;"/>
-			<input type="button" onclick="sendEmail()" value="메일보내기" class="btn btn-main btn-icon-md btn-round-full mb-2" style="padding:0.3rem 0.5rem;"/>
+			<input type="button" onclick="deleteEstimate()" value="삭제" class="btn btn-main-3 btn-icon-md btn-round-full mb-2" style="padding:0.3rem 0.5rem;"/>
 		</div>
 		<div class="col-md-4 offset-md-2 text-right">
 			<form name="searchSelect">
@@ -184,7 +242,7 @@
 				<tr>
 					<td>
 						<form name="selectForm">
-							<input type="checkbox" name="selectContent" id="selectContent${st}" value="${vo.idx}" />
+							<input type="checkbox" name="selectContent" id="selectContent${st.index}" value="${vo.idx}" />
 						</form>
 					</td>
 					<td>${curScrStartNo}</td>

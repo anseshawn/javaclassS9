@@ -70,7 +70,7 @@ public interface ProductDAO {
 
 	public void setProductEstimateDelete(@Param("idx") int idx);
 
-	public void setProductSaleDelete(@Param("idx") int idx);
+	public int setProductSaleDelete(@Param("idx") int idx);
 
 	public void setProductEstimateChange(@Param("idx") int idx, @Param("statement") String statement);
 

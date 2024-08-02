@@ -157,6 +157,8 @@
 					</div>
 				</div>
 			</div>
+			<hr/>
+			<a href="productSale" class="btn btn-main-3 btn-icon-md btn-round-full">목록으로</a>
 		</div>
 	</section>
 	

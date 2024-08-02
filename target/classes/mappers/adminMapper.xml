@@ -3,7 +3,8 @@
 <mapper namespace="com.spring.javaclassS9.dao.AdminDAO">
 
 	<select id="getAllMemberList" resultType="com.spring.javaclassS9.vo.MemberVO">
-		select *, timestampdiff(day, lastDate, now()) as deleteDiff from memberS order by startDate desc
+		select *, timestampdiff(day, lastDate, now()) as deleteDiff from memberS 
+			where <![CDATA[level < 999]]> order by startDate desc 
 		<if test="startIndexNo != -1"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	<select id="getMemberLevelList" resultType="com.spring.javaclassS9.vo.MemberVO">
@@ -144,7 +145,7 @@
 		select hostIp, date_format(date_add(blockDate, interval 1 day), '%Y-%m-%d') as blockEndDate from blockIp;
 	</select>
 	<select id="getNewChatCount" resultType="int">
-		select chat as chatCount from adminAlarm;
+		select count(chat) as chatCount from adminAlarm;
 	</select>
 	
 	
@@ -173,6 +174,11 @@
 	</insert>
 	
 	
+	<update id="setMemberDeleteAll">
+		update memberS set mid=#{vo.mid}, pwd=#{vo.pwd}, nickName=#{vo.nickName}, birthday=#{vo.birthday}, 
+			email=#{vo.email}, tel=#{vo.tel}, address=#{vo.address}, co_name=null, co_category=null, co_address=null, 
+			co_tel=null, level=999 where idx=#{vo.idx};
+	</update>
 	<update id="setMemberLevelUpdateOk">
 		update memberS set level=2 where mid = #{mid};
 	</update>
@@ -199,14 +205,18 @@
 	<update id="setAddChatCount">
 		update adminAlarm set chat = chat+1;
 	</update>
+	<!-- 
 	<update id="setNewChatCountDelete">
 		update adminAlarm set chat = 0;
 	</update>
+	-->
 	
 	
+	<!-- 
 	<delete id="setMemberDeleteAll">
 		delete from memberS where mid = #{mid};
 	</delete>
+	-->
 	<delete id="setProductDeleteOk">
 		delete from productS where idx = #{idx};
 	</delete>
@@ -234,4 +244,12 @@
 	<delete id="setBlockIpDelete">
 		delete from blockIp where hostIp=#{hostIp};
 	</delete>
+	<delete id="setAsDeleteOk">
+		delete from asRequest where idx=#{idx};
+	</delete>
+	<delete id="setNewChatCountDelete">
+		delete from adminAlarm;
+	</delete>
+	
+	
 </mapper>
