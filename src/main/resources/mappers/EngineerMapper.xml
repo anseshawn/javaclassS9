@@ -115,6 +115,6 @@
   <delete id="setMessageDeleteDB">
 		delete from messageS2 where idx = #{idx};
 	</delete>
-  
+	
   
 </mapper>

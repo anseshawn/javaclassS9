@@ -25,9 +25,11 @@ import com.spring.javaclassS9.common.JavaclassProvide;
 import com.spring.javaclassS9.pagination.PageProcess;
 import com.spring.javaclassS9.service.AdminService;
 import com.spring.javaclassS9.service.BoardService;
+import com.spring.javaclassS9.service.CustomerService;
 import com.spring.javaclassS9.service.EngineerService;
 import com.spring.javaclassS9.service.MemberService;
 import com.spring.javaclassS9.service.ProductService;
+import com.spring.javaclassS9.vo.AsRequestVO;
 import com.spring.javaclassS9.vo.BoardLikeVO;
 import com.spring.javaclassS9.vo.ConsultingVO;
 import com.spring.javaclassS9.vo.EngineerVO;
@@ -44,6 +46,7 @@ import com.spring.javaclassS9.vo.QuestionBoardVO;
 import com.spring.javaclassS9.vo.RecruitBoardVO;
 import com.spring.javaclassS9.vo.ReplyVO;
 import com.spring.javaclassS9.vo.ReportMemberVO;
+import com.spring.javaclassS9.vo.AsRequestVO.Progress;
 
 @Controller
 @RequestMapping("/member")
@@ -72,6 +75,9 @@ public class MemberController {
 	
 	@Autowired
 	PageProcess pageProcess;
+	
+	@Autowired
+	CustomerService customerService;
 	
 	// 회원가입창 연결
 	@RequestMapping(value = "/memberJoin", method = RequestMethod.GET)
@@ -400,6 +406,14 @@ public class MemberController {
 	public String memberDeletePost(String deleteReason, String pwd, HttpSession session) {
 		String mid = (String) session.getAttribute("sMid");
 		
+		ArrayList<AsRequestVO> vos = customerService.getAsRequestList(mid, -1, 0);
+		if(!vos.isEmpty()) {
+			for(int i=0; i<vos.size(); i++) {
+				if(!vos.get(i).getProgress().equals(Progress.COMPLETE)) {
+					return "redirect:/message/memberProgressNo";
+				}
+			}
+		}
 		// 비밀번호 확인
 		MemberVO vo = memberService.getMemberIdCheck(mid);
 		if(!passwordEncoder.matches(pwd, vo.getPwd())) return "redirect:/message/pwdCheckNo";
@@ -532,7 +546,7 @@ public class MemberController {
 		MemberVO mVo = memberService.getMemberIdCheck(vo.getReceiveMid());
 		int level = (int) session.getAttribute("sLevel");
 		int res = 0;
-		if(mVo==null || level==1) return res+"";
+		if(mVo==null || level==1 || mVo.getLevel() > 3) return res+"";
 		else {
 			vo.setSendSw("s");
 			vo.setReceiveSw("n");

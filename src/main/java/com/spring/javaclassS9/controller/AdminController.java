@@ -182,6 +182,26 @@ public class AdminController {
 	@RequestMapping(value = "/member/memberDeleteAll", method = RequestMethod.POST)
 	public String memberDeleteAllPost(@RequestParam(name = "mid", defaultValue = "", required = false) String mid) {
 		MemberVO vo = memberService.getMemberIdCheck(mid);
+		ArrayList<ProductSaleVO> vos = productService.getProductSaleList(mid);
+		System.out.println("vos size: "+vos.size());
+		System.out.println("vos : "+vos);
+		if(!vos.isEmpty()) {
+			for(int i=0; i<vos.size(); i++) {
+				Statement statement = vos.get(i).getStatement();
+				if(statement.equals(Statement.QUOTE) || statement.equals(Statement.CANCEL)) {
+					productService.setProductSaleDelete(vos.get(i).getIdx());
+				}
+				else if(statement.equals(Statement.CHECK)) {
+					productService.setProductSaleChange(vos.get(i).getIdx(), "CANCEL");
+					ProductEstimateVO eVo = productService.getProductEstimateContent(vos.get(i).getIdx());
+					productService.setProductEstimateCancel(eVo.getIdx());
+				}
+				else {
+					productService.setProductSaleChange(vos.get(i).getIdx(), "CANCEL");
+				}
+			}
+		}
+		/*
 		String newMid = javaclassProvide.randomMidCreate("del");
 		System.out.println("newMid: "+newMid);
 		String today = LocalDate.now().toString();
@@ -192,7 +212,8 @@ public class AdminController {
 		vo.setEmail("");
 		vo.setTel("010- - ");
 		vo.setAddress(" / / / ");
-		return adminService.setMemberDeleteAll(vo)+"";
+		*/
+		return adminService.setMemberDeleteDB(mid)+"";
 	}
 	
 	// 메일 전송 창 연결
@@ -833,7 +854,8 @@ public class AdminController {
 		AsRequestVO vo = customerService.getAsRequestContent(idx);
 		MemberVO mVo = memberService.getMemberIdCheck(vo.getAsMid());
 		int res = 0;
-		if(mVo != null || mVo.getLevel() < 99) res = 0;
+		if(mVo != null && mVo.getLevel() < 99) res = 0;
+		else if(vo.getProgress().equals(Progress.COMPLETE)) res = 0;
 		else res = customerService.setAsDeleteOk(idx);
 		return res+"";
 	}
@@ -926,13 +948,24 @@ public class AdminController {
   		@RequestParam(name="hostIp",defaultValue = "", required = false) String hostIp
   		) {
   	int res = 0;
-  	for(String ip : hostIp.split("|")) {
-  		BlockIpVO vo = adminService.getBlockIp(ip);
-  		if(vo != null) res = 1;
-  		else {
-  			res = adminService.setBlockIpInput(ip);
-  			memberService.setReportMemberUpdate(ip);
+  	if(hostIp.contains("|")) {
+  		String[] ips = hostIp.split("|");
+  		for(String ip : ips) {
+  			BlockIpVO vo = adminService.getBlockIp(ip);
+  			if(vo != null) res = 1;
+  			else {
+  				res = adminService.setBlockIpInput(ip);
+  				memberService.setReportMemberUpdate(ip);
+  			}
   		}
+  	}
+  	else {
+			BlockIpVO vo = adminService.getBlockIp(hostIp);
+			if(vo != null) res = 1;
+			else {
+				res = adminService.setBlockIpInput(hostIp);
+				memberService.setReportMemberUpdate(hostIp);
+			}
   	}
   	return res+"";
   }
@@ -949,6 +982,30 @@ public class AdminController {
 			res = adminService.setBlockIpDelete(hostIp);
 			memberService.setReportMemberUpdateBlock(hostIp);
 		}
+  	return res+"";
+  }
+  
+  // 신고된 유저 목록 삭제하기
+  @ResponseBody
+  @RequestMapping(value = "/report/deleteReportMember", method = RequestMethod.POST)
+  public String deleteReportMemberPost(
+  		@RequestParam(name="hostIp",defaultValue = "", required = false) String hostIp
+  		) {
+  	int res = 0;
+  	if(hostIp.contains("|")) {
+  		for(String ip : hostIp.split("|")) {
+  			BlockIpVO vo = adminService.getBlockIp(ip);
+  			if(vo == null) {
+  				res = adminService.setDeleteReportMember(ip);
+  			}
+  		}
+  	}
+  	else {
+			BlockIpVO vo = adminService.getBlockIp(hostIp);
+			if(vo == null) {
+				res = adminService.setDeleteReportMember(hostIp);
+			}
+  	}
   	return res+"";
   }
   

@@ -306,4 +306,14 @@ public class AdminServiceImpl implements AdminService {
 	public int getLevelChangeMemberCount() {
 		return adminDAO.getLevelChangeMemberCount();
 	}
+
+	@Override
+	public int setDeleteReportMember(String ip) {
+		return adminDAO.setDeleteReportMember(ip);
+	}
+
+	@Override
+	public int setMemberDeleteDB(String mid) {
+		return adminDAO.setMemberDeleteDB(mid);
+	}
 }

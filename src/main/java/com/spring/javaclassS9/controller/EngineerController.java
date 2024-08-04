@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -411,6 +412,30 @@ public class EngineerController {
 	@RequestMapping(value = "/asRequestDateFixed", method = RequestMethod.POST)
 	public String asRequestDateFixedPost(int idx, String asDate, Progress progress) {
 		int res = customerService.setAsChangeStatement(idx, asDate, progress);
+		return res+"";
+	}
+	
+	// A/S요청 취소하기(일정 있으면 일정 삭제도)
+	@Transactional
+	@ResponseBody
+	@RequestMapping(value = "/asRequestDelete", method = RequestMethod.POST)
+	public String asRequestDeletePost(
+	    @RequestParam(name="idx", defaultValue = "", required = false) int idx,
+	    @RequestParam(name="title", defaultValue = "", required = false) String title,
+	    @RequestParam(name="engineerIdx", defaultValue = "0", required = false) int engineerIdx,
+	    @RequestParam(name="startTime", defaultValue = "", required = false) String startTime
+			) {
+		int res = 0;
+		AsRequestVO vo = customerService.getAsRequestContent(idx);
+		if(!vo.getProgress().equals(Progress.REGIST) && !vo.getProgress().equals(Progress.ACCEPT)) res = 0;
+		else if(vo.getProgress().equals(Progress.ACCEPT)){
+			startTime = startTime.substring(0,startTime.length()-2);
+			res = customerService.setAsDeleteOk(idx);
+			engineerService.setScheduleDeleteTrue(title, engineerIdx, startTime);
+		}
+		else {
+			res = customerService.setAsDeleteOk(idx);
+		}
 		return res+"";
 	}
 	

@@ -55,4 +55,7 @@
 		update asRequest set progress='COMPLETE', endDate=now() where idx=#{idx};
 	</update>
 	
+	<delete id="setAsDeleteOk">
+		delete from asRequest where idx=#{idx};
+	</delete>
 </mapper>

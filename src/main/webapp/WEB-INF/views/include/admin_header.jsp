@@ -194,10 +194,12 @@
 <nav class="nav-container">
 
   <div class="search-box">
+  	<!-- 
 	  <input type="text" class="search-box-input" placeholder="Search" />
 	  <button class="search-box-btn">
 	    <i class="fa-solid fa-magnifying-glass"></i>
 	  </button>
+	  -->
   </div>
 
   <div class="notification">

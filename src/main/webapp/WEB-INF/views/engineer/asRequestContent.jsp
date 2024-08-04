@@ -161,6 +161,52 @@
 			});
 		}
 		
+		// 신청 취소하기
+		function asRequestDelete() {
+			let startTime = '${vo.asDate}';
+			Swal.fire({
+        html : "<h3>해당 A/S건을 취소하시겠습니까?</h3>",
+        confirmButtonText : '확인',
+        showCancelButton: true,
+        confirmButtonColor : '#003675',
+        customClass: {
+          popup : 'custom-swal-popup',
+          htmlContainer : 'custom-swal-text'
+        }
+			}).then((result)=>{
+				if(result.isConfirmed) {
+					$.ajax({ 
+						url: "${ctp}/engineer/asRequestDelete",
+						type: "post",
+						data: {
+							idx : ${vo.idx},
+							title : '${vo.asName}',
+							engineerIdx : ${vo.engineerIdx},
+							startTime : startTime
+						},
+						success:function(res) {
+							if(res != "0") message = "취소되었습니다.";
+							else message = "취소에 실패했습니다.";
+							Swal.fire({
+								html: message,
+								confirmButtonText: '확인',
+								customClass: {
+				        	confirmButton : 'swal2-confirm‎',
+				          popup : 'custom-swal-popup',
+				          htmlContainer : 'custom-swal-text'
+								}
+							}).then(function(){
+								location.href="${ctp}/engineer/asRequestList";
+							});
+						},
+						error: function() {
+							alert("취소 오류");
+						}
+					});
+				}
+			});
+		}
+		
 		function commentInput() {
 			let comment = document.getElementById("comment").value;
 			if(comment.trim()=="") {
@@ -328,6 +374,9 @@
 					<td>
 						<c:if test="${vo.progress=='REGIST'}">
 							<input type="button" value="일정확인" onclick="asRequestDateFixed()" class="btn btn-main btn-icon-md btn-round-full ml-2"/>
+						</c:if>
+						<c:if test="${vo.progress=='REGIST' || vo.progress=='ACCEPT'}">
+							<input type="button" value="취소" onclick="asRequestDelete()" class="btn btn-main-3 btn-icon-md btn-round-full ml-2"/>
 						</c:if>
 					</td>
 				</tr>

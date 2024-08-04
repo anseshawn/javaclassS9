@@ -5,19 +5,22 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
+
+import javax.servlet.RequestDispatcher;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.spring.javaclassS9.dao.AdminDAO;
 import com.spring.javaclassS9.dao.CustomerDAO;
 import com.spring.javaclassS9.dao.ProductDAO;
 import com.spring.javaclassS9.vo.AsRequestVO;
+import com.spring.javaclassS9.vo.AsRequestVO.Progress;
+import com.spring.javaclassS9.vo.BlockIpVO;
 import com.spring.javaclassS9.vo.ProductEstimateVO;
 import com.spring.javaclassS9.vo.ProductSaleVO;
 import com.spring.javaclassS9.vo.ProductSaleVO.Statement;
-import com.spring.javaclassS9.vo.AsRequestVO.Progress;
 
 @Service
 public class JavaclassScheduler {
@@ -27,6 +30,9 @@ public class JavaclassScheduler {
 	
 	@Autowired
 	ProductDAO productDAO;
+	
+	@Autowired
+	AdminDAO adminDAO;
 	
 	//@Scheduled(cron = "0/10 * * * * *")
 	@Scheduled(cron = "0 0 9 * * *")
@@ -71,7 +77,22 @@ public class JavaclassScheduler {
 				}
 			}
 		}
-		
+	}
+	
+	//@Scheduled(cron = "0/10 * * * * *")
+	@Scheduled(cron = "0 0 0 * * *")
+	public void changeBlockIp() throws ParseException {
+		String now = LocalDate.now().toString();
+		ArrayList<BlockIpVO> vos = adminDAO.getBlockIpList();
+		for(int i=0; i<vos.size(); i++) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date blockEndDate = sdf.parse(vos.get(i).getBlockEndDate());
+			Date today = sdf.parse(now);
+			if(today.after(blockEndDate)) {
+				adminDAO.setBlockIpDelete(vos.get(i).getHostIp());
+				adminDAO.setReportMemberChange(vos.get(i).getHostIp());
+			}
+		}
 	}
 	
 }

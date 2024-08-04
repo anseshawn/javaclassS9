@@ -75,7 +75,6 @@
 	<script>
 		'use strict';
 		
-		let likeBtnP = null;
 		$(function(){
 			//const rect = document.querySelector("#fileLocation").getBoundingClientRect();
 			//console.log(rect);
@@ -154,7 +153,7 @@
 </head>
 <body id="top">
 <jsp:include page="/WEB-INF/views/include/header.jsp" />
-<jsp:include page="/WEB-INF/views/include/nav2.jsp" />
+<jsp:include page="/WEB-INF/views/include/nav.jsp" />
 <p><br/></p>
 <div class="container">
 <section class="page-title bg-2">

@@ -47,6 +47,7 @@ import com.spring.javaclassS9.service.EngineerService;
 import com.spring.javaclassS9.service.MemberService;
 import com.spring.javaclassS9.vo.AsChargeVO;
 import com.spring.javaclassS9.vo.AsRequestVO;
+import com.spring.javaclassS9.vo.AsRequestVO.Progress;
 import com.spring.javaclassS9.vo.BoardLikeVO;
 import com.spring.javaclassS9.vo.EngineerVO;
 import com.spring.javaclassS9.vo.FreeBoardVO;
@@ -219,9 +220,6 @@ public class CustomerController {
 		String[] dates = dateSet.toArray(new String[0]);
 		model.addAttribute("dates", dates);
 		model.addAttribute("datesSize", dates.length);
-		//for(int i=0; i<dates.length; i++) {
-		//	System.out.println(i+". "+dates[i]);
-		//}
 		model.addAttribute("eVo", eVo);
 		return "customer/requests/asAppointment";
 	}
@@ -263,8 +261,6 @@ public class CustomerController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date endDate = null;
 		Date startDate = null;
-		//System.out.println("startSearchDate : " + startSearchDate);
-		//System.out.println("endSearchDate : " + endSearchDate);
 		for(int i=vos.size()-1; i>=0; i--) {
 			if(vos.get(i).getEndDate() != null)	{
 				endDate = sdf.parse(vos.get(i).getEndDate());
@@ -272,10 +268,6 @@ public class CustomerController {
 			startDate = sdf.parse(vos.get(i).getRequestDate());
 			Date sSearchDate = sdf.parse(startSearchDate);
 			Date eSearchDate = sdf.parse(endSearchDate);
-			//System.out.println("endDate : " + vos.get(i).getEndDate());
-			//System.out.println("startDate : " + startDate);
-			//System.out.println("sSearchDate : " + sSearchDate);
-			//System.out.println("eSearchDate : " + eSearchDate);
 			if(startDate.before(sSearchDate) || startDate.after(eSearchDate)) vos.remove(i);
 			if(endDate != null) {
 				if(endDate.before(sSearchDate) || endDate.after(eSearchDate)) vos.remove(i);
@@ -316,6 +308,18 @@ public class CustomerController {
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("sw", sw);
 		return "customer/requests/asContent";
+	}
+	
+	// A/S 취소하기
+	@ResponseBody
+	@RequestMapping(value = "requests/asDelete", method = RequestMethod.POST)
+	public String asDeletePost(
+			@RequestParam(name="idx",defaultValue = "1", required = false) int idx
+			) {
+		int res = 0;
+		AsRequestVO vo = customerService.getAsRequestContent(idx);
+		if(vo.getProgress().equals(Progress.REGIST)) customerService.setAsDeleteOk(idx);
+		return res +"";
 	}
 	// A/S 내용 출력하기
 	@RequestMapping(value = "requests/printContentWindow", method = RequestMethod.GET)
@@ -578,8 +582,6 @@ public class CustomerController {
 			@RequestParam(name = "part", defaultValue = "", required = false) String part,
 			@RequestParam(name = "searchString", defaultValue = "", required = false) String searchString
 			) {
-		//System.out.println("part : "+part);
-		//System.out.println("searchString: "+searchString);
 		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "questionBoard", part, searchString);
 		ArrayList<QuestionBoardVO> vos = null;
 		vos = boardService.getQuestionBoardList(pageVO.getStartIndexNo(), pageSize, part, searchString);
@@ -594,7 +596,6 @@ public class CustomerController {
 		}
 		ArrayList<QuestionBoardVO> recentVOS = boardService.getRecentReplyQuestionBoard();
 		
-		//System.out.println("vos : "+vos);
 		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("vos", vos);
 		model.addAttribute("recentVOS", recentVOS);

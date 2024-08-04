@@ -695,7 +695,7 @@
 				<div class="sidebar-wrap pl-lg-4 mt-5 mt-lg-0">
 					<c:if test="${!empty sLevel && sLevel != 1}">
 						<div class="sidebar-widget write mb-3 text-center">
-							<a href="${ctp}/customer/board/questionBoardInput" class="btn btn-main-2 btn-icon btn-round-full" style="width:80%; margin:8px;">글쓰기</a>
+							<a href="${ctp}/customer/board/questionBoardInput" class="btn btn-main-2 btn-icon btn-round-full" style="width:80%; margin:8px;">질문하기</a>
 						</div>
 					</c:if>	
 					<!-- 검색창 -->

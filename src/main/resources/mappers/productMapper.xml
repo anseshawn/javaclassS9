@@ -16,7 +16,7 @@
 	</select>
 	
 	<select id="getAllProductSaleList" resultType="com.spring.javaclassS9.vo.ProductSaleVO">
-		select * from productSaleS order by statement <if test="startIndexNo != -1"> limit #{startIndexNo},#{pageSize}</if>;
+		select * from productSaleS order by statement, idx desc <if test="startIndexNo != -1"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	<select id="estimateTotRecCnt" resultType="int">
 		select count(*) from productSaleS;
@@ -30,6 +30,9 @@
 	</select>
 	<select id="getProductSaleContent" resultType="com.spring.javaclassS9.vo.ProductSaleVO">
 		select * from productSales where idx=#{idx};
+	</select>
+	<select id="getProductSaleList" resultType="com.spring.javaclassS9.vo.ProductSaleVO">
+		select * from productSaleS where memberMid = #{mid};
 	</select>
 	
 	<select id="getExpendableList" resultType="com.spring.javaclassS9.vo.ExpendableVO">

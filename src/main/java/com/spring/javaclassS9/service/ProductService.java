@@ -74,4 +74,6 @@ public interface ProductService {
 
 	public int setProductSaleDelete(int idx);
 
+	public ArrayList<ProductSaleVO> getProductSaleList(String mid);
+
 }

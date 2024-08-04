@@ -85,5 +85,5 @@ create table blockIp(
 select hostIp, date_format(date_add(blockDate, interval 1 day), '%Y-%m-%d') as blockEndDate from blockIp;
 
 create table adminAlarm(
-	alarm int not null
+	chat int not null
 );

@@ -205,6 +205,9 @@
 	<update id="setAddChatCount">
 		update adminAlarm set chat = chat+1;
 	</update>
+	<update id="setReportMemberChange">
+		update reportMember set block='NO' where hostIp=#{hostIp};
+	</update>
 	<!-- 
 	<update id="setNewChatCountDelete">
 		update adminAlarm set chat = 0;
@@ -249,6 +252,12 @@
 	</delete>
 	<delete id="setNewChatCountDelete">
 		delete from adminAlarm;
+	</delete>
+	<delete id="setDeleteReportMember">
+		delete from reportMember where hostIp=#{hostIp};
+	</delete>
+	<delete id="setMemberDeleteDB">
+		delete from memberS where mid = #{mid};
 	</delete>
 	
 	

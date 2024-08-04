@@ -84,4 +84,6 @@ public interface ProductDAO {
 
 	public int setEstimateAddressUpdate(@Param("vo") OrderAddressVO vo);
 
+	public ArrayList<ProductSaleVO> getProductSaleList(@Param("mid") String mid);
+
 }

@@ -141,6 +141,30 @@
 				'width='+widthSize+', height='+heightSize+', top='+topCenter+', left='+leftCenter // 설정
 			);
 		}
+		
+		function asCancel(){
+			let ans = confirm("해당 신청을 취소하시겠습니까?");
+			if(!ans) return false;
+			$.ajax({
+				url: "${ctp}/customer/requests/asDelete",
+				type: "post",
+				data: {
+					idx : ${vo.idx}
+				},
+				success: function(res){
+					if(res != 0){
+						alert("A/S신청을 취소했습니다.");
+						location.href="asProgress";
+					}
+					else {
+						alert("취소에 실패했습니다. 엔지니어에게 문의하세요.");
+					}
+				},
+				error: function(){
+					alert("전송 오류");
+				}
+			});
+		}
 	</script>
 </head>
 <body>
@@ -272,6 +296,9 @@
 			</div>
 			<hr/>
 			<div class="text-center mt-2">
+				<c:if test="${vo.progress=='REGIST'}">
+					<a href="javascript:asCancel()" class="btn btn-main-3 btn-icon btn-round">취소하기</a>
+				</c:if>
 				<a href="${ctp}/customer/requests/asProgress?pag=${pag}&pageSize=${pageSize}" class="btn btn-main btn-icon btn-round">목록으로</a>
 			</div>
 		</div>

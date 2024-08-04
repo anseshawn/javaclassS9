@@ -35,14 +35,81 @@
   		}
 		}
 		
-		// 유저 일괄 차단하기
-		function blockIpAll() {
+		// 차단내역 삭제하기
+		function deleteAll() {
 			let hostIp = "";
+			let cnt = 0;
 			for(let i=0; i<document.getElementsByName("selectReport").length; i++) {
 				if(document.getElementsByName("selectReport")[i].checked) {
+					cnt++;
 					hostIp += document.getElementsByName("selectReport")[i].value+"|";
 				}
 			}
+			if(cnt==0) {
+				alert("삭제할 항목을 선택하세요.");
+				return false;
+			}
+			hostIp = hostIp.substring(0,hostIp.length-1);
+			Swal.fire({
+        html : "<h3>선택한 신고 항목을 삭제하시겠습니까?</h3>",
+        confirmButtonText : '삭제',
+        showCancelButton: true,
+      	confirmButtonColor : '#003675',
+        customClass: {
+          popup : 'custom-swal-popup',
+          htmlContainer : 'custom-swal-text'
+        }
+			}).then((result)=>{
+				if(result.isConfirmed) {
+					$.ajax({
+						url: "${ctp}/admin/report/deleteReportMember",
+						type: "post",
+						data: {hostIp : hostIp},
+						success: function(res){
+							if(res != "0") {
+								message = "선택한 항목을 삭제했습니다.";
+								icon = "success";
+							}
+							else {
+								message = "삭제 실패.\n현재 차단 중인 아이피인지 확인하세요.";
+								icon = "warning";
+							}
+							Swal.fire({
+								html: message,
+								icon: icon,
+								confirmButtonText: '확인',
+								customClass: {
+				        	confirmButton : 'swal2-confirm‎',
+				          popup : 'custom-swal-popup',
+				          htmlContainer : 'custom-swal-text'
+								}
+							}).then(function(){
+								location.reload();
+							});
+						},
+						error: function(){
+							alert("전송오류");
+						}
+					});
+				}
+			});
+		}
+		
+		// 유저 일괄 차단하기
+		function blockIpAll() {
+			let hostIp = "";
+			let cnt = 0;
+			for(let i=0; i<document.getElementsByName("selectReport").length; i++) {
+				if(document.getElementsByName("selectReport")[i].checked) {
+					cnt++;
+					hostIp += document.getElementsByName("selectReport")[i].value+"|";
+				}
+			}
+			if(cnt==0) {
+				alert("차단할 유저를 선택하세요.");
+				return false;
+			}
+			hostIp = hostIp.substring(0,hostIp.length-1);
 			Swal.fire({
         html : "<h3>선택한 아이피를 차단하시겠습니까?</h3>",
         confirmButtonText : '삭제',
@@ -203,6 +270,7 @@
 		<div class="col-md-3">
 			<input type="button" onclick="location.href='${ctp}/admin/report/reportMemberList';" value="전체보기" class="btn btn-main-2 btn-icon-md btn-round-full" style="padding:0.3rem 0.5rem;"/>
 			<input type="button" onclick="blockIpAll()" value="아이피차단" class="btn btn-main btn-icon-md btn-round-full" style="padding:0.3rem 0.5rem;"/>
+			<input type="button" onclick="deleteAll()" value="삭제하기" class="btn btn-main btn-icon-md btn-round-full" style="padding:0.3rem 0.5rem;"/>
 		</div>
 	</div>
 	<hr/>

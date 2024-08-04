@@ -87,6 +87,10 @@ public class MessageController {
 			model.addAttribute("msg", "탈퇴 요청이 제대로 진행되지 않았습니다.\\n관리자에게 문의하세요.");
 			model.addAttribute("url", "/member/memberDelete");
 		}
+		else if(msgFlag.equals("memberProgressNo")) {
+			model.addAttribute("msg", "A/S신청이 진행중일 경우 탈퇴 신청이 불가능합니다.\\n관리자에게 문의하세요.");
+			model.addAttribute("url", "/member/memberDelete");
+		}
 		else if(msgFlag.equals("emailInputOk")) {
 			model.addAttribute("msg", "메일 전송이 완료되었습니다.");
 			model.addAttribute("url", "/admin/member/memberList");

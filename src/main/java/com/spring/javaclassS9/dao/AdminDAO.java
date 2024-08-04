@@ -141,4 +141,10 @@ public interface AdminDAO {
 
 	public int getLevelChangeMemberCount();
 
+	public void setReportMemberChange(@Param("hostIp") String hostIp);
+
+	public int setDeleteReportMember(@Param("hostIp") String ip);
+
+	public int setMemberDeleteDB(@Param("mid") String mid);
+
 }

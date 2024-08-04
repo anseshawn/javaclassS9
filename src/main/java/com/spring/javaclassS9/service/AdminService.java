@@ -104,4 +104,8 @@ public interface AdminService {
 
 	public int getLevelChangeMemberCount();
 
+	public int setDeleteReportMember(String ip);
+
+	public int setMemberDeleteDB(String mid);
+
 }

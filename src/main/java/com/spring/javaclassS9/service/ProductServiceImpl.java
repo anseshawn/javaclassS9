@@ -227,5 +227,10 @@ public class ProductServiceImpl implements ProductService {
 		return productDAO.setProductSaleDelete(idx);
 	}
 
+	@Override
+	public ArrayList<ProductSaleVO> getProductSaleList(String mid) {
+		return productDAO.getProductSaleList(mid);
+	}
+
 	
 }
