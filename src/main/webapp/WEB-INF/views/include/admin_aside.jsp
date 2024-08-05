@@ -189,5 +189,17 @@
 			  </ul>
 			</div>
 		</li>
+		<li class="dropdown">
+			<div class="ani-navbar-menu ani-navbar-menu__icon">
+			 <i class="fa-solid fa-circle-exclamation"></i><a href="javascript:void(0)">에러페이지</a>
+			  <ul class="dropdown-content">
+			  	<li><div class="divider2"></div></li>
+				  <li><a href="${ctp}/admin/errorPage/error404">404에러페이지</a></li>
+				  <li><a href="${ctp}/admin/errorPage/error500">500에러페이지</a></li>
+				  <li><a href="${ctp}/admin/errorPage/errorNumberFormat">NumberFormat</a></li>
+				  <li><a href="${ctp}/admin/errorPage/errorNullPointer">NullPointer</a></li>
+			  </ul>
+			</div>
+		</li>
 	</ul>
 </nav>

@@ -142,8 +142,7 @@
 			</div>
 		</div>
 		<div class="col-md-2">
-			<a href="${ctp}/admin/notice/faqInput" class="btn btn-main btn-icon-md btn-round" style="padding:0.3rem 0.5rem;">새로 작성하기</a>
-			<a href="${ctp}/admin/notice/faqInput" class="btn btn-main btn-icon-md btn-round" style="padding:0.3rem 0.5rem;">분류 수정하기</a>
+			<a href="${ctp}/admin/notice/faqInput" class="btn btn-main btn-icon-md btn-round mr-2" style="padding:0.3rem 0.5rem;">새로 작성하기</a>
 		</div>
 	</div>
 	<!-- 검색창 끝 -->
@@ -188,40 +187,9 @@
 	</div>
 	<!-- 블록페이지 끝 -->
 	
-<!-- 문의 내용과 답변 입력 창 모달에 출력하기 -->
-<div class="modal fade" id="myModal">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-    
-      <!-- Modal Header -->
-      <div class="modal-header text-center">
-        <h4 class="modal-title">답변 등록</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-      
-      <!-- Modal body -->
-      <div class="modal-body">
-    		<span id="content"></span>
-    		<hr/>
-    		<table class="table table-borderless text-center">
-    			<tr>
-	    			<th>답변</th>
-	    			<td><textarea rows="3" name="answer" id="answer" class="form-control"></textarea></td>
-    			</tr>
-    		</table>
-      </div>
-      
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="button" onclick="answerInput()" id="answerInputBtn" class="btn btn-main btn-icon-md">등록하기</button>
-        <button type="button" class="btn btn-main-3 btn-icon-md" data-dismiss="modal">Close</button>
-      </div>
-      
-    </div>
-  </div>
-</div>
 <p><br/></p>	
 </div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
 <script src="${ctp}/js/bootstrap-datepicker.ko.js"></script>
 </body>

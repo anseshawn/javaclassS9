@@ -373,7 +373,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public ArrayList<ReplyVO> getBoardReplyMidCheck(int startIndexNo, int pageSize, String part, String searchString) {
+	public ArrayList<ReplyVO> getBoardReplyMidCheck(int startIndexNo, int pageSize, String search, String searchString) {
 		String mid = "";
 		if(searchString.contains(",")) {
 			String[] keyWord = searchString.split(",");
@@ -382,7 +382,9 @@ public class BoardServiceImpl implements BoardService {
 		}
 		else mid = searchString;
 		// 아닌 경우 searchString에는 mid 가 넘어오고 있음
-		return boardDAO.getBoardReplyMidCheck(startIndexNo, pageSize, part, searchString, mid);
+		System.out.println("mid : "+mid);
+		System.out.println("service searchString : "+searchString);
+		return boardDAO.getBoardReplyMidCheck(startIndexNo, pageSize, search, searchString, mid);
 	}
 
 	@Override

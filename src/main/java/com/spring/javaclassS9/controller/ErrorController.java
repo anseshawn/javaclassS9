@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/errorPage")
 public class ErrorController {
 	
-	// 400에러가 났을때 이동할 메세지 폼 보기(400번에러는 서버로 요청이 오지도 않은경우이기에 이곳처리할것이 없다. 따라서 서버요청변수 타입을 잘 살펴봐야한다.)
+	// 400에러가 났을때 이동할 메세지 폼 보기(400번에러는 서버로 요청이 오지도 않은 경우이기에 이곳처리할것이 없다. 따라서 서버요청변수 타입을 잘 살펴봐야한다.)
 	@RequestMapping(value = "/error400", method = RequestMethod.GET)
 	public String error400Get() {
 		return "";
@@ -34,15 +34,6 @@ public class ErrorController {
 		return "errorPage/error405";
 	}
 	
-	// servlet에러(500)가 났을때 이동할 메세지 폼...
-	@RequestMapping(value = "/error500Check", method = RequestMethod.GET)
-	public String error500CheckGet(HttpSession session) {
-		String mid = (String) session.getAttribute("ssMid");
-		int su = 100 + Integer.parseInt(mid);
-		System.out.println("su : " + su);
-		return "errorPage/errorMain";
-	}
-	
 	// 500에러가 났을때 이동할 메세지 폼 보기(web.xml에 기술한다.)
 	@RequestMapping(value = "/error500", method = RequestMethod.GET)
 	public String error500Get() {
@@ -55,15 +46,6 @@ public class ErrorController {
 		return "errorPage/errorNumberFormat";
 	}
 	
-	// NullPointerException에러 발생 메소드
-	@RequestMapping(value = "/errorNullPointerCheck", method = RequestMethod.GET)
-	//public String errorNullPointerCheckGet(@RequestParam(name="name",defaultValue="",required=false) String name) {
-	public String errorNullPointerCheckGet(String name) {
-		System.out.println("name : " + name);
-		if(name.equals("admin")) return "";
-		return "errorPage/errorMain";
-	}
-
 	// NullPointerException에러가 났을때 이동할 메세지 폼 보기(web.xml에 기술한다.)
 	@RequestMapping(value = "/errorNullPointer", method = RequestMethod.GET)
 	public String errorNullPointerGet() {

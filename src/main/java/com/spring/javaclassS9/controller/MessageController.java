@@ -58,6 +58,11 @@ public class MessageController {
 			if(pathFlag.equals("main")) model.addAttribute("url", "/");
 			else if(pathFlag.equals("customer"))	model.addAttribute("url", "/customer/cmain");
 		}
+		else if(msgFlag.equals("pwdNowNo")) {
+			model.addAttribute("msg", "현재 비밀번호가 맞지 않습니다.");
+			if(pathFlag.equals("engineer")) model.addAttribute("url", "/engineer/pwdChange");
+			else model.addAttribute("url", "/member/pwdChange");
+		}
 		else if(msgFlag.equals("pwdChangeOk")) {
 			model.addAttribute("msg", "비밀번호가 변경되었습니다.\\n새로운 비밀번호로 다시 로그인하세요.");
 			model.addAttribute("url", "/member/memberLogin/main");

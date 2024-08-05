@@ -110,9 +110,13 @@ public class EngineerController {
 		return "engineer/pwdChange";
 	}
 	@RequestMapping(value = "/pwdChange", method = RequestMethod.POST)
-	public String pwdChangePost(String mid, String pwdNew, HttpSession session) {
+	public String pwdChangePost(String mid, String pwd, String pwdNew, HttpSession session) {
 		int res = 0;
-		res = engineerService.setEngineerPwdUpdate(mid, passwordEncoder.encode(pwdNew));
+		EngineerVO vo = engineerService.getEngineerIdCheck(mid);
+		if(passwordEncoder.matches(pwd, vo.getPwd())) {
+			res = engineerService.setEngineerPwdUpdate(mid, passwordEncoder.encode(pwdNew));
+		}
+		else return "redirect:/message/pwdNowNo?pathFlag=engineer";
 		if(res != 0) {
 			session.invalidate();
 			return "redirect:/message/pwdChangeOk";

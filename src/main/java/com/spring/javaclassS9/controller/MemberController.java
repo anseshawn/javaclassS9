@@ -345,9 +345,14 @@ public class MemberController {
 		return "/member/pwdChange";
 	}
 	@RequestMapping(value = "/pwdChange", method = RequestMethod.POST)
-	public String pwdChangePost(String mid, String pwdNew, HttpSession session) {
+	public String pwdChangePost(String mid, String pwd, String pwdNew, HttpSession session) {
 		int res = 0;
-		res = memberService.setMemberPwdUpdate(mid, passwordEncoder.encode(pwdNew));
+		MemberVO vo = memberService.getMemberIdCheck(mid);
+		if(passwordEncoder.matches(pwd, vo.getPwd())) {
+			res = memberService.setMemberPwdUpdate(mid, passwordEncoder.encode(pwdNew));
+		}
+		else return "redirect:/message/pwdNowNo";
+		
 		if(res != 0) {
 			session.invalidate();
 			return "redirect:/message/pwdChangeOk";
@@ -377,7 +382,7 @@ public class MemberController {
 		return "member/memberUpdate";
 	}
 	// 회원정보수정처리
-	@RequestMapping(value = "/myPage", method = RequestMethod.POST)
+	@RequestMapping(value = "/memberUpdate", method = RequestMethod.POST)
 	public String memberUpdateGet(MemberVO vo, HttpSession session) {
 		String originNickName = (String) session.getAttribute("sNickName");
 		// 닉네임 중복체크 한번 더
@@ -527,6 +532,7 @@ public class MemberController {
 	@ResponseBody
 	@RequestMapping(value = "/messageDelete", method = RequestMethod.POST)
 	public String messageDeletePost(int idx, String sw) {
+		System.out.println("sw : "+sw);
 		int res =	memberService.setMessageDelete(idx, sw);
 		return res + "";
 	}
@@ -598,6 +604,7 @@ public class MemberController {
 		String mid = (String) session.getAttribute("sMid");
 		if(part.equals("")) searchString = mid;
 		else searchString = searchString + ","+mid;
+		System.out.println("searchString : "+searchString);
 		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "writeReply", part, searchString);
 		ArrayList<ReplyVO> replyVOS = boardService.getBoardReplyMidCheck(pageVO.getStartIndexNo(),pageSize,part,searchString);
 		model.addAttribute("pageVO", pageVO);

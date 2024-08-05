@@ -33,13 +33,11 @@
 				$("#pwdNewRe").focus();
 				return false;
 			}
-			/*
 			else if(!regPwd.test(pwdNew)) {
    		 alert("비밀번호는 영문 대/소문자와 숫자, 특수문자를 포함하여 4~20자까지 가능합니다. 특수문자를 꼭 1개 이상 포함해주세요.");
    		 document.getElementById("pwdNew").focus();
    		 return false;
    		}
-   	  */
 			else {
 				myform.submit();
 			}

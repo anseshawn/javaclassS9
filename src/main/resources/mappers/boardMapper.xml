@@ -90,7 +90,9 @@
 			FROM recruitBoardS b WHERE idx = #{idx};
 	</select>
 	<select id="getBoardReplyMidCheck" resultType="com.spring.javaclassS9.vo.ReplyVO">
-		select * from replyS where mid = #{mid};
+		select * from replyS where mid = #{mid} 
+			<if test="search != ''"> and ${search} like concat('%',#{searchString},'%') </if> 
+			order by idx desc limit #{startIndexNo}, #{pageSize};
 	</select>
 	<select id="getFreeBoardMidCheck" resultType="com.spring.javaclassS9.vo.FreeBoardVO">
 		select * from freeBoardS where mid = #{mid} 

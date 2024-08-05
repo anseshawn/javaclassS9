@@ -1429,4 +1429,22 @@ public class AdminController {
   	}
   	return res;
   }
+  
+  // 에러페이지 미리보기
+  @RequestMapping(value = "/errorPage/error404", method = RequestMethod.GET)
+  public String error404Get() {
+  	return "admin/errorPage/error404";
+  }
+  @RequestMapping(value = "/errorPage/error500", method = RequestMethod.GET)
+  public String error500Get() {
+  	return "admin/errorPage/error500";
+  }
+  @RequestMapping(value = "/errorPage/errorNullPointer", method = RequestMethod.GET)
+  public String errorNullPointerGet() {
+  	return "admin/errorPage/errorNullPointer";
+  }
+  @RequestMapping(value = "/errorPage/errorNumberFormat", method = RequestMethod.GET)
+  public String errorNumberFormatGet() {
+  	return "admin/errorPage/errorNumberFormat";
+  }
 }
