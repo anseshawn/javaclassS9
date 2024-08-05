@@ -78,7 +78,7 @@
 		$(function(){
 			//const rect = document.querySelector("#fileLocation").getBoundingClientRect();
 			//console.log(rect);
-			if(${!empty fileLocation}) {
+			if("${fileLocation}") {
 				let topLocation = document.querySelector("#fileLocation").offsetTop;
 				window.scrollTo({top:topLocation, left:0, behavior:'smooth'});
 			}

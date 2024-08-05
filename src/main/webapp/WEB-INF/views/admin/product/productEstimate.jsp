@@ -49,7 +49,7 @@
 		
 		// 견적 상태별 보기
 		function selectStatementShow() {
-			let searchString = $("#searchPlace").val();
+			let searchString = $("#searchStatement").val();
 			location.href="${ctp}/admin/product/productEstimate?pag=${pageVo.pag}&pageSize=${pageVo.pageSize}&part=statement&searchString="+searchString;
 		}
 		
@@ -86,7 +86,7 @@
 						url: "${ctp}/admin/product/productSaleChange",
 						type: "post",
 						data: {
-							idx : idx,
+							saleIdx : idx,
 							statement : statement
 						},
 						success: function(res){
@@ -184,7 +184,7 @@
 <div class="spinner-border text-muted" id="spinner" style="display:none;"></div>
 <div class="container">
 	<div class="row">
-		<div class="col-lg-12 text-center"><h2>견적 요청 리스트(총 ${fn:length(vos)} 건)</h2></div>
+		<div class="col-lg-12 text-center"><h2>견적 요청 리스트(총 ${pageVO.totRecCnt} 건)</h2></div>
 	</div>
 	<div class="row">
 		<div class="col-lg-12"><div class="divider2 mx-auto my-4 text-center" style="width:50%;"></div></div>

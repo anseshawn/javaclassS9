@@ -286,7 +286,7 @@
 <div class="spinner-border text-muted" id="spinner" style="display:none;"></div>
 <div class="container">
 	<div class="row">
-		<div class="col-lg-12 text-center"><h2>신고 게시글 목록(총 ${fn:length(vos)} 건)</h2></div>
+		<div class="col-lg-12 text-center"><h2>신고 게시글 목록(총 ${pageVO.totRecCnt} 건)</h2></div>
 	</div>
 	<div class="row">
 		<div class="col-lg-12"><div class="divider2 mx-auto my-4 text-center" style="width:50%;"></div></div>

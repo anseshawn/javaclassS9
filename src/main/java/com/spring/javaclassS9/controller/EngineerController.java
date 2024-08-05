@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.UUID;
@@ -265,6 +266,7 @@ public class EngineerController {
   }
   
   // 일정 수정하기
+  @Transactional
   @ResponseBody
   @RequestMapping(value = "/scheduleUpdate", method = RequestMethod.POST)
   public String  scheduleUpdatePost(
@@ -309,6 +311,10 @@ public class EngineerController {
       }
       // 포맷팅하여 formattedEndTime에 저장
       String formattedEndTime = outputFormat.format(endDate);
+      AsRequestVO asVO = customerService.getAsRequestScheduleName(title);
+      if(asVO != null) {
+      	customerService.setAsAppointmentChange(title,formattedStartTime);
+      }
       vo.setTitle(title);
       vo.setStartTime(formattedStartTime);
       vo.setEndTime(formattedEndTime);
@@ -316,7 +322,6 @@ public class EngineerController {
       vo.setIdx(idx);
       vo.setEngineerIdx(engineerIdx);
 		  System.out.println(vo);
-      // 여기서 데이터베이스 업데이트 로직을 수행
       res = engineerService.setScheduleUpdate(vo);
 		
       // 예시: 일정 업데이트 성공 여부에 따라 응답    
@@ -354,18 +359,25 @@ public class EngineerController {
 		ArrayList<AsRequestVO> vos = engineerService.getAsRequestList(mVo.getIdx(),pageVO.getStartIndexNo(),pageSize);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date endDate = null;
-		Date startDate = null;
-		for(int i=vos.size()-1; i>=0; i--) {
-			if(vos.get(i).getEndDate() != null)	{
-				endDate = sdf.parse(vos.get(i).getEndDate());
-			}
-			startDate = sdf.parse(vos.get(i).getRequestDate());
-			Date sSearchDate = sdf.parse(startSearchDate);
-			Date eSearchDate = sdf.parse(endSearchDate);
-			if(startDate.before(sSearchDate) || startDate.after(eSearchDate)) vos.remove(i);
-			if(endDate != null) {
-				if(endDate.before(sSearchDate) || endDate.after(eSearchDate)) vos.remove(i);
+		if(!startSearchDate.equals("") && !endSearchDate.equals("")) {
+			for(int i=vos.size()-1; i>=0; i--) {
+				Date endDate = null;
+				Date startDate = null;
+				if(vos.get(i).getEndDate() != null)	{
+					endDate = sdf.parse(vos.get(i).getEndDate());
+				}
+				startDate = sdf.parse(vos.get(i).getRequestDate());
+				Date sSearchDate = sdf.parse(startSearchDate);
+				Date eSearchDate = sdf.parse(endSearchDate);
+				if(startDate.before(sSearchDate) || startDate.after(eSearchDate)) {
+					vos.remove(i);
+					continue;
+				}
+				if(endDate != null) {
+					if(endDate.before(sSearchDate) || endDate.after(eSearchDate)) {
+						vos.remove(i);
+					}
+				}
 			}
 		}
 		model.addAttribute("pageVO", pageVO);
@@ -383,6 +395,16 @@ public class EngineerController {
 		) {
 		AsRequestVO vo = engineerService.getAsRequestContent(idx);
 		//if(vo.getDate_diff() == 0) vo.setProgress(Progress.PROGRESS);
+		// 엔지니어가 일정이 있으면 제외처리(datePicker로 가져가기...)
+		ArrayList<ScheduleVO> dateVOS = engineerService.getEngineerSchedule(vo.getEngineerIdx());
+		HashSet<String> dateSet = new HashSet<String>();
+		for(int i=0; i<dateVOS.size(); i++) {
+			dateSet.add(dateVOS.get(i).getStartDate());
+			dateSet.add(dateVOS.get(i).getEndDate());
+		}
+		String[] dates = dateSet.toArray(new String[0]);
+		model.addAttribute("dates", dates);
+		model.addAttribute("datesSize", dates.length);
 		ArrayList<ExpendableVO> exVos = productService.getExpendableListOne(vo.getMachine());
 		AsChargeVO chargeVO = customerService.getAsChargeContent(idx);
 		if(chargeVO != null) {

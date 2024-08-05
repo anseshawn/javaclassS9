@@ -259,20 +259,26 @@ public class CustomerController {
 		ArrayList<AsRequestVO> vos = customerService.getAsRequestList(asMid,pageVO.getStartIndexNo(),pageSize);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date endDate = null;
-		Date startDate = null;
-		for(int i=vos.size()-1; i>=0; i--) {
-			if(vos.get(i).getEndDate() != null)	{
-				endDate = sdf.parse(vos.get(i).getEndDate());
-			}
-			startDate = sdf.parse(vos.get(i).getRequestDate());
-			Date sSearchDate = sdf.parse(startSearchDate);
-			Date eSearchDate = sdf.parse(endSearchDate);
-			if(startDate.before(sSearchDate) || startDate.after(eSearchDate)) vos.remove(i);
-			if(endDate != null) {
-				if(endDate.before(sSearchDate) || endDate.after(eSearchDate)) vos.remove(i);
+		if(!startSearchDate.equals("") && !endSearchDate.equals("")) {
+			for(int i=vos.size()-1; i>=0; i--) {
+				Date endDate = null;
+				Date startDate = null;
+				if(vos.get(i).getEndDate() != null)	{
+					endDate = sdf.parse(vos.get(i).getEndDate());
+				}
+				startDate = sdf.parse(vos.get(i).getRequestDate());
+				Date sSearchDate = sdf.parse(startSearchDate);
+				Date eSearchDate = sdf.parse(endSearchDate);
+				if(startDate.before(sSearchDate) || startDate.after(eSearchDate)) {
+					vos.remove(i);
+					continue;
+				}
+				if(endDate != null) {
+					if(endDate.before(sSearchDate) || endDate.after(eSearchDate)) vos.remove(i);
+				}
 			}
 		}
+		
 		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("vos", vos);
 		

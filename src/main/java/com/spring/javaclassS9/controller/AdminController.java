@@ -466,6 +466,7 @@ public class AdminController {
 		return "admin/product/productEstimate";
 	}
 	// 견적 건 상태 변경하기
+	@Transactional
 	@ResponseBody
 	@RequestMapping(value = "/product/productSaleChange", method = RequestMethod.POST)
 	public String productSaleChangePost(int saleIdx, String statement) {
@@ -757,47 +758,35 @@ public class AdminController {
 		ArrayList<AsRequestVO> vos = engineerService.getAllAsRequestList(pageVO.getStartIndexNo(),pageSize,"","");
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date endDate = null;
-		Date startDate = null;
 		Iterator<AsRequestVO> it = vos.iterator();
-		while(it.hasNext()) {
-			AsRequestVO vo = it.next();
-			if(vo.getEndDate() != null)	{
-				endDate = sdf.parse(vo.getEndDate());
-			}
-			startDate = sdf.parse(vo.getRequestDate());
-			
-			// 조건 없이 검색버튼 누르면 자동으로 한달전 부터
-			String monthBefore = LocalDate.now().minusMonths(1).toString();
-			if(startSearchDate.equals("")) startSearchDate = monthBefore;
-			
-			Date sSearchDate = sdf.parse(startSearchDate);
-			Date eSearchDate = sdf.parse(endSearchDate);
-			if(endDate != null) {
-				if(endDate.before(sSearchDate) || endDate.after(eSearchDate)) it.remove();
-			}
-			else if(startDate.before(sSearchDate) || startDate.after(eSearchDate)) {
-				it.remove();
-				//continue;
-			}
-			// 반복전에 다시 초기화
-			startDate = null;
-			endDate = null;
-		}
-		/*
-		for(int i=vos.size()-1; i>=0; i--) {
-			if(vos.get(i).getEndDate() != null)	{
-				endDate = sdf.parse(vos.get(i).getEndDate());
-			}
-			startDate = sdf.parse(vos.get(i).getRequestDate());
-			Date sSearchDate = sdf.parse(startSearchDate);
-			Date eSearchDate = sdf.parse(endSearchDate);
-			if(startDate.before(sSearchDate) || startDate.after(eSearchDate)) vos.remove(i);
-			if(endDate != null) {
-				if(endDate.before(sSearchDate) || endDate.after(eSearchDate)) vos.remove(i);
+		if(!startSearchDate.equals("") && !endSearchDate.equals("")) {
+			Date endDate = null;
+			Date startDate = null;
+			while(it.hasNext()) {
+				AsRequestVO vo = it.next();
+				if(vo.getEndDate() != null)	{
+					endDate = sdf.parse(vo.getEndDate());
+				}
+				startDate = sdf.parse(vo.getRequestDate());
+				
+				// 조건 없이 검색버튼 누르면 자동으로 한달전 부터
+				String monthBefore = LocalDate.now().minusMonths(1).toString();
+				if(startSearchDate.equals("")) startSearchDate = monthBefore;
+				
+				Date sSearchDate = sdf.parse(startSearchDate);
+				Date eSearchDate = sdf.parse(endSearchDate);
+				if(endDate != null) {
+					if(endDate.before(sSearchDate) || endDate.after(eSearchDate)) it.remove();
+				}
+				else if(startDate.before(sSearchDate) || startDate.after(eSearchDate)) {
+					it.remove();
+					//continue;
+				}
+				// 반복전에 다시 초기화
+				startDate = null;
+				endDate = null;
 			}
 		}
-		*/
 		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("vos", vos);
 		
@@ -1035,12 +1024,14 @@ public class AdminController {
   	ArrayList<ConsultingVO> vos = adminService.getConsultingList(pageVO.getStartIndexNo(),pageSize,part,searchString);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date writeDate = null;
-		for(int i=vos.size()-1; i>=0; i--) {
-			writeDate = sdf.parse(vos.get(i).getWriteDate());
-			Date sSearchDate = sdf.parse(startSearchDate);
-			Date eSearchDate = sdf.parse(endSearchDate);
-			if(writeDate.before(sSearchDate) || writeDate.after(eSearchDate)) vos.remove(i);
+		if(!startSearchDate.equals("") && !endSearchDate.equals("")) {
+			for(int i=vos.size()-1; i>=0; i--) {
+				Date writeDate = null;
+				writeDate = sdf.parse(vos.get(i).getWriteDate());
+				Date sSearchDate = sdf.parse(startSearchDate);
+				Date eSearchDate = sdf.parse(endSearchDate);
+				if(writeDate.before(sSearchDate) || writeDate.after(eSearchDate)) vos.remove(i);
+			}
 		}
 		model.addAttribute("pageVO", pageVO);
   	model.addAttribute("vos", vos);

@@ -38,37 +38,6 @@
 	</style>
 	<script>
 		'use strict';
-		$(function() {	
-			$('.datePicker').datepicker({
-			    format: "yyyy-mm-dd",	//데이터 포맷 형식(yyyy : 년 mm : 월 dd : 일 )
-			    startDate: '-12m',	//달력에서 선택 할 수 있는 가장 빠른 날짜. 이전으로는 선택 불가능 ( d : 일 m : 달 y : 년 w : 주)
-			    endDate: '-0d',	//달력에서 선택 할 수 있는 가장 느린 날짜. 이후로 선택 불가 ( d : 일 m : 달 y : 년 w : 주)
-			    autoclose : true,
-			    disableTouchKeyboard : false,
-			    immediateUpdates: true, 
-			    multidate : false, 
-			    multidateSeparator :"~",
-			    templates : {
-			        leftArrow: '&laquo;',
-			        rightArrow: '&raquo;'
-			    }, 
-			    showWeekDays : true,
-			    todayHighlight : true , 
-			    toggleActive : true,
-			    weekStart : 0 , 
-			    language : "ko"
-			});
-			// datepicker1에 한달 전 날짜 부여
-      let now = new Date();
-      let year = now.getFullYear();
-      let month = now.getMonth();
-      if(month.toString().length==1) month = "0"+month;
-      let date = now.getDate();
-      if(date.toString().length==1) date = "0"+date;
-      let monthBefore = year+"-"+month+"-"+date;
-      document.getElementById("datePicker1").value = monthBefore;
-      
-		});
 		
 		function searchValue() {
 			if($("#part").val()=='part') {
@@ -106,7 +75,7 @@
 <div class="spinner-border text-muted" id="spinner" style="display:none;"></div>
 <div class="container">
 	<div class="row">
-		<div class="col-lg-12 text-center"><h2>공지사항 리스트 (총 ${fn:length(vos)} 건)</h2></div>
+		<div class="col-lg-12 text-center"><h2>공지사항 리스트 (총 ${pageVO.totRecCnt + fn:length(imVos)} 건)</h2></div>
 	</div>
 	<div class="row">
 		<div class="col-lg-12"><div class="divider2 mx-auto my-4 text-center" style="width:50%;"></div></div>
@@ -131,22 +100,6 @@
 		</div>
 		<div class="col-md-3">
 			<input type="button" onclick="location.href='${ctp}/admin/notice/noticeList';" value="전체보기" class="btn btn-main-2 btn-icon-md btn-round-full" style="padding:0.3rem 0.5rem;"/>
-		</div>
-		<div class="col-md-4 offset-md-2 text-right">
-			<form name="dateForm" method="post">
-				<div class="col ml-auto">
-					<div class="row narrow-row align-items-center">
-						<div class="input-group">
-								<input type="text" id="datePicker1" name="startSearchDate" class="datePicker form-control">
-							<div class="col-auto d-flex align-itmes-center px-0">~</div>
-								<input type="text" id="datePicker2" name="endSearchDate" class="datePicker form-control" value="<%=java.time.LocalDate.now() %>">
-							<div class="input-group-append">
-								<input type="submit" value="검색" class="btn btn-main btn-icon-md btn-round"/>
-							</div>
-						</div>
-					</div>
-				</div>
-			</form>
 		</div>
 	</div>
 	<div class="row mb-3">

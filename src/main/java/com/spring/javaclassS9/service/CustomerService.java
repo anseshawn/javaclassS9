@@ -38,4 +38,8 @@ public interface CustomerService {
 
 	public int setAsDeleteOk(int idx);
 
+	public AsRequestVO getAsRequestScheduleName(String asName);
+
+	public void setAsAppointmentChange(String asName, String asDate);
+
 }

@@ -24,6 +24,9 @@
 	<select id="getAsChargeContent" resultType="com.spring.javaclassS9.vo.AsChargeVO">
 		select * from asCharge where asIdx = #{asIdx};
 	</select>
+	<select id="getAsRequestScheduleName" resultType="com.spring.javaclassS9.vo.AsRequestVO">
+		select * from asRequest where asName=#{asName} limit 1;
+	</select>
 	
 	
 	<insert id="setAsAppointmentOk">
@@ -53,6 +56,9 @@
 	</update>
 	<update id="setAsCompleteStatement">
 		update asRequest set progress='COMPLETE', endDate=now() where idx=#{idx};
+	</update>
+	<update id="setAsAppointmentChange">
+		update asRequest set asDate=#{asDate} where asName=#{asName};
 	</update>
 	
 	<delete id="setAsDeleteOk">

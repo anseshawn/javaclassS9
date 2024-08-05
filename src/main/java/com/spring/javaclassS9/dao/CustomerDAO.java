@@ -45,4 +45,8 @@ public interface CustomerDAO {
 
 	public int setAsDeleteOk(@Param("idx") int idx);
 
+	public AsRequestVO getAsRequestScheduleName(@Param("asName") String asName);
+
+	public void setAsAppointmentChange(@Param("asName") String asName, @Param("asDate") String asDate);
+
 }

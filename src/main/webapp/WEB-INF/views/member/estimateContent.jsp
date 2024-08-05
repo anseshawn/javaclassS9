@@ -231,8 +231,8 @@
 		
 		function printContent(saleIdx) {
 			let url = "${ctp}/member/printContentWindow?saleIdx="+saleIdx;
-			let widthSize= 600;
-			let heightSize = 700;
+			let widthSize= 500;
+			let heightSize = 650;
 			let leftCenter = Math.ceil((window.screen.width - widthSize)/2);
 			let topCenter = Math.ceil((window.screen.height - heightSize)/2);
 			window.open(

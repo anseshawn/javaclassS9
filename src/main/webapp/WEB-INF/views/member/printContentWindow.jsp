@@ -27,7 +27,15 @@
 		
 		function printContent() {
 			var element = document.getElementById('element-to-print');
-			var worker = html2pdf().from(element).save();
+			var opt = {
+					  margin:       [20,20,0,20],
+					  filename:     '${vo.co_name}_견적서.pdf',
+					  image:        { type: 'jpeg', quality: 0.98 },
+					  html2canvas:  { height: element.offsetHeight, scale: 2 , useCORS: true},
+					  jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+					  pagebreak: {mode: ['avoid-all', 'css', 'legacy']}
+					};
+			var worker = html2pdf().set(opt).from(element).save();
 		}
 	</script>
 </head>

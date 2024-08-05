@@ -54,7 +54,7 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 		starTot += vo.getStarPoint();
 		double starAvg = 0.0;
-		if(vos.size() != 0) starAvg = ((double)starTot/vos.size());
+		if(vos.size() != 0) starAvg = ((double)starTot/(vos.size()+1));
 		else starAvg = vo.getStarPoint();
 		
 		int res = engineerDAO.setEngineerReviewInput(vo.getEngineerIdx(), starAvg); // 엔지니어 DB에 별점 저장
@@ -106,6 +106,16 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public int setAsDeleteOk(int idx) {
 		return customerDAO.setAsDeleteOk(idx);
+	}
+
+	@Override
+	public AsRequestVO getAsRequestScheduleName(String asName) {
+		return customerDAO.getAsRequestScheduleName(asName);
+	}
+
+	@Override
+	public void setAsAppointmentChange(String asName, String asDate) {
+		customerDAO.setAsAppointmentChange(asName,asDate);
 	}
 
 }
