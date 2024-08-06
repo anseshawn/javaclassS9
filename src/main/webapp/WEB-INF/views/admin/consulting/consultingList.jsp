@@ -86,6 +86,9 @@
 		
 		function modalView(idx) {
 			let str = "<table class='table text-center'>";
+			$("#answerInputBtn").removeAttr("disabled");
+			$("#answer").html("");
+			$("#answer").removeAttr("readonly");
 			$.ajax({
 				url: "${ctp}/admin/consulting/consultingContent",
 				type: "post",

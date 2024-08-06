@@ -49,6 +49,10 @@
       let monthBefore = year+"-"+month+"-"+date;
       document.getElementById("datePicker1").value = monthBefore;
       
+      if('${part}'=='progress') {
+				$("#progressSelect").show();
+				$("#searchString").hide();
+      }
 		});
 		
 		function searchValue() {
@@ -172,14 +176,14 @@
     <div class="col-lg-9">
       <nav class="pagination py-2 d-inline-block">
         <div class="nav-links">
-          <c:if test="${pageVO.pag > 1}"><a class="page-numbers" href="asRequestList?pag=1&pageSize=${pageVO.pageSize}"><i class="icofont-thin-double-left"></i></a></c:if>
-          <c:if test="${pageVO.curBlock > 0}"><a class="page-numbers" href="asRequestList?pag=${(pageVO.curBlock-1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-left"></i></a></c:if>
+          <c:if test="${pageVO.pag > 1}"><a class="page-numbers" href="asRequestList?pag=1&pageSize=${pageVO.pageSize}&part=${pageVO.search}&searchString=${pageVO.searchString}"><i class="icofont-thin-double-left"></i></a></c:if>
+          <c:if test="${pageVO.curBlock > 0}"><a class="page-numbers" href="asRequestList?pag=${(pageVO.curBlock-1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}&part=${pageVO.search}&searchString=${pageVO.searchString}"><i class="icofont-thin-left"></i></a></c:if>
 					<c:forEach var="i" begin="${(pageVO.curBlock*pageVO.blockSize+1)}" end="${(pageVO.curBlock)*pageVO.blockSize+pageVO.blockSize}" varStatus="st">
 						<c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><span aria-current="page" class="page-numbers current">${i}</span></c:if>
-						<c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><a class="page-numbers" href="asRequestList?pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></c:if>
+						<c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><a class="page-numbers" href="asRequestList?pag=${i}&pageSize=${pageVO.pageSize}&part=${pageVO.search}&searchString=${pageVO.searchString}">${i}</a></c:if>
 					</c:forEach>
-					<c:if test="${pageVO.curBlock < pageVO.lastBlock}"><a class="page-numbers" href="asRequestList?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-right"></i></a></c:if>
-					<c:if test="${pageVO.pag < pageVO.totPage}"><a class="page-numbers" href="asRequestList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}"><i class="icofont-thin-double-right"></i></a></c:if>
+					<c:if test="${pageVO.curBlock < pageVO.lastBlock}"><a class="page-numbers" href="asRequestList?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}&part=${pageVO.search}&searchString=${pageVO.searchString}"><i class="icofont-thin-right"></i></a></c:if>
+					<c:if test="${pageVO.pag < pageVO.totPage}"><a class="page-numbers" href="asRequestList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}&part=${pageVO.search}&searchString=${pageVO.searchString}"><i class="icofont-thin-double-right"></i></a></c:if>
       	</div>
     	</nav>
 		</div>

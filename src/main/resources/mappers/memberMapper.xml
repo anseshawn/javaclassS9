@@ -98,7 +98,7 @@
 	</update>
 	
 	<update id="setReportMemberUpdate">
-		update reportMember set blockNum = blockNum + 1 and block='OK' where hostIp=#{hostIp};
+		update reportMember set blockNum = blockNum + 1, block='OK' where hostIp=#{hostIp};
 	</update>
 	<update id="setReportMemberUpdateBlock">
 		update reportMember set block='NO' where hostIp=#{hostIp};

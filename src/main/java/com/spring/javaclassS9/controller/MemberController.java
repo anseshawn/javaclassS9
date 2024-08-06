@@ -699,7 +699,7 @@ public class MemberController {
 	@RequestMapping(value = "/reportMember", method = RequestMethod.POST)
 	public String reportMemberPost(
 			@RequestParam(name="hostIp",defaultValue = "", required = false) String hostIp,
-			@RequestParam(name="mid",defaultValue = "", required = false) String mid
+			@RequestParam(name="mid",defaultValue = "guest", required = false) String mid
 		) {
 		int res = 0;
 		ReportMemberVO vo = memberService.getReportMember(mid, hostIp);

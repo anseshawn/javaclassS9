@@ -150,7 +150,7 @@ public class BoardServiceImpl implements BoardService {
 	public int setFreeBoardDelete(int idx) {
 		ArrayList<ReplyVO> vos = boardDAO.getBoardReply("freeBoard", idx);
 		int res = 0;
-		if(vos != null) {
+		if(!vos.isEmpty()) {
 			res = boardDAO.setBoardReplyDelete("freeBoard", idx, 0);
 		}
 		System.out.println("res: "+res);
@@ -290,7 +290,7 @@ public class BoardServiceImpl implements BoardService {
 	public int setRecruitBoardDelete(int idx, String rcfSName) {
 		int res = 0;
 		ArrayList<ReplyVO> vos = boardDAO.getBoardReply("recruitBoard", idx);
-		if(vos != null) {
+		if(!vos.isEmpty()) {
 			res = boardDAO.setBoardReplyDelete("recruitBoard", idx, 0);
 		}
 		int res2 = 0;

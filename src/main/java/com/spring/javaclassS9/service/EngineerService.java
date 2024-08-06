@@ -62,4 +62,10 @@ public interface EngineerService {
 
 	public int setMessageDeleteDB(int idx);
 
+	public ArrayList<AsRequestVO> getAllAsRequestDateList(int startIndexNo, int pageSize, String startSearchDate,
+			String endSearchDate);
+
+	public ArrayList<AsRequestVO> getAsRequestDateList(int startIndexNo, int pageSize, int engineerIdx, String startSearchDate,
+			String endSearchDate);
+
 }

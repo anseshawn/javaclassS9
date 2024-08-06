@@ -42,4 +42,7 @@ public interface CustomerService {
 
 	public void setAsAppointmentChange(String asName, String asDate);
 
+	public ArrayList<AsRequestVO> getAsRequestDateList(int startIndexNo, int pageSize, String asMid,
+			String startSearchDate, String endSearchDate);
+
 }

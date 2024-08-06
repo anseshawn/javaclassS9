@@ -147,4 +147,6 @@ public interface AdminDAO {
 
 	public int setMemberDeleteDB(@Param("mid") String mid);
 
+	public int adminAsRequestDateTotRecCnt(@Param("start") String start, @Param("end") String end);
+
 }

@@ -4,12 +4,24 @@
 	<select id="totRecCnt" resultType="int">
 		select count(*) from asRequest where asMid = #{searchString};
 	</select>
+	<select id="totAsRequestDateRecCnt" resultType="int">
+		select count(*) from asRequest where asMid = #{asMid} and 
+			(requestDate between #{start} and #{end} and (endDate is null or endDate between #{start} and #{end}))
+			or (endDate between #{start} and #{end} and requestDate not between #{start} and #{end});
+	</select>
 	<select id="getAsRequestTotalIdx" resultType="java.lang.Integer">
 		select idx from asRequest;
 	</select>
 	<select id="getAsRequestList" resultType="com.spring.javaclassS9.vo.AsRequestVO">
 		select a.*, datediff(asDate, now()) as date_diff, e.name as engineerName from asRequest a left join engineerS e on a.engineerIdx=e.idx
 			where a.asMid=#{asMid} order by a.idx desc <if test="startIndexNo != -1"> limit #{startIndexNo},#{pageSize}</if>;
+	</select>
+	<select id="getAsRequestDateList" resultType="com.spring.javaclassS9.vo.AsRequestVO">
+		select a.*, datediff(asDate, now()) as date_diff, e.name as engineerName from asRequest a left join engineerS e on a.engineerIdx=e.idx
+			where a.asMid=#{asMid} and 
+			(a.requestDate between #{start} and #{end} and (a.endDate is null or a.endDate between #{start} and #{end})) 
+			or (a.endDate between #{start} and #{end} and a.requestDate not between #{start} and #{end}) 
+			order by a.idx desc <if test="startIndexNo != -1"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
 	<select id="getAsRequestContent" resultType="com.spring.javaclassS9.vo.AsRequestVO">
 		select a.*, datediff(asDate, now()) as date_diff, e.name as engineerName from asRequest a left join engineerS e 

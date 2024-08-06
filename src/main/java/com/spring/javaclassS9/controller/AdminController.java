@@ -148,10 +148,12 @@ public class AdminController {
 		
 		ArrayList<MemberVO> vos = null;
 		if(!m_group.equals("")) {
+			pag = 1;
 			pageVO = pageProcess.totRecCnt(pag, pageSize, "member", "m_group", m_group);
 			vos = adminService.getMemberLevelList(pageVO.getStartIndexNo(),pageSize,m_group);
 		}
 		else if(!part.equals("")) {
+			pag = 1;
 			pageVO = pageProcess.totRecCnt(pag, pageSize, "member", part, searchString);
 			vos = adminService.getMemberSearchList(pageVO.getStartIndexNo(),pageSize,part,searchString);
 		}
@@ -325,13 +327,20 @@ public class AdminController {
 	public String engineerDeletePost(@RequestParam(name = "mid", defaultValue = "", required = false) String mid) {
 		EngineerVO vo = engineerService.getEngineerIdCheck(mid);
 		ArrayList<AsRequestVO> vos = engineerService.getAsRequestList(vo.getIdx(), -1, 0);
-		vo.setMid("del_"+vo.getMid());
+		String newMid = javaclassProvide.randomMidCreate("del");
+		boolean sw = true;
+		while(sw) {
+			EngineerVO eVo = engineerService.getEngineerIdCheck(newMid);
+			if(eVo != null) newMid = javaclassProvide.randomMidCreate("del");
+			else sw = false;
+		}
+		vo.setMid(newMid);
 		vo.setPwd(passwordEncoder.encode("0000"));
 		vo.setName(vo.getName()+"(퇴사)");
 		vo.setTel("");
 		vo.setEmail("");
 		int res = 0;
-		if(vos != null) {
+		if(!vos.isEmpty()) {
 			AsRequestVO asVo = null;
 			for(int i=0; i<vos.size(); i++) {
 				asVo = engineerService.getAsRequestContent(vos.get(i).getIdx());
@@ -341,6 +350,7 @@ public class AdminController {
 			}
 		}
 		else {
+			System.out.println("else문 안쪽");
 			res = adminService.setEngineerDelete(vo);
 		}
 		return res+"";
@@ -709,6 +719,11 @@ public class AdminController {
      }
      // 포맷팅하여 formattedEndTime에 저장
      String formattedEndTime = outputFormat.format(endDate);
+     AsRequestVO asVO = customerService.getAsRequestScheduleName(title);
+     if(asVO != null) {
+     	customerService.setAsAppointmentChange(title,formattedStartTime);
+     }
+     
      vo.setTitle(title);
      vo.setStartTime(formattedStartTime);
      vo.setEndTime(formattedEndTime);
@@ -743,12 +758,14 @@ public class AdminController {
   	else if(part.equals("progress")) part = "progress";
   	PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "adminAsRequestList", part, searchString);
   	ArrayList<AsRequestVO> vos = engineerService.getAllAsRequestList(pageVO.getStartIndexNo(),pageSize,part,searchString);
+  	model.addAttribute("part", part);
   	model.addAttribute("pageVO", pageVO);
   	model.addAttribute("vos", vos);
   	return "admin/engineer/asRequestList";
   }
   
   // A/S 현황 기간 검색
+  /*
 	@RequestMapping(value = "/engineer/asRequestList", method = RequestMethod.POST)
 	public String asRequestListPost(Model model, String startSearchDate, String endSearchDate,
 			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
@@ -787,8 +804,30 @@ public class AdminController {
 				endDate = null;
 			}
 		}
-		model.addAttribute("pageVO", pageVO);
+		//model.addAttribute("pageVO", pageVO);
 		model.addAttribute("vos", vos);
+		
+		return "admin/engineer/asRequestList";
+	}
+	*/
+	// A/S 현황 기간 검색
+	@RequestMapping(value = "/engineer/asRequestList", method = RequestMethod.POST)
+	public String asRequestListPost(Model model, String startSearchDate, String endSearchDate,
+			@RequestParam(name="pag",defaultValue = "1", required = false) int pag,
+			@RequestParam(name="pageSize",defaultValue = "10", required = false) int pageSize
+			) throws ParseException {
+		
+		String monthBefore = LocalDate.now().minusMonths(1).toString();
+		if(startSearchDate.equals("")) startSearchDate = monthBefore;
+		else if(endSearchDate.equals("")) endSearchDate = LocalDate.now().toString();
+		
+		if(!startSearchDate.equals("") && !endSearchDate.equals("")) {
+			String searchString = startSearchDate+","+endSearchDate;
+			PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "adminAsRequestList", "searchDate", searchString);
+			ArrayList<AsRequestVO> vos = engineerService.getAllAsRequestDateList(pageVO.getStartIndexNo(),pageSize,startSearchDate,endSearchDate);
+			model.addAttribute("vos", vos);
+			model.addAttribute("pageVO", pageVO);
+		}
 		
 		return "admin/engineer/asRequestList";
 	}
@@ -915,6 +954,7 @@ public class AdminController {
   }
   
   // 유저 차단하기
+  @Transactional
   @ResponseBody
   @RequestMapping(value = "/report/blockIp", method = RequestMethod.POST)
   public String blockIpPost(

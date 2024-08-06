@@ -118,4 +118,10 @@ public class CustomerServiceImpl implements CustomerService {
 		customerDAO.setAsAppointmentChange(asName,asDate);
 	}
 
+	@Override
+	public ArrayList<AsRequestVO> getAsRequestDateList(int startIndexNo, int pageSize, String asMid,
+			String startSearchDate, String endSearchDate) {
+		return customerDAO.getAsRequestDateList(startIndexNo,pageSize,asMid,startSearchDate,endSearchDate);
+	}
+
 }

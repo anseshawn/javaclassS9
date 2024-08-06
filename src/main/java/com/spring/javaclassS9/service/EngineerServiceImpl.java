@@ -178,4 +178,16 @@ public class EngineerServiceImpl implements EngineerService {
 		return engineerDAO.setMessageDeleteDB(idx);
 	}
 
+	@Override
+	public ArrayList<AsRequestVO> getAllAsRequestDateList(int startIndexNo, int pageSize, String startSearchDate,
+			String endSearchDate) {
+		return engineerDAO.getAllAsRequestDateList(startIndexNo,pageSize,startSearchDate, endSearchDate);
+	}
+
+	@Override
+	public ArrayList<AsRequestVO> getAsRequestDateList(int startIndexNo, int pageSize, int engineerIdx,
+			String startSearchDate, String endSearchDate) {
+		return engineerDAO.getAsRequestDateList(startIndexNo,pageSize,engineerIdx,startSearchDate,endSearchDate);
+	}
+
 }

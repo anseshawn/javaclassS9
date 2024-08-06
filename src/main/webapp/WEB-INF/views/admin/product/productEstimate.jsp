@@ -194,7 +194,7 @@
 			<div class="input-group">
 				<select name="part" id="part" class="custom-select" style="height:36px;">
 					<option value="">분류</option>
-					<option value="mid">아이디</option>
+					<option value="memberMid">아이디</option>
 					<option value="co_name">회사명</option>
 					<option value="email">이메일</option>
 				</select>

@@ -70,7 +70,12 @@
 		select count(*) from asRequest;
 	</select>
 	<select id="adminAsRequestTotRecCntSearch" resultType="int">
-		select count(*) from asRequest where ${search} like concat('%',#{searchString},'%');
+		select count(*) from asRequest r left join engineerS e on r.engineerIdx = e.idx 
+			where ${search} like concat('%',#{searchString},'%');
+	</select>
+	<select id="adminAsRequestDateTotRecCnt" resultType="int">
+		select count(*) from asRequest where requestDate between #{start} and #{end} 
+			or endDate between #{start} and #{end};
 	</select>
 	<select id="consultingTotRecCnt" resultType="int">
 		select count(*) from consultingS;
@@ -139,7 +144,7 @@
 		select part from faqS group by part;
 	</select>
 	<select id="getBlockIp" resultType="com.spring.javaclassS9.vo.BlockIpVO">
-		select * from blockIp where hostIp=#{hostIp};
+		select * from blockIp where hostIp=#{hostIp} limit 1;
 	</select>
 	<select id="getBlockIpList" resultType="com.spring.javaclassS9.vo.BlockIpVO">
 		select hostIp, date_format(date_add(blockDate, interval 1 day), '%Y-%m-%d') as blockEndDate from blockIp;

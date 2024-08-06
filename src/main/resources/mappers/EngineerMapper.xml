@@ -34,13 +34,23 @@
 	<select id="getEngineerSchedule" resultType="com.spring.javaclassS9.vo.ScheduleVO">
 		select date_format(startTime, '%Y-%m-%d') as startDate, date_format(endTime, '%Y-%m-%d') as endDate from scheduleS where engineerIdx=#{engineerIdx};
 	</select>
-	
 	<select id="getAsRequestList" resultType="com.spring.javaclassS9.vo.AsRequestVO">
 		select *, datediff(asDate, now()) as date_diff from asRequest where engineerIdx=#{idx} 
 			order by idx desc <if test="startIndexNo != -1"> limit #{startIndexNo},#{pageSize}</if>;
 	</select>
+	<select id="getAsRequestDateList" resultType="com.spring.javaclassS9.vo.AsRequestVO">
+		select *, datediff(asDate, now()) as date_diff from asRequest where engineerIdx=#{engineerIdx} and 
+			(requestDate between #{start} and #{end} and (endDate is null or endDate between #{start} and #{end}))
+			or (endDate between #{start} and #{end} and requestDate not between #{start} and #{end}) 
+			order by idx desc <if test="startIndexNo != -1"> limit #{startIndexNo},#{pageSize}</if>;
+	</select>
 	<select id="totAsRequestRecCnt" resultType="int">
 		select count(*) from asRequest where engineerIdx=#{searchString};
+	</select>
+	<select id="totAsRequestDateRecCnt" resultType="int">
+		select count(*) from asRequest where engineerIdx=#{engineerIdx} and  
+			(requestDate between #{start} and #{end} and (endDate is null or endDate between #{start} and #{end}))  
+			or (endDate between #{start} and #{end} and requestDate not between #{start} and #{end});
 	</select>
 	<select id="getAsRequestContent" resultType="com.spring.javaclassS9.vo.AsRequestVO">
 		select *, datediff(asDate, now()) as date_diff from asRequest where idx=#{idx};
@@ -50,6 +60,14 @@
 			e.name as engineerName, e.mid as engineerMid 
 			from asRequest r left join engineerS e on e.idx = r.engineerIdx 
 			<if test="search != ''"> where ${search} like concat('%',#{searchString},'%') </if>
+			order by r.idx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	<select id="getAllAsRequestDateList" resultType="com.spring.javaclassS9.vo.AsRequestVO">
+		select r.*, datediff(r.asDate, now()) as date_diff, 
+			e.name as engineerName, e.mid as engineerMid 
+			from asRequest r left join engineerS e on e.idx = r.engineerIdx 
+			where r.requestDate between #{startSearchDate} and #{endSearchDate} 
+			or endDate between #{startSearchDate} and #{endSearchDate}
 			order by r.idx desc limit #{startIndexNo},#{pageSize};
 	</select>
 	<select id="getAllReceiveMessageList" resultType="com.spring.javaclassS9.vo.Message2VO">

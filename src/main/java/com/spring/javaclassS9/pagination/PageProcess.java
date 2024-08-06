@@ -56,6 +56,16 @@ public class PageProcess {
 		else if(section.equals("asRequest")) {
 			if(part.equals("mid")) totRecCnt = customerDAO.totRecCnt(searchString);
 			else if(part.equals("engineerIdx")) totRecCnt = engineerDAO.totAsRequestRecCnt(searchString);
+			else if(part.equals("searchDate")) {
+				String[] keyword = searchString.split(",");
+				totRecCnt = customerDAO.totAsRequestDateRecCnt(keyword[0],keyword[1],keyword[2]); // 아이디, 시작날짜, 끝날짜 순
+			}
+			else if(part.equals("searchDateEngineer")) {
+				String[] keyword = searchString.split(",");
+				int engineerIdx = Integer.parseInt(keyword[0]);
+				totRecCnt = engineerDAO.totAsRequestDateRecCnt(engineerIdx,keyword[1],keyword[2]); // idx, 시작날짜, 끝날짜 순
+			}
+			System.out.println("토탈 : "+totRecCnt);
 		}
 		else if(section.equals("product")) {
 			if(part.equals("")) totRecCnt = productDAO.totRecCnt();
@@ -103,6 +113,12 @@ public class PageProcess {
 		}
 		else if(section.equals("adminAsRequestList")) {
 			if(part.equals("")) totRecCnt = adminDAO.adminAsRequestTotRecCnt();
+			else if(part.equals("searchDate")) {
+				String[] keyword = searchString.split(",");
+				String start = keyword[0];
+				String end = keyword[1];
+				totRecCnt = adminDAO.adminAsRequestDateTotRecCnt(start,end);
+			}
 			else {
 				search = part;
 				totRecCnt = adminDAO.adminAsRequestTotRecCntSearch(search,searchString);

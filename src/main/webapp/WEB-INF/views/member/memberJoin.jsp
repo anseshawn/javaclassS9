@@ -70,13 +70,11 @@
    	 let regEmail = /^[a-zA-Z0-9]([-_]?[a-zA-Z0-9])*$/i;
    	 let regTel = /\d{2,3}-\d{3,4}-\d{4}$/;
    	 
-		 /*
    	 if(!regPwd.test(pwd)) {
    		 alert("비밀번호는 영문 대/소문자와 숫자, 특수문자를 포함하여 4~20자까지 가능합니다. 특수문자를 꼭 1개 이상 포함해주세요.");
    		 document.getElementById("pwd").focus();
    		 return false;
    	 }
-   	 */
    	 if(!regName.test(name)) {
    		 alert("이름은 영문과 한글만 사용하여 2~10자까지 가능합니다.");
    		 document.getElementById("name").focus();

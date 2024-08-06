@@ -119,7 +119,6 @@
 							}).then(function(){
 								location.reload();
 							});
-							//location.reload();
 						},
 						error: function(){
 							alert("전송오류");

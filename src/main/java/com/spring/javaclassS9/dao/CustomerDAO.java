@@ -49,4 +49,10 @@ public interface CustomerDAO {
 
 	public void setAsAppointmentChange(@Param("asName") String asName, @Param("asDate") String asDate);
 
+	public int totAsRequestDateRecCnt(@Param("asMid") String asMid, @Param("start") String start, @Param("end") String end);
+
+	public ArrayList<AsRequestVO> getAsRequestDateList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, 
+			@Param("asMid") String asMid,
+			@Param("start") String startSearchDate, @Param("end") String endSearchDate);
+
 }

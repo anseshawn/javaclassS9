@@ -409,7 +409,10 @@
 		
 		function reportMember(hostIp) {
 			let message = "";
-			
+			if(${empty sMid}) {
+				alert("로그인 사용자만 이용 가능한 메뉴입니다.");
+				return false;
+			}
 			Swal.fire({
         html : "<h3>해당 유저를 신고하겠습니까?</h3>",
         confirmButtonText : '확인',

@@ -88,9 +88,9 @@
 					<option value="content">내용</option>
 					<option value="part">분류</option>
 				</select>
-				<select name="partSelect" id="partSelect" class="form-control mt-2" style="display:none;">
-					<option>공지사항</option>
-					<option>이벤트</option>
+				<select name="partSelect" id="partSelect" class="form-control" style="display:none;">
+					<option value="notices">공지사항</option>
+					<option value="events">이벤트</option>
 				</select>
 				<input type="text" name="searchString" id="searchString" class="form-control" style="height:36px;" required />
 				<div class="input-group-append">

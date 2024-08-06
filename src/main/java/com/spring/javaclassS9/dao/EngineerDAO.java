@@ -72,4 +72,12 @@ public interface EngineerDAO {
 
 	public int setMessageDeleteDB(@Param("idx") int idx);
 
+	public ArrayList<AsRequestVO> getAllAsRequestDateList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, 
+			@Param("startSearchDate") String startSearchDate, @Param("endSearchDate") String endSearchDate);
+
+	public int totAsRequestDateRecCnt(@Param("engineerIdx") int engineerIdx, @Param("start") String start, @Param("end") String end);
+
+	public ArrayList<AsRequestVO> getAsRequestDateList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, 
+			@Param("engineerIdx") int engineerIdx, @Param("start") String startSearchDate, @Param("end") String endSearchDate);
+
 }

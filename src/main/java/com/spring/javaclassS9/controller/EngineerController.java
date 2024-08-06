@@ -2,6 +2,7 @@ package com.spring.javaclassS9.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -362,8 +363,16 @@ public class EngineerController {
 		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "asRequest", "engineerIdx", mVo.getIdx()+"");
 		ArrayList<AsRequestVO> vos = engineerService.getAsRequestList(mVo.getIdx(),pageVO.getStartIndexNo(),pageSize);
 		
+		String monthBefore = LocalDate.now().minusMonths(1).toString();
+		if(startSearchDate.equals("")) startSearchDate = monthBefore;
+		else if(endSearchDate.equals("")) endSearchDate = LocalDate.now().toString();
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		if(!startSearchDate.equals("") && !endSearchDate.equals("")) {
+			String searchString = mVo.getIdx()+","+startSearchDate+","+endSearchDate;
+			pageVO = pageProcess.totRecCnt(pag, pageSize, "asRequest", "searchDateEngineer", searchString);
+			vos = engineerService.getAsRequestDateList(pageVO.getStartIndexNo(),pageSize, mVo.getIdx(), startSearchDate, endSearchDate);
+			/*
 			for(int i=vos.size()-1; i>=0; i--) {
 				Date endDate = null;
 				Date startDate = null;
@@ -383,6 +392,7 @@ public class EngineerController {
 					}
 				}
 			}
+			*/
 		}
 		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("vos", vos);
