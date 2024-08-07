@@ -33,7 +33,8 @@
 		  
 			//채팅 서버 주소
 		  //let url = "ws://192.168.50.58:9090/javaclassS/chatserver";
-		  let url = "ws://localhost:9090/${ctp}/chatserver";
+		  //let url = "ws://localhost:9090/${ctp}/chatserver";
+		  let url = "ws://49.142.157.251:9090/${ctp}/chatserver";
 		     		
 		  // 웹 소켓
 		  let ws;
