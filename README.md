@@ -16,5 +16,5 @@
 </div>
 <div>
   <h4>사이트 주소</h4>
-  <div><http://49.142.157.251:9090/javaclassS9/></div>
+  <div>http://49.142.157.251:9090/javaclassS9/</div>
 </div>
