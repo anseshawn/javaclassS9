@@ -20,6 +20,8 @@
   <h4>사이트 주소</h4>
   <div>http://49.142.157.251:9090/javaclassS9/</div>
   <div>로그인 아이디/비밀번호 : hkd1234 / 1234, engineer2 / 1234, admin / 1234</div>
+  <h4>PDF 다운로드</h4>
+  <div>https://drive.google.com/file/d/1vzJ3-TcXpq0FuqsnQUW80BsJFICO4iG_/view?usp=sharing</div>
 </div>
 
 ---
