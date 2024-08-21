@@ -11,7 +11,7 @@
 </div>
 <div>
   <h4>개발 환경</h4>
-  <div>개발 언어 : JAVA, JavaScript, HTML, CSS, jQuery</div>
+  <div>개발 언어 : <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">JAVA, JavaScript, HTML, CSS, jQuery</div>
   <div>개발 프로그램 : Spring Tool Suite4(springframework 4.3.14)</div>
   <div>데이터베이스 : MySQL 5.7</div>
   <div>서버 : Apache Tomcat 9.0</div>
