@@ -4,6 +4,7 @@
 ---
 
 <div>
+  <div><img src="https://github.com/user-attachments/assets/49f05556-5eb9-4296-a8d4-59a06cb53a5e"/></div>
   <h4>개발목적</h4>
   <div>장비 판매 및 A/S 신청을 한 사이트에서 확인할 수 있다.</div>
   <div>궁금한 점, 채용공고 등 관련 게시글을 통합하여 이용할 수 있다.</div>
@@ -60,3 +61,4 @@
   * 공지 및 문의 관리
   * 신고 게시글 & 신고 유저 관리
   * 통계
+
